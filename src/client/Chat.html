@@ -1,0 +1,2518 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Chat UI - Sercon</title>
+
+  <!-- Fontes do Google Fonts (mais confiável) -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  
+  
+  <!-- Noto Emoji Animation - Emojis Animados do Google -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+
+  
+  
+  <!-- Lottie para animações de emoji -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+
+  
+  
+  <!-- jsPDF para geração de PDF -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  
+  
+  <!-- html2canvas para captura de tela -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <link rel="stylesheet" href="Chat-style.css">
+  <script src="../shared/config.js"></script>
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="../shared/supabase-sync.js"></script>
+  <!-- Estilos de Gerenciamento de Vagas -->
+  <style>
+    /* ==================== ESTILOS DE GERENCIAMENTO DE VAGAS ==================== */
+
+    .job-management-container {
+      flex: 1;
+      height: 100%;
+      display: none;
+      z-index: 5;
+      transition: opacity 0.3s ease;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .job-management-container.active {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .job-management-header {
+      margin-bottom: 24px;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 16px;
+    }
+
+    .job-management-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .job-management-header p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .job-management-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      overflow-y: auto;
+      overflow-x: visible;
+      padding: 0 8px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      position: relative;
+      min-height: 0;
+    }
+
+    .job-management-content::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    /* Tabs de Navegação */
+    .job-management-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 0;
+    }
+
+    .job-tab {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .job-tab i {
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .job-tab:hover {
+      color: #2563eb;
+      background: #f0f9ff;
+    }
+
+    .job-tab:hover i {
+      transform: scale(1.1);
+    }
+
+    .job-tab.active {
+      color: #2563eb;
+      background: #eff6ff;
+      border-bottom-color: #2563eb;
+      box-shadow: 0 -2px 8px rgba(37, 99, 235, 0.1);
+    }
+
+    .job-tab.active i {
+      color: #2563eb;
+      animation: tabIconPop 0.4s ease-out;
+    }
+
+    @keyframes tabIconPop {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2) rotate(5deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .tab-badge {
+      background: #e5e7eb;
+      color: #6b7280;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .job-tab.active .tab-badge {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* Conteúdo das Tabs */
+    .job-tab-panel {
+      display: none;
+      animation: tabFadeIn 0.4s ease-out;
+    }
+
+    .job-tab-panel.active {
+      display: block;
+    }
+
+    @keyframes tabFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .job-section-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .job-section-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .job-section-header p {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    /* Lista de Vagas */
+    .jobs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+    }
+
+    .job-management-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .job-management-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .job-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 15px;
+    }
+
+    .job-card-title-section {
+      flex: 1;
+    }
+
+    .job-card-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .job-card-company {
+      font-size: 0.9em;
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .job-card-badges {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .job-card-date {
+      font-size: 0.8em;
+      color: #999;
+    }
+
+    .job-card-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .job-info-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .job-info-item i {
+      color: #667eea;
+      font-size: 1.1em;
+    }
+
+    .job-card-description {
+      color: #666;
+      font-size: 0.9em;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+    }
+
+    .job-card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .job-action-btn {
+      flex: 1;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85em;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .view-job-btn {
+      background: #667eea;
+      color: white;
+    }
+
+    .view-job-btn:hover {
+      background: #5568d3;
+    }
+
+    .approve-job-btn {
+      background: #10b981;
+      color: white;
+    }
+
+    .approve-job-btn:hover {
+      background: #059669;
+    }
+
+    .reject-job-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    .reject-job-btn:hover {
+      background: #dc2626;
+    }
+
+    .publish-job-btn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .publish-job-btn:hover {
+      background: #2563eb;
+    }
+
+    .unpublish-job-btn {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .unpublish-job-btn:hover {
+      background: #d97706;
+    }
+
+    /* Badges de Status */
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75em;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-approved {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-published {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    /* Mensagem de Sem Vagas */
+    .no-jobs-message {
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+    }
+
+    .no-jobs-message p {
+      font-size: 1.1em;
+      margin-top: 15px;
+    }
+
+    /* Modal de Detalhes */
+    .job-detail-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .job-detail-modal.hidden {
+      display: none;
+    }
+
+    .job-detail-modal-content {
+      background: white;
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .job-detail-modal-header {
+      padding: 25px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: white;
+      border-radius: 15px 15px 0 0;
+      z-index: 10;
+    }
+
+    .job-detail-modal-header h2 {
+      font-size: 1.5em;
+      color: #333;
+    }
+
+    .close-job-modal {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #666;
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+
+    .close-job-modal:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .job-detail-modal-body {
+      padding: 25px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .job-detail-section {
+      margin-bottom: 25px;
+    }
+
+    .job-detail-section h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .job-detail-item {
+      margin-bottom: 10px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .job-detail-item strong {
+      color: #333;
+      margin-right: 5px;
+    }
+
+    .job-detail-modal-footer {
+      padding: 20px 25px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      background: #f9f9f9;
+      border-radius: 0 0 15px 15px;
+    }
+
+    .job-detail-modal-footer button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-approve-job {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-approve-job:hover {
+      background: #059669;
+    }
+
+    .btn-reject-job {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-reject-job:hover {
+      background: #dc2626;
+    }
+
+    .btn-publish-job {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .btn-publish-job:hover {
+      background: #2563eb;
+    }
+
+    .btn-unpublish-job {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-unpublish-job:hover {
+      background: #d97706;
+    }
+
+    .btn-close-modal {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-close-modal:hover {
+      background: #4b5563;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .jobs-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .job-management-tabs {
+        flex-direction: column;
+      }
+      
+      .job-card-info {
+        grid-template-columns: 1fr;
+      }
+      
+      .job-card-actions {
+        flex-direction: column;
+      }
+      
+      .job-action-btn {
+        width: 100%;
+      }
+    }
+  </style>
+  
+  
+
+
+</head>
+
+<body>
+
+  <!-- Dominium Login -->
+  <section id="dominium-login">
+    <div class="login">
+      <form id="dominiumLoginForm" action="#" class="login__form">
+        <h1 class="login__title">Login</h1>
+
+        <div class="login__content">
+          <div class="login__box">
+            <i class='bx bxs-user login__icon'></i>
+            
+            <div class="login__box-input">
+              <input type="text" id="dominiumLoginUsername" required class="login__input" placeholder="">
+              <label for="dominiumLoginUsername" class="login__label">Username</label>
+            </div>
+          </div>
+
+          <div class="login__box">
+            <i class='bx bxs-lock-alt login__icon'></i>
+
+            <div class="login__box-input">
+              <input type="password" id="dominiumLoginPassword" required class="login__input" placeholder="">
+              <label for="dominiumLoginPassword" class="login__label">Password</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="login__check">
+          <div class="login__check-group">
+            <input type="checkbox" id="rememberMe" class="login__check-input">
+            <label for="rememberMe" class="login__check-label">Lembrar de mim</label>
+          </div>
+        </div>
+
+        <button type="submit" class="login__button" id="dominiumLoginButton">Login</button>
+      </form>
+    </div>
+  </section>
+
+
+  <!-- Chat App -->
+
+  <div class="chat-app" id="chatApp" style="display: none;">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+      <div class="logo"><img src="../../assets/images/logo.png" onerror="this.src='https://via.placeholder.com/48x48?text=L'" alt="logo"></div>
+
+      <div class="center-icons">
+
+        <button class="active" data-section="chat" aria-label="Abrir chat">
+          <i class='bx bx-send' aria-hidden="true"></i>
+          <span class="icon-label">Chat</span>
+        </button>
+
+        <button data-section="internal-chat" aria-label="Chat interno">
+          <i class='bx bx-message' aria-hidden="true"></i>
+          <span class="icon-label">Chat Interno</span>
+        </button>
+
+        <button data-section="admin" aria-label="Painel administrativo">
+          <i class='bx bx-group' aria-hidden="true"></i>
+          <span class="icon-label">Admin</span>
+        </button>
+
+        <button data-section="tax-agenda" aria-label="Agenda fiscal">
+          <i class='bx bx-calendar' aria-hidden="true"></i>
+          <span class="icon-label">Tax Agenda</span>
+        </button>
+
+        <button data-section="scheduled-message" aria-label="Mensagens agendadas">
+          <i class='bx bx-message-square-detail' aria-hidden="true"></i>
+          <span class="icon-label">Scheduled Message</span>
+        </button>
+
+        <button data-section="ncm" aria-label="Abrir consulta NCM">
+          <i class='bx bx-search' aria-hidden="true"></i>
+          <span class="icon-label">Consulta NCM</span>
+        </button>
+
+        <button data-section="job-management" aria-label="Gerenciar vagas de emprego">
+          <i class='bx bx-briefcase-alt-2' aria-hidden="true"></i>
+          <span class="icon-label">Gerenciar Vagas</span>
+        </button>
+
+      </div>
+
+      <button class="settings" id="logoutButton" title="Logout" aria-label="Fazer logout">
+
+        <i class='bx bx-log-out' aria-hidden="true"></i>
+
+      </button>
+
+    </div>
+
+
+
+    <!-- Chat Container -->
+
+    <div class="chat-container">
+
+      <!-- Chat List -->
+
+      <div class="chat-list">
+
+        <div class="search-bar">
+
+          <i class='bx bx-search'></i>
+
+          <input type="text" placeholder="Buscar por nome ou setor..." aria-label="Pesquisar contatos">
+
+        </div>
+
+        <div class="contacts-list">
+
+          <!-- Contatos de Suporte aparecerão aqui dinamicamente -->
+
+          <div id="supportContactsSection"></div>
+          
+          
+
+            </div>
+
+      </div>
+
+
+
+      <!-- Chat Main -->
+
+      <div class="chat-main">
+
+        <div class="messages"></div>
+
+        
+        
+        <!-- Pré-visualização Inline de Arquivo -->
+
+        <div class="file-preview-inline" id="filePreviewInline" style="display: none;">
+
+          <div class="file-preview-header-inline">
+
+            <span class="preview-title">Pré-visualização do arquivo</span>
+
+            <button class="close-preview-inline" id="closePreviewInline">
+
+              <i class='bx bx-x'></i>
+
+            </button>
+
+          </div>
+
+          <div class="file-preview-content-inline" id="filePreviewContentInline">
+
+            <!-- Conteúdo será inserido aqui -->
+
+          </div>
+
+        </div>
+
+        
+        
+        <div class="message-input">
+
+          <!-- Painel de Emojis Animados Noto -->
+
+          <div class="emoji-panel" id="emojiPanel">
+
+            <div class="emoji-panel-header">
+
+              <span class="emoji-panel-title">Emojis Animados</span>
+
+              <span class="emoji-panel-count" id="emojiPanelCount">0 emojis</span>
+
+            </div>
+
+            <div class="emoji-categories">
+
+              <button class="emoji-category active" data-category="smileys" title="Rostos e Emoções">😊</button>
+
+              <button class="emoji-category" data-category="hearts" title="Corações e Símbolos">💖</button>
+
+              <button class="emoji-category" data-category="gestures" title="Gestos e Pessoas">👋</button>
+
+              <button class="emoji-category" data-category="animals" title="Animais e Natureza">🦁</button>
+
+              <button class="emoji-category" data-category="food" title="Comidas e Bebidas">🍕</button>
+
+              <button class="emoji-category" data-category="objects" title="Objetos e Atividades">🎮</button>
+
+            </div>
+
+            <div class="emoji-grid" id="emojiGrid">
+
+              <!-- Emojis Noto Animation serão inseridos aqui -->
+
+            </div>
+
+          </div>
+
+          
+          
+          <input type="file" id="fileInput" style="display: none;" multiple>
+
+          <button class="attach-button" id="attachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
+
+            <i class='bx bx-paperclip' aria-hidden="true"></i>
+
+          </button>
+
+          <button class="emoji-button" id="emojiButton" title="Emojis" aria-label="Adicionar emoji">
+
+            <i class='bx bx-happy' aria-hidden="true"></i>
+
+          </button>
+
+          <input type="text" placeholder="Digite sua mensagem aqui..." aria-label="Campo de mensagem">
+
+          <button type="button" class="send-button" aria-label="Enviar mensagem">
+
+            <i class='bx bx-send' aria-hidden="true"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Internal Chat Container -->
+    <div class="internal-chat-container" id="internalChatContainer" style="display: none;">
+      <!-- Chat List -->
+      <div class="chat-list">
+        <div class="search-bar">
+          <i class='bx bx-search'></i>
+          <input type="text" placeholder="Buscar por nome ou setor..." aria-label="Pesquisar contatos" id="internalChatSearch">
+        </div>
+        <div class="contacts-list">
+          <!-- Contatos internos (usuários) aparecerão aqui dinamicamente -->
+          <div id="internalContactsSection"></div>
+        </div>
+      </div>
+
+      <!-- Chat Main -->
+      <div class="chat-main">
+        <div class="messages" id="internalMessages"></div>
+        
+        <!-- Pré-visualização Inline de Arquivo -->
+        <div class="file-preview-inline" id="internalFilePreviewInline" style="display: none;">
+          <div class="file-preview-header-inline">
+            <span class="preview-title">Pré-visualização do arquivo</span>
+            <button class="close-preview-inline" id="closeInternalPreviewInline">
+              <i class='bx bx-x'></i>
+            </button>
+          </div>
+          <div class="file-preview-content-inline" id="internalFilePreviewContentInline">
+            <!-- Conteúdo será inserido aqui -->
+          </div>
+        </div>
+        
+        <div class="message-input">
+          <!-- Painel de Emojis Animados Noto -->
+          <div class="emoji-panel" id="internalEmojiPanel">
+            <div class="emoji-panel-header">
+              <span class="emoji-panel-title">Emojis Animados</span>
+              <span class="emoji-panel-count" id="internalEmojiPanelCount">0 emojis</span>
+            </div>
+            <div class="emoji-categories">
+              <button class="emoji-category active" data-category="smileys" title="Rostos e Emoções">😊</button>
+              <button class="emoji-category" data-category="hearts" title="Corações e Símbolos">💖</button>
+              <button class="emoji-category" data-category="gestures" title="Gestos e Pessoas">👋</button>
+              <button class="emoji-category" data-category="animals" title="Animais e Natureza">🦁</button>
+              <button class="emoji-category" data-category="food" title="Comidas e Bebidas">🍕</button>
+              <button class="emoji-category" data-category="objects" title="Objetos e Atividades">🎮</button>
+            </div>
+            <div class="emoji-grid" id="internalEmojiGrid">
+              <!-- Emojis Noto Animation serão inseridos aqui -->
+            </div>
+          </div>
+          
+          <input type="file" id="internalFileInput" style="display: none;" multiple>
+          <button class="attach-button" id="internalAttachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
+            <i class='bx bx-paperclip' aria-hidden="true"></i>
+          </button>
+          <button class="emoji-button" id="internalEmojiButton" title="Emojis" aria-label="Adicionar emoji">
+            <i class='bx bx-happy' aria-hidden="true"></i>
+          </button>
+          <input type="text" placeholder="Digite sua mensagem aqui..." aria-label="Campo de mensagem" id="internalMessageInput">
+          <button type="button" class="send-button" id="internalSendButton" aria-label="Enviar mensagem">
+            <i class='bx bx-send' aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Admin Container -->
+
+    <div class="admin-container">
+
+      <div class="admin-header">
+
+        <h2>Painel de Administração</h2>
+
+      </div>
+
+      
+      
+      <!-- Admin Tabs -->
+
+      <div class="admin-tabs">
+
+        <button class="admin-tab active" data-tab="users">
+
+          <i class='bx bx-user'></i>
+
+          Usuários
+
+        </button>
+
+        <button class="admin-tab" data-tab="contributors">
+
+          <i class='bx bx-building'></i>
+
+          Contribuintes
+
+        </button>
+
+        <button class="admin-tab" data-tab="recruitment-requests">
+
+          <i class='bx bx-briefcase'></i>
+
+          Solicitação de Funcionário
+
+        </button>
+
+      </div>
+
+      
+      
+      <div class="admin-content">
+
+        <!-- Tab Content: Usuários -->
+
+        <div class="admin-tab-content active" id="usersTab">
+
+          <div class="admin-section">
+
+            <div class="section-header">
+
+              <h3>Adicionar Novo Usuário</h3>
+
+            </div>
+
+            <form id="addUserForm" class="user-form">
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Nome Completo <span class="required">*</span></label>
+
+                  <input type="text" id="newUserFullName" placeholder="Ex: Maria Santos" required>
+
+                </div>
+
+                <div class="form-field">
+
+                  <label>Username (Login) <span class="required">*</span></label>
+
+                  <input type="text" id="newUsername" placeholder="Ex: maria.santos" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Setor <span class="required">*</span></label>
+
+                  <select id="newUserSector" required>
+
+                    <option value="">Selecione um setor</option>
+
+                    <option value="Fiscal Real">Fiscal Real</option>
+
+                    <option value="Fiscal Simples">Fiscal Simples</option>
+
+                    <option value="Processo">Processo</option>
+
+                    <option value="Contábil">Contábil</option>
+
+                    <option value="Pessoal">Pessoal</option>
+
+                    <option value="Financeiro">Financeiro</option>
+
+                  </select>
+
+                </div>
+
+                <div class="form-field">
+
+                  <label>Permissão</label>
+
+                  <select id="newUserRole">
+
+                    <option value="user">Usuário</option>
+
+                    <option value="admin">Administrador</option>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                <label>Senha do Usuário <span class="required">*</span></label>
+                <input type="password" id="newUserPassword" placeholder="Defina a senha do usuário" required>
+              </div>
+              <div class="form-field">
+                <label>Confirmar Senha <span class="required">*</span></label>
+                <input type="password" id="newUserConfirmPassword" placeholder="Repita a senha" required>
+                </div>
+              </div>
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Senha de Administrador <span class="required">*</span></label>
+
+                  <input type="password" id="adminPassword" placeholder="Digite sua senha para confirmar" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+              <div class="form-field profile-image-field">
+                <label>Imagem de Perfil</label>
+                <div class="profile-image-selector">
+                  <img src="../../assets/images/profile-1.png" alt="Pré-visualização" id="profileImagePreview">
+                  <div class="profile-image-actions">
+                    <input type="file" id="newUserProfileImage" accept="image/*" style="display: none;">
+                    <button type="button" class="btn-select-image" id="profileImageSelectBtn"><i class='bx bx-image-add'></i> Selecionar</button>
+                    <button type="button" class="btn-clear-image" id="profileImageClearBtn"><i class='bx bx-trash'></i> Remover</button>
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="form-row">
+
+                <button type="submit" class="btn-add-user">
+
+                  <i class='bx bx-plus'></i> Adicionar Usuário
+
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+          
+          
+          <div class="admin-section">
+
+            <div class="section-header">
+
+              <h3>Usuários Cadastrados</h3>
+
+              <span id="totalUsers" class="badge">0 usuários</span>
+
+            </div>
+
+            <div class="users-list" id="usersList">
+
+              <!-- Usuários serão adicionados dinamicamente -->
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+        
+        <!-- Tab Content: Contribuintes -->
+
+        <div class="admin-tab-content" id="contributorsTab">
+
+          <div class="admin-section">
+
+            <div class="section-header">
+
+              <h3>Adicionar Novo Contribuinte</h3>
+
+            </div>
+
+            <form id="addContributorForm" class="user-form">
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Razão Social <span class="required">*</span></label>
+
+                  <input type="text" id="contributorRazaoSocial" placeholder="Ex: Empresa XYZ Ltda" required>
+
+                </div>
+
+                <div class="form-field">
+
+                  <label>CNPJ <span class="required">*</span></label>
+
+                  <input type="text" id="contributorCNPJ" placeholder="00.000.000/0000-00" maxlength="18" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Inscrição Estadual</label>
+
+                  <input type="text" id="contributorIE" placeholder="Ex: 123.456.789.012">
+
+                </div>
+
+                <div class="form-field">
+
+                  <label>CEP <span class="required">*</span></label>
+
+                  <input type="text" id="contributorCEP" placeholder="00000-000" maxlength="9" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field" style="flex: 2;">
+
+                  <label>Logradouro <span class="required">*</span></label>
+
+                  <input type="text" id="contributorLogradouro" placeholder="Ex: Rua das Flores" required>
+
+                </div>
+
+                <div class="form-field" style="flex: 1; max-width: 150px;">
+
+                  <label>Número <span class="required">*</span></label>
+
+                  <input type="text" id="contributorNumero" placeholder="Ex: 123" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Bairro <span class="required">*</span></label>
+
+                  <input type="text" id="contributorBairro" placeholder="Ex: Centro" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Município <span class="required">*</span></label>
+
+                  <input type="text" id="contributorMunicipio" placeholder="Ex: São Paulo" required>
+
+                </div>
+
+                <div class="form-field">
+
+                  <label>UF (Estado) <span class="required">*</span></label>
+
+                  <input type="text" id="contributorUF" placeholder="Ex: SP" maxlength="2" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Regime Tributário <span class="required">*</span></label>
+
+                  <select id="contributorRegime" required>
+
+                    <option value="">Selecione o regime</option>
+
+                    <option value="Simples Nacional">Simples Nacional</option>
+
+                    <option value="Lucro Presumido">Lucro Presumido</option>
+
+                    <option value="Lucro Real">Lucro Real</option>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Atividade Principal <span class="required">*</span></label>
+
+                  <input type="text" id="contributorAtividade" placeholder="Ex: Comércio Varejista" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="form-field">
+
+                  <label>Senha de Administrador <span class="required">*</span></label>
+
+                  <input type="password" id="contributorAdminPassword" placeholder="Digite sua senha para confirmar" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <button type="submit" class="btn-add-user">
+
+                  <i class='bx bx-plus'></i> Adicionar Contribuinte
+
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+          
+          
+          <div class="admin-section">
+
+            <div class="section-header">
+
+              <h3>Contribuintes Cadastrados</h3>
+
+              <span id="totalContributors" class="badge">0 contribuintes</span>
+
+            </div>
+
+            <div class="users-list" id="contributorsList">
+
+              <!-- Contribuintes serão adicionados dinamicamente -->
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Tab Content: Solicitação de Funcionário -->
+        <div class="admin-tab-content" id="recruitmentRequestsTab">
+          <div class="admin-section">
+            <div class="section-header">
+              <h3>Solicitações de Recrutamento</h3>
+              <span id="totalRecruitmentRequests" class="badge">0 solicitações</span>
+            </div>
+
+            <div class="recruitment-requests-list" id="recruitmentRequestsList">
+              <!-- Solicitações serão adicionadas dinamicamente -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Tax Agenda Container -->
+
+    <div class="tax-agenda-container">
+
+      <!-- Unified Calendar Box -->
+
+      <div class="unified-calendar-box">
+
+        <!-- Current Month -->
+
+        <div class="calendar-month-section">
+
+          <div class="calendar-header">
+
+            <div class="calendar-title">Janeiro 2025</div>
+
+            <div class="calendar-nav">
+
+              <button class="prev-month" title="Mês anterior"><i class='bx bx-chevron-left'></i></button>
+
+              <button class="next-month" title="Próximo mês"><i class='bx bx-chevron-right'></i></button>
+
+            </div>
+
+          </div>
+
+          
+          
+          <div class="calendar-grid">
+
+            <div class="calendar-day-header">Dom</div>
+
+            <div class="calendar-day-header">Seg</div>
+
+            <div class="calendar-day-header">Ter</div>
+
+            <div class="calendar-day-header">Qua</div>
+
+            <div class="calendar-day-header">Qui</div>
+
+            <div class="calendar-day-header">Sex</div>
+
+            <div class="calendar-day-header">Sáb</div>
+
+            
+            
+            <!-- Dias do calendário serão gerados via JavaScript -->
+
+            <div class="calendar-day other-month">31</div>
+
+            <div class="calendar-day">1</div>
+
+            <div class="calendar-day">2</div>
+
+            <div class="calendar-day">3</div>
+
+            <div class="calendar-day">4</div>
+
+            <div class="calendar-day">5</div>
+
+            <div class="calendar-day">6</div>
+
+            <div class="calendar-day">7</div>
+
+            <div class="calendar-day">8</div>
+
+            <div class="calendar-day">9</div>
+
+            <div class="calendar-day">10</div>
+
+            <div class="calendar-day">11</div>
+
+            <div class="calendar-day">12</div>
+
+            <div class="calendar-day">13</div>
+
+            <div class="calendar-day">14</div>
+
+            <div class="calendar-day">15</div>
+
+            <div class="calendar-day">16</div>
+
+            <div class="calendar-day">17</div>
+
+            <div class="calendar-day">18</div>
+
+            <div class="calendar-day">19</div>
+
+            <div class="calendar-day">20</div>
+
+            <div class="calendar-day">21</div>
+
+            <div class="calendar-day">22</div>
+
+            <div class="calendar-day">23</div>
+
+            <div class="calendar-day">24</div>
+
+            <div class="calendar-day">25</div>
+
+            <div class="calendar-day">26</div>
+
+            <div class="calendar-day">27</div>
+
+            <div class="calendar-day">28</div>
+
+            <div class="calendar-day">29</div>
+
+            <div class="calendar-day">30</div>
+
+            <div class="calendar-day">31</div>
+
+            <div class="calendar-day other-month">1</div>
+
+            <div class="calendar-day other-month">2</div>
+
+            <div class="calendar-day other-month">3</div>
+
+          </div>
+
+        </div>
+
+        
+        
+        <!-- Next Month -->
+
+        <div class="calendar-month-section">
+
+          <div class="calendar-header">
+
+            <div class="calendar-title">Fevereiro 2025</div>
+
+          </div>
+
+          
+          
+          <div class="calendar-grid">
+
+            <div class="calendar-day-header">Dom</div>
+
+            <div class="calendar-day-header">Seg</div>
+
+            <div class="calendar-day-header">Ter</div>
+
+            <div class="calendar-day-header">Qua</div>
+
+            <div class="calendar-day-header">Qui</div>
+
+            <div class="calendar-day-header">Sex</div>
+
+            <div class="calendar-day-header">Sáb</div>
+
+            
+            
+            <!-- Dias do próximo mês -->
+
+            <div class="calendar-day other-month">28</div>
+
+            <div class="calendar-day other-month">29</div>
+
+            <div class="calendar-day other-month">30</div>
+
+            <div class="calendar-day other-month">31</div>
+
+            <div class="calendar-day">1</div>
+
+            <div class="calendar-day">2</div>
+
+            <div class="calendar-day">3</div>
+
+            <div class="calendar-day">4</div>
+
+            <div class="calendar-day">5</div>
+
+            <div class="calendar-day">6</div>
+
+            <div class="calendar-day">7</div>
+
+            <div class="calendar-day">8</div>
+
+            <div class="calendar-day">9</div>
+
+            <div class="calendar-day">10</div>
+
+            <div class="calendar-day">11</div>
+
+            <div class="calendar-day">12</div>
+
+            <div class="calendar-day">13</div>
+
+            <div class="calendar-day">14</div>
+
+            <div class="calendar-day">15</div>
+
+            <div class="calendar-day">16</div>
+
+            <div class="calendar-day">17</div>
+
+            <div class="calendar-day">18</div>
+
+            <div class="calendar-day">19</div>
+
+            <div class="calendar-day">20</div>
+
+            <div class="calendar-day">21</div>
+
+            <div class="calendar-day">22</div>
+
+            <div class="calendar-day">23</div>
+
+            <div class="calendar-day">24</div>
+
+            <div class="calendar-day">25</div>
+
+            <div class="calendar-day">26</div>
+
+            <div class="calendar-day">27</div>
+
+            <div class="calendar-day">28</div>
+
+            <div class="calendar-day other-month">1</div>
+
+            <div class="calendar-day other-month">2</div>
+
+            <div class="calendar-day other-month">3</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      
+      
+      <!-- Tasks List (Right Side) -->
+
+      <div class="tax-agenda-tasks">
+
+        <div class="tasks-list-header">
+
+          <div class="tasks-list-title">
+
+            Agenda e Lembretes
+
+            <span class="tasks-count-badge" id="tasksCountBadge">0</span>
+
+          </div>
+
+          <div class="tasks-header-buttons">
+
+            <button class="filter-task-btn" id="filterTaskBtn" title="Filtrar por Data">
+
+              <i class='bx bx-filter-alt'></i>
+
+            </button>
+
+            <button class="add-task-btn" title="Adicionar Lembrete">
+
+              <i class='bx bx-plus'></i>
+
+            </button>
+
+            
+            
+            <!-- Seletor de Intervalo de Datas -->
+
+            <div class="date-range-picker" id="dateRangePicker">
+
+          <div class="date-range-header">
+
+            <h4>Filtrar por Período</h4>
+
+            <button class="close-date-picker" id="closeDatePicker">
+
+              <i class='bx bx-x'></i>
+
+            </button>
+
+          </div>
+
+          
+          
+          <div class="date-range-content">
+
+            <!-- Calendário Data Inicial -->
+
+            <div class="mini-calendar">
+
+              <div class="mini-calendar-label">Data Inicial</div>
+
+              <div class="mini-calendar-header">
+
+                <button class="mini-prev-month" data-calendar="start">
+
+                  <i class='bx bx-chevron-left'></i>
+
+                </button>
+
+                <div class="mini-month-year" id="startMonthYear">Janeiro 2025</div>
+
+                <button class="mini-next-month" data-calendar="start">
+
+                  <i class='bx bx-chevron-right'></i>
+
+                </button>
+
+              </div>
+
+              <div class="mini-calendar-grid" id="startCalendarGrid">
+
+                <div class="mini-day-header">D</div>
+
+                <div class="mini-day-header">S</div>
+
+                <div class="mini-day-header">T</div>
+
+                <div class="mini-day-header">Q</div>
+
+                <div class="mini-day-header">Q</div>
+
+                <div class="mini-day-header">S</div>
+
+                <div class="mini-day-header">S</div>
+
+                <!-- Dias serão gerados via JS -->
+
+              </div>
+
+            </div>
+
+            
+            
+            <!-- Calendário Data Final -->
+
+            <div class="mini-calendar">
+
+              <div class="mini-calendar-label">Data Final</div>
+
+              <div class="mini-calendar-header">
+
+                <button class="mini-prev-month" data-calendar="end">
+
+                  <i class='bx bx-chevron-left'></i>
+
+                </button>
+
+                <div class="mini-month-year" id="endMonthYear">Janeiro 2025</div>
+
+                <button class="mini-next-month" data-calendar="end">
+
+                  <i class='bx bx-chevron-right'></i>
+
+                </button>
+
+              </div>
+
+              <div class="mini-calendar-grid" id="endCalendarGrid">
+
+                <div class="mini-day-header">D</div>
+
+                <div class="mini-day-header">S</div>
+
+                <div class="mini-day-header">T</div>
+
+                <div class="mini-day-header">Q</div>
+
+                <div class="mini-day-header">Q</div>
+
+                <div class="mini-day-header">S</div>
+
+                <div class="mini-day-header">S</div>
+
+                <!-- Dias serão gerados via JS -->
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          
+          <div class="date-range-selected">
+
+            <div class="selected-dates-display">
+
+              <div class="selected-date">
+
+                <span class="date-label">Início:</span>
+
+                <span class="date-value" id="startDateDisplay">Selecione</span>
+
+              </div>
+
+              <div class="date-separator">→</div>
+
+              <div class="selected-date">
+
+                <span class="date-label">Fim:</span>
+
+                <span class="date-value" id="endDateDisplay">Selecione</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          
+          <div class="date-range-actions">
+
+            <button class="btn-clear-filter" id="clearFilterBtn">
+
+              <i class='bx bx-revision'></i> Limpar
+
+            </button>
+
+            <button class="btn-apply-filter" id="applyFilterBtn" disabled style="opacity: 0.5; cursor: not-allowed;">
+
+              <i class='bx bx-check'></i> Aplicar Filtro
+
+            </button>
+
+          </div>
+
+        </div>
+
+          </div>
+
+        </div>
+
+        
+        
+        <div class="tasks-list">
+
+          <!-- Vencimentos tributários e lembretes serão carregados automaticamente via JavaScript -->
+
+        </div>
+
+        
+        
+        <!-- Modal para adicionar lembrete -->
+
+        <div class="add-task-modal" id="addTaskModal">
+
+          <div class="modal-content">
+
+            <div class="modal-header">
+
+              <h3>New Task</h3>
+
+              <button class="close-modal-btn" id="closeModalBtn" title="Fechar" aria-label="Fechar modal">
+
+                <i class='bx bx-x' aria-hidden="true"></i>
+
+              </button>
+
+            </div>
+
+            <div class="modal-body">
+
+              <div class="form-group">
+
+                <label for="taskDay">Dia <span class="required">*</span></label>
+
+                <input type="text" id="taskDay" maxlength="2" placeholder="15">
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="taskMonth">Mês <span class="required">*</span></label>
+
+                <select id="taskMonth" class="styled-select">
+
+                  <option value="Jan">Janeiro</option>
+
+                  <option value="Fev">Fevereiro</option>
+
+                  <option value="Mar">Março</option>
+
+                  <option value="Abr">Abril</option>
+
+                  <option value="Mai">Maio</option>
+
+                  <option value="Jun">Junho</option>
+
+                  <option value="Jul">Julho</option>
+
+                  <option value="Ago">Agosto</option>
+
+                  <option value="Set">Setembro</option>
+
+                  <option value="Out">Outubro</option>
+
+                  <option value="Nov">Novembro</option>
+
+                  <option value="Dez">Dezembro</option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="taskTitle">Título <span class="required">*</span></label>
+
+                <input type="text" id="taskTitle" placeholder="Ex: Reunião com cliente" required>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="taskDescription">Descrição <span class="optional">(Opcional)</span></label>
+
+                <textarea id="taskDescription" rows="3" placeholder="Ex: Reunião para discutir o projeto X às 14h"></textarea>
+
+              </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+              <button class="btn-cancel" id="cancelBtn">Cancelar</button>
+
+              <button class="btn-save" id="saveTaskBtn">Salvar Lembrete</button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Consulta NCM Container -->
+    <div class="ncm-container hidden" id="ncmSection" data-section="ncm">
+      <div class="ncm-main">
+        <div class="ncm-header">
+          <div class="header-info">
+            <img src="../../assets/images/Sercon.png" onerror="this.src='../../assets/images/logo.png'" alt="Sercon">
+            <div class="header-text">
+              <h3>🧠 Consult - NCM</h3>
+              <p class="header-subtitle">Consulta Avançada de Nomenclatura Comum do Mercosul</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ncm-content">
+          <!-- Abas NCM: Consulta de Produto | Controle de Vencimentos | Correlação de Produtos -->
+          <div class="ncm-tabs-header">
+            <button type="button" class="ncm-tab-btn active" data-ncm-tab="consulta-produto" aria-selected="true">
+              <i class='bx bx-package'></i>
+              <span>Consulta de Produto</span>
+            </button>
+            <button type="button" class="ncm-tab-btn" data-ncm-tab="controle-vencimentos">
+              <i class='bx bx-time-five'></i>
+              <span>Controle de Vencimentos</span>
+            </button>
+            <button type="button" class="ncm-tab-btn" data-ncm-tab="correlacao-produtos">
+              <i class='bx bx-table'></i>
+              <span>Correlação de Produtos</span>
+            </button>
+          </div>
+
+          <!-- Aba 1: Consulta de Produto -->
+          <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
+            <div class="ncm-sercon-panel">
+              <h2 class="ncm-sercon-title">Consulta de Produto</h2>
+              <p class="ncm-sercon-desc">Pesquise pelo nome do produto e obtenha a(s) NCM(s) correspondente(s).</p>
+            </div>
+          </div>
+
+          <!-- Aba 2: Controle de Vencimentos -->
+          <div id="ncm-tab-controle-vencimentos" class="ncm-tab-content" style="display: none;">
+            <div class="ncm-sercon-panel">
+              <h2 class="ncm-sercon-title">Controle de Vencimentos</h2>
+              <p class="ncm-sercon-desc">Pesquise pelo código NCM (8 dígitos) para obter as informações e verificar vencimentos.</p>
+            </div>
+          </div>
+
+          <!-- Aba 3: Correlação de Produtos -->
+          <div id="ncm-tab-correlacao-produtos" class="ncm-tab-content" style="display: none;">
+            <div class="ncm-sercon-panel">
+              <h2 class="ncm-sercon-title">Correlação de Produtos</h2>
+              <p class="ncm-sercon-desc">Importe uma planilha e verifique se cada produto está com a NCM correta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Report Container -->
+
+    <div class="scheduled-message-container">
+
+      <div class="scheduled-message-box">
+
+        <div class="scheduled-message-header">
+
+          <h2>Relatório de Conversas</h2>
+
+          <p>Selecione um contato, funcionário (se aplicável) e o período para gerar o relatório do histórico de mensagens</p>
+
+        </div>
+
+        
+        
+        <div class="scheduled-message-content">
+
+          <!-- Seletor de Contato -->
+
+          <div class="schedule-field">
+
+            <label for="contactSelector">
+
+              <i class='bx bx-user'></i>
+
+              Selecione o Contato
+
+            </label>
+
+            <div class="contact-selector-wrapper">
+
+              <button class="contact-selector-button" id="contactSelectorButton">
+
+                <span class="selected-contact-display">Selecione um contato...</span>
+
+                <i class='bx bx-chevron-down'></i>
+
+              </button>
+
+              <div class="contact-selector-dropdown" id="contactSelectorDropdown">
+
+                <div class="contact-selector-search">
+
+                  <i class='bx bx-search'></i>
+
+                  <input type="text" placeholder="Buscar contato..." id="contactSearchInput">
+
+                </div>
+
+                <div class="contact-selector-list" id="contactSelectorList">
+
+                  <!-- Contatos serão inseridos aqui dinamicamente -->
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          
+          <!-- Seletor de Funcionário -->
+          <div class="schedule-field" id="employeeSelectorField" style="display: none;">
+            <label for="employeeSelector">
+              <i class='bx bx-user-check'></i>
+              Selecionar Funcionário
+            </label>
+            <div class="contact-selector-wrapper">
+              <button class="contact-selector-button" id="employeeSelectorButton">
+                <span class="selected-employee-display">Selecione um funcionário...</span>
+                <i class='bx bx-chevron-down'></i>
+              </button>
+              <div class="contact-selector-dropdown" id="employeeSelectorDropdown">
+                <div class="contact-selector-search">
+                  <i class='bx bx-search'></i>
+                  <input type="text" placeholder="Buscar funcionário..." id="employeeSearchInput">
+                </div>
+                <div class="contact-selector-list" id="employeeSelectorList">
+                  <!-- Funcionários serão inseridos aqui dinamicamente -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          
+          <!-- Seletor de Intervalo de Datas -->
+
+          <div class="schedule-field">
+
+            <label>
+
+              <i class='bx bx-calendar'></i>
+
+              Período do Relatório
+
+            </label>
+
+            <div class="datetime-selector-wrapper">
+
+              <button class="datetime-selector-button" id="datetimeSelectorButton">
+
+                <span class="selected-datetime-display">Selecione o período...</span>
+
+                <i class='bx bx-chevron-down'></i>
+
+              </button>
+
+              <div class="datetime-selector-dropdown" id="datetimeSelectorDropdown">
+
+                <div class="datetime-selector-header">
+
+                  <h4>Selecione o Período</h4>
+
+                  <button class="close-datetime-picker" id="closeDatetimePicker">
+
+                    <i class='bx bx-x'></i>
+
+                  </button>
+
+                </div>
+
+                
+                
+                <div class="datetime-selector-content">
+
+                  <!-- Calendário Data Inicial -->
+
+                  <div class="schedule-calendar">
+
+                    <div class="schedule-calendar-label">Data Inicial</div>
+
+                    <div class="schedule-calendar-header">
+
+                      <button class="schedule-prev-month" data-calendar="start">
+
+                        <i class='bx bx-chevron-left'></i>
+
+                      </button>
+
+                      <div class="schedule-month-year" id="scheduleStartMonthYear">Janeiro 2025</div>
+
+                      <button class="schedule-next-month" data-calendar="start">
+
+                        <i class='bx bx-chevron-right'></i>
+
+                      </button>
+
+                    </div>
+
+                    <div class="schedule-calendar-grid" id="scheduleStartCalendarGrid">
+
+                      <div class="schedule-day-header">D</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <div class="schedule-day-header">T</div>
+
+                      <div class="schedule-day-header">Q</div>
+
+                      <div class="schedule-day-header">Q</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <!-- Dias serão gerados via JS -->
+
+                    </div>
+
+                  </div>
+
+                  
+                  
+                  <!-- Calendário Data Final -->
+
+                  <div class="schedule-calendar">
+
+                    <div class="schedule-calendar-label">Data Final</div>
+
+                    <div class="schedule-calendar-header">
+
+                      <button class="schedule-prev-month" data-calendar="end">
+
+                        <i class='bx bx-chevron-left'></i>
+
+                      </button>
+
+                      <div class="schedule-month-year" id="scheduleEndMonthYear">Janeiro 2025</div>
+
+                      <button class="schedule-next-month" data-calendar="end">
+
+                        <i class='bx bx-chevron-right'></i>
+
+                      </button>
+
+                    </div>
+
+                    <div class="schedule-calendar-grid" id="scheduleEndCalendarGrid">
+
+                      <div class="schedule-day-header">D</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <div class="schedule-day-header">T</div>
+
+                      <div class="schedule-day-header">Q</div>
+
+                      <div class="schedule-day-header">Q</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <div class="schedule-day-header">S</div>
+
+                      <!-- Dias serão gerados via JS -->
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                
+                
+                <div class="datetime-selected-display">
+
+                  <div class="selected-dates-range">
+
+                    <div class="selected-date-item">
+
+                      <span class="date-label">Início:</span>
+
+                      <span class="date-value" id="reportStartDateDisplay">Selecione</span>
+
+                    </div>
+
+                    <div class="date-separator">→</div>
+
+                    <div class="selected-date-item">
+
+                      <span class="date-label">Fim:</span>
+
+                      <span class="date-value" id="reportEndDateDisplay">Selecione</span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                
+                
+                <div class="datetime-selector-actions">
+
+                  <button class="btn-clear-datetime" id="clearDatetimeBtn">
+
+                    <i class='bx bx-revision'></i> Limpar
+
+                  </button>
+
+                  <button class="btn-apply-datetime" id="applyDatetimeBtn" disabled>
+
+                    <i class='bx bx-check'></i> Confirmar
+
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          
+          <!-- Botões de Ação -->
+
+          <div class="report-actions">
+
+            <button class="btn-generate-report" id="generateReportBtn" title="Gerar Relatório">
+
+              <i class='bx bx-file-find'></i>
+
+            </button>
+
+            <button class="btn-download-pdf" id="downloadPdfBtn" style="display: none;" title="Baixar PDF">
+
+              <img src="https://img.icons8.com/fluency/48/pdf--v1.png" alt="pdf">
+
+            </button>
+
+          </div>
+
+        </div>
+        
+        
+
+        <!-- Ãrea de Preview do RelatÃ³rio -->
+
+        <div class="report-preview" id="reportPreview" style="display: none;">
+
+          <div class="report-preview-header">
+
+            <div class="report-preview-title">
+
+              <i class='bx bx-file-blank'></i>
+
+              <span>Preview do Relatório</span>
+
+            </div>
+
+            <div class="report-preview-info">
+
+              <span id="reportMessageCount">0 mensagens</span>
+
+            </div>
+
+          </div>
+
+          <div class="report-preview-content" id="reportPreviewContent">
+
+            <!-- Mensagens do relatório aparecerão aqui -->
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Job Management Container (Gerenciamento de Vagas) -->
+    <div class="job-management-container" id="jobManagementSection" data-section="job-management">
+
+      <div class="job-management-header">
+
+        <h2>💼 Gerenciamento de Vagas</h2>
+
+        <p>Gerencie solicitações de recrutamento e publique vagas públicas</p>
+
+      </div>
+
+      
+
+      <!-- Job Management Tabs -->
+      <div class="job-management-tabs">
+
+        <button class="job-tab active" data-tab="requests">
+
+          <i class='bx bx-list-ul'></i>
+
+          Solicitações
+
+          <span class="tab-badge" id="requestsBadge">0</span>
+
+        </button>
+
+        <button class="job-tab" data-tab="published">
+
+          <i class='bx bx-globe'></i>
+
+          Publicadas
+
+          <span class="tab-badge" id="publishedBadge">0</span>
+
+        </button>
+
+        <button class="job-tab" data-tab="rejected">
+
+          <i class='bx bx-x-circle'></i>
+
+          Rejeitadas
+
+          <span class="tab-badge" id="rejectedBadge">0</span>
+
+        </button>
+
+        <button class="job-tab" data-tab="applications">
+
+          <i class='bx bx-user-check'></i>
+
+          Candidaturas
+
+          <span class="tab-badge" id="applicationsBadge">0</span>
+
+        </button>
+
+      </div>
+
+      
+
+      <div class="job-management-content">
+
+        <!-- Tab Content: Solicitações Pendentes -->
+        <div class="job-tab-panel active" id="requestsTab">
+
+          <div class="job-section-header">
+
+            <h3>Solicitações Pendentes</h3>
+
+            <p>Analise e gerencie as solicitações de recrutamento recebidas</p>
+
+          </div>
+
+          <div class="jobs-list" id="pendingJobsList">
+
+            <!-- Solicitações serão inseridas aqui -->
+
+          </div>
+
+        </div>
+
+        <!-- Tab Content: Vagas Publicadas -->
+        <div class="job-tab-panel" id="publishedTab">
+
+          <div class="job-section-header">
+
+            <h3>Vagas Publicadas</h3>
+
+            <p>Vagas que estão visíveis no site público</p>
+
+          </div>
+
+          <div class="jobs-list" id="publishedJobsList">
+
+            <!-- Vagas publicadas serão inseridas aqui -->
+
+          </div>
+
+        </div>
+
+        <!-- Tab Content: Vagas Rejeitadas -->
+        <div class="job-tab-panel" id="rejectedTab">
+
+          <div class="job-section-header">
+
+            <h3>Vagas Rejeitadas</h3>
+
+            <p>Histórico de solicitações rejeitadas</p>
+
+          </div>
+
+          <div class="jobs-list" id="rejectedJobsList">
+
+            <!-- Vagas rejeitadas serão inseridas aqui -->
+
+          </div>
+
+        </div>
+
+        <!-- Tab Content: Candidaturas -->
+        <div class="job-tab-panel" id="applicationsTab">
+
+          <div class="job-section-header">
+
+            <h3>Candidaturas Recebidas</h3>
+
+            <p>Visualize e gerencie as candidaturas enviadas pelos candidatos</p>
+
+          </div>
+
+          <div class="jobs-list" id="applicationsList">
+
+            <!-- Candidaturas serão inseridas aqui -->
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Modal de Detalhes da Vaga -->
+    <div class="job-detail-modal hidden" id="jobDetailModal">
+      <div class="job-detail-modal-content">
+        <div class="job-detail-modal-header">
+          <h2 id="modalJobTitle">Detalhes da Vaga</h2>
+          <button class="close-job-modal" id="closeJobDetailModal">
+            <i class='bx bx-x'></i>
+          </button>
+        </div>
+        <div class="job-detail-modal-body" id="jobDetailModalBody">
+          <!-- Conteúdo será preenchido dinamicamente -->
+        </div>
+        <div class="job-detail-modal-footer" id="jobDetailModalFooter">
+          <!-- Ações serão inseridas aqui -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Container Oculto para Geração de PDF (captura completa) -->
+
+    <div class="pdf-render-container" id="pdfRenderContainer">
+
+      <div class="pdf-content" id="pdfContent">
+
+        <!-- Conteúdo será gerado dinamicamente para PDF -->
+
+      </div>
+
+    </div>
+
+
+
+    <!-- Right Panel (Profile and Contact) -->
+
+    <div class="right-panel">
+
+      <div class="profile-box">
+
+        <img src="../../assets/images/profile-1.png" onerror="this.src='https://via.placeholder.com/64x64?text=U'" alt="user profile">
+
+        <h3>Josué Lima</h3>
+
+        <p>Fiscal Real</p>
+
+        <!-- Lista de Arquivos por Categoria -->
+        <div class="profile-files-container" id="profileFilesContainer">
+          <!-- Categorias serão criadas dinamicamente via JavaScript -->
+        </div>
+
+      </div>
+
+      <div class="contact-box hidden">
+
+        <div class="contact-box-title"></div>
+        <p></p>
+
+        <!-- Lista de Funcionários -->
+        <div class="employees-list-container hidden" id="employeesListContainer">
+          <div class="employees-list-header">
+            <h4>Funcionários</h4>
+            <span class="employees-count" id="employeesCount">0</span>
+      </div>
+          <div class="employees-list" id="employeesList">
+            <!-- Lista de funcionários será inserida aqui -->
+    </div>
+  </div>
+  
+      </div>
+
+    </div>
+    
+    <!-- Onboarding de Contribuinte -->
+    <div class="contributor-onboarding hidden" id="contributorOnboarding">
+      <div class="contributor-onboarding-dialog">
+        <div class="contributor-onboarding-header">
+          <h2>Bem-vindo, <span id="contributorWelcomeName">Contribuinte</span>!</h2>
+          <p>Antes de acessar o suporte, confirme os dados do seu cadastro e defina uma nova senha.</p>
+        </div>
+        
+        <div class="contributor-onboarding-body">
+          <div class="contributor-onboarding-section">
+            <h3>Seus dados cadastrados</h3>
+            <ul class="contributor-info-list" id="contributorInfoList">
+              <!-- Dados preenchidos dinamicamente -->
+            </ul>
+          </div>
+          
+          <form id="contributorOnboardingForm" data-contributor-id="" autocomplete="off">
+            <div class="form-row">
+              <div class="form-field">
+                <label>Nova senha <span class="required">*</span></label>
+                <input type="password" id="contributorNewPassword" placeholder="Digite a nova senha" required>
+              </div>
+              <div class="form-field">
+                <label>Confirmar nova senha <span class="required">*</span></label>
+                <input type="password" id="contributorConfirmPassword" placeholder="Repita a nova senha" required>
+    </div>
+
+  </div>
+
+  
+
+            <div class="form-row single">
+              <label class="confirm-checkbox">
+                <input type="checkbox" id="contributorConfirmData">
+                <span>Confirmo que conferi meus dados e estão corretos.</span>
+              </label>
+            </div>
+            
+            <div class="form-row single">
+              <button type="submit" class="btn-confirm-onboarding">
+                <i class='bx bx-check'></i> Confirmar e acessar o suporte
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Script Principal -->
+  <script src="Chat-script.js"></script>
+  <script src="../support/ncm-sercon-tabs.js"></script>
+</body>
+
+</html>

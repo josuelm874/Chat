@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte - Sercon</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Noto Emoji Animation - Emojis Animados do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    
+    <!-- Lottie para animações de emoji -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    
+    <link rel="stylesheet" href="Suporte-style.css">
+    <script src="../shared/config.js"></script>
+    <script src="../shared/constants.js"></script>
+    <script src="../shared/utils.js"></script>
+    <script src="../shared/supabase-sync.js"></script>
+</head>
+<body>
+    <!-- Dominium Login -->
+    <section id="dominium-login">
+        <div class="login">
+            <form id="dominiumLoginForm" action="#" class="login__form">
+                <h1 class="login__title">Login</h1>
+
+                <div class="login__content">
+                    <div class="login__box">
+                        <i class='bx bxs-building-house login__icon'></i>
+                        
+                        <div class="login__box-input">
+                            <input type="text" id="dominiumLoginRazaoSocial" required class="login__input" placeholder="">
+                            <label for="dominiumLoginRazaoSocial" class="login__label">Razão Social</label>
+                        </div>
+                    </div>
+
+                    <div class="login__box">
+                        <i class='bx bxs-user login__icon'></i>
+                        
+                        <div class="login__box-input">
+                            <input type="text" id="dominiumLoginUsername" required class="login__input" placeholder="">
+                            <label for="dominiumLoginUsername" class="login__label">Username</label>
+                        </div>
+                    </div>
+
+                    <div class="login__box">
+                        <i class='bx bxs-lock-alt login__icon'></i>
+
+                        <div class="login__box-input">
+                            <input type="password" id="dominiumLoginPassword" required class="login__input" placeholder="">
+                            <label for="dominiumLoginPassword" class="login__label">Password</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login__check">
+                    <div class="login__check-group">
+                        <input type="checkbox" id="rememberMe" class="login__check-input">
+                        <label for="rememberMe" class="login__check-label">Lembrar de mim</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="login__button" id="dominiumLoginButton">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Modal de Cadastro de Funcionário - DEVE ESTAR FORA DO supportApp -->
+    <div class="modal" id="supportAddEmployeeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Novo Funcionário</h2>
+                <button type="button" class="close-modal-btn" id="supportAddEmployeeClose">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <form id="supportAddEmployeeForm" class="form-onboarding">
+                <div class="form-field">
+                    <label for="supportEmployeeFullName">Nome Completo <span class="required">*</span></label>
+                    <input type="text" id="supportEmployeeFullName" placeholder="Ex: Maria dos Santos" required>
+                </div>
+                <div class="form-field">
+                    <label for="supportEmployeeUsername">Username (Login) <span class="required">*</span></label>
+                    <input type="text" id="supportEmployeeUsername" placeholder="Ex: maria.santos" required>
+                </div>
+                <div class="form-field">
+                    <label for="supportEmployeePassword">Senha <span class="required">*</span></label>
+                    <input type="password" id="supportEmployeePassword" placeholder="Defina a senha" required>
+                </div>
+                <div class="form-field">
+                    <label for="supportEmployeeConfirmPassword">Confirmar Senha <span class="required">*</span></label>
+                    <input type="password" id="supportEmployeeConfirmPassword" placeholder="Repita a senha" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class='bx bx-check-circle'></i> Salvar Funcionário
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Onboarding de Contribuinte - DEVE ESTAR FORA DO supportApp -->
+    <div class="contributor-onboarding hidden" id="supportContributorOnboarding">
+      <div class="contributor-onboarding-dialog">
+        <div class="contributor-onboarding-header">
+          <h2>Bem-vindo, <span id="supportContributorWelcomeName">Contribuinte</span>!</h2>
+          <p>Antes de acessar o suporte, confirme seus dados e defina uma nova senha.</p>
+        </div>
+        
+        <div class="contributor-onboarding-body">
+          <div class="contributor-onboarding-section">
+            <h3>Resumo do cadastro</h3>
+            <ul class="contributor-info-list" id="supportContributorInfoList">
+              <!-- Dados preenchidos dinamicamente -->
+            </ul>
+          </div>
+          
+          <form id="supportContributorOnboardingForm" data-contributor-id="" autocomplete="off">
+            <div class="form-row">
+              <div class="form-field">
+                <label>Nova senha <span class="required">*</span></label>
+                <input type="password" id="supportContributorNewPassword" placeholder="Digite a nova senha" required>
+              </div>
+              <div class="form-field">
+                <label>Confirmar nova senha <span class="required">*</span></label>
+                <input type="password" id="supportContributorConfirmPassword" placeholder="Repita a nova senha" required>
+              </div>
+            </div>
+            
+            <div class="form-row single">
+              <label class="confirm-checkbox">
+                <input type="checkbox" id="supportContributorConfirmData">
+                <span>Confirmo que conferi meus dados e estão corretos.</span>
+              </label>
+            </div>
+            
+            <div class="form-row single">
+              <button type="submit" class="btn-confirm-onboarding">
+                <i class='bx bx-check'></i> Confirmar e acessar o suporte
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="supportApp" class="support-app" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo"><img src="../../assets/images/logo.png" onerror="this.onerror=null; this.src='../../assets/images/profile-1.png'" alt="logo"></div>
+            
+            <div class="center-icons">
+                <button class="active" data-section="support" aria-label="Abrir suporte">
+                    <i class='bx bx-message-dots' aria-hidden="true"></i>
+                    <span class="icon-label">Suporte</span>
+                </button>
+                <button data-section="ncm" aria-label="Abrir consulta NCM">
+                    <i class='bx bx-search' aria-hidden="true"></i>
+                    <span class="icon-label">Consulta NCM</span>
+                </button>
+                <button data-section="recruitment" aria-label="Abrir solicitação de recrutamento">
+                    <i class='bx bx-briefcase' aria-hidden="true"></i>
+                    <span class="icon-label">Solicitação de Recrutamento</span>
+                </button>
+                <button id="supportAddEmployeeButton" aria-label="Cadastrar funcionário">
+                    <i class='bx bx-user-plus' aria-hidden="true"></i>
+                    <span class="icon-label">Cadastrar Funcionário</span>
+                </button>
+            </div>
+            
+            <button class="settings" id="supportLogoutButton" title="Logout" aria-label="Fazer logout">
+                <i class='bx bx-log-out' aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <!-- Support Chat Container -->
+        <div class="support-chat-container" id="supportSection" data-section="support">
+            <!-- Notificações Container (aparece quando não há chat aberto) -->
+            <div class="notifications-container" id="notificationsContainer">
+                <div class="notifications-list" id="notificationsList">
+                    <!-- Notificações serão adicionadas dinamicamente -->
+                </div>
+            </div>
+            
+            <!-- Chat Main (área de conversa) -->
+            <div class="chat-main" id="supportChatMain">
+                <div class="chat-header">
+                    <div class="header-info">
+                        <img src="../../assets/images/Sercon.png" onerror="this.src='../../assets/images/logo.png'" alt="Sercon">
+                        <div class="header-text">
+                            <h3 id="chatHeaderTitle">Suporte Sercon</h3>
+                            <p id="chatHeaderSubtitle" class="header-subtitle"></p>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="change-sector-btn-header" id="changeSectorBtnHeader" title="Trocar setor">
+                            <i class='bx bx-refresh'></i>
+                        </button>
+                        <div class="view-mode-container">
+                            <button class="view-mode-button" id="viewModeButton" title="Modo de visualização">
+                                <i class='bx bx-expand'></i>
+                            </button>
+                            <div class="view-mode-dropdown" id="viewModeDropdown">
+                                <div class="view-mode-option active" data-mode="popup">
+                                    <i class='bx bx-window'></i>
+                                    <span>Pop-up</span>
+                                    <i class='bx bx-check view-mode-check'></i>
+                                </div>
+                                <div class="view-mode-option" data-mode="half">
+                                    <i class='bx bx-dock-right'></i>
+                                    <span>Metade</span>
+                                    <i class='bx bx-check view-mode-check'></i>
+                                </div>
+                                <div class="view-mode-option" data-mode="fullscreen">
+                                    <i class='bx bx-fullscreen'></i>
+                                    <span>Maximizado</span>
+                                    <i class='bx bx-check view-mode-check'></i>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="close-chat" id="closeChat" aria-label="Fechar chat">
+                            <i class='bx bx-x'></i>
+                        </button>
+                    </div>
+                </div>
+
+        <div class="messages" id="chatMessages">
+          <!-- Welcome message será adicionado dinamicamente quando necessário -->
+        </div>
+
+        
+        
+        <div class="message-input">
+
+          <!-- Painel de Emojis Animados Noto -->
+
+          <div class="emoji-panel" id="emojiPanel">
+
+            <div class="emoji-panel-header">
+
+              <span class="emoji-panel-title">Emojis Animados</span>
+
+              <span class="emoji-panel-count" id="emojiPanelCount">0 emojis</span>
+
+            </div>
+
+            <div class="emoji-categories">
+
+              <button class="emoji-category active" data-category="smileys" title="Rostos e Emoções">😊</button>
+
+              <button class="emoji-category" data-category="hearts" title="Corações e Símbolos">💖</button>
+
+              <button class="emoji-category" data-category="gestures" title="Gestos e Pessoas">👋</button>
+
+              <button class="emoji-category" data-category="animals" title="Animais e Natureza">🦁</button>
+
+              <button class="emoji-category" data-category="food" title="Comidas e Bebidas">🍕</button>
+
+              <button class="emoji-category" data-category="objects" title="Objetos e Atividades">🎮</button>
+
+            </div>
+
+            <div class="emoji-grid" id="emojiGrid">
+
+              <!-- Emojis Noto Animation serão inseridos aqui -->
+
+            </div>
+
+          </div>
+
+          
+          
+          <input type="file" id="fileInput" style="display: none;" multiple>
+
+          <button class="attach-button" id="attachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
+
+            <i class='bx bx-paperclip' aria-hidden="true"></i>
+
+          </button>
+
+          <button class="emoji-button" id="emojiButton" title="Emojis" aria-label="Adicionar emoji">
+
+            <i class='bx bx-happy' aria-hidden="true"></i>
+
+          </button>
+
+          <input type="text" id="messageInput" placeholder="Digite sua mensagem aqui..." aria-label="Campo de mensagem">
+
+          <button type="button" class="send-button" id="sendButton" aria-label="Enviar mensagem">
+
+            <i class='bx bx-send' aria-hidden="true"></i>
+
+          </button>
+
+        </div>
+            </div>
+        </div>
+
+        <!-- Consulta NCM Container (apenas aba) -->
+        <div class="ncm-container hidden" id="ncmSection" data-section="ncm">
+            <div class="ncm-main">
+                <div class="ncm-header">
+                    <div class="header-info">
+                        <img src="../../assets/images/Sercon.png" onerror="this.src='../../assets/images/logo.png'" alt="Sercon">
+                        <div class="header-text">
+                            <h3>🧠 Consult - NCM</h3>
+                            <p class="header-subtitle">Consulta Avançada de Nomenclatura Comum do Mercosul</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ncm-content">
+                    <div style="padding: 24px;">
+                        <h2 style="margin: 0 0 8px 0; font-size: 1.25em;">Consulta NCM</h2>
+                        <p style="margin: 0; color: #6b7280;">Consulta de Produto, Controle de Vencimentos e Correlação de Produtos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Solicitação de Recrutamento Container -->
+        <div class="recruitment-container hidden" id="recruitmentSection" data-section="recruitment">
+            <div class="recruitment-main">
+                <div class="recruitment-header">
+                    <div class="header-info">
+                        <img src="../../assets/images/Sercon.png" onerror="this.src='../../assets/images/logo.png'" alt="Sercon">
+                        <div class="header-text">
+                            <h3>💼 Solicitação de Recrutamento</h3>
+                            <p class="header-subtitle">Solicite a abertura de vagas para recrutamento de funcionários</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recruitment-content">
+                    <!-- Formulário de Solicitação -->
+                    <div class="recruitment-form-section" id="recruitmentFormSection">
+                        <div class="form-header">
+                            <h2>📝 Nova Solicitação de Vaga</h2>
+                            <p>Preencha todas as informações sobre a vaga de emprego</p>
+                        </div>
+
+                        <form id="recruitmentRequestForm" class="recruitment-form">
+                            <!-- Informações Básicas -->
+                            <div class="form-section">
+                                <h3 class="section-title">Informações Básicas</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="jobTitle">Nome do Cargo <span class="required">*</span></label>
+                                        <input 
+                                            type="text" 
+                                            id="jobTitle" 
+                                            placeholder="Ex: Analista Fiscal, Assistente Contábil, Contador..."
+                                            required
+                                        >
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="vacancyQuantity">Quantidade de Vagas <span class="required">*</span></label>
+                                        <input 
+                                            type="number" 
+                                            id="vacancyQuantity" 
+                                            min="1" 
+                                            placeholder="Ex: 2"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="salary">Salário <span class="required">*</span></label>
+                                        <input 
+                                            type="text" 
+                                            id="salary" 
+                                            placeholder="Ex: R$ 3.500,00 ou A combinar"
+                                            required
+                                        >
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="workSchedule">Regime de Trabalho <span class="required">*</span></label>
+                                        <select id="workSchedule" required>
+                                            <option value="">Selecione...</option>
+                                            <option value="CLT">CLT (Tempo Integral)</option>
+                                            <option value="PJ">PJ (Pessoa Jurídica)</option>
+                                            <option value="Estágio">Estágio</option>
+                                            <option value="Temporário">Temporário</option>
+                                            <option value="Meio Período">Meio Período</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferência de Proximidade -->
+                            <div class="form-section">
+                                <h3 class="section-title">Localização e Proximidade</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="locationPreference">Preferência de Proximidade <span class="required">*</span></label>
+                                        <select id="locationPreference" required onchange="handleLocationPreferenceChange()">
+                                            <option value="">Selecione a preferência...</option>
+                                            <option value="qualquer">Qualquer localização (Remoto ou Presencial)</option>
+                                            <option value="remoto">Apenas Remoto</option>
+                                            <option value="presencial">Apenas Presencial</option>
+                                            <option value="hibrido">Híbrido (Remoto + Presencial)</option>
+                                            <option value="proximo">Proximidade obrigatória</option>
+                                            <option value="mesma_cidade">Mesma cidade</option>
+                                            <option value="mesmo_estado">Mesmo estado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Campos adicionais para proximidade obrigatória -->
+                                <div id="proximityFields" style="display: none;">
+                                    <div class="form-row">
+                                        <div class="form-field">
+                                            <label for="companyAddress">Endereço da Empresa <span class="required">*</span></label>
+                                            <input 
+                                                type="text" 
+                                                id="companyAddress" 
+                                                placeholder="Ex: Rua Exemplo, 123 - Centro - São Paulo/SP"
+                                            >
+                                        </div>
+                                        <div class="form-field">
+                                            <label for="maxDistance">Distância Máxima (km) <span class="required">*</span></label>
+                                            <input 
+                                                type="number" 
+                                                id="maxDistance" 
+                                                min="1" 
+                                                max="100"
+                                                step="1"
+                                                placeholder="Ex: 10"
+                                            >
+                                            <small style="color: #6b7280; font-size: 12px; margin-top: 4px; display: block;">
+                                                Distância máxima em quilômetros do endereço da empresa
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Requisitos e Qualificações -->
+                            <div class="form-section">
+                                <h3 class="section-title">Requisitos e Qualificações</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="educationLevel">Escolaridade Mínima</label>
+                                        <select id="educationLevel">
+                                            <option value="">Não especificado</option>
+                                            <option value="fundamental">Ensino Fundamental</option>
+                                            <option value="medio">Ensino Médio</option>
+                                            <option value="tecnico">Técnico</option>
+                                            <option value="superior">Superior</option>
+                                            <option value="pos_graduacao">Pós-Graduação</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="experienceRequired">Experiência Necessária</label>
+                                        <select id="experienceRequired">
+                                            <option value="">Não especificado</option>
+                                            <option value="sem_experiencia">Sem experiência</option>
+                                            <option value="6_meses">6 meses</option>
+                                            <option value="1_ano">1 ano</option>
+                                            <option value="2_anos">2 anos</option>
+                                            <option value="3_anos">3 anos</option>
+                                            <option value="5_anos">5 anos ou mais</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-field full-width">
+                                        <label for="requiredSkills">Habilidades e Competências Necessárias</label>
+                                        <textarea 
+                                            id="requiredSkills" 
+                                            rows="3"
+                                            placeholder="Ex: Conhecimento em Excel avançado, experiência com sistemas fiscais, conhecimento em contabilidade..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descrição da Vaga -->
+                            <div class="form-section">
+                                <h3 class="section-title">Descrição da Vaga</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-field full-width">
+                                        <label for="jobDescription">Descrição Detalhada da Vaga <span class="required">*</span></label>
+                                        <textarea 
+                                            id="jobDescription" 
+                                            rows="6"
+                                            placeholder="Descreva as atividades, responsabilidades e expectativas do cargo..."
+                                            required
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Informações Adicionais -->
+                            <div class="form-section">
+                                <h3 class="section-title">Informações Adicionais</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="benefits">Benefícios Oferecidos</label>
+                                        <textarea 
+                                            id="benefits" 
+                                            rows="3"
+                                            placeholder="Ex: Vale refeição, plano de saúde, vale transporte, auxílio home office..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label for="contactEmail">E-mail para Contato</label>
+                                        <input 
+                                            type="email" 
+                                            id="contactEmail" 
+                                            placeholder="Ex: rh@empresa.com.br"
+                                        >
+                                    </div>
+                                    <div class="form-field">
+                                        <label for="contactPhone">Telefone para Contato</label>
+                                        <input 
+                                            type="tel" 
+                                            id="contactPhone" 
+                                            placeholder="Ex: (11) 99999-9999"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botão de Envio -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit-recruitment">
+                                    <i class='bx bx-send'></i> Enviar Solicitação
+                                </button>
+                                <button type="reset" class="btn-reset-form">
+                                    <i class='bx bx-refresh'></i> Limpar Formulário
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Mensagem de Sucesso -->
+                    <div class="recruitment-success hidden" id="recruitmentSuccess">
+                        <div class="success-icon">✅</div>
+                        <h3>Solicitação Enviada com Sucesso!</h3>
+                        <p>Sua solicitação de recrutamento foi enviada e será analisada pela equipe de administração.</p>
+                        <button class="btn-new-request" onclick="resetRecruitmentForm()">
+                            <i class='bx bx-plus'></i> Nova Solicitação
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Botão de Suporte (inicial) -->
+    <button class="support-button" id="supportButton">
+        <i class='bx bx-message-dots'></i>
+        <span>Suporte</span>
+    </button>
+
+
+    <!-- Modal de Seleção de Setor -->
+    <div class="sector-modal" id="sectorModal">
+        <div class="sector-modal-content">
+            <div class="sector-modal-header">
+                <h3>Selecione o Setor de Atendimento</h3>
+                <p>Escolha o setor responsável pelo seu atendimento</p>
+            </div>
+            <div class="sector-options">
+                <button class="sector-option" data-sector="Fiscal Real">
+                    <i class='bx bxs-user'></i>
+                    <span>Fiscal Real</span>
+                </button>
+                <button class="sector-option" data-sector="Fiscal Simples">
+                    <i class='bx bxs-user'></i>
+                    <span>Fiscal Simples</span>
+                </button>
+                <button class="sector-option" data-sector="Processo">
+                    <i class='bx bxs-user'></i>
+                    <span>Processo</span>
+                </button>
+                <button class="sector-option" data-sector="Contábil">
+                    <i class='bx bxs-user'></i>
+                    <span>Contábil</span>
+                </button>
+                <button class="sector-option" data-sector="Pessoal">
+                    <i class='bx bxs-user'></i>
+                    <span>Pessoal</span>
+                </button>
+                <button class="sector-option" data-sector="Financeiro">
+                    <i class='bx bxs-user'></i>
+                    <span>Financeiro</span>
+                </button>
+            </div>
+            <button class="sector-modal-close" id="closeSectorModal">
+                Cancelar
+            </button>
+        </div>
+
+    <!-- Script Principal -->
+    <script src="Suporte-script.js"></script>
+    <!-- Script para Controle do Formulário de Recrutamento -->
+    <script>
+        // Função para controlar a exibição dos campos de proximidade
+        function handleLocationPreferenceChange() {
+            const locationPreference = document.getElementById('locationPreference');
+            const proximityFields = document.getElementById('proximityFields');
+            const companyAddress = document.getElementById('companyAddress');
+            const maxDistance = document.getElementById('maxDistance');
+            
+            if (locationPreference.value === 'proximo') {
+                // Mostrar campos de proximidade
+                proximityFields.style.display = 'block';
+                companyAddress.required = true;
+                maxDistance.required = true;
+            } else {
+                // Esconder campos de proximidade
+                proximityFields.style.display = 'none';
+                companyAddress.required = false;
+                maxDistance.required = false;
+                // Limpar valores quando esconder
+                companyAddress.value = '';
+                maxDistance.value = '';
+            }
+        }
+        
+        // Função para resetar o formulário
+        function resetRecruitmentForm() {
+            const form = document.getElementById('recruitmentRequestForm');
+            const recruitmentFormSection = document.getElementById('recruitmentFormSection');
+            const recruitmentSuccess = document.getElementById('recruitmentSuccess');
+            
+            if (form) {
+                form.reset();
+                // Esconder campos de proximidade ao resetar
+                handleLocationPreferenceChange();
+            }
+            
+            // Mostrar formulário e esconder mensagem de sucesso
+            if (recruitmentFormSection) {
+                recruitmentFormSection.style.display = 'block';
+            }
+            if (recruitmentSuccess) {
+                recruitmentSuccess.classList.add('hidden');
+            }
+        }
+        
+        // Adicionar event listener ao formulário quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('recruitmentRequestForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Validar campos de proximidade se necessário
+                    const locationPreference = document.getElementById('locationPreference');
+                    if (locationPreference.value === 'proximo') {
+                        const companyAddress = document.getElementById('companyAddress');
+                        const maxDistance = document.getElementById('maxDistance');
+                        
+                        if (!companyAddress.value.trim()) {
+                            alert('Por favor, preencha o endereço da empresa.');
+                            companyAddress.focus();
+                            return;
+                        }
+                        
+                        if (!maxDistance.value || parseFloat(maxDistance.value) <= 0) {
+                            alert('Por favor, informe a distância máxima em quilômetros (valor maior que 0).');
+                            maxDistance.focus();
+                            return;
+                        }
+                    }
+                    
+                    // Coletar dados do formulário
+                    const formData = {
+                        id: 'recruitment_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                        jobTitle: document.getElementById('jobTitle').value,
+                        vacancyQuantity: parseInt(document.getElementById('vacancyQuantity').value),
+                        salary: document.getElementById('salary').value,
+                        workSchedule: document.getElementById('workSchedule').value,
+                        locationPreference: document.getElementById('locationPreference').value,
+                        companyAddress: document.getElementById('companyAddress').value || null,
+                        maxDistance: document.getElementById('maxDistance').value ? parseInt(document.getElementById('maxDistance').value) : null,
+                        educationLevel: document.getElementById('educationLevel').value || null,
+                        experienceRequired: document.getElementById('experienceRequired').value || null,
+                        requiredSkills: document.getElementById('requiredSkills').value || null,
+                        jobDescription: document.getElementById('jobDescription').value,
+                        benefits: document.getElementById('benefits').value || null,
+                        contactEmail: document.getElementById('contactEmail').value || null,
+                        contactPhone: document.getElementById('contactPhone').value || null,
+                        status: 'pending', // pending, approved, rejected, redirected
+                        createdAt: new Date().toISOString(),
+                        contributorId: (function() {
+                            try {
+                                const supportUser = JSON.parse(localStorage.getItem('supportCurrentUser') || 'null');
+                                return supportUser?.contributorId || null;
+                            } catch (e) {
+                                return null;
+                            }
+                        })(),
+                        contributorName: (function() {
+                            try {
+                                const supportUser = JSON.parse(localStorage.getItem('supportCurrentUser') || 'null');
+                                if (supportUser?.contributorId) {
+                                    const contributors = JSON.parse(localStorage.getItem('contributors') || '[]');
+                                    const contributor = contributors.find(c => c.id === supportUser.contributorId);
+                                    return contributor?.razaoSocial || supportUser.fullName || 'Contribuinte não identificado';
+                                }
+                                return supportUser?.fullName || 'Contribuinte não identificado';
+                            } catch (e) {
+                                return 'Contribuinte não identificado';
+                            }
+                        })()
+                    };
+                    
+                    // Salvar no localStorage
+                    try {
+                        const existingRequests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+                        existingRequests.push(formData);
+                        localStorage.setItem('recruitmentRequests', JSON.stringify(existingRequests));
+                        localStorage.setItem('recruitmentRequestsUpdatedAt', Date.now().toString());
+                        
+                        console.log('✅ Solicitação de recrutamento salva com sucesso:', formData);
+                    } catch (error) {
+                        console.error('❌ Erro ao salvar solicitação:', error);
+                        alert('Erro ao enviar solicitação. Por favor, tente novamente.');
+                        return;
+                    }
+                    
+                    // Mostrar mensagem de sucesso
+                    const recruitmentFormSection = document.getElementById('recruitmentFormSection');
+                    const recruitmentSuccess = document.getElementById('recruitmentSuccess');
+                    
+                    if (recruitmentFormSection) {
+                        recruitmentFormSection.style.display = 'none';
+                    }
+                    if (recruitmentSuccess) {
+                        recruitmentSuccess.classList.remove('hidden');
+                    }
+                    
+                    // Scroll para o topo
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
