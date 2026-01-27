@@ -153,6 +153,7 @@ Isso funciona como “classificação por recuperação”: não treinamos um cl
 - **Modelo em português**: funciona bem para PT; o MiniLM multilingue cobre outros idiomas.
 - **Tamanho do JSON de NCM**: ~10k NCMs × 384 dims → dezenas de MB. Carregamento inicial pode demorar.
 - **Primeira carga do modelo no browser**: download do ONNX na primeira busca por similaridade; depois fica em cache.
+- **404 em `/models/...`**: por padrão o Transformers.js tenta carregar de `localModelPath` (`/models/`). Em deploy (GitHub/Supabase) isso vira mesmo-origem e dá 404. O `ncm-embeddings.js` define `env.allowLocalModels = false`, `env.localModelPath = ''` e `env.remoteHost = 'https://huggingface.co'` antes do `pipeline`, para forçar o carregamento sempre do Hugging Face.
 - **k‑NN em exemplos**: qualidade depende da diversidade e correção dos exemplos.
 
 ---

@@ -44,6 +44,11 @@
       if (initDone) return;
       try {
         var mod = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+        if (mod.env) {
+          mod.env.allowLocalModels = false;
+          mod.env.localModelPath = '';
+          mod.env.remoteHost = 'https://huggingface.co';
+        }
         pipelineFn = mod.pipeline;
         extractor = await pipelineFn('feature-extraction', MODEL_ID, {
           pooling: 'mean',
