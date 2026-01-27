@@ -7314,6 +7314,30 @@ input.invalid:focus {
 .ncm-sercon-title { margin: 0 0 8px 0; font-size: 1.25em; color: #1f2937; }
 .ncm-sercon-desc { margin: 0 0 20px 0; color: #6b7280; font-size: 0.95em; }
 
+.ncm-rgi-details {
+  margin: 0 0 20px 0;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9em;
+}
+.ncm-rgi-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #475569;
+}
+.ncm-rgi-details[open] summary { margin-bottom: 10px; }
+.ncm-rgi-list {
+  margin: 0 0 10px 0;
+  padding-left: 1.2em;
+  color: #374151;
+  line-height: 1.5;
+}
+.ncm-rgi-list li { margin-bottom: 6px; }
+.ncm-rgi-ref { margin: 0; font-size: 0.85em; color: #64748b; }
+.ncm-rgi-ref code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; }
+
 .ncm-sercon-form {
   display: flex;
   flex-wrap: wrap;
@@ -7400,6 +7424,13 @@ input.invalid:focus {
 }
 .ncm-desc-text { color: #374151; }
 
+.ncm-fallback-label {
+  grid-column: 1 / -1;
+  margin: 0 0 12px 0;
+  font-size: 0.95em;
+  color: #4b5563;
+}
+.ncm-fallback-label i { vertical-align: middle; margin-right: 6px; color: #667eea; }
 .ncm-empty {
   text-align: center;
   padding: 40px 20px;

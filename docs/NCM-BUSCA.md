@@ -1,5 +1,7 @@
 # Busca NCM – precisão e sinônimos
 
+A ordenação e o fallback da busca seguem critérios inspirados nas **Regras Gerais para Interpretação do Sistema Harmonizado (RGI)**. Ver **`NCM-RGI.md`** para o resumo das regras e **`NCM-ESTRUTURA-DECISAO.md`** para o fluxo completo de decisão (estrutura, score, filtros, correlação).
+
 ## Quando o produto não encontra NCM
 
 Às vezes a descrição oficial da NCM não usa a mesma palavra que o usuário (ex.: "refrigerante" vs "águas gaseificadas, aromatizadas"). O motor usa duas camadas para melhorar isso:
@@ -53,5 +55,8 @@ Os customizados ficam em `localStorage` sob a chave `ncmQuerySynonyms` e são so
 2. **Opção B – Sinônimos de busca (genérico):**  
    Adicione em `QUERY_SYNONYMS` no `ncm-motor.js` ou use `ncmMotor.addQuerySynonym(termo, [termos...])` para persistir no `localStorage`.
 
-3. **Fallback:**  
+3. **Fallback (regras):**  
    Garanta que o termo esteja em `KEYWORD_CHAPTER` (para gerar chapter hint). Com isso, em caso de 0 resultados, o fallback com sinônimos + restrição ao capítulo passa a ser usado.
+
+4. **Fallback (embeddings):**  
+   Se ainda assim não houver resultado, o front usa **similaridade por embeddings** (ver `docs/NCM-EMBEDDINGS-ML.md`). Gere `ncm-embeddings.json` com `scripts/ncm` e sirva o app via HTTP.

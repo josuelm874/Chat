@@ -2,6 +2,11 @@
  * Motor de Correlação Produto → NCM (estilo SEFAZ)
  * Normalização, busca na tabela, regras por capítulo, ranqueamento.
  * Depende de window.NCM_TABELA_DATA (Tabela_NCM.js).
+ *
+ * Estrutura e tomada de decisão (assimilação produto ↔ NCM):
+ * - docs/NCM-ESTRUTURA-DECISAO.md: fluxo completo, filtros, score, ordenação, fallback, correlação.
+ * - docs/NCM-RGI.md: Regras Gerais Interpretativas (3a, 3c, 4) aplicadas.
+ * - docs/NCM-BUSCA.md: sinônimos, aliases, extensibilidade.
  */
 
 (function () {
@@ -16,6 +21,11 @@
     'com', 'sem', 'ao', 'aos', 'aquelas', 'aqueles', 'essa', 'esse', 'esta', 'este'
   ]);
 
+  /** Tokens de ruído em descrições de produto (promo, marca, modelo, etc.). Removidos na normalização. */
+  var NOISE_TOKENS = new Set([
+    'prom', 'bat', 'predilecta', 'pct', 'farmax', 'betakids', 'mod', 'concurso', 'cultural'
+  ]);
+
   /** Tokens genéricos em descrições NCM: reduzir peso do match para evitar falsos positivos */
   var NCM_GENERIC = new Set([
     'outros', 'outras', 'outrem', 'demais', 'diversos', 'diversas', 'resto', 'restante',
@@ -24,8 +34,8 @@
 
   /** NCM (8 dígitos) → termos extras para busca. Usado quando a descrição oficial não contém a palavra (ex.: refrigerante → 2202). */
   var NCM_ALIASES = {
-    '22021000': 'refrigerante refresco bebida gaseificada aromatizada',
-    '22029900': 'refrigerante refresco bebida não alcoólica'
+    '22021000': 'refrigerante refresco bebida gaseificada aromatizada coca cola',
+    '22029900': 'refrigerante refresco bebida não alcoólica coca cola'
   };
 
   /**
@@ -36,35 +46,66 @@
   var QUERY_SYNONYMS = {
     'refrigerante': ['gaseificada', 'aromatizada', 'bebida', 'edulcorantes'],
     'refresco': ['gaseificada', 'aromatizada', 'bebida', 'nao alcoolica'],
+    'coca': ['gaseificada', 'aromatizada', 'bebida', 'edulcorantes'],
+    'cola': ['gaseificada', 'aromatizada', 'bebida', 'edulcorantes'],
     'sorvete': ['gelado', 'gelados', 'sorvetes', 'mantecados'],
     'detergente': ['tensioativos', 'surfactantes', 'detergentes', 'lavagem'],
-    'sabonete': ['saboes', 'sabonetes', 'higiene', 'banho']
+    'sabonete': ['saboes', 'sabonetes', 'higiene', 'banho'],
+    'abacaxi': ['ananases', 'abacaxis', 'fruta'],
+    'calda': ['conserva', 'compota', 'edulcorada', 'xarope', 'agua edulcorada'],
+    'caldas': ['conserva', 'compota', 'edulcorada', 'xarope', 'calda'],
+    'acerola': ['fruta', 'polpa', 'suco', 'malpighia'],
+    'achoc': ['chocolate', 'cacau', 'bebida', 'cacau preparado'],
+    'achocolatado': ['chocolate', 'cacau', 'bebida', 'cacau preparado'],
+    'acetona': ['cetona', 'quimico', 'acido'],
+    'acetato': ['celulose', 'vinila', 'polimero', 'plastico'],
+    'cabelo': ['cabelo', 'madeixa', 'peruca', 'obras'],
+    'mechas': ['cabelo', 'madeixa', 'obras']
   };
 
   /** Palavras-chave → capítulo NCM (2 dígitos) para reforçar sugestões */
   var KEYWORD_CHAPTER = {
     '03': ['peixe', 'camarao', 'camarão', 'sardinha', 'atum', 'file', 'filé', 'pescado', 'marisco'],
     '04': ['leite', 'manteiga', 'creme', 'queijo', 'iogurte', 'laticinios', 'laticínio'],
-    '08': ['castanha', 'amendoim', 'amêndoa', 'noz', 'avelä', 'avelã', 'coco', 'fruta', 'fruto', 'seco'],
+    '08': ['castanha', 'amendoim', 'amêndoa', 'noz', 'avelä', 'avelã', 'coco', 'fruta', 'fruto', 'frutas', 'seco', 'abacate', 'abacaxi', 'acerola', 'goiaba', 'manga', 'tâmara', 'figo'],
     '09': ['cafe', 'café', 'cha', 'chá', 'mate', 'especiaria', 'canela', 'pimenta'],
     '10': ['arroz', 'feijao', 'feijão', 'cereal', 'cereais', 'trigo', 'milho', 'aveia', 'cevada', 'centeio'],
     '15': ['oleo', 'óleo', 'azeite', 'gordura', 'graxa', 'soja', 'milho', 'girassol', 'algodao', 'algodão'],
     '16': ['carne', 'linguica', 'linguiça', 'salsicha', 'presunto', 'bacon', 'embutido', 'fiambre'],
-    '17': ['acucar', 'açúcar', 'confeito', 'chocolate', 'cacau', 'mel'],
+    '17': ['acucar', 'açúcar', 'confeito', 'chocolate', 'cacau', 'mel', 'achoc', 'achocolatado'],
     '19': ['bolacha', 'biscoito', 'bolo', 'pao', 'pão', 'macarrao', 'macarrão', 'farinha', 'massas', 'cookie'],
-    '20': ['conserva', 'geleia', 'geléia', 'doce', 'compota', 'ketchup', 'molho', 'suco', 'polpa'],
+    '20': ['conserva', 'geleia', 'geléia', 'doce', 'compota', 'ketchup', 'molho', 'suco', 'polpa', 'calda', 'caldas', 'edulcorada', 'xarope', 'acerola'],
     '21': ['tempero', 'condimento', 'maionese', 'mostarda', 'caldo', 'extrato', 'levadura'],
-    '22': ['refrigerante', 'bebida', 'cerveja', 'suco', 'agua', 'água', 'vinho', 'whisky', 'vodka', 'refresco'],
+    '22': ['refrigerante', 'bebida', 'cerveja', 'suco', 'agua', 'água', 'vinho', 'whisky', 'vodka', 'refresco', 'coca', 'cola', 'gaseificada', 'aromatizada', 'achoc', 'achocolatado', 'liquido'],
     '25': ['sal', 'enxofre', 'gesso', 'cal', 'argila', 'mineral'],
-    '28': ['produto', 'quimico', 'químico', 'acido', 'ácido', 'fertilizante', 'inseticida'],
-    '39': ['plastico', 'plástico', 'polimero', 'polímero', 'embalagem', 'tubo', 'folha'],
+    '28': ['produto', 'quimico', 'químico', 'acido', 'ácido', 'fertilizante', 'inseticida', 'acetona', 'cetona'],
+    '39': ['plastico', 'plástico', 'polimero', 'polímero', 'embalagem', 'tubo', 'folha', 'acetato'],
     '48': ['papel', 'cartão', 'carton', 'folha', 'embalagem'],
     '61': ['roupa', 'vestuario', 'vestuário', 'camiseta', 'calca', 'calça', 'terno', 'malha', 'tecido'],
+    '67': ['cabelo', 'mechas', 'madeixa', 'peruca', 'pluma', 'acessorio'],
     '73': ['ferro', 'aco', 'aço', 'metal', 'parafuso', 'tubo', 'chapa', 'estrutura'],
     '84': ['maquina', 'máquina', 'motor', 'bomba', 'computador', 'impressora', 'equipamento', 'aparelho'],
     '85': ['eletrico', 'elétrico', 'eletronico', 'eletrônico', 'bateria', 'fio', 'lampada', 'lâmpada', 'celular'],
-    '87': ['veiculo', 'veículo', 'carro', 'automovel', 'automóvel', 'moto', 'caminhao', 'caminhão', 'peca', 'peça']
+    '87': ['veiculo', 'veículo', 'carro', 'automovel', 'automóvel', 'moto', 'caminhao', 'caminhão', 'peca', 'peça', 'bike', 'bicicleta']
   };
+
+  /**
+   * Pré-processa descrição de produto: remove quantidade+unidade (2UN, 350ML, 400G, KG…),
+   * blocos de promo (PROM+BAT) e decimais de preço (0,01); expande abreviações (LIQ→liquido).
+   */
+  function preprocessProductDescription(str) {
+    if (typeof str !== 'string' || !str.trim()) return '';
+    var s = str.trim();
+    s = s.replace(/\d+[\d,.]*\s*(UN|UNID|ML|G|GR|KG|MG|LT|L|CM|MM)\b/gi, ' ');
+    s = s.replace(/\d+[\d,.]*(UN|UNID|ML|G|GR|KG|MG|LT|L|CM|MM)\b/gi, ' ');
+    s = s.replace(/\s+KG\b/gi, ' ');
+    s = s.replace(/\bPROM\+BAT\b/gi, ' ');
+    s = s.replace(/\b\d+,\d{2}\b/g, ' ');
+    s = s.replace(/\bLIQ\b/gi, ' liquido ');
+    s = s.replace(/\bACHOC\b/gi, ' achocolatado ');
+    s = s.replace(/\b[A-Z]{2}\d{4,}[-]?[A-Z0-9]*\b/gi, ' ');
+    return s.replace(/\s+/g, ' ').trim();
+  }
 
   function normalizeText(str) {
     if (typeof str !== 'string' || !str.trim()) return [];
@@ -74,7 +115,7 @@
       .replace(/\s+/g, ' ')
       .trim();
     return s.split(' ').filter(function (w) {
-      return w.length >= 3 && !STOPWORDS.has(w);
+      return w.length >= 3 && !STOPWORDS.has(w) && !NOISE_TOKENS.has(w);
     });
   }
 
@@ -284,13 +325,16 @@
       });
     }
 
+    /* RGI 3a: mais específica prevalece (descrição 8 díg. longer primeiro). RGI 3c: último na ordem numérica (código maior primeiro). */
     results.sort(function (a, b) {
       if (b.score !== a.score) return b.score - a.score;
       var ah8 = a._hits8 || 0, bh8 = b._hits8 || 0;
       if (bh8 !== ah8) return bh8 - ah8;
       var acov = a._tokenCoverage || 0, bcov = b._tokenCoverage || 0;
       if (bcov !== acov) return bcov - acov;
-      return a.codigo.localeCompare(b.codigo);
+      var alen = (a.descricao || '').length, blen = (b.descricao || '').length;
+      if (blen !== alen) return blen - alen;
+      return (b.codigo || '').localeCompare(a.codigo || '');
     });
     return results;
   }
@@ -308,7 +352,8 @@
     ensureIndex();
     if (INDEX.length === 0) return [];
 
-    var tokens = normalizeText(descricaoProduto);
+    var cleaned = preprocessProductDescription(descricaoProduto);
+    var tokens = normalizeText(cleaned || descricaoProduto);
     if (tokens.length === 0) return [];
 
     var chapterHint = getChapterFromKeywords(tokens);

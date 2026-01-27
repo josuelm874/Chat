@@ -1,0 +1,4 @@
+# Geração de embeddings NCM (generate_ncm_embeddings.py)
+requests>=2.28.0
+sentence-transformers>=2.2.0
+torch>=1.9.0

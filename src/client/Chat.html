@@ -1889,7 +1889,18 @@
           <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
             <div class="ncm-sercon-panel">
               <h2 class="ncm-sercon-title">Consulta de Produto</h2>
-              <p class="ncm-sercon-desc">Digite o nome do produto e obtenha a(s) NCM(s) sugerida(s) automaticamente (motor estilo SEFAZ).</p>
+              <p class="ncm-sercon-desc">Digite o nome do produto e obtenha a(s) NCM(s) sugerida(s) automaticamente (motor estilo SEFAZ). A ordenação considera as Regras Gerais para Interpretação do Sistema Harmonizado (RGI).</p>
+              <details class="ncm-rgi-details">
+                <summary>Regras gerais (RGI) – dicas rápidas</summary>
+                <ul class="ncm-rgi-list">
+                  <li><strong>RGI 1:</strong> Títulos de capítulos são apenas indicativos; valem os textos das posições e notas.</li>
+                  <li><strong>RGI 3a:</strong> Posição mais específica prevalece; o motor prioriza descrições mais detalhadas.</li>
+                  <li><strong>RGI 3b:</strong> Produtos mistos → busque pelo componente que dá a <em>característica essencial</em>.</li>
+                  <li><strong>RGI 3c:</strong> Em empate, usa-se a posição em último na ordem numérica (código maior).</li>
+                  <li><strong>RGI 4:</strong> Sem match direto, o fallback procura artigos mais semelhantes no capítulo sugerido.</li>
+                </ul>
+                <p class="ncm-rgi-ref">Ver <code>docs/NCM-RGI.md</code> para o resumo completo das RGI.</p>
+              </details>
               <div class="ncm-sercon-form">
                 <div class="ncm-sercon-field">
                   <label for="ncm-produto-search">Nome do produto</label>
@@ -2527,6 +2538,7 @@
   <script src="Chat-script.js"></script>
   <script src="../../docs/NCM/Tabela_NCM.js"></script>
   <script src="../support/ncm-motor.js"></script>
+  <script src="../support/ncm-embeddings.js"></script>
   <script src="../support/ncm-sercon-tabs.js"></script>
 </body>
 
