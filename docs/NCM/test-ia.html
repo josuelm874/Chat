@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste IA NCM</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; max-width: 800px; }
+    pre { background: #f0f0f0; padding: 12px; overflow: auto; white-space: pre-wrap; }
+    button { padding: 10px 20px; margin: 8px 0; cursor: pointer; }
+    .ok { color: #059669; }
+    .err { color: #dc2626; }
+  </style>
+</head>
+<body>
+  <h1>Teste IA NCM</h1>
+  <p>Verifica motor, embeddings e filtros IA (capítulo, similaridade mínima, overlap).</p>
+  <button id="run">Executar testes</button>
+  <pre id="out">Clique em "Executar testes".</pre>
+
+  <script src="Tabela_NCM.js"></script>
+  <script src="../../src/support/ncm-motor.js"></script>
+  <script src="../../src/support/ncm-embeddings.js"></script>
+  <script>
+    (function () {
+      var out = document.getElementById('out');
+      var log = [];
+      function println(s, cls) {
+        log.push(s);
+        out.innerHTML = log.map(function (x) {
+          var c = x.indexOf('[OK]') !== -1 ? 'ok' : (x.indexOf('[FALHA]') !== -1 ? 'err' : '');
+          return '<span class="' + c + '">' + (x || ' ').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>';
+        }).join('\n');
+      }
+
+      function runTests() { document.getElementById('run').click(); }
+      if (/[?&]run=1/.test(location.search)) setTimeout(runTests, 500);
+
+      document.getElementById('run').addEventListener('click', async function () {
+        log = [];
+        var btn = this;
+        btn.disabled = true;
+        println('=== Teste IA NCM ===');
+
+        if (!window.NCM_TABELA_DATA) {
+          println('[FALHA] NCM_TABELA_DATA não carregado.');
+          btn.disabled = false;
+          return;
+        }
+        println('[OK] Tabela NCM carregada.');
+
+        if (!window.ncmMotor || !window.ncmMotor.isReady()) {
+          println('[FALHA] Motor não pronto.');
+          btn.disabled = false;
+          return;
+        }
+        println('[OK] Motor pronto.');
+
+        var q = 'Achocolatado';
+        var list = window.ncmMotor.sugerirNCM(q, { limit: 5, prefer8: true });
+        if (list && list.length > 0) {
+          println('[OK] Motor retornou ' + list.length + ' NCM(s) para "' + q + '": ' + list.map(function (x) { return x.codigoFormatado; }).join(', '));
+          var cap73 = list.some(function (x) { return (x.capitulo || '') === '73'; });
+          if (cap73) println('[FALHA] Motor retornou cap. 73 (fios de aço) para achocolatado.');
+          else println('[OK] Nenhum cap. 73 (fios de aço) nas sugestões.');
+        } else {
+          println('Motor retornou 0 para "' + q + '" – tentando fallback IA...');
+        }
+
+        if (window.ncmEmbeddings && typeof window.ncmEmbeddings.sugerirNCMEmbeddings === 'function') {
+          var motor = window.ncmMotor;
+          var iaOpts = {
+            limit: 10,
+            minSimilarity: 0.28,
+            requireTokenOverlap: true,
+            chapterHint: motor.getChapterHint ? motor.getChapterHint(q) : null,
+            tokens: motor.getTokensForProduct ? motor.getTokensForProduct(q) : null
+          };
+          println('IA opts: chapterHint=' + (iaOpts.chapterHint || 'null') + ', tokens=' + (iaOpts.tokens ? iaOpts.tokens.length : 0));
+          try {
+            var sim = await window.ncmEmbeddings.sugerirNCMEmbeddings(q, iaOpts);
+            if (sim && sim.length > 0) {
+              println('[OK] IA retornou ' + sim.length + ' NCM(s): ' + sim.map(function (x) { return x.codigoFormatado + '(cap.' + x.capitulo + ')'; }).join(', '));
+              var has73 = sim.some(function (x) { return (x.capitulo || '') === '73'; });
+              if (has73) println('[FALHA] IA retornou cap. 73 (fios de aço) para achocolatado.');
+              else println('[OK] Nenhum cap. 73 nas sugestões IA.');
+            } else {
+              println('IA retornou 0 sugestões para "' + q + '".');
+            }
+          } catch (e) {
+            println('[FALHA] IA erro: ' + (e && e.message ? e.message : String(e)));
+          }
+        } else {
+          println('Embeddings não disponível.');
+        }
+
+        println('=== Fim ===');
+        btn.disabled = false;
+      });
+    })();
+  </script>
+</body>
+</html>

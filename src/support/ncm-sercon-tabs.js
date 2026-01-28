@@ -62,7 +62,17 @@
       results.style.display = 'block';
       grid.innerHTML = '';
 
-      var list = window.ncmMotor.sugerirNCM(q, { limit: 20, prefer8: true });
+      var texto = q;
+      if (window.ncmWikipedia && typeof window.ncmWikipedia.enriquecerComWikipedia === 'function') {
+        try {
+          var wiki = await window.ncmWikipedia.enriquecerComWikipedia(q);
+          if (wiki.wikiUsado && wiki.textoEnriquecido) texto = wiki.textoEnriquecido;
+        } catch (e) {
+          if (typeof console !== 'undefined' && console.warn) console.warn('ncm wikipedia', e);
+        }
+      }
+
+      var list = window.ncmMotor.sugerirNCM(texto, { limit: 20, prefer8: true });
 
       if (list && list.length > 0) {
         grid.innerHTML = renderCards(list, 'rules');
@@ -70,9 +80,17 @@
         grid.innerHTML = '<div class="ncm-empty"><i class="bx bx-info-circle"></i><p>Nenhuma NCM por regras para &quot;' + escapeHtml(q) + '&quot;.</p></div>';
         if (window.ncmEmbeddings && typeof window.ncmEmbeddings.sugerirNCMEmbeddings === 'function') {
           try {
-            var sim = await window.ncmEmbeddings.sugerirNCMEmbeddings(q, { limit: 20 });
+            var motor = window.ncmMotor;
+            var iaOpts = {
+              limit: 20,
+              minSimilarity: 0.28,
+              requireTokenOverlap: true,
+              chapterHint: motor && motor.getChapterHint ? motor.getChapterHint(texto) : null,
+              tokens: motor && motor.getExpandedTokensForProduct ? motor.getExpandedTokensForProduct(texto) : (motor && motor.getTokensForProduct ? motor.getTokensForProduct(texto) : null)
+            };
+            var sim = await window.ncmEmbeddings.sugerirNCMEmbeddings(texto, iaOpts);
             if (sim && sim.length > 0) {
-              grid.innerHTML = '<p class="ncm-fallback-label"><i class="bx bx-line-chart"></i> Sugestões por <strong>similaridade</strong> (embeddings):</p>' +
+              grid.innerHTML = '<p class="ncm-fallback-label"><i class="bx bx-brain"></i> Sugestões por <strong>IA</strong> (similaridade + filtros):</p>' +
                 renderCards(sim, 'embedding');
             } else {
               grid.innerHTML = '<div class="ncm-empty"><i class="bx bx-info-circle"></i><p>Nenhuma NCM encontrada para &quot;' + escapeHtml(q) + '&quot;. Tente termos mais genéricos.</p></div>';

@@ -1929,7 +1929,42 @@
           <div id="ncm-tab-correlacao-produtos" class="ncm-tab-content" style="display: none;">
             <div class="ncm-sercon-panel">
               <h2 class="ncm-sercon-title">Correlação de Produtos</h2>
-              <p class="ncm-sercon-desc">Importe uma planilha e verifique se cada produto está com a NCM correta.</p>
+              <p class="ncm-sercon-desc">Importe uma planilha (CSV ou Excel) com colunas <strong>Produto</strong> e <strong>NCM</strong>. O sistema verifica se cada produto está com a NCM correta e sugere correções.</p>
+              <div class="ncm-correlacao-form">
+                <div class="ncm-correlacao-field">
+                  <label for="ncm-correlacao-file">Planilha (CSV ou XLSX)</label>
+                  <div class="ncm-correlacao-file-wrap">
+                    <input type="file" id="ncm-correlacao-file" accept=".csv,.xlsx,.xls" aria-label="Selecionar planilha">
+                    <span class="ncm-correlacao-file-name" id="ncm-correlacao-file-name">Nenhum arquivo selecionado</span>
+                  </div>
+                </div>
+                <button type="button" id="ncm-correlacao-verify-btn" class="ncm-sercon-btn" disabled>
+                  <i class="bx bx-check-double"></i> Verificar correlação
+                </button>
+              </div>
+              <p class="ncm-correlacao-hint">Colunas aceitas: <em>Produto</em> (ou Descrição, Nome, Item), <em>NCM</em> (ou Código NCM). Primeira linha = cabeçalho.</p>
+            </div>
+            <div id="ncm-correlacao-results" class="ncm-correlacao-results" style="display: none;">
+              <div class="ncm-correlacao-results-header">
+                <h3 class="ncm-results-title">Resultado da correlação</h3>
+                <button type="button" id="ncm-correlacao-export-btn" class="ncm-sercon-btn ncm-correlacao-export-btn">
+                  <i class="bx bx-download"></i> Exportar CSV
+                </button>
+              </div>
+              <div class="ncm-correlacao-table-wrap">
+                <table class="ncm-correlacao-table" id="ncm-correlacao-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Produto</th>
+                      <th>NCM na planilha</th>
+                      <th>Status</th>
+                      <th>Sugestões</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ncm-correlacao-tbody"></tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -2538,8 +2573,11 @@
   <script src="Chat-script.js"></script>
   <script src="../../docs/NCM/Tabela_NCM.js"></script>
   <script src="../support/ncm-motor.js"></script>
+  <script src="../support/ncm-wikipedia.js"></script>
   <script src="../support/ncm-embeddings.js"></script>
   <script src="../support/ncm-sercon-tabs.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+  <script src="../support/ncm-correlacao.js"></script>
 </body>
 
 </html>

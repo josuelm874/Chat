@@ -35,7 +35,19 @@
   /** NCM (8 dígitos) → termos extras para busca. Usado quando a descrição oficial não contém a palavra (ex.: refrigerante → 2202). */
   var NCM_ALIASES = {
     '22021000': 'refrigerante refresco bebida gaseificada aromatizada coca cola',
-    '22029900': 'refrigerante refresco bebida não alcoólica coca cola'
+    '22029900': 'refrigerante refresco bebida não alcoólica coca cola',
+    '18061000': 'achocolatado cacau preparado bebida liquido chocolate',
+    '18069000': 'achocolatado cacau preparado bebida liquido chocolate',
+    '17011400': 'acucar açúcar cristal cana sacarose',
+    '17019900': 'acucar açúcar cristal cana sacarose',
+    '07133319': 'feijao feijão preto Phaseolus leguminosa',
+    '07133190': 'feijao feijão leguminosa',
+    '85365010': 'interruptor comutador eletrico circuito',
+    '85366990': 'plugue tomada adaptador conectores eletrico',
+    '85061019': 'pilha bateria celula eletrica',
+    '84716052': 'teclado computador entrada',
+    '84716053': 'mouse computador entrada apontador',
+    '32100010': 'tinta corretivo massa caneta escrever'
   };
 
   /**
@@ -60,32 +72,47 @@
     'acetona': ['cetona', 'quimico', 'acido'],
     'acetato': ['celulose', 'vinila', 'polimero', 'plastico'],
     'cabelo': ['cabelo', 'madeixa', 'peruca', 'obras'],
-    'mechas': ['cabelo', 'madeixa', 'obras']
+    'mechas': ['cabelo', 'madeixa', 'obras'],
+    'acucar': ['acucar', 'cana', 'cristal', 'sacarose'],
+    'espaguete': ['espaguete', 'massas', 'macarrao', 'alimenticias'],
+    'espag': ['espaguete', 'massas', 'macarrao', 'alimenticias'],
+    'feijao': ['feijao', 'leguminosa', 'phaseolus', 'vagem'],
+    'fralda': ['fralda', 'fraldas', 'higiene', 'descartavel'],
+    'interruptor': ['interruptor', 'comutador', 'eletrico', 'circuito'],
+    'adaptador': ['adaptador', 'conector', 'plugue', 'tomada', 'eletrico'],
+    'bateria': ['bateria', 'pilha', 'celula', 'eletrica'],
+    'pilha': ['pilha', 'bateria', 'celula', 'eletrica'],
+    'mouse': ['mouse', 'computador', 'entrada', 'apontador', 'teclado'],
+    'teclado': ['teclado', 'computador', 'entrada', 'teclados'],
+    'corretivo': ['corretivo', 'tinta', 'massa', 'caneta', 'escrever']
   };
 
   /** Palavras-chave → capítulo NCM (2 dígitos) para reforçar sugestões */
   var KEYWORD_CHAPTER = {
     '03': ['peixe', 'camarao', 'camarão', 'sardinha', 'atum', 'file', 'filé', 'pescado', 'marisco'],
     '04': ['leite', 'manteiga', 'creme', 'queijo', 'iogurte', 'laticinios', 'laticínio'],
+    '07': ['feijao', 'feijão', 'lentilha', 'grao', 'grão', 'ervilha', 'leguminosa', 'leguminosas'],
     '08': ['castanha', 'amendoim', 'amêndoa', 'noz', 'avelä', 'avelã', 'coco', 'fruta', 'fruto', 'frutas', 'seco', 'abacate', 'abacaxi', 'acerola', 'goiaba', 'manga', 'tâmara', 'figo'],
     '09': ['cafe', 'café', 'cha', 'chá', 'mate', 'especiaria', 'canela', 'pimenta'],
-    '10': ['arroz', 'feijao', 'feijão', 'cereal', 'cereais', 'trigo', 'milho', 'aveia', 'cevada', 'centeio'],
+    '10': ['arroz', 'cereal', 'cereais', 'trigo', 'milho', 'aveia', 'cevada', 'centeio'],
     '15': ['oleo', 'óleo', 'azeite', 'gordura', 'graxa', 'soja', 'milho', 'girassol', 'algodao', 'algodão'],
     '16': ['carne', 'linguica', 'linguiça', 'salsicha', 'presunto', 'bacon', 'embutido', 'fiambre'],
-    '17': ['acucar', 'açúcar', 'confeito', 'chocolate', 'cacau', 'mel', 'achoc', 'achocolatado'],
-    '19': ['bolacha', 'biscoito', 'bolo', 'pao', 'pão', 'macarrao', 'macarrão', 'farinha', 'massas', 'cookie'],
+    '17': ['acucar', 'açúcar', 'confeito', 'mel', 'cristal', 'sacarose'],
+    '18': ['cacau', 'achocolatado', 'achoc', 'chocolate', 'preparacoes'],
+    '19': ['bolacha', 'biscoito', 'bolo', 'pao', 'pão', 'macarrao', 'macarrão', 'farinha', 'massas', 'cookie', 'espaguete', 'espag'],
     '20': ['conserva', 'geleia', 'geléia', 'doce', 'compota', 'ketchup', 'molho', 'suco', 'polpa', 'calda', 'caldas', 'edulcorada', 'xarope', 'acerola'],
     '21': ['tempero', 'condimento', 'maionese', 'mostarda', 'caldo', 'extrato', 'levadura'],
-    '22': ['refrigerante', 'bebida', 'cerveja', 'suco', 'agua', 'água', 'vinho', 'whisky', 'vodka', 'refresco', 'coca', 'cola', 'gaseificada', 'aromatizada', 'achoc', 'achocolatado', 'liquido'],
+    '22': ['refrigerante', 'bebida', 'cerveja', 'suco', 'agua', 'água', 'vinho', 'whisky', 'vodka', 'refresco', 'coca', 'cola', 'gaseificada', 'aromatizada', 'liquido'],
     '25': ['sal', 'enxofre', 'gesso', 'cal', 'argila', 'mineral'],
     '28': ['produto', 'quimico', 'químico', 'acido', 'ácido', 'fertilizante', 'inseticida', 'acetona', 'cetona'],
+    '32': ['tinta', 'verniz', 'corretivo', 'pigmento', 'massa'],
     '39': ['plastico', 'plástico', 'polimero', 'polímero', 'embalagem', 'tubo', 'folha', 'acetato'],
     '48': ['papel', 'cartão', 'carton', 'folha', 'embalagem'],
     '61': ['roupa', 'vestuario', 'vestuário', 'camiseta', 'calca', 'calça', 'terno', 'malha', 'tecido'],
     '67': ['cabelo', 'mechas', 'madeixa', 'peruca', 'pluma', 'acessorio'],
     '73': ['ferro', 'aco', 'aço', 'metal', 'parafuso', 'tubo', 'chapa', 'estrutura'],
-    '84': ['maquina', 'máquina', 'motor', 'bomba', 'computador', 'impressora', 'equipamento', 'aparelho'],
-    '85': ['eletrico', 'elétrico', 'eletronico', 'eletrônico', 'bateria', 'fio', 'lampada', 'lâmpada', 'celular'],
+    '84': ['maquina', 'máquina', 'motor', 'bomba', 'computador', 'impressora', 'equipamento', 'aparelho', 'teclado', 'mouse'],
+    '85': ['eletrico', 'elétrico', 'eletronico', 'eletrônico', 'bateria', 'pilha', 'fio', 'lampada', 'lâmpada', 'celular', 'interruptor', 'adaptador', 'plugue', 'tomada', 'mouse', 'teclado', 'usb', 'conector'],
     '87': ['veiculo', 'veículo', 'carro', 'automovel', 'automóvel', 'moto', 'caminhao', 'caminhão', 'peca', 'peça', 'bike', 'bicicleta']
   };
 
@@ -103,6 +130,12 @@
     s = s.replace(/\b\d+,\d{2}\b/g, ' ');
     s = s.replace(/\bLIQ\b/gi, ' liquido ');
     s = s.replace(/\bACHOC\b/gi, ' achocolatado ');
+    s = s.replace(/\bREF\b/gi, ' refrigerante ');
+    s = s.replace(/\bESPAG\b/gi, ' espaguete ');
+    s = s.replace(/\bFRAUD\s+DEL\b/gi, ' fralda ');
+    s = s.replace(/\bFRAUD\b/gi, ' fralda ');
+    s = s.replace(/\bMASS\s+CORRIG\b/gi, ' massa corretiva ');
+    s = s.replace(/\bCORRIG\b/gi, ' corretivo ');
     s = s.replace(/\b[A-Z]{2}\d{4,}[-]?[A-Z0-9]*\b/gi, ' ');
     return s.replace(/\s+/g, ' ').trim();
   }
@@ -255,6 +288,56 @@
   function matchExact(tok, norm) {
     if (!norm || !norm.length || (tok && tok.length < 3)) return false;
     return norm.indexOf(tok) !== -1;
+  }
+
+  /**
+   * Verifica se há overlap entre tokens da query e a descrição NCM (8 dígitos).
+   * Se ncmCodigo for informado, acrescenta NCM_ALIASES para enriquecer a descrição.
+   * Usado pela camada IA/embeddings para evitar sugestões absurdas (ex.: achocolatado → fios de aço).
+   */
+  function hasTokenOverlap(queryTokens, ncmDesc, ncmCodigo) {
+    if (!queryTokens || !queryTokens.length) return false;
+    var desc = String(ncmDesc || '');
+    if (ncmCodigo && NCM_ALIASES[ncmCodigo]) desc += ' ' + NCM_ALIASES[ncmCodigo];
+    if (!desc.trim()) return false;
+    var norm = normalizeText(desc);
+    if (!norm.length) return false;
+    for (var i = 0; i < queryTokens.length; i++) {
+      if (matchToken(queryTokens[i], norm)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Retorna o capítulo (2 dígitos) sugerido para a descrição do produto, ou null.
+   * Usado pela camada IA para filtrar embeddings por domínio.
+   */
+  function getChapterHint(descricaoProduto) {
+    var cleaned = preprocessProductDescription(descricaoProduto);
+    var tokens = normalizeText(cleaned || descricaoProduto);
+    if (!tokens.length) return null;
+    var cap = getChapterFromKeywords(tokens);
+    return cap || null;
+  }
+
+  /**
+   * Retorna tokens normalizados do produto (pré-processo + normalize), sem expansão por sinônimos.
+   * Usado pela camada IA para overlap e filtros.
+   */
+  function getTokensForProduct(descricaoProduto) {
+    var cleaned = preprocessProductDescription(descricaoProduto);
+    return normalizeText(cleaned || descricaoProduto);
+  }
+
+  /**
+   * Retorna tokens expandidos (pré-processo + normalize + sinônimos).
+   * Usado na IA para overlap: termos como "achoc" → "achocolatado","cacau", etc., garantem
+   * overlap com descrições NCM que citam "cacau" mas não "achocolatado".
+   */
+  function getExpandedTokensForProduct(descricaoProduto) {
+    var cleaned = preprocessProductDescription(descricaoProduto);
+    var tokens = normalizeText(cleaned || descricaoProduto);
+    return expandTokens(tokens);
   }
 
   /**
@@ -434,6 +517,11 @@
     ensureIndex: ensureIndex,
     addQuerySynonym: addQuerySynonym,
     getQuerySynonyms: getQuerySynonyms,
+    preprocessProductDescription: preprocessProductDescription,
+    getChapterHint: getChapterHint,
+    getTokensForProduct: getTokensForProduct,
+    getExpandedTokensForProduct: getExpandedTokensForProduct,
+    hasTokenOverlap: hasTokenOverlap,
     isReady: function () {
       ensureIndex();
       return INDEX.length > 0;

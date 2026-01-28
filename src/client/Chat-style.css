@@ -7439,3 +7439,97 @@ input.invalid:focus {
 }
 .ncm-empty i { font-size: 3em; display: block; margin-bottom: 12px; color: #9ca3af; }
 .ncm-empty p { margin: 0; }
+
+/* Correlação de Produtos */
+.ncm-correlacao-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-top: 16px;
+}
+.ncm-correlacao-field { flex: 1; min-width: 220px; }
+.ncm-correlacao-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #374151;
+}
+.ncm-correlacao-file-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 10px;
+  background: #f8fafc;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ncm-correlacao-file-wrap:hover { border-color: #c7d2fe; background: #eef2ff; }
+input#ncm-correlacao-file {
+  font-size: 0.9em;
+  max-width: 240px;
+}
+.ncm-correlacao-file-name {
+  font-size: 0.9em;
+  color: #6b7280;
+}
+.ncm-correlacao-hint {
+  margin: 14px 0 0 0;
+  font-size: 0.85em;
+  color: #64748b;
+}
+.ncm-correlacao-hint em { font-style: italic; color: #475569; }
+
+.ncm-correlacao-results { margin-top: 24px; }
+.ncm-correlacao-results-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ncm-correlacao-export-btn { flex-shrink: 0; }
+.ncm-correlacao-table-wrap {
+  overflow: auto;
+  max-height: min(420px, 55vh);
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+.ncm-correlacao-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.ncm-correlacao-table th,
+.ncm-correlacao-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+.ncm-correlacao-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #374151;
+}
+.ncm-correlacao-table tbody tr:last-child td { border-bottom: none; }
+.ncm-correlacao-table tbody tr:hover { background: #f8fafc; }
+.ncm-correlacao-table .ncm-corr-ok { background: rgba(16, 185, 129, 0.06); }
+.ncm-correlacao-table .ncm-corr-revisar { background: rgba(245, 158, 11, 0.08); }
+.ncm-corr-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+.ncm-corr-badge.ncm-corr-ok { background: #d1fae5; color: #065f46; }
+.ncm-corr-badge.ncm-corr-revisar { background: #fef3c7; color: #92400e; }
+.ncm-corr-sugestoes {
+  max-width: 320px;
+  font-size: 0.85em;
+  color: #4b5563;
+  line-height: 1.4;
+}

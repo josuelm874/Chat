@@ -70,16 +70,35 @@
   }
 
   /**
-   * Sugere NCMs por similaridade de embedding. Retorna [] se init falhar ou não houver dados.
+   * Sugere NCMs por similaridade de embedding, com filtros IA para evitar falhas absurdas.
+   * Opções: limit, chapterHint, minSimilarity (0.28), requireTokenOverlap (true), tokens.
+   * Se tokens não forem passados e o motor existir, usa getTokensForProduct(descricao).
+   * Pré-processa a descrição (motor) antes de embedar quando o motor estiver disponível.
+   *
    * @param {string} descricaoProduto
-   * @param {object} opts - { limit: number }
+   * @param {object} opts - { limit, chapterHint, minSimilarity, requireTokenOverlap, tokens }
    * @returns {Promise<Array<{ codigo, descricao, descricao4, descricao6, capitulo, score, codigoFormatado }>>}
    */
   async function sugerirNCMEmbeddings(descricaoProduto, opts) {
     opts = opts || {};
     var limit = Math.min(Math.max(1, parseInt(opts.limit, 10) || 20), 100);
+    var minSim = typeof opts.minSimilarity === 'number' ? opts.minSimilarity : 0.28;
+    var requireOverlap = opts.requireTokenOverlap !== false;
+    var chapterHint = opts.chapterHint || null;
+    var tokens = opts.tokens;
+    var motor = typeof window !== 'undefined' && window.ncmMotor;
+
     var str = typeof descricaoProduto === 'string' ? descricaoProduto.trim() : '';
     if (!str) return [];
+
+    var toEmbed = str;
+    if (motor && typeof motor.preprocessProductDescription === 'function') {
+      toEmbed = (motor.preprocessProductDescription(str) || str).trim() || str;
+    }
+    if (!tokens && motor && typeof motor.getTokensForProduct === 'function') {
+      tokens = motor.getTokensForProduct(str);
+    }
+    if (!tokens || !tokens.length) requireOverlap = false;
 
     try {
       await init();
@@ -88,23 +107,29 @@
     }
     if (!extractor || !items.length) return [];
 
-    var t = await extractor(str, { pooling: 'mean', normalize: true });
+    var t = await extractor(toEmbed, { pooling: 'mean', normalize: true });
     var dim = t.dims[t.dims.length - 1];
     var q = Array.from(t.data).slice(0, dim);
 
     var scored = [];
     for (var i = 0; i < items.length; i++) {
-      var emb = items[i].embedding;
+      var it = items[i];
+      if (chapterHint && (it.capitulo || '') !== chapterHint) continue;
+      var emb = it.embedding;
       if (!emb || emb.length !== dim) continue;
       var sim = cosineSimilarity(q, emb);
+      if (sim < minSim) continue;
+      if (requireOverlap && tokens && tokens.length && motor && typeof motor.hasTokenOverlap === 'function') {
+        if (!motor.hasTokenOverlap(tokens, it.descricao || '', it.codigo)) continue;
+      }
       scored.push({
-        codigo: items[i].codigo,
-        descricao: items[i].descricao || '',
-        descricao4: items[i].descricao4 || '',
-        descricao6: items[i].descricao6 || '',
-        capitulo: items[i].capitulo || '',
+        codigo: it.codigo,
+        descricao: it.descricao || '',
+        descricao4: it.descricao4 || '',
+        descricao6: it.descricao6 || '',
+        capitulo: it.capitulo || '',
         score: Math.round(sim * 1000) / 1000,
-        codigoFormatado: formatNcm(items[i].codigo),
+        codigoFormatado: formatNcm(it.codigo),
       });
     }
     scored.sort(function (a, b) { return b.score - a.score; });

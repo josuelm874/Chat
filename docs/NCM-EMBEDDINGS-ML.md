@@ -10,7 +10,9 @@ Este documento descreve o uso de **embeddings** e **classificação automática 
    `cd scripts/ncm && npm install && npm run generate-embeddings`  
    Ou, com Python: `pip install -r scripts/ncm/requirements.txt && python scripts/ncm/generate_ncm_embeddings.py`.
 2. **Servir o app via HTTP** (não `file://`), para o `fetch` do JSON funcionar.
-3. **Consulta de produto**: se o motor de regras retornar 0 resultados, o front chama automaticamente a busca por **similaridade** (embeddings) e exibe "Sugestões por similaridade (embeddings)".
+3. **Wikipedia (pt)**: antes da busca, o produto é enriquecido com características da Wikipedia. Usado **sempre** em Consulta e Correlação. Ver `docs/NCM-WIKIPEDIA.md`.
+4. **Consulta de produto**: Wikipedia → motor → se 0 resultados, **IA** (embeddings + filtros) → "Sugestões por IA".
+5. **Correlação de produtos**: para cada linha, Wikipedia → motor → se 0 sugestões, fallback por IA.
 
 ---
 
@@ -18,8 +20,9 @@ Este documento descreve o uso de **embeddings** e **classificação automática 
 
 | Camada | Função | Quando usar |
 |--------|--------|-------------|
+| **Wikipedia (pt)** | `ncm-wikipedia.js`: enriquece o produto com características da Wikipedia antes da busca. | Sempre, em Consulta e Correlação. |
 | **Motor base (regras)** | `ncm-motor.js`: normalização, KEYWORD_CHAPTER, QUERY_SYNONYMS, match por token, score, fallback. | Sempre. Primeira tentativa. |
-| **Embeddings** | Representar descrições (produto e NCM) em vetores; buscar por **similaridade semântica**. | Fallback quando regras retornam 0 resultados; ou para enriquecer/reranquear. |
+| **Embeddings + IA** | Similaridade semântica + **filtros** (capítulo, similaridade mínima, overlap de tokens) para evitar falhas absurdas (ex.: achocolatado → fios de aço). | Fallback quando regras retornam 0 resultados; usado na Consulta e na Correlação. |
 | **Classificação por exemplos (k-NN)** | Banco de exemplos `(descrição, NCM)`. Embeddas + k-NN; sugerir NCM dos vizinhos mais próximos. | Fallback adicional; ou quando há histórico de classificações (planilhas, XMLs). |
 
 Ordem sugerida: **regras → embeddings (NCM) → k-NN (exemplos)**. Cada etapa pode devolver sugestões; o front exibe “Por regras”, “Por similaridade” e “Por exemplos” quando fizer sentido.
@@ -60,19 +63,31 @@ Em ambos os casos, o script percorre a tabela, considera só itens de 8 dígitos
 - **Modelo**: o mesmo `paraphrase-multilingual-MiniLM-L12-v2` (ou equivalente ONNX na família Xenova), para manter consistência com os vetores pré‑computados.
 - **Módulo**: `src/support/ncm-embeddings.js`:
   - Carrega o modelo e o `ncm-embeddings.json`.
-  - Expõe `sugerirNCMEmbeddings(descricao, limit)`:
-    - Gera embedding da `descricao`.
+  - Expõe `sugerirNCMEmbeddings(descricao, opts)`:
+    - Pré-processa a `descricao` (motor) quando disponível; gera embedding.
     - Calcula similaridade de cosseno com cada NCM.
-    - Retorna top‑K com `{codigo, descricao, capitulo, score}` (score = similaridade).
+    - Aplica **filtros IA** (ver abaixo) e retorna top‑K com `{codigo, descricao, capitulo, score}`.
 
 O primeiro uso faz o download do modelo (algumas dezenas de MB); depois fica em cache.
 
-### 2.4 Integração com o motor
+### 2.4 Filtros IA (evitar falhas absurdas)
+
+Para reduzir sugestões incoerentes (ex.: “achocolatado” → NCM de fios de aço), o fallback por embeddings usa:
+
+| Filtro | Descrição |
+|--------|-----------|
+| **Capítulo** | O motor sugere um capítulo a partir dos tokens do produto (KEYWORD_CHAPTER). Só são consideradas NCMs desse capítulo. |
+| **Similaridade mínima** | Exclui NCMs com similaridade de cosseno &lt; 0,28 (configurável). |
+| **Overlap de tokens** | Exige que pelo menos um token do produto (normalizado) apareça na descrição 8 dígitos da NCM. |
+
+Quando não há capítulo sugerido ou não há tokens úteis, os filtros correspondentes são relaxados. O motor expõe `getChapterHint`, `getTokensForProduct` e `hasTokenOverlap` para essa camada.
+
+### 2.5 Integração com o motor
 
 - Quando `ncmMotor.sugerirNCM` retorna **0 resultados**:
-  - Chamar `sugerirNCMEmbeddings(descricao, limit)`.
-  - Exibir uma seção “Sugestões por similaridade” com esses resultados.
-- Opcional: **híbrido** — sempre rodar regras e embeddings; combinar rankings (ex.: média ponderada dos scores) ou mostrar as duas listas.
+  - Chamar `sugerirNCMEmbeddings(descricao, opts)` com `chapterHint`, `tokens`, `minSimilarity`, `requireTokenOverlap` (obtidos do motor).
+  - Exibir “Sugestões por **IA** (similaridade + filtros)”.
+- Na **Correlação de produtos**, quando o motor retorna 0 sugestões para uma linha, o mesmo fallback por IA é usado para sugerir NCMs.
 
 ---
 
