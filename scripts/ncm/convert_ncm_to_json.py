@@ -13,9 +13,10 @@ from datetime import datetime
 from openpyxl import load_workbook
 from pathlib import Path
 
-# Caminhos padrão
-DEFAULT_EXCEL_PATH = r"C:\Users\Josue_Admin#404\Downloads\Dev\.html\Chat UI\docs\NCM\Tabela_NCM.xlsx"
-DEFAULT_OUTPUT_PATH = r"C:\Users\Josue_Admin#404\Downloads\Dev\.html\Chat UI\docs\NCM\Tabela_NCM.json"
+# Caminhos padrão (relativos à raiz do projeto Chat UI)
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]  # scripts/ncm -> Chat UI
+DEFAULT_EXCEL_PATH = _PROJECT_ROOT / "docs" / "NCM" / "Tabela_NCM.xlsx"
+DEFAULT_OUTPUT_PATH = _PROJECT_ROOT / "docs" / "NCM" / "Tabela_NCM.json"
 
 # Mapeamento de Levels e Capítulos
 LEVELS_STRUCTURE = {

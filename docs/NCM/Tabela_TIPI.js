@@ -1,0 +1,10701 @@
+// TIPI – gerado por tipi_txt_to_json.py
+// 2026-01-30T19:52:10.664925
+
+window.TIPI_TABELA_DATA = {
+  "Level I": {
+    "descricao": "Animais vivos e produtos do reino animal",
+    "capitulos": {
+      "01": {
+        "descricao": "Animais vivos",
+        "ncms": {
+          "01022110": {
+            "codigo": "01022110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01022190": {
+            "codigo": "01022190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01022911": {
+            "codigo": "01022911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01022919": {
+            "codigo": "01022919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01022990": {
+            "codigo": "01022990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01023110": {
+            "codigo": "01023110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01023190": {
+            "codigo": "01023190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01023911": {
+            "codigo": "01023911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01023919": {
+            "codigo": "01023919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01023990": {
+            "codigo": "01023990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01029000": {
+            "codigo": "01029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01031000": {
+            "codigo": "01031000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01039100": {
+            "codigo": "01039100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01039200": {
+            "codigo": "01039200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01041011": {
+            "codigo": "01041011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01041019": {
+            "codigo": "01041019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01041090": {
+            "codigo": "01041090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01042010": {
+            "codigo": "01042010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01042090": {
+            "codigo": "01042090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051110": {
+            "codigo": "01051110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051190": {
+            "codigo": "01051190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051200": {
+            "codigo": "01051200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051300": {
+            "codigo": "01051300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051400": {
+            "codigo": "01051400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01051500": {
+            "codigo": "01051500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "01069000": {
+            "codigo": "01069000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "02": {
+        "descricao": "Carnes e miudezas, comestíveis",
+        "ncms": {
+          "02011000": {
+            "codigo": "02011000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02012010": {
+            "codigo": "02012010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02012020": {
+            "codigo": "02012020",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02012090": {
+            "codigo": "02012090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02013000": {
+            "codigo": "02013000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02021000": {
+            "codigo": "02021000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02022010": {
+            "codigo": "02022010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02022020": {
+            "codigo": "02022020",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02022090": {
+            "codigo": "02022090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02023000": {
+            "codigo": "02023000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02031100": {
+            "codigo": "02031100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02031200": {
+            "codigo": "02031200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02031900": {
+            "codigo": "02031900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02032100": {
+            "codigo": "02032100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02032200": {
+            "codigo": "02032200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02032900": {
+            "codigo": "02032900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02041000": {
+            "codigo": "02041000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02042100": {
+            "codigo": "02042100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02042200": {
+            "codigo": "02042200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02042300": {
+            "codigo": "02042300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02043000": {
+            "codigo": "02043000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02044100": {
+            "codigo": "02044100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02044200": {
+            "codigo": "02044200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02044300": {
+            "codigo": "02044300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02045000": {
+            "codigo": "02045000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071100": {
+            "codigo": "02071100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071210": {
+            "codigo": "02071210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071220": {
+            "codigo": "02071220",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071300": {
+            "codigo": "02071300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071411": {
+            "codigo": "02071411",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071412": {
+            "codigo": "02071412",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071413": {
+            "codigo": "02071413",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071419": {
+            "codigo": "02071419",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071421": {
+            "codigo": "02071421",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071422": {
+            "codigo": "02071422",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071423": {
+            "codigo": "02071423",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071424": {
+            "codigo": "02071424",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071429": {
+            "codigo": "02071429",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071431": {
+            "codigo": "02071431",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071432": {
+            "codigo": "02071432",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071433": {
+            "codigo": "02071433",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071434": {
+            "codigo": "02071434",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02071439": {
+            "codigo": "02071439",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02072400": {
+            "codigo": "02072400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02072500": {
+            "codigo": "02072500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02072600": {
+            "codigo": "02072600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02072700": {
+            "codigo": "02072700",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02074100": {
+            "codigo": "02074100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02074200": {
+            "codigo": "02074200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02074400": {
+            "codigo": "02074400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02074500": {
+            "codigo": "02074500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02075100": {
+            "codigo": "02075100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02075200": {
+            "codigo": "02075200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02075400": {
+            "codigo": "02075400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02075500": {
+            "codigo": "02075500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02076000": {
+            "codigo": "02076000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02061000": {
+            "codigo": "02061000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02062100": {
+            "codigo": "02062100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02062200": {
+            "codigo": "02062200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02062910": {
+            "codigo": "02062910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02062990": {
+            "codigo": "02062990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02063000": {
+            "codigo": "02063000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02064100": {
+            "codigo": "02064100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02064900": {
+            "codigo": "02064900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02068000": {
+            "codigo": "02068000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02069000": {
+            "codigo": "02069000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02091011": {
+            "codigo": "02091011",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02091019": {
+            "codigo": "02091019",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02091021": {
+            "codigo": "02091021",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02091029": {
+            "codigo": "02091029",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02099000": {
+            "codigo": "02099000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "02101100": {
+            "codigo": "02101100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02101200": {
+            "codigo": "02101200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02101900": {
+            "codigo": "02101900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02102000": {
+            "codigo": "02102000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109911": {
+            "codigo": "02109911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109919": {
+            "codigo": "02109919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109920": {
+            "codigo": "02109920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109990": {
+            "codigo": "02109990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109100": {
+            "codigo": "02109100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109200": {
+            "codigo": "02109200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109300": {
+            "codigo": "02109300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109930": {
+            "codigo": "02109930",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "02109940": {
+            "codigo": "02109940",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "03": {
+        "descricao": "Peixes e crustáceos, moluscos e os outros invertebrados aquáticos",
+        "ncms": {
+          "03022100": {
+            "codigo": "03022100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03022200": {
+            "codigo": "03022200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03022300": {
+            "codigo": "03022300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03022400": {
+            "codigo": "03022400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03022900": {
+            "codigo": "03022900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024100": {
+            "codigo": "03024100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024210": {
+            "codigo": "03024210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024290": {
+            "codigo": "03024290",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024300": {
+            "codigo": "03024300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024400": {
+            "codigo": "03024400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024500": {
+            "codigo": "03024500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024600": {
+            "codigo": "03024600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024700": {
+            "codigo": "03024700",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024910": {
+            "codigo": "03024910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03024990": {
+            "codigo": "03024990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03025400": {
+            "codigo": "03025400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03025500": {
+            "codigo": "03025500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03025600": {
+            "codigo": "03025600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03025900": {
+            "codigo": "03025900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027100": {
+            "codigo": "03027100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027210": {
+            "codigo": "03027210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027290": {
+            "codigo": "03027290",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027300": {
+            "codigo": "03027300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027400": {
+            "codigo": "03027400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03027900": {
+            "codigo": "03027900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028100": {
+            "codigo": "03028100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028200": {
+            "codigo": "03028200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028310": {
+            "codigo": "03028310",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028320": {
+            "codigo": "03028320",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028400": {
+            "codigo": "03028400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028500": {
+            "codigo": "03028500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028910": {
+            "codigo": "03028910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028921": {
+            "codigo": "03028921",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028922": {
+            "codigo": "03028922",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028923": {
+            "codigo": "03028923",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028924": {
+            "codigo": "03028924",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028931": {
+            "codigo": "03028931",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028932": {
+            "codigo": "03028932",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028933": {
+            "codigo": "03028933",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028934": {
+            "codigo": "03028934",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028935": {
+            "codigo": "03028935",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028936": {
+            "codigo": "03028936",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028937": {
+            "codigo": "03028937",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028938": {
+            "codigo": "03028938",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028941": {
+            "codigo": "03028941",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028942": {
+            "codigo": "03028942",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028943": {
+            "codigo": "03028943",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028944": {
+            "codigo": "03028944",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028945": {
+            "codigo": "03028945",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03028990": {
+            "codigo": "03028990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032300": {
+            "codigo": "03032300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032410": {
+            "codigo": "03032410",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032490": {
+            "codigo": "03032490",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032500": {
+            "codigo": "03032500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032600": {
+            "codigo": "03032600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03032900": {
+            "codigo": "03032900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03033100": {
+            "codigo": "03033100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03033200": {
+            "codigo": "03033200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03033300": {
+            "codigo": "03033300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03033400": {
+            "codigo": "03033400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03033900": {
+            "codigo": "03033900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035100": {
+            "codigo": "03035100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035300": {
+            "codigo": "03035300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035400": {
+            "codigo": "03035400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035500": {
+            "codigo": "03035500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035600": {
+            "codigo": "03035600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035700": {
+            "codigo": "03035700",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035910": {
+            "codigo": "03035910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035920": {
+            "codigo": "03035920",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03035990": {
+            "codigo": "03035990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03036600": {
+            "codigo": "03036600",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03036700": {
+            "codigo": "03036700",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03036800": {
+            "codigo": "03036800",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03036910": {
+            "codigo": "03036910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03036990": {
+            "codigo": "03036990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038111": {
+            "codigo": "03038111",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038112": {
+            "codigo": "03038112",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038113": {
+            "codigo": "03038113",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038114": {
+            "codigo": "03038114",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038119": {
+            "codigo": "03038119",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038190": {
+            "codigo": "03038190",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038200": {
+            "codigo": "03038200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038311": {
+            "codigo": "03038311",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038319": {
+            "codigo": "03038319",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038321": {
+            "codigo": "03038321",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038329": {
+            "codigo": "03038329",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038400": {
+            "codigo": "03038400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038910": {
+            "codigo": "03038910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038920": {
+            "codigo": "03038920",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038932": {
+            "codigo": "03038932",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038933": {
+            "codigo": "03038933",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038941": {
+            "codigo": "03038941",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038942": {
+            "codigo": "03038942",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038943": {
+            "codigo": "03038943",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038944": {
+            "codigo": "03038944",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038945": {
+            "codigo": "03038945",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038946": {
+            "codigo": "03038946",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038951": {
+            "codigo": "03038951",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038952": {
+            "codigo": "03038952",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038953": {
+            "codigo": "03038953",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038954": {
+            "codigo": "03038954",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038955": {
+            "codigo": "03038955",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038956": {
+            "codigo": "03038956",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038961": {
+            "codigo": "03038961",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038962": {
+            "codigo": "03038962",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038963": {
+            "codigo": "03038963",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038964": {
+            "codigo": "03038964",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038965": {
+            "codigo": "03038965",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03038990": {
+            "codigo": "03038990",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03043100": {
+            "codigo": "03043100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03043210": {
+            "codigo": "03043210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03043290": {
+            "codigo": "03043290",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03043300": {
+            "codigo": "03043300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03043900": {
+            "codigo": "03043900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03046100": {
+            "codigo": "03046100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03046210": {
+            "codigo": "03046210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03046290": {
+            "codigo": "03046290",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03046300": {
+            "codigo": "03046300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03046900": {
+            "codigo": "03046900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "03061110": {
+            "codigo": "03061110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061190": {
+            "codigo": "03061190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061200": {
+            "codigo": "03061200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061400": {
+            "codigo": "03061400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061500": {
+            "codigo": "03061500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061610": {
+            "codigo": "03061610",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061690": {
+            "codigo": "03061690",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061710": {
+            "codigo": "03061710",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061790": {
+            "codigo": "03061790",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061910": {
+            "codigo": "03061910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03061990": {
+            "codigo": "03061990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063100": {
+            "codigo": "03063100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063200": {
+            "codigo": "03063200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063300": {
+            "codigo": "03063300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063400": {
+            "codigo": "03063400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063500": {
+            "codigo": "03063500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063600": {
+            "codigo": "03063600",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063910": {
+            "codigo": "03063910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03063990": {
+            "codigo": "03063990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03073100": {
+            "codigo": "03073100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03073200": {
+            "codigo": "03073200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03074200": {
+            "codigo": "03074200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03074310": {
+            "codigo": "03074310",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03074320": {
+            "codigo": "03074320",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03075100": {
+            "codigo": "03075100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03075200": {
+            "codigo": "03075200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03079100": {
+            "codigo": "03079100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03079200": {
+            "codigo": "03079200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "03091000": {
+            "codigo": "03091000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "03099000": {
+            "codigo": "03099000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "04": {
+        "descricao": "Leite e laticínios; ovos de aves; mel natural; produtos comestíveis de origem animal, não especificados nem compreendidos em outros Capítulos",
+        "ncms": {
+          "04011010": {
+            "codigo": "04011010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04011090": {
+            "codigo": "04011090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04012010": {
+            "codigo": "04012010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04012090": {
+            "codigo": "04012090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04014010": {
+            "codigo": "04014010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04015010": {
+            "codigo": "04015010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04021010": {
+            "codigo": "04021010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04021090": {
+            "codigo": "04021090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04022110": {
+            "codigo": "04022110",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04022120": {
+            "codigo": "04022120",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04022910": {
+            "codigo": "04022910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04022920": {
+            "codigo": "04022920",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04051000": {
+            "codigo": "04051000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04061010": {
+            "codigo": "04061010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04061090": {
+            "codigo": "04061090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04062000": {
+            "codigo": "04062000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04069010": {
+            "codigo": "04069010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04069020": {
+            "codigo": "04069020",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04069030": {
+            "codigo": "04069030",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "04072100": {
+            "codigo": "04072100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "04072900": {
+            "codigo": "04072900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "04032000": {
+            "codigo": "04032000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "04039000": {
+            "codigo": "04039000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "04090000": {
+            "codigo": "04090000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "04071100": {
+            "codigo": "04071100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "04071900": {
+            "codigo": "04071900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "05": {
+        "descricao": "Outros produtos de origem animal, não especificados nem compreendidos em outros Capítulos",
+        "ncms": {
+          "05061000": {
+            "codigo": "05061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05069000": {
+            "codigo": "05069000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05111000": {
+            "codigo": "05111000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119110": {
+            "codigo": "05119110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119190": {
+            "codigo": "05119190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119910": {
+            "codigo": "05119910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119920": {
+            "codigo": "05119920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119930": {
+            "codigo": "05119930",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119991": {
+            "codigo": "05119991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "05119999": {
+            "codigo": "05119999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      }
+    }
+  },
+  "Level II": {
+    "descricao": "Produtos do reino vegetal",
+    "capitulos": {
+      "06": {
+        "descricao": "Plantas vivas e produtos de floricultura",
+        "ncms": {
+          "06011000": {
+            "codigo": "06011000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06012000": {
+            "codigo": "06012000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06021000": {
+            "codigo": "06021000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06022000": {
+            "codigo": "06022000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06023000": {
+            "codigo": "06023000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06024000": {
+            "codigo": "06024000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029010": {
+            "codigo": "06029010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029021": {
+            "codigo": "06029021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029029": {
+            "codigo": "06029029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029081": {
+            "codigo": "06029081",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029082": {
+            "codigo": "06029082",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029083": {
+            "codigo": "06029083",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029089": {
+            "codigo": "06029089",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06029090": {
+            "codigo": "06029090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "06031100": {
+            "codigo": "06031100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06031200": {
+            "codigo": "06031200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06031300": {
+            "codigo": "06031300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06031400": {
+            "codigo": "06031400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06031500": {
+            "codigo": "06031500",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06031900": {
+            "codigo": "06031900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06039000": {
+            "codigo": "06039000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06042000": {
+            "codigo": "06042000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          },
+          "06049000": {
+            "codigo": "06049000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200014"
+          }
+        }
+      },
+      "07": {
+        "descricao": "Produtos hortícolas, plantas, raízes e tubérculos, comestíveis",
+        "ncms": {
+          "07133319": {
+            "codigo": "07133319",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133329": {
+            "codigo": "07133329",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133399": {
+            "codigo": "07133399",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133590": {
+            "codigo": "07133590",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07011000": {
+            "codigo": "07011000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07019000": {
+            "codigo": "07019000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07031011": {
+            "codigo": "07031011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07031019": {
+            "codigo": "07031019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07031021": {
+            "codigo": "07031021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07031029": {
+            "codigo": "07031029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07032010": {
+            "codigo": "07032010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07032090": {
+            "codigo": "07032090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07039010": {
+            "codigo": "07039010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07039090": {
+            "codigo": "07039090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07041000": {
+            "codigo": "07041000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07042000": {
+            "codigo": "07042000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07049000": {
+            "codigo": "07049000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07051100": {
+            "codigo": "07051100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07051900": {
+            "codigo": "07051900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07052100": {
+            "codigo": "07052100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07052900": {
+            "codigo": "07052900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07061000": {
+            "codigo": "07061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07069000": {
+            "codigo": "07069000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07081000": {
+            "codigo": "07081000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07082000": {
+            "codigo": "07082000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07089000": {
+            "codigo": "07089000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07092000": {
+            "codigo": "07092000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07093000": {
+            "codigo": "07093000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07094000": {
+            "codigo": "07094000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095100": {
+            "codigo": "07095100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095200": {
+            "codigo": "07095200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095300": {
+            "codigo": "07095300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095400": {
+            "codigo": "07095400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095500": {
+            "codigo": "07095500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095600": {
+            "codigo": "07095600",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07095900": {
+            "codigo": "07095900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07096000": {
+            "codigo": "07096000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07097000": {
+            "codigo": "07097000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099100": {
+            "codigo": "07099100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099200": {
+            "codigo": "07099200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099300": {
+            "codigo": "07099300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099911": {
+            "codigo": "07099911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099919": {
+            "codigo": "07099919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07099990": {
+            "codigo": "07099990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07101000": {
+            "codigo": "07101000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07102100": {
+            "codigo": "07102100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07102200": {
+            "codigo": "07102200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07102900": {
+            "codigo": "07102900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07103000": {
+            "codigo": "07103000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07104000": {
+            "codigo": "07104000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07109000": {
+            "codigo": "07109000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07141000": {
+            "codigo": "07141000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07142000": {
+            "codigo": "07142000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07143000": {
+            "codigo": "07143000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07144000": {
+            "codigo": "07144000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07145000": {
+            "codigo": "07145000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07149000": {
+            "codigo": "07149000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07020000": {
+            "codigo": "07020000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07070000": {
+            "codigo": "07070000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07108000": {
+            "codigo": "07108000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07112010": {
+            "codigo": "07112010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07112020": {
+            "codigo": "07112020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07112090": {
+            "codigo": "07112090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07114000": {
+            "codigo": "07114000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07115100": {
+            "codigo": "07115100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07115900": {
+            "codigo": "07115900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07119000": {
+            "codigo": "07119000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07122000": {
+            "codigo": "07122000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07123100": {
+            "codigo": "07123100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07123200": {
+            "codigo": "07123200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07123300": {
+            "codigo": "07123300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07123400": {
+            "codigo": "07123400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07123900": {
+            "codigo": "07123900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07129020": {
+            "codigo": "07129020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07129090": {
+            "codigo": "07129090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07131010": {
+            "codigo": "07131010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07131090": {
+            "codigo": "07131090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07132010": {
+            "codigo": "07132010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07132090": {
+            "codigo": "07132090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133110": {
+            "codigo": "07133110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133190": {
+            "codigo": "07133190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133210": {
+            "codigo": "07133210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133290": {
+            "codigo": "07133290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133311": {
+            "codigo": "07133311",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133321": {
+            "codigo": "07133321",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133391": {
+            "codigo": "07133391",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133410": {
+            "codigo": "07133410",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133490": {
+            "codigo": "07133490",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133510": {
+            "codigo": "07133510",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133910": {
+            "codigo": "07133910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07133990": {
+            "codigo": "07133990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07134010": {
+            "codigo": "07134010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07134090": {
+            "codigo": "07134090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07135010": {
+            "codigo": "07135010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07135090": {
+            "codigo": "07135090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07136010": {
+            "codigo": "07136010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07136090": {
+            "codigo": "07136090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07139010": {
+            "codigo": "07139010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07139090": {
+            "codigo": "07139090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "07129010": {
+            "codigo": "07129010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "08": {
+        "descricao": "Frutas; cascas de cítricos e de melões",
+        "ncms": {
+          "08031000": {
+            "codigo": "08031000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08039000": {
+            "codigo": "08039000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08041010": {
+            "codigo": "08041010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08041020": {
+            "codigo": "08041020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08042010": {
+            "codigo": "08042010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08042020": {
+            "codigo": "08042020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08043000": {
+            "codigo": "08043000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08044000": {
+            "codigo": "08044000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08045010": {
+            "codigo": "08045010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08045020": {
+            "codigo": "08045020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08045030": {
+            "codigo": "08045030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08051000": {
+            "codigo": "08051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08052100": {
+            "codigo": "08052100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08052200": {
+            "codigo": "08052200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08052900": {
+            "codigo": "08052900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08054000": {
+            "codigo": "08054000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08055000": {
+            "codigo": "08055000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08059000": {
+            "codigo": "08059000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08061000": {
+            "codigo": "08061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08062000": {
+            "codigo": "08062000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08071100": {
+            "codigo": "08071100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08071900": {
+            "codigo": "08071900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08072000": {
+            "codigo": "08072000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08081000": {
+            "codigo": "08081000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08083000": {
+            "codigo": "08083000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08084000": {
+            "codigo": "08084000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08091000": {
+            "codigo": "08091000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08092100": {
+            "codigo": "08092100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08092900": {
+            "codigo": "08092900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08093010": {
+            "codigo": "08093010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08093020": {
+            "codigo": "08093020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08094000": {
+            "codigo": "08094000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08101000": {
+            "codigo": "08101000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08102000": {
+            "codigo": "08102000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08103000": {
+            "codigo": "08103000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08104000": {
+            "codigo": "08104000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08105000": {
+            "codigo": "08105000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08106000": {
+            "codigo": "08106000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08107000": {
+            "codigo": "08107000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109011": {
+            "codigo": "08109011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109012": {
+            "codigo": "08109012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109013": {
+            "codigo": "08109013",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109014": {
+            "codigo": "08109014",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109015": {
+            "codigo": "08109015",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109016": {
+            "codigo": "08109016",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109017": {
+            "codigo": "08109017",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08109090": {
+            "codigo": "08109090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08111000": {
+            "codigo": "08111000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08112000": {
+            "codigo": "08112000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08119000": {
+            "codigo": "08119000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08011100": {
+            "codigo": "08011100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08011200": {
+            "codigo": "08011200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08011900": {
+            "codigo": "08011900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08012100": {
+            "codigo": "08012100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08012200": {
+            "codigo": "08012200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08013100": {
+            "codigo": "08013100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08013200": {
+            "codigo": "08013200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08021100": {
+            "codigo": "08021100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08021200": {
+            "codigo": "08021200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08022100": {
+            "codigo": "08022100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08022200": {
+            "codigo": "08022200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08023100": {
+            "codigo": "08023100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08023200": {
+            "codigo": "08023200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08024100": {
+            "codigo": "08024100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08024200": {
+            "codigo": "08024200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08025100": {
+            "codigo": "08025100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08025200": {
+            "codigo": "08025200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08026100": {
+            "codigo": "08026100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08026200": {
+            "codigo": "08026200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08027000": {
+            "codigo": "08027000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08028000": {
+            "codigo": "08028000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08029100": {
+            "codigo": "08029100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08029200": {
+            "codigo": "08029200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08029900": {
+            "codigo": "08029900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08121000": {
+            "codigo": "08121000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08129000": {
+            "codigo": "08129000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08131000": {
+            "codigo": "08131000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08132010": {
+            "codigo": "08132010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08132020": {
+            "codigo": "08132020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08133000": {
+            "codigo": "08133000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08134010": {
+            "codigo": "08134010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08134090": {
+            "codigo": "08134090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08135000": {
+            "codigo": "08135000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "08140000": {
+            "codigo": "08140000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          }
+        }
+      },
+      "09": {
+        "descricao": "Café, chá, mate e especiarias",
+        "ncms": {
+          "09011110": {
+            "codigo": "09011110",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09011190": {
+            "codigo": "09011190",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09011200": {
+            "codigo": "09011200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09012100": {
+            "codigo": "09012100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09012200": {
+            "codigo": "09012200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09019000": {
+            "codigo": "09019000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09030010": {
+            "codigo": "09030010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "09030090": {
+            "codigo": "09030090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          }
+        }
+      },
+      "10": {
+        "descricao": "Cereais",
+        "ncms": {
+          "10062010": {
+            "codigo": "10062010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10062020": {
+            "codigo": "10062020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10063011": {
+            "codigo": "10063011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10063019": {
+            "codigo": "10063019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10063021": {
+            "codigo": "10063021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10063029": {
+            "codigo": "10063029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10064000": {
+            "codigo": "10064000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10011100": {
+            "codigo": "10011100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10011900": {
+            "codigo": "10011900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10019100": {
+            "codigo": "10019100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10019900": {
+            "codigo": "10019900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10021000": {
+            "codigo": "10021000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10029000": {
+            "codigo": "10029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10031000": {
+            "codigo": "10031000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10039010": {
+            "codigo": "10039010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10039080": {
+            "codigo": "10039080",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10039090": {
+            "codigo": "10039090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10041000": {
+            "codigo": "10041000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10049000": {
+            "codigo": "10049000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10051000": {
+            "codigo": "10051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10059010": {
+            "codigo": "10059010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10059090": {
+            "codigo": "10059090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10061010": {
+            "codigo": "10061010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10061091": {
+            "codigo": "10061091",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10061092": {
+            "codigo": "10061092",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10071000": {
+            "codigo": "10071000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10079000": {
+            "codigo": "10079000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10081010": {
+            "codigo": "10081010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10081090": {
+            "codigo": "10081090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10082110": {
+            "codigo": "10082110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10082190": {
+            "codigo": "10082190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10082910": {
+            "codigo": "10082910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10082990": {
+            "codigo": "10082990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10083010": {
+            "codigo": "10083010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10083090": {
+            "codigo": "10083090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10084010": {
+            "codigo": "10084010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10084090": {
+            "codigo": "10084090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10085010": {
+            "codigo": "10085010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10085090": {
+            "codigo": "10085090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10086010": {
+            "codigo": "10086010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10086090": {
+            "codigo": "10086090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10089010": {
+            "codigo": "10089010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "10089090": {
+            "codigo": "10089090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "11": {
+        "descricao": "Produtos da indústria de moagem; malte; amidos e féculas; inulina; glúten de trigo",
+        "ncms": {
+          "11010010": {
+            "codigo": "11010010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11022000": {
+            "codigo": "11022000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11029000": {
+            "codigo": "11029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11031300": {
+            "codigo": "11031300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11041200": {
+            "codigo": "11041200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11041900": {
+            "codigo": "11041900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11042200": {
+            "codigo": "11042200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11042300": {
+            "codigo": "11042300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11062000": {
+            "codigo": "11062000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11051000": {
+            "codigo": "11051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11052000": {
+            "codigo": "11052000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11061000": {
+            "codigo": "11061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11063000": {
+            "codigo": "11063000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11010020": {
+            "codigo": "11010020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11031100": {
+            "codigo": "11031100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11031900": {
+            "codigo": "11031900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11042900": {
+            "codigo": "11042900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11081200": {
+            "codigo": "11081200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11032000": {
+            "codigo": "11032000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11043000": {
+            "codigo": "11043000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11071010": {
+            "codigo": "11071010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11071020": {
+            "codigo": "11071020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11072010": {
+            "codigo": "11072010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11072020": {
+            "codigo": "11072020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11081100": {
+            "codigo": "11081100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11081300": {
+            "codigo": "11081300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11081400": {
+            "codigo": "11081400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11081900": {
+            "codigo": "11081900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11082000": {
+            "codigo": "11082000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "11090000": {
+            "codigo": "11090000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "12": {
+        "descricao": "Sementes e frutos oleaginosos; grãos, sementes e frutos diversos; plantas industriais ou medicinais; palha e forragem",
+        "ncms": {
+          "12011000": {
+            "codigo": "12011000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12019000": {
+            "codigo": "12019000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12023000": {
+            "codigo": "12023000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12024100": {
+            "codigo": "12024100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12024200": {
+            "codigo": "12024200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12030000": {
+            "codigo": "12030000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12040010": {
+            "codigo": "12040010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12040090": {
+            "codigo": "12040090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12051010": {
+            "codigo": "12051010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12051090": {
+            "codigo": "12051090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12059010": {
+            "codigo": "12059010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12059090": {
+            "codigo": "12059090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12060010": {
+            "codigo": "12060010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12060090": {
+            "codigo": "12060090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12071010": {
+            "codigo": "12071010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12071090": {
+            "codigo": "12071090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12072100": {
+            "codigo": "12072100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12072900": {
+            "codigo": "12072900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12073010": {
+            "codigo": "12073010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12073090": {
+            "codigo": "12073090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12074010": {
+            "codigo": "12074010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12074090": {
+            "codigo": "12074090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12075010": {
+            "codigo": "12075010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12075090": {
+            "codigo": "12075090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12076010": {
+            "codigo": "12076010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12076090": {
+            "codigo": "12076090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12077010": {
+            "codigo": "12077010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12077090": {
+            "codigo": "12077090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12079110": {
+            "codigo": "12079110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12079190": {
+            "codigo": "12079190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12079910": {
+            "codigo": "12079910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12079990": {
+            "codigo": "12079990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12081000": {
+            "codigo": "12081000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12089000": {
+            "codigo": "12089000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12091000": {
+            "codigo": "12091000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092100": {
+            "codigo": "12092100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092200": {
+            "codigo": "12092200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092300": {
+            "codigo": "12092300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092400": {
+            "codigo": "12092400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092500": {
+            "codigo": "12092500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12092900": {
+            "codigo": "12092900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12093000": {
+            "codigo": "12093000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12099100": {
+            "codigo": "12099100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12099900": {
+            "codigo": "12099900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12101000": {
+            "codigo": "12101000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12102010": {
+            "codigo": "12102010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12102020": {
+            "codigo": "12102020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12112000": {
+            "codigo": "12112000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12113000": {
+            "codigo": "12113000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12114000": {
+            "codigo": "12114000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12115000": {
+            "codigo": "12115000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12116000": {
+            "codigo": "12116000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12119010": {
+            "codigo": "12119010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12119090": {
+            "codigo": "12119090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12122100": {
+            "codigo": "12122100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12122900": {
+            "codigo": "12122900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129100": {
+            "codigo": "12129100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129200": {
+            "codigo": "12129200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129300": {
+            "codigo": "12129300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129400": {
+            "codigo": "12129400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129910": {
+            "codigo": "12129910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12129990": {
+            "codigo": "12129990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12130000": {
+            "codigo": "12130000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12141000": {
+            "codigo": "12141000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "12149000": {
+            "codigo": "12149000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "13": {
+        "descricao": "Gomas, resinas e outros sucos e extratos vegetais",
+        "ncms": {
+          "13019090": {
+            "codigo": "13019090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "13021991": {
+            "codigo": "13021991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "13021999": {
+            "codigo": "13021999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "14": {
+        "descricao": "Matérias para entrançar e outros produtos de origem vegetal, não especificados nem compreendidos em outros Capítulos",
+        "ncms": {
+          "14019000": {
+            "codigo": "14019000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "14049090": {
+            "codigo": "14049090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      }
+    }
+  },
+  "Level III": {
+    "descricao": "Gorduras e óleos animais ou vegetais; produtos da sua dissociação; gorduras alimentares elaboradas; ceras de origem animal ou vegetal",
+    "capitulos": {
+      "15": {
+        "descricao": "Gorduras e óleos animais ou vegetais; produtos da sua dissociação; gorduras alimentares elaboradas; ceras de origem animal ou vegetal",
+        "ncms": {
+          "15132120": {
+            "codigo": "15132120",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15171000": {
+            "codigo": "15171000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15131900": {
+            "codigo": "15131900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15132911": {
+            "codigo": "15132911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15081000": {
+            "codigo": "15081000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15089000": {
+            "codigo": "15089000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15111000": {
+            "codigo": "15111000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15119000": {
+            "codigo": "15119000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15121110": {
+            "codigo": "15121110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15121120": {
+            "codigo": "15121120",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15121911": {
+            "codigo": "15121911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15121919": {
+            "codigo": "15121919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15121920": {
+            "codigo": "15121920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15122100": {
+            "codigo": "15122100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15122910": {
+            "codigo": "15122910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15122990": {
+            "codigo": "15122990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15131100": {
+            "codigo": "15131100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15132111": {
+            "codigo": "15132111",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15132119": {
+            "codigo": "15132119",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15132919": {
+            "codigo": "15132919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15132920": {
+            "codigo": "15132920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15141100": {
+            "codigo": "15141100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15141910": {
+            "codigo": "15141910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15141990": {
+            "codigo": "15141990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15149100": {
+            "codigo": "15149100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15149910": {
+            "codigo": "15149910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15149990": {
+            "codigo": "15149990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15151100": {
+            "codigo": "15151100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15151900": {
+            "codigo": "15151900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15152100": {
+            "codigo": "15152100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15152910": {
+            "codigo": "15152910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15152990": {
+            "codigo": "15152990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15153000": {
+            "codigo": "15153000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15155000": {
+            "codigo": "15155000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15156000": {
+            "codigo": "15156000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15159010": {
+            "codigo": "15159010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15159021": {
+            "codigo": "15159021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15159022": {
+            "codigo": "15159022",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15159090": {
+            "codigo": "15159090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15079011": {
+            "codigo": "15079011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15079019": {
+            "codigo": "15079019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15079090": {
+            "codigo": "15079090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15011000": {
+            "codigo": "15011000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15012000": {
+            "codigo": "15012000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15019000": {
+            "codigo": "15019000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15021011": {
+            "codigo": "15021011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15021012": {
+            "codigo": "15021012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15021019": {
+            "codigo": "15021019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15021090": {
+            "codigo": "15021090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15029000": {
+            "codigo": "15029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15030000": {
+            "codigo": "15030000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15041011": {
+            "codigo": "15041011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15041019": {
+            "codigo": "15041019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15041090": {
+            "codigo": "15041090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15042000": {
+            "codigo": "15042000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15043000": {
+            "codigo": "15043000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15050010": {
+            "codigo": "15050010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15050090": {
+            "codigo": "15050090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15060000": {
+            "codigo": "15060000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15071000": {
+            "codigo": "15071000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15092000": {
+            "codigo": "15092000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15093000": {
+            "codigo": "15093000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15094000": {
+            "codigo": "15094000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15099010": {
+            "codigo": "15099010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15099090": {
+            "codigo": "15099090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15101000": {
+            "codigo": "15101000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15109000": {
+            "codigo": "15109000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15161000": {
+            "codigo": "15161000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15162000": {
+            "codigo": "15162000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15163000": {
+            "codigo": "15163000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15179010": {
+            "codigo": "15179010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15179090": {
+            "codigo": "15179090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15180010": {
+            "codigo": "15180010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15180090": {
+            "codigo": "15180090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15200010": {
+            "codigo": "15200010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15200020": {
+            "codigo": "15200020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15211000": {
+            "codigo": "15211000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15219011": {
+            "codigo": "15219011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15219019": {
+            "codigo": "15219019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15219090": {
+            "codigo": "15219090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "15220000": {
+            "codigo": "15220000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      }
+    }
+  },
+  "Level IV": {
+    "descricao": "Produtos das indústrias alimentares; bebidas, líquidos alcoólicos e vinagres; fumo (tabaco) e seus sucedâneos misturados",
+    "capitulos": {
+      "16": {
+        "descricao": "Preparações de carne, de peixes ou de crustáceos, de moluscos ou de outros invertebrados aquáticos",
+        "ncms": {}
+      },
+      "17": {
+        "descricao": "Açúcares e produtos de confeitaria",
+        "ncms": {
+          "17011400": {
+            "codigo": "17011400",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "17019900": {
+            "codigo": "17019900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "17023011": {
+            "codigo": "17023011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "17025000": {
+            "codigo": "17025000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          }
+        }
+      },
+      "18": {
+        "descricao": "Cacau e suas preparações",
+        "ncms": {}
+      },
+      "19": {
+        "descricao": "Preparações à base de cereais, farinhas, amidos, féculas ou de leite; produtos de pastelaria",
+        "ncms": {
+          "19011010": {
+            "codigo": "19011010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19011090": {
+            "codigo": "19011090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19012010": {
+            "codigo": "19012010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19012090": {
+            "codigo": "19012090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19019090": {
+            "codigo": "19019090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19021100": {
+            "codigo": "19021100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19021900": {
+            "codigo": "19021900",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19030000": {
+            "codigo": "19030000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19059090": {
+            "codigo": "19059090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "19022000": {
+            "codigo": "19022000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "19023000": {
+            "codigo": "19023000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "19059010": {
+            "codigo": "19059010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          }
+        }
+      },
+      "20": {
+        "descricao": "Preparações de produtos hortícolas, de frutas ou de outras partes de plantas",
+        "ncms": {
+          "20021000": {
+            "codigo": "20021000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20041000": {
+            "codigo": "20041000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20049000": {
+            "codigo": "20049000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20051000": {
+            "codigo": "20051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20052000": {
+            "codigo": "20052000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20054000": {
+            "codigo": "20054000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20055100": {
+            "codigo": "20055100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20055900": {
+            "codigo": "20055900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20056000": {
+            "codigo": "20056000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20057000": {
+            "codigo": "20057000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20058000": {
+            "codigo": "20058000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20059100": {
+            "codigo": "20059100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20059900": {
+            "codigo": "20059900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20081100": {
+            "codigo": "20081100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20081900": {
+            "codigo": "20081900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20082010": {
+            "codigo": "20082010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20082090": {
+            "codigo": "20082090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20083000": {
+            "codigo": "20083000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20084010": {
+            "codigo": "20084010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20084090": {
+            "codigo": "20084090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20085000": {
+            "codigo": "20085000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20086010": {
+            "codigo": "20086010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20086090": {
+            "codigo": "20086090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20087010": {
+            "codigo": "20087010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20087020": {
+            "codigo": "20087020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20087090": {
+            "codigo": "20087090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20088000": {
+            "codigo": "20088000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20089100": {
+            "codigo": "20089100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20089300": {
+            "codigo": "20089300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20089710": {
+            "codigo": "20089710",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20089790": {
+            "codigo": "20089790",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20089900": {
+            "codigo": "20089900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20091100": {
+            "codigo": "20091100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20091200": {
+            "codigo": "20091200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20091900": {
+            "codigo": "20091900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20092100": {
+            "codigo": "20092100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20092900": {
+            "codigo": "20092900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20093100": {
+            "codigo": "20093100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20093900": {
+            "codigo": "20093900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20094100": {
+            "codigo": "20094100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20094900": {
+            "codigo": "20094900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20095000": {
+            "codigo": "20095000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20096100": {
+            "codigo": "20096100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20096900": {
+            "codigo": "20096900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20097100": {
+            "codigo": "20097100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20097900": {
+            "codigo": "20097900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098100": {
+            "codigo": "20098100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098911": {
+            "codigo": "20098911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098912": {
+            "codigo": "20098912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098913": {
+            "codigo": "20098913",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098919": {
+            "codigo": "20098919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098921": {
+            "codigo": "20098921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098922": {
+            "codigo": "20098922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20098990": {
+            "codigo": "20098990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20099000": {
+            "codigo": "20099000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          },
+          "20029000": {
+            "codigo": "20029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          }
+        }
+      },
+      "21": {
+        "descricao": "Carnes e miudezas, comestíveis, salgadas ou em salmoura, secas ou defumadas (fumadas); farinhas e pós, comestíveis, de carnes ou de miudezas.",
+        "ncms": {
+          "21011110": {
+            "codigo": "21011110",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "21011190": {
+            "codigo": "21011190",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "21011200": {
+            "codigo": "21011200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200003"
+          },
+          "21069090": {
+            "codigo": "21069090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "21069030": {
+            "codigo": "21069030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "21022000": {
+            "codigo": "21022000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "22": {
+        "descricao": "Bebidas, líquidos alcoólicos e vinagres",
+        "ncms": {
+          "22029900": {
+            "codigo": "22029900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200034"
+          }
+        }
+      },
+      "23": {
+        "descricao": "Resíduos e desperdícios das indústrias alimentares; alimentos preparados para animais",
+        "ncms": {
+          "23011010": {
+            "codigo": "23011010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23011090": {
+            "codigo": "23011090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23012010": {
+            "codigo": "23012010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23012090": {
+            "codigo": "23012090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23021000": {
+            "codigo": "23021000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23023010": {
+            "codigo": "23023010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23023090": {
+            "codigo": "23023090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23024000": {
+            "codigo": "23024000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23025000": {
+            "codigo": "23025000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23031000": {
+            "codigo": "23031000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23032000": {
+            "codigo": "23032000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23033000": {
+            "codigo": "23033000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23061000": {
+            "codigo": "23061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23062000": {
+            "codigo": "23062000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23063010": {
+            "codigo": "23063010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23063090": {
+            "codigo": "23063090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23064100": {
+            "codigo": "23064100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23064900": {
+            "codigo": "23064900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23065000": {
+            "codigo": "23065000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23066000": {
+            "codigo": "23066000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23069010": {
+            "codigo": "23069010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23069090": {
+            "codigo": "23069090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23040010": {
+            "codigo": "23040010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23040090": {
+            "codigo": "23040090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23050000": {
+            "codigo": "23050000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23080000": {
+            "codigo": "23080000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099010": {
+            "codigo": "23099010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099020": {
+            "codigo": "23099020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099030": {
+            "codigo": "23099030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099040": {
+            "codigo": "23099040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099050": {
+            "codigo": "23099050",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099060": {
+            "codigo": "23099060",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099070": {
+            "codigo": "23099070",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "23099090": {
+            "codigo": "23099090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "24": {
+        "descricao": "Fumo (tabaco) e seus sucedâneos, manufaturados",
+        "ncms": {}
+      }
+    }
+  },
+  "Level V": {
+    "descricao": "Produtos minerais",
+    "capitulos": {
+      "25": {
+        "descricao": "Sal; enxofre; terras e pedras; gesso, cal e cimento",
+        "ncms": {
+          "25010020": {
+            "codigo": "25010020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25010090": {
+            "codigo": "25010090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25010011": {
+            "codigo": "25010011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25010019": {
+            "codigo": "25010019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25020000": {
+            "codigo": "25020000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25030010": {
+            "codigo": "25030010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25030090": {
+            "codigo": "25030090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25041000": {
+            "codigo": "25041000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25049000": {
+            "codigo": "25049000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25051000": {
+            "codigo": "25051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25059000": {
+            "codigo": "25059000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25061000": {
+            "codigo": "25061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25062000": {
+            "codigo": "25062000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25070010": {
+            "codigo": "25070010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25070090": {
+            "codigo": "25070090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25081000": {
+            "codigo": "25081000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25083000": {
+            "codigo": "25083000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25084010": {
+            "codigo": "25084010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25084090": {
+            "codigo": "25084090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25085000": {
+            "codigo": "25085000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25086000": {
+            "codigo": "25086000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25087000": {
+            "codigo": "25087000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25090000": {
+            "codigo": "25090000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25101010": {
+            "codigo": "25101010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25101090": {
+            "codigo": "25101090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25102010": {
+            "codigo": "25102010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25102090": {
+            "codigo": "25102090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25111000": {
+            "codigo": "25111000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25112000": {
+            "codigo": "25112000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25120000": {
+            "codigo": "25120000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25131000": {
+            "codigo": "25131000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25132000": {
+            "codigo": "25132000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25140000": {
+            "codigo": "25140000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25151100": {
+            "codigo": "25151100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25151210": {
+            "codigo": "25151210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25151220": {
+            "codigo": "25151220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25152000": {
+            "codigo": "25152000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25161100": {
+            "codigo": "25161100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25161200": {
+            "codigo": "25161200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25162000": {
+            "codigo": "25162000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25169000": {
+            "codigo": "25169000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25171000": {
+            "codigo": "25171000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25172000": {
+            "codigo": "25172000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25173000": {
+            "codigo": "25173000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25174100": {
+            "codigo": "25174100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25174900": {
+            "codigo": "25174900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25181000": {
+            "codigo": "25181000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25182000": {
+            "codigo": "25182000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25191000": {
+            "codigo": "25191000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25199010": {
+            "codigo": "25199010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25199090": {
+            "codigo": "25199090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25201011": {
+            "codigo": "25201011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25201019": {
+            "codigo": "25201019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25201020": {
+            "codigo": "25201020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25202010": {
+            "codigo": "25202010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25202090": {
+            "codigo": "25202090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25210000": {
+            "codigo": "25210000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25221000": {
+            "codigo": "25221000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25222000": {
+            "codigo": "25222000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25223000": {
+            "codigo": "25223000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25231000": {
+            "codigo": "25231000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25232100": {
+            "codigo": "25232100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25232910": {
+            "codigo": "25232910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25232990": {
+            "codigo": "25232990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25233000": {
+            "codigo": "25233000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25239000": {
+            "codigo": "25239000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25241000": {
+            "codigo": "25241000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25249000": {
+            "codigo": "25249000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25251000": {
+            "codigo": "25251000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25252000": {
+            "codigo": "25252000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25253000": {
+            "codigo": "25253000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25261000": {
+            "codigo": "25261000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25262000": {
+            "codigo": "25262000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25280000": {
+            "codigo": "25280000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25291000": {
+            "codigo": "25291000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25292100": {
+            "codigo": "25292100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25292200": {
+            "codigo": "25292200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25293000": {
+            "codigo": "25293000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25301010": {
+            "codigo": "25301010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25301090": {
+            "codigo": "25301090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25302000": {
+            "codigo": "25302000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25309010": {
+            "codigo": "25309010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25309020": {
+            "codigo": "25309020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25309030": {
+            "codigo": "25309030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25309040": {
+            "codigo": "25309040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "25309090": {
+            "codigo": "25309090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "26": {
+        "descricao": "Minérios, escórias e cinzas",
+        "ncms": {}
+      },
+      "27": {
+        "descricao": "Combustíveis minerais, óleos minerais e produtos de sua destilação; matérias betuminosas; ceras minerais",
+        "ncms": {
+          "27030000": {
+            "codigo": "27030000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      }
+    }
+  },
+  "Level VI": {
+    "descricao": "Produtos das indústrias químicas ou das indústrias conexas",
+    "capitulos": {
+      "28": {
+        "descricao": "Produtos químicos inorgânicos; compostos inorgânicos ou orgânicos de metais preciosos, de elementos radioativos, de metais das terras raras ou de isótopos",
+        "ncms": {
+          "28444200": {
+            "codigo": "28444200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "28444390": {
+            "codigo": "28444390",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "28111990": {
+            "codigo": "28111990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28272010": {
+            "codigo": "28272010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28272090": {
+            "codigo": "28272090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28273110": {
+            "codigo": "28273110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28273190": {
+            "codigo": "28273190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28273993": {
+            "codigo": "28273993",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28273995": {
+            "codigo": "28273995",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28273998": {
+            "codigo": "28273998",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28276012": {
+            "codigo": "28276012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28332100": {
+            "codigo": "28332100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28332970": {
+            "codigo": "28332970",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28352200": {
+            "codigo": "28352200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28352400": {
+            "codigo": "28352400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28363000": {
+            "codigo": "28363000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28429000": {
+            "codigo": "28429000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "28020000": {
+            "codigo": "28020000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28061020": {
+            "codigo": "28061020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28070010": {
+            "codigo": "28070010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28080010": {
+            "codigo": "28080010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28092011": {
+            "codigo": "28092011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28092019": {
+            "codigo": "28092019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28111920": {
+            "codigo": "28111920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28151100": {
+            "codigo": "28151100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28151200": {
+            "codigo": "28151200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28362010": {
+            "codigo": "28362010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28362090": {
+            "codigo": "28362090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28399010": {
+            "codigo": "28399010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "28399050": {
+            "codigo": "28399050",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "29": {
+        "descricao": "Produtos químicos orgânicos",
+        "ncms": {
+          "29362931": {
+            "codigo": "29362931",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29054400": {
+            "codigo": "29054400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29152100": {
+            "codigo": "29152100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29152910": {
+            "codigo": "29152910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29152990": {
+            "codigo": "29152990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29181400": {
+            "codigo": "29181400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29181610": {
+            "codigo": "29181610",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29181990": {
+            "codigo": "29181990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29199090": {
+            "codigo": "29199090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29224110": {
+            "codigo": "29224110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224190": {
+            "codigo": "29224190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224210": {
+            "codigo": "29224210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224910": {
+            "codigo": "29224910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224990": {
+            "codigo": "29224990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29225039": {
+            "codigo": "29225039",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29225099": {
+            "codigo": "29225099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29232000": {
+            "codigo": "29232000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29252919": {
+            "codigo": "29252919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29304010": {
+            "codigo": "29304010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29304090": {
+            "codigo": "29304090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29309039": {
+            "codigo": "29309039",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29332992": {
+            "codigo": "29332992",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362113": {
+            "codigo": "29362113",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362210": {
+            "codigo": "29362210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362290": {
+            "codigo": "29362290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362310": {
+            "codigo": "29362310",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362320": {
+            "codigo": "29362320",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362520": {
+            "codigo": "29362520",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362610": {
+            "codigo": "29362610",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362710": {
+            "codigo": "29362710",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362811": {
+            "codigo": "29362811",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362812": {
+            "codigo": "29362812",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362911": {
+            "codigo": "29362911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362921": {
+            "codigo": "29362921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362929": {
+            "codigo": "29362929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362940": {
+            "codigo": "29362940",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29362952": {
+            "codigo": "29362952",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "29224220": {
+            "codigo": "29224220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224300": {
+            "codigo": "29224300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224410": {
+            "codigo": "29224410",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224420": {
+            "codigo": "29224420",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224920": {
+            "codigo": "29224920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224931": {
+            "codigo": "29224931",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224932": {
+            "codigo": "29224932",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224940": {
+            "codigo": "29224940",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224951": {
+            "codigo": "29224951",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224952": {
+            "codigo": "29224952",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224959": {
+            "codigo": "29224959",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224961": {
+            "codigo": "29224961",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224962": {
+            "codigo": "29224962",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224963": {
+            "codigo": "29224963",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224964": {
+            "codigo": "29224964",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "29224969": {
+            "codigo": "29224969",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "30": {
+        "descricao": "Produtos farmacêuticos",
+        "ncms": {
+          "30021211": {
+            "codigo": "30021211",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021212": {
+            "codigo": "30021212",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021215": {
+            "codigo": "30021215",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021219": {
+            "codigo": "30021219",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021239": {
+            "codigo": "30021239",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021510": {
+            "codigo": "30021510",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021520": {
+            "codigo": "30021520",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021580": {
+            "codigo": "30021580",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30021590": {
+            "codigo": "30021590",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30022032": {
+            "codigo": "30022032",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024121": {
+            "codigo": "30024121",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024122": {
+            "codigo": "30024122",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024123": {
+            "codigo": "30024123",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024125": {
+            "codigo": "30024125",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024127": {
+            "codigo": "30024127",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30024129": {
+            "codigo": "30024129",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30029000": {
+            "codigo": "30029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042032": {
+            "codigo": "30042032",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042059": {
+            "codigo": "30042059",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042063": {
+            "codigo": "30042063",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042069": {
+            "codigo": "30042069",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042071": {
+            "codigo": "30042071",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042091": {
+            "codigo": "30042091",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042093": {
+            "codigo": "30042093",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042094": {
+            "codigo": "30042094",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042095": {
+            "codigo": "30042095",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042099": {
+            "codigo": "30042099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043039": {
+            "codigo": "30043039",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30043100": {
+            "codigo": "30043100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043210": {
+            "codigo": "30043210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043220": {
+            "codigo": "30043220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043290": {
+            "codigo": "30043290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043918": {
+            "codigo": "30043918",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043919": {
+            "codigo": "30043919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043926": {
+            "codigo": "30043926",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043927": {
+            "codigo": "30043927",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043929": {
+            "codigo": "30043929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043936": {
+            "codigo": "30043936",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043939": {
+            "codigo": "30043939",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043994": {
+            "codigo": "30043994",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043999": {
+            "codigo": "30043999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044910": {
+            "codigo": "30044910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044950": {
+            "codigo": "30044950",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044990": {
+            "codigo": "30044990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045010": {
+            "codigo": "30045010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045090": {
+            "codigo": "30045090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30046000": {
+            "codigo": "30046000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049012": {
+            "codigo": "30049012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049014": {
+            "codigo": "30049014",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049019": {
+            "codigo": "30049019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049029": {
+            "codigo": "30049029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049034": {
+            "codigo": "30049034",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049035": {
+            "codigo": "30049035",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049038": {
+            "codigo": "30049038",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049039": {
+            "codigo": "30049039",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049041": {
+            "codigo": "30049041",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049042": {
+            "codigo": "30049042",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049043": {
+            "codigo": "30049043",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049047": {
+            "codigo": "30049047",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049048": {
+            "codigo": "30049048",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049049": {
+            "codigo": "30049049",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049058": {
+            "codigo": "30049058",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049059": {
+            "codigo": "30049059",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049063": {
+            "codigo": "30049063",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049064": {
+            "codigo": "30049064",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049066": {
+            "codigo": "30049066",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049068": {
+            "codigo": "30049068",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049069": {
+            "codigo": "30049069",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049072": {
+            "codigo": "30049072",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049076": {
+            "codigo": "30049076",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049078": {
+            "codigo": "30049078",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049079": {
+            "codigo": "30049079",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049095": {
+            "codigo": "30049095",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049099": {
+            "codigo": "30049099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30063013": {
+            "codigo": "30063013",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200009"
+          },
+          "30021221": {
+            "codigo": "30021221",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021222": {
+            "codigo": "30021222",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021223": {
+            "codigo": "30021223",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021229": {
+            "codigo": "30021229",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30059090": {
+            "codigo": "30059090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "30021236": {
+            "codigo": "30021236",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041011": {
+            "codigo": "30041011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041012": {
+            "codigo": "30041012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041013": {
+            "codigo": "30041013",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041014": {
+            "codigo": "30041014",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041015": {
+            "codigo": "30041015",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041019": {
+            "codigo": "30041019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30041020": {
+            "codigo": "30041020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042011": {
+            "codigo": "30042011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042019": {
+            "codigo": "30042019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042021": {
+            "codigo": "30042021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042029": {
+            "codigo": "30042029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042031": {
+            "codigo": "30042031",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042039": {
+            "codigo": "30042039",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042041": {
+            "codigo": "30042041",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042049": {
+            "codigo": "30042049",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042051": {
+            "codigo": "30042051",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042052": {
+            "codigo": "30042052",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042061": {
+            "codigo": "30042061",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042062": {
+            "codigo": "30042062",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042072": {
+            "codigo": "30042072",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042073": {
+            "codigo": "30042073",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042079": {
+            "codigo": "30042079",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30042092": {
+            "codigo": "30042092",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043911": {
+            "codigo": "30043911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043912": {
+            "codigo": "30043912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043913": {
+            "codigo": "30043913",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043914": {
+            "codigo": "30043914",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043915": {
+            "codigo": "30043915",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043916": {
+            "codigo": "30043916",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043917": {
+            "codigo": "30043917",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043921": {
+            "codigo": "30043921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043922": {
+            "codigo": "30043922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043923": {
+            "codigo": "30043923",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043924": {
+            "codigo": "30043924",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043925": {
+            "codigo": "30043925",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043928": {
+            "codigo": "30043928",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043931": {
+            "codigo": "30043931",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043932": {
+            "codigo": "30043932",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043933": {
+            "codigo": "30043933",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043934": {
+            "codigo": "30043934",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043935": {
+            "codigo": "30043935",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043937": {
+            "codigo": "30043937",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043981": {
+            "codigo": "30043981",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043982": {
+            "codigo": "30043982",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043991": {
+            "codigo": "30043991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30043992": {
+            "codigo": "30043992",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044100": {
+            "codigo": "30044100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044200": {
+            "codigo": "30044200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044300": {
+            "codigo": "30044300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044920": {
+            "codigo": "30044920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044930": {
+            "codigo": "30044930",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30044940": {
+            "codigo": "30044940",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045020": {
+            "codigo": "30045020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045030": {
+            "codigo": "30045030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045040": {
+            "codigo": "30045040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045050": {
+            "codigo": "30045050",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30045060": {
+            "codigo": "30045060",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049011": {
+            "codigo": "30049011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049013": {
+            "codigo": "30049013",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049015": {
+            "codigo": "30049015",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049021": {
+            "codigo": "30049021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049022": {
+            "codigo": "30049022",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049023": {
+            "codigo": "30049023",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049024": {
+            "codigo": "30049024",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049025": {
+            "codigo": "30049025",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049026": {
+            "codigo": "30049026",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049027": {
+            "codigo": "30049027",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049028": {
+            "codigo": "30049028",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049031": {
+            "codigo": "30049031",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049032": {
+            "codigo": "30049032",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049033": {
+            "codigo": "30049033",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049036": {
+            "codigo": "30049036",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049037": {
+            "codigo": "30049037",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049044": {
+            "codigo": "30049044",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049045": {
+            "codigo": "30049045",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049046": {
+            "codigo": "30049046",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049051": {
+            "codigo": "30049051",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049052": {
+            "codigo": "30049052",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049053": {
+            "codigo": "30049053",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049054": {
+            "codigo": "30049054",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049055": {
+            "codigo": "30049055",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049057": {
+            "codigo": "30049057",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049061": {
+            "codigo": "30049061",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049062": {
+            "codigo": "30049062",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049065": {
+            "codigo": "30049065",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049067": {
+            "codigo": "30049067",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049071": {
+            "codigo": "30049071",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049073": {
+            "codigo": "30049073",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049074": {
+            "codigo": "30049074",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049075": {
+            "codigo": "30049075",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049077": {
+            "codigo": "30049077",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049091": {
+            "codigo": "30049091",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049092": {
+            "codigo": "30049092",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049093": {
+            "codigo": "30049093",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049094": {
+            "codigo": "30049094",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049096": {
+            "codigo": "30049096",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049097": {
+            "codigo": "30049097",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30049098": {
+            "codigo": "30049098",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021213": {
+            "codigo": "30021213",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021214": {
+            "codigo": "30021214",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021216": {
+            "codigo": "30021216",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021224": {
+            "codigo": "30021224",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021231": {
+            "codigo": "30021231",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021232": {
+            "codigo": "30021232",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021233": {
+            "codigo": "30021233",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021234": {
+            "codigo": "30021234",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30021235": {
+            "codigo": "30021235",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024210": {
+            "codigo": "30024210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024220": {
+            "codigo": "30024220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024230": {
+            "codigo": "30024230",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024240": {
+            "codigo": "30024240",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024250": {
+            "codigo": "30024250",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024260": {
+            "codigo": "30024260",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024270": {
+            "codigo": "30024270",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024280": {
+            "codigo": "30024280",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024290": {
+            "codigo": "30024290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024910": {
+            "codigo": "30024910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024920": {
+            "codigo": "30024920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024991": {
+            "codigo": "30024991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024992": {
+            "codigo": "30024992",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024994": {
+            "codigo": "30024994",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "30024999": {
+            "codigo": "30024999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "31": {
+        "descricao": "Adubos ou fertilizantes",
+        "ncms": {
+          "31042010": {
+            "codigo": "31042010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31042090": {
+            "codigo": "31042090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31010000": {
+            "codigo": "31010000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31021010": {
+            "codigo": "31021010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31021090": {
+            "codigo": "31021090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31022100": {
+            "codigo": "31022100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31022910": {
+            "codigo": "31022910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31022990": {
+            "codigo": "31022990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31023000": {
+            "codigo": "31023000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31024000": {
+            "codigo": "31024000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31025011": {
+            "codigo": "31025011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31025019": {
+            "codigo": "31025019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31025090": {
+            "codigo": "31025090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31026000": {
+            "codigo": "31026000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31028000": {
+            "codigo": "31028000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31029000": {
+            "codigo": "31029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31031100": {
+            "codigo": "31031100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31031900": {
+            "codigo": "31031900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31039011": {
+            "codigo": "31039011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31039019": {
+            "codigo": "31039019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31039090": {
+            "codigo": "31039090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31043010": {
+            "codigo": "31043010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31043090": {
+            "codigo": "31043090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31049010": {
+            "codigo": "31049010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31049090": {
+            "codigo": "31049090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31051000": {
+            "codigo": "31051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31052000": {
+            "codigo": "31052000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31053000": {
+            "codigo": "31053000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31054000": {
+            "codigo": "31054000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31055100": {
+            "codigo": "31055100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31055900": {
+            "codigo": "31055900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31056000": {
+            "codigo": "31056000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31059011": {
+            "codigo": "31059011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31059019": {
+            "codigo": "31059019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "31059090": {
+            "codigo": "31059090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "32": {
+        "descricao": "Extratos tanantes e tintoriais; taninos e seus derivados; pigmentos e outras matérias corantes, tintas e vernizes, mástiques; tintas de escrever",
+        "ncms": {}
+      },
+      "33": {
+        "descricao": "Óleos essenciais e resinóides; produtos de perfumaria ou de toucador preparados e preparações cosméticas",
+        "ncms": {
+          "33061000": {
+            "codigo": "33061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          },
+          "33011210": {
+            "codigo": "33011210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33011290": {
+            "codigo": "33011290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33011300": {
+            "codigo": "33011300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33011910": {
+            "codigo": "33011910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33011990": {
+            "codigo": "33011990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012400": {
+            "codigo": "33012400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012510": {
+            "codigo": "33012510",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012520": {
+            "codigo": "33012520",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012590": {
+            "codigo": "33012590",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012911": {
+            "codigo": "33012911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012912": {
+            "codigo": "33012912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012913": {
+            "codigo": "33012913",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012914": {
+            "codigo": "33012914",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012915": {
+            "codigo": "33012915",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012916": {
+            "codigo": "33012916",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012917": {
+            "codigo": "33012917",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012918": {
+            "codigo": "33012918",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012919": {
+            "codigo": "33012919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012921": {
+            "codigo": "33012921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012922": {
+            "codigo": "33012922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33012990": {
+            "codigo": "33012990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33013000": {
+            "codigo": "33013000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33019010": {
+            "codigo": "33019010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33019020": {
+            "codigo": "33019020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33019030": {
+            "codigo": "33019030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "33019040": {
+            "codigo": "33019040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "34": {
+        "descricao": "Sabões, agentes orgânicos de superfície, preparações para lavagem, preparações lubrificantes, ceras artificiais, ceras preparadas, produtos de conservação e limpeza, velas e artigos semelhantes, massas ou pastas de modelar, ceras para dentistas e composições para dentista à base de gesso",
+        "ncms": {
+          "34011190": {
+            "codigo": "34011190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          },
+          "34011900": {
+            "codigo": "34011900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          }
+        }
+      },
+      "35": {
+        "descricao": "Matérias albuminóides; produtos à base de amidos ou de féculas modificados; colas; enzimas",
+        "ncms": {
+          "35051000": {
+            "codigo": "35051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200033"
+          },
+          "35079041": {
+            "codigo": "35079041",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "35079042": {
+            "codigo": "35079042",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "35079049": {
+            "codigo": "35079049",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "36": {
+        "descricao": "Pólvoras e explosivos; artigos de pirotecnia; fósforos; ligas pirofóricas; matérias inflamáveis",
+        "ncms": {
+          "36020000": {
+            "codigo": "36020000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      },
+      "37": {
+        "descricao": "Produtos para fotografia e cinematografia",
+        "ncms": {
+          "37011010": {
+            "codigo": "37011010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "37011029": {
+            "codigo": "37011029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "37021010": {
+            "codigo": "37021010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "37021020": {
+            "codigo": "37021020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          }
+        }
+      },
+      "38": {
+        "descricao": "Produtos diversos das indústrias químicas",
+        "ncms": {
+          "38210000": {
+            "codigo": "38210000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38221100": {
+            "codigo": "38221100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221200": {
+            "codigo": "38221200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221300": {
+            "codigo": "38221300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221910": {
+            "codigo": "38221910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221920": {
+            "codigo": "38221920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221930": {
+            "codigo": "38221930",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221940": {
+            "codigo": "38221940",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38221990": {
+            "codigo": "38221990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "38249989": {
+            "codigo": "38249989",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089419": {
+            "codigo": "38089419",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085200": {
+            "codigo": "38085200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085910": {
+            "codigo": "38085910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085921": {
+            "codigo": "38085921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085922": {
+            "codigo": "38085922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085923": {
+            "codigo": "38085923",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085924": {
+            "codigo": "38085924",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085925": {
+            "codigo": "38085925",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085926": {
+            "codigo": "38085926",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38085929": {
+            "codigo": "38085929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38086100": {
+            "codigo": "38086100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38086210": {
+            "codigo": "38086210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38086290": {
+            "codigo": "38086290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38086910": {
+            "codigo": "38086910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38086990": {
+            "codigo": "38086990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089111": {
+            "codigo": "38089111",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089119": {
+            "codigo": "38089119",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089120": {
+            "codigo": "38089120",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089191": {
+            "codigo": "38089191",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089192": {
+            "codigo": "38089192",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089193": {
+            "codigo": "38089193",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089194": {
+            "codigo": "38089194",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089195": {
+            "codigo": "38089195",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089196": {
+            "codigo": "38089196",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089197": {
+            "codigo": "38089197",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089199": {
+            "codigo": "38089199",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089211": {
+            "codigo": "38089211",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089219": {
+            "codigo": "38089219",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089220": {
+            "codigo": "38089220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089291": {
+            "codigo": "38089291",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089292": {
+            "codigo": "38089292",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089293": {
+            "codigo": "38089293",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089294": {
+            "codigo": "38089294",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089295": {
+            "codigo": "38089295",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089296": {
+            "codigo": "38089296",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089297": {
+            "codigo": "38089297",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089299": {
+            "codigo": "38089299",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089311": {
+            "codigo": "38089311",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089319": {
+            "codigo": "38089319",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089321": {
+            "codigo": "38089321",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089322": {
+            "codigo": "38089322",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089323": {
+            "codigo": "38089323",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089324": {
+            "codigo": "38089324",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089325": {
+            "codigo": "38089325",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089326": {
+            "codigo": "38089326",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089327": {
+            "codigo": "38089327",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089328": {
+            "codigo": "38089328",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089329": {
+            "codigo": "38089329",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089331": {
+            "codigo": "38089331",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089332": {
+            "codigo": "38089332",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089333": {
+            "codigo": "38089333",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089341": {
+            "codigo": "38089341",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089349": {
+            "codigo": "38089349",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089351": {
+            "codigo": "38089351",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089352": {
+            "codigo": "38089352",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089359": {
+            "codigo": "38089359",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089411": {
+            "codigo": "38089411",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089421": {
+            "codigo": "38089421",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089422": {
+            "codigo": "38089422",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089429": {
+            "codigo": "38089429",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089911": {
+            "codigo": "38089911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089919": {
+            "codigo": "38089919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089920": {
+            "codigo": "38089920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089991": {
+            "codigo": "38089991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089992": {
+            "codigo": "38089992",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089993": {
+            "codigo": "38089993",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089994": {
+            "codigo": "38089994",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089995": {
+            "codigo": "38089995",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089996": {
+            "codigo": "38089996",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38089999": {
+            "codigo": "38089999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38241000": {
+            "codigo": "38241000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38243000": {
+            "codigo": "38243000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38244000": {
+            "codigo": "38244000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38245000": {
+            "codigo": "38245000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38246000": {
+            "codigo": "38246000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248110": {
+            "codigo": "38248110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248190": {
+            "codigo": "38248190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248210": {
+            "codigo": "38248210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248290": {
+            "codigo": "38248290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248300": {
+            "codigo": "38248300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248400": {
+            "codigo": "38248400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248500": {
+            "codigo": "38248500",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248600": {
+            "codigo": "38248600",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248700": {
+            "codigo": "38248700",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248810": {
+            "codigo": "38248810",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248820": {
+            "codigo": "38248820",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38248900": {
+            "codigo": "38248900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249100": {
+            "codigo": "38249100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249200": {
+            "codigo": "38249200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249911": {
+            "codigo": "38249911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249912": {
+            "codigo": "38249912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249913": {
+            "codigo": "38249913",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249914": {
+            "codigo": "38249914",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249915": {
+            "codigo": "38249915",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249919": {
+            "codigo": "38249919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249921": {
+            "codigo": "38249921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249922": {
+            "codigo": "38249922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249923": {
+            "codigo": "38249923",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249924": {
+            "codigo": "38249924",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249925": {
+            "codigo": "38249925",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249929": {
+            "codigo": "38249929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249931": {
+            "codigo": "38249931",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249932": {
+            "codigo": "38249932",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249933": {
+            "codigo": "38249933",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249934": {
+            "codigo": "38249934",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249935": {
+            "codigo": "38249935",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249936": {
+            "codigo": "38249936",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249939": {
+            "codigo": "38249939",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249941": {
+            "codigo": "38249941",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249942": {
+            "codigo": "38249942",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249943": {
+            "codigo": "38249943",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249949": {
+            "codigo": "38249949",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249951": {
+            "codigo": "38249951",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249952": {
+            "codigo": "38249952",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249953": {
+            "codigo": "38249953",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249954": {
+            "codigo": "38249954",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249959": {
+            "codigo": "38249959",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249961": {
+            "codigo": "38249961",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249962": {
+            "codigo": "38249962",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249969": {
+            "codigo": "38249969",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249971": {
+            "codigo": "38249971",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249972": {
+            "codigo": "38249972",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249973": {
+            "codigo": "38249973",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249974": {
+            "codigo": "38249974",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249975": {
+            "codigo": "38249975",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249976": {
+            "codigo": "38249976",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249977": {
+            "codigo": "38249977",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249978": {
+            "codigo": "38249978",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249979": {
+            "codigo": "38249979",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249981": {
+            "codigo": "38249981",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249982": {
+            "codigo": "38249982",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249983": {
+            "codigo": "38249983",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249984": {
+            "codigo": "38249984",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249985": {
+            "codigo": "38249985",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249986": {
+            "codigo": "38249986",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249987": {
+            "codigo": "38249987",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38249988": {
+            "codigo": "38249988",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38029040": {
+            "codigo": "38029040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38040011": {
+            "codigo": "38040011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38040012": {
+            "codigo": "38040012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38040020": {
+            "codigo": "38040020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "38070000": {
+            "codigo": "38070000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      }
+    }
+  },
+  "Level VII": {
+    "descricao": "Plásticos e suas obras; borracha e suas obras",
+    "capitulos": {
+      "39": {
+        "descricao": "Plásticos e suas obras",
+        "ncms": {
+          "39174010": {
+            "codigo": "39174010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "39174090": {
+            "codigo": "39174090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "39269030": {
+            "codigo": "39269030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "39269040": {
+            "codigo": "39269040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "39269050": {
+            "codigo": "39269050",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          }
+        }
+      },
+      "40": {
+        "descricao": "Borracha e suas obras",
+        "ncms": {
+          "40141000": {
+            "codigo": "40141000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "40151200": {
+            "codigo": "40151200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "40151900": {
+            "codigo": "40151900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          }
+        }
+      }
+    }
+  },
+  "Level VIII": {
+    "descricao": "Peles, couros, peleteria (peles com pêlo*) e obras desta matérias; artigos de correeiro ou de seleiro; artigos de viagem, bolsas e artefatos semelhantes; obras de tripa",
+    "capitulos": {
+      "41": {
+        "descricao": "Peles, exceto a peleteria (peles com pêlo), e couros",
+        "ncms": {}
+      },
+      "42": {
+        "descricao": "Obras de couro; artigos de correeiro ou de seleiro; artigos de viagem, bolsas e artefatos semelhantes; obras de tripa",
+        "ncms": {}
+      },
+      "43": {
+        "descricao": "Peleteria (peles com pêlo) e suas obras; peleteria (peles com pêlo) artificial",
+        "ncms": {}
+      }
+    }
+  },
+  "Level IX": {
+    "descricao": "Madeira, carvão vegetal e obras de madeira; cortiça e suas obras; obras de espataria ou cestaria",
+    "capitulos": {
+      "44": {
+        "descricao": "Madeira, carvão vegetal e obras de madeira",
+        "ncms": {
+          "44013900": {
+            "codigo": "44013900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "44014100": {
+            "codigo": "44014100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "44014900": {
+            "codigo": "44014900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          },
+          "44029000": {
+            "codigo": "44029000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "45": {
+        "descricao": "Cortiça e suas obras",
+        "ncms": {}
+      },
+      "46": {
+        "descricao": "Obras de espartaria ou de cestaria",
+        "ncms": {}
+      }
+    }
+  },
+  "Level X": {
+    "descricao": "Pastas de madeira ou de matérias fibrosas celulósicas; papel ou cartão de reciclar (desperdícios e aparas); papel e suas obras",
+    "capitulos": {
+      "47": {
+        "descricao": "Pastas de madeira ou de outras matérias fibrosas celulósicas; papel ou cartão de reciclar (desperdícios e aparas)",
+        "ncms": {
+          "47010000": {
+            "codigo": "47010000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "48": {
+        "descricao": "Papel e cartão; obras de pasta de celulose, de papel ou de cartão",
+        "ncms": {
+          "48181000": {
+            "codigo": "48181000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          }
+        }
+      },
+      "49": {
+        "descricao": "Livros, jornais, gravuras e outros produtos das indústrias gráficas; textos manuscritos ou datilografados, planos e plantas",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XI": {
+    "descricao": "Matérias têxteis e suas obras",
+    "capitulos": {
+      "50": {
+        "descricao": "Seda",
+        "ncms": {}
+      },
+      "51": {
+        "descricao": "Lã e pêlos finos ou grosseiros; fios e tecidos de crina",
+        "ncms": {}
+      },
+      "52": {
+        "descricao": "Algodão",
+        "ncms": {}
+      },
+      "53": {
+        "descricao": "Outras fibras têxteis vegetais; fios de papel e tecido de fios de papel",
+        "ncms": {
+          "53050090": {
+            "codigo": "53050090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "54": {
+        "descricao": "Filamentos sintéticos ou artificiais",
+        "ncms": {}
+      },
+      "55": {
+        "descricao": "Fibras sintéticas ou artificiais, descontínuas",
+        "ncms": {}
+      },
+      "56": {
+        "descricao": "Pastas (ouates), feltros e falsos tecidos; fios especiais; cordéis, cordas e cabos; artigos de cordoaria",
+        "ncms": {}
+      },
+      "57": {
+        "descricao": "Tapetes e outros revestimentos para pavimentos, de matérias têxteis",
+        "ncms": {}
+      },
+      "58": {
+        "descricao": "Tecidos especiais; tecidos tufados; rendas; tapeçarias; passamanarias; bordados",
+        "ncms": {}
+      },
+      "59": {
+        "descricao": "Tecidos impregnados, revestidos, recobertos ou estratificados; artigos para usos técnicos de matérias têxteis",
+        "ncms": {}
+      },
+      "60": {
+        "descricao": "Tecidos de malha",
+        "ncms": {}
+      },
+      "61": {
+        "descricao": "Vestuário e seus acessórios, de malha",
+        "ncms": {}
+      },
+      "62": {
+        "descricao": "Vestuário e seus acessórios, exceto de malha",
+        "ncms": {}
+      },
+      "63": {
+        "descricao": "Outros artefatos têxteis confeccionados; sortidos; artefatos de matérias têxteis, calçados, chapéus e artefatos de uso semelhante, usados; trapos",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XII": {
+    "descricao": "Calçados, chapéus e artefatos de uso semelhante; guarda-chuvas, guarda-sóis, bengalas, chicotes, e suas partes; penas preparadas e suas obras; flores artificiais; obras de cabelo",
+    "capitulos": {
+      "64": {
+        "descricao": "Calçados, polainas e artefatos semelhantes, e suas partes",
+        "ncms": {}
+      },
+      "65": {
+        "descricao": "Chapéus e artefatos de uso semelhante, e suas partes",
+        "ncms": {}
+      },
+      "66": {
+        "descricao": "Guarda-chuvas, sombrinhas, guarda-sóis, bengalas, bengalas-assentos, chicotes, e suas partes",
+        "ncms": {
+          "66020000": {
+            "codigo": "66020000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          }
+        }
+      },
+      "67": {
+        "descricao": "Penas e penugem preparadas, e suas obras; flores arttificiais; obras de cabelo",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XIII": {
+    "descricao": "Obras de pedra, gesso, cimento, amianto, mica ou de matérias semelhantes; produtos cerâmicos; vidro e suas obras",
+    "capitulos": {
+      "68": {
+        "descricao": "Obras de pedra, gesso, cimento, amianto, mica ou de matérias semelhantes",
+        "ncms": {
+          "68062000": {
+            "codigo": "68062000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200038"
+          }
+        }
+      },
+      "69": {
+        "descricao": "Produtos cerâmicos",
+        "ncms": {}
+      },
+      "70": {
+        "descricao": "Vidro e suas obras",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XIV": {
+    "descricao": "Pérolas naturais ou cultivadas, pedras preciosas ou semipreciosas e semelhantes; metais preciosos, metais folheados ou chapeados de metais preciosos, e suas obras; bijuterias; moedas",
+    "capitulos": {
+      "71": {
+        "descricao": "Pérolas naturais ou cultivadas, pedras preciosas ou semipreciosas e semelhantes; metais preciosos, metais folheados ou chapeados de metais preciosos, e suas obras; bijuterias; moedas",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XV": {
+    "descricao": "Metais comuns e suas obras",
+    "capitulos": {
+      "72": {
+        "descricao": "Ferro fundido, ferro e aço",
+        "ncms": {}
+      },
+      "73": {
+        "descricao": "Obras de ferro fundido, ferro ou aço",
+        "ncms": {}
+      },
+      "74": {
+        "descricao": "Cobre e suas obras",
+        "ncms": {}
+      },
+      "75": {
+        "descricao": "Níquel e suas obras",
+        "ncms": {}
+      },
+      "76": {
+        "descricao": "Alumínio e suas obras",
+        "ncms": {}
+      },
+      "78": {
+        "descricao": "Chumbo e suas obras",
+        "ncms": {}
+      },
+      "79": {
+        "descricao": "Zinco e suas obras",
+        "ncms": {}
+      },
+      "80": {
+        "descricao": "Estanho e suas obras",
+        "ncms": {}
+      },
+      "81": {
+        "descricao": "Outros metais comuns; cermets; obras dessas matérias",
+        "ncms": {}
+      },
+      "82": {
+        "descricao": "Ferramentas, artefatos de cutelaria e talheres, e suas partes, de metais comuns",
+        "ncms": {}
+      },
+      "83": {
+        "descricao": "Obras diversas de metais comuns",
+        "ncms": {
+          "83024100": {
+            "codigo": "83024100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          }
+        }
+      }
+    }
+  },
+  "Level XVI": {
+    "descricao": "Máquinas e aparelhos, material elétrico, e suas partes; aparelhos de gravação ou de reprodução de som, aparelhos de gravação ou de reprodução de imagens e de som em televisão, e suas partes e acessórios",
+    "capitulos": {
+      "84": {
+        "descricao": "Reatores nucleares, caldeiras, máquinas, aparelhos e instrumentos mecânicos, e suas partes",
+        "ncms": {
+          "84198110": {
+            "codigo": "84198110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84198999": {
+            "codigo": "84198999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84199040": {
+            "codigo": "84199040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84212911": {
+            "codigo": "84212911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84212990": {
+            "codigo": "84212990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84798912": {
+            "codigo": "84798912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84798999": {
+            "codigo": "84798999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "84253110": {
+            "codigo": "84253110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84289090": {
+            "codigo": "84289090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84433222": {
+            "codigo": "84433222",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84701000": {
+            "codigo": "84701000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84702900": {
+            "codigo": "84702900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84716053": {
+            "codigo": "84716053",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84716090": {
+            "codigo": "84716090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84718000": {
+            "codigo": "84718000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84729099": {
+            "codigo": "84729099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "84714900": {
+            "codigo": "84714900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "84715090": {
+            "codigo": "84715090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "84719014": {
+            "codigo": "84719014",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      },
+      "85": {
+        "descricao": "Máquinas, aparelhos e materiais elétricos, e suas partes; aparelhos de gravação ou de reprodução de som, aparelhos de gravação ou de reprodução de imagens e de som em televisão, e suas partes e acessórios",
+        "ncms": {
+          "85171100": {
+            "codigo": "85171100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171300": {
+            "codigo": "85171300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171410": {
+            "codigo": "85171410",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171431": {
+            "codigo": "85171431",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171432": {
+            "codigo": "85171432",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171439": {
+            "codigo": "85171439",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171441": {
+            "codigo": "85171441",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171449": {
+            "codigo": "85171449",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171490": {
+            "codigo": "85171490",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171830": {
+            "codigo": "85171830",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85171890": {
+            "codigo": "85171890",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85437099": {
+            "codigo": "85437099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "85176234": {
+            "codigo": "85176234",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176241": {
+            "codigo": "85176241",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176249": {
+            "codigo": "85176249",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176259": {
+            "codigo": "85176259",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176272": {
+            "codigo": "85176272",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176273": {
+            "codigo": "85176273",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176277": {
+            "codigo": "85176277",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176278": {
+            "codigo": "85176278",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85176279": {
+            "codigo": "85176279",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85235110": {
+            "codigo": "85235110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85235190": {
+            "codigo": "85235190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85235210": {
+            "codigo": "85235210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85235290": {
+            "codigo": "85235290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85258929": {
+            "codigo": "85258929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "85261000": {
+            "codigo": "85261000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      }
+    }
+  },
+  "Level XVII": {
+    "descricao": "Material de transporte",
+    "capitulos": {
+      "86": {
+        "descricao": "Veículos e material para vias férreas ou semelhantes, e suas partes; aparelhos mecânicos (incluídos os eletromecânicos) de sinalização para vias de comunicação",
+        "ncms": {}
+      },
+      "87": {
+        "descricao": "Veículos automóveis, tratores, ciclos e outros veículos terrestres, suas partes e acessórios",
+        "ncms": {
+          "87131000": {
+            "codigo": "87131000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          },
+          "87139000": {
+            "codigo": "87139000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          },
+          "87142000": {
+            "codigo": "87142000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          },
+          "87082999": {
+            "codigo": "87082999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "87089910": {
+            "codigo": "87089910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "87011000": {
+            "codigo": "87011000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87012100": {
+            "codigo": "87012100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87012200": {
+            "codigo": "87012200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87012300": {
+            "codigo": "87012300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87012400": {
+            "codigo": "87012400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87012900": {
+            "codigo": "87012900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87013000": {
+            "codigo": "87013000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019100": {
+            "codigo": "87019100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019200": {
+            "codigo": "87019200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019300": {
+            "codigo": "87019300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019410": {
+            "codigo": "87019410",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019490": {
+            "codigo": "87019490",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019510": {
+            "codigo": "87019510",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87019590": {
+            "codigo": "87019590",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87091100": {
+            "codigo": "87091100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87091900": {
+            "codigo": "87091900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87099000": {
+            "codigo": "87099000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "87100000": {
+            "codigo": "87100000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      },
+      "88": {
+        "descricao": "Aeronaves e aparelhos espaciais, e suas partes",
+        "ncms": {
+          "88021100": {
+            "codigo": "88021100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88021210": {
+            "codigo": "88021210",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88021290": {
+            "codigo": "88021290",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88022010": {
+            "codigo": "88022010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88022021": {
+            "codigo": "88022021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88022022": {
+            "codigo": "88022022",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88022090": {
+            "codigo": "88022090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023010": {
+            "codigo": "88023010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023021": {
+            "codigo": "88023021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023029": {
+            "codigo": "88023029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023031": {
+            "codigo": "88023031",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023039": {
+            "codigo": "88023039",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88023090": {
+            "codigo": "88023090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88024010": {
+            "codigo": "88024010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88024090": {
+            "codigo": "88024090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88026000": {
+            "codigo": "88026000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88051000": {
+            "codigo": "88051000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88052100": {
+            "codigo": "88052100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88052900": {
+            "codigo": "88052900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88061000": {
+            "codigo": "88061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88062100": {
+            "codigo": "88062100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88062200": {
+            "codigo": "88062200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88062300": {
+            "codigo": "88062300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88062400": {
+            "codigo": "88062400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88062900": {
+            "codigo": "88062900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88069100": {
+            "codigo": "88069100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88069200": {
+            "codigo": "88069200",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88069300": {
+            "codigo": "88069300",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88069400": {
+            "codigo": "88069400",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88069900": {
+            "codigo": "88069900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "88040000": {
+            "codigo": "88040000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      },
+      "89": {
+        "descricao": "Embarcações e estruturas flutuantes",
+        "ncms": {
+          "89012000": {
+            "codigo": "89012000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "89061000": {
+            "codigo": "89061000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      }
+    }
+  },
+  "Level XVIII": {
+    "descricao": "Instrumentos e aparelhos de óptica, fotografia ou cinematografia, medida, controle ou de precisão; instrumentos e aparelhos médico-cirúrgicos; aparelhos de relojoaria; instrumentos musicais; suas partes e acessórios",
+    "capitulos": {
+      "90": {
+        "descricao": "Instrumentos e aparelhos de óptica, fotografia ou cinematografia, medida, controle ou de precisão; instrumentos e aparelhos médico-cirúrgicos; suas partes e acessórios",
+        "ncms": {
+          "90251111": {
+            "codigo": "90251111",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90251119": {
+            "codigo": "90251119",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90251191": {
+            "codigo": "90251191",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90251199": {
+            "codigo": "90251199",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90251910": {
+            "codigo": "90251910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90251990": {
+            "codigo": "90251990",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "90258000": {
+            "codigo": "90258000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90259010": {
+            "codigo": "90259010",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90259090": {
+            "codigo": "90259090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90181100": {
+            "codigo": "90181100",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90181210": {
+            "codigo": "90181210",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90181290": {
+            "codigo": "90181290",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90181300": {
+            "codigo": "90181300",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90181980": {
+            "codigo": "90181980",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90182010": {
+            "codigo": "90182010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90182020": {
+            "codigo": "90182020",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90182090": {
+            "codigo": "90182090",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90189010": {
+            "codigo": "90189010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90189099": {
+            "codigo": "90189099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90192040": {
+            "codigo": "90192040",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90211010": {
+            "codigo": "90211010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90211020": {
+            "codigo": "90211020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90213110": {
+            "codigo": "90213110",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213120": {
+            "codigo": "90213120",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213190": {
+            "codigo": "90213190",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213911": {
+            "codigo": "90213911",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213919": {
+            "codigo": "90213919",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213920": {
+            "codigo": "90213920",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213930": {
+            "codigo": "90213930",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213940": {
+            "codigo": "90213940",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213980": {
+            "codigo": "90213980",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213991": {
+            "codigo": "90213991",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90213999": {
+            "codigo": "90213999",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221200": {
+            "codigo": "90221200",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221311": {
+            "codigo": "90221311",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221319": {
+            "codigo": "90221319",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221390": {
+            "codigo": "90221390",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221411": {
+            "codigo": "90221411",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221412": {
+            "codigo": "90221412",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221413": {
+            "codigo": "90221413",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221419": {
+            "codigo": "90221419",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221490": {
+            "codigo": "90221490",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221910": {
+            "codigo": "90221910",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221991": {
+            "codigo": "90221991",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90221999": {
+            "codigo": "90221999",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90222110": {
+            "codigo": "90222110",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90222120": {
+            "codigo": "90222120",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90222190": {
+            "codigo": "90222190",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200004"
+          },
+          "90214000": {
+            "codigo": "90214000",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          },
+          "90219019": {
+            "codigo": "90219019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219092": {
+            "codigo": "90219092",
+            "reducao_aliquota": 100.0,
+            "cst": "200",
+            "classificacao_tributaria": "200007"
+          },
+          "90183111": {
+            "codigo": "90183111",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183119": {
+            "codigo": "90183119",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183190": {
+            "codigo": "90183190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183211": {
+            "codigo": "90183211",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183212": {
+            "codigo": "90183212",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183213": {
+            "codigo": "90183213",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183219": {
+            "codigo": "90183219",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183220": {
+            "codigo": "90183220",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183910": {
+            "codigo": "90183910",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183921": {
+            "codigo": "90183921",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183922": {
+            "codigo": "90183922",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183923": {
+            "codigo": "90183923",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183925": {
+            "codigo": "90183925",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183926": {
+            "codigo": "90183926",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183929": {
+            "codigo": "90183929",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183930": {
+            "codigo": "90183930",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183991": {
+            "codigo": "90183991",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90183999": {
+            "codigo": "90183999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90184911": {
+            "codigo": "90184911",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90184912": {
+            "codigo": "90184912",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90184919": {
+            "codigo": "90184919",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90184920": {
+            "codigo": "90184920",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90185090": {
+            "codigo": "90185090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90189021": {
+            "codigo": "90189021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90189040": {
+            "codigo": "90189040",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90189095": {
+            "codigo": "90189095",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90212900": {
+            "codigo": "90212900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90215000": {
+            "codigo": "90215000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219011": {
+            "codigo": "90219011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219012": {
+            "codigo": "90219012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219080": {
+            "codigo": "90219080",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219089": {
+            "codigo": "90219089",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219091": {
+            "codigo": "90219091",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90219099": {
+            "codigo": "90219099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90272012": {
+            "codigo": "90272012",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90272021": {
+            "codigo": "90272021",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90272029": {
+            "codigo": "90272029",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90273011": {
+            "codigo": "90273011",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90273019": {
+            "codigo": "90273019",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90273020": {
+            "codigo": "90273020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90275020": {
+            "codigo": "90275020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90275050": {
+            "codigo": "90275050",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90275090": {
+            "codigo": "90275090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90278100": {
+            "codigo": "90278100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90278999": {
+            "codigo": "90278999",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90279010": {
+            "codigo": "90279010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90279091": {
+            "codigo": "90279091",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90279093": {
+            "codigo": "90279093",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90279099": {
+            "codigo": "90279099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "90172000": {
+            "codigo": "90172000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "90142010": {
+            "codigo": "90142010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "90142020": {
+            "codigo": "90142020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "90142030": {
+            "codigo": "90142030",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "90142090": {
+            "codigo": "90142090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "90318099": {
+            "codigo": "90318099",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      },
+      "91": {
+        "descricao": "Artigos de relojoaria",
+        "ncms": {
+          "91021110": {
+            "codigo": "91021110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "91021190": {
+            "codigo": "91021190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "91029100": {
+            "codigo": "91029100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "91031000": {
+            "codigo": "91031000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          },
+          "91051100": {
+            "codigo": "91051100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200031"
+          }
+        }
+      },
+      "92": {
+        "descricao": "Instrumentos musicais, suas partes e acessórios",
+        "ncms": {}
+      }
+    }
+  },
+  "Level XIX": {
+    "descricao": "Armas e munições; suas partes e acessórios",
+    "capitulos": {
+      "93": {
+        "descricao": "Armas e munições; suas partes e acessórios",
+        "ncms": {
+          "93062110": {
+            "codigo": "93062110",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93062120": {
+            "codigo": "93062120",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93062130": {
+            "codigo": "93062130",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93062190": {
+            "codigo": "93062190",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93062900": {
+            "codigo": "93062900",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93063000": {
+            "codigo": "93063000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93069010": {
+            "codigo": "93069010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93069020": {
+            "codigo": "93069020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93069090": {
+            "codigo": "93069090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          },
+          "93012000": {
+            "codigo": "93012000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200044"
+          }
+        }
+      }
+    }
+  },
+  "Level XX": {
+    "descricao": "Mercadorias e produtos diversos",
+    "capitulos": {
+      "94": {
+        "descricao": "Móveis, mobiliário médico-cirúrgico; colchões, almofadas e semelhantes; aparelhos de iluminação não especificados nem compreendidos em outros Capítulos; anúncios, cartazes ou tabuletas e placas indicadoras luminosos, e artigos semelhantes; construções pré-fabricadas",
+        "ncms": {
+          "94029010": {
+            "codigo": "94029010",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "94029020": {
+            "codigo": "94029020",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          },
+          "94029090": {
+            "codigo": "94029090",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200030"
+          }
+        }
+      },
+      "95": {
+        "descricao": "Brinquedos, jogos, artigos para divertimento ou para esporte; suas partes e acessórios",
+        "ncms": {}
+      },
+      "96": {
+        "descricao": "Obras diversas",
+        "ncms": {
+          "96032100": {
+            "codigo": "96032100",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          },
+          "96190000": {
+            "codigo": "96190000",
+            "reducao_aliquota": 60.0,
+            "cst": "200",
+            "classificacao_tributaria": "200035"
+          }
+        }
+      }
+    }
+  },
+  "Level XXI": {
+    "descricao": "Objetos de artes, de coleção e antiguidades",
+    "capitulos": {
+      "97": {
+        "descricao": "Objetos de arte, de coleção e antiguidades",
+        "ncms": {}
+      }
+    }
+  },
+  "Level 99": {
+    "descricao": "(Reservado para usos especiais pelas Partes Contratantes)",
+    "capitulos": {
+      "999": {
+        "descricao": "Códigos especiais (99900060, 99910000, etc.)",
+        "ncms": {}
+      }
+    }
+  }
+};

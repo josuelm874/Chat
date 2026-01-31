@@ -7313,6 +7313,9 @@ input.invalid:focus {
 }
 .ncm-sercon-title { margin: 0 0 8px 0; font-size: 1.25em; color: #1f2937; }
 .ncm-sercon-desc { margin: 0 0 20px 0; color: #6b7280; font-size: 0.95em; }
+.ncm-test-link { margin: 12px 0 0 0; font-size: 0.85em; }
+.ncm-test-link a { color: #6b7280; text-decoration: none; }
+.ncm-test-link a:hover { color: #1976d2; text-decoration: underline; }
 
 .ncm-rgi-details {
   margin: 0 0 20px 0;
@@ -7439,6 +7442,93 @@ input.invalid:focus {
 }
 .ncm-empty i { font-size: 3em; display: block; margin-bottom: 12px; color: #9ca3af; }
 .ncm-empty p { margin: 0; }
+
+/* Controle de Vencimentos */
+.ncm-venc-vencida {
+  text-align: center;
+  padding: 32px 24px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  color: #991b1b;
+}
+.ncm-venc-vencida i {
+  font-size: 3.5em;
+  display: block;
+  margin-bottom: 16px;
+  color: #dc2626;
+}
+.ncm-venc-vencida h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.ncm-venc-vencida p {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #7f1d1d;
+}
+.ncm-venc-hint {
+  margin-top: 12px !important;
+  font-size: 0.9em !important;
+  color: #64748b !important;
+}
+.ncm-venc-sugestao {
+  margin: 12px 0 0 0 !important;
+  font-size: 0.9em !important;
+  color: #166534 !important;
+}
+.ncm-venc-sugestao code {
+  padding: 2px 6px;
+  background: #dcfce7;
+  border-radius: 4px;
+  font-family: monospace;
+}
+.ncm-venc-card .ncm-produto-card-head {
+  align-items: center;
+}
+.ncm-venc-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+.ncm-venc-badge.ncm-venc-vigente {
+  background: #d1fae5;
+  color: #065f46;
+}
+.ncm-venc-cap {
+  margin-top: 4px;
+  font-size: 0.9em;
+  color: #64748b;
+}
+.ncm-tipi-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  font-size: 0.9em;
+}
+.ncm-tipi-item {
+  color: #166534;
+}
+.ncm-tipi-item strong {
+  margin-right: 6px;
+  color: #14532d;
+}
+.ncm-tipi-default-hint {
+  flex: 1 1 100%;
+  width: 100%;
+  margin: 0 0 10px 0;
+  font-size: 0.85em;
+  color: #64748b;
+}
 
 /* Correlação de Produtos */
 .ncm-correlacao-form {

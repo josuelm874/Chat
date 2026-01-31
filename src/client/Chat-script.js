@@ -15755,7 +15755,7 @@ const contacts = [];
       }
       
       // Redirecionar para a página pública de vagas
-      const redirectUrl = '../vagas-publicas.html';
+      const redirectUrl = '../pages/vagas-publicas.html';
       window.open(redirectUrl, '_blank');
       
       // Fechar modal e atualizar lista

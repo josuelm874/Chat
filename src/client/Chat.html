@@ -1910,6 +1910,7 @@
                   <i class='bx bx-search'></i> Buscar NCM
                 </button>
               </div>
+              <p class="ncm-test-link"><a href="../../docs/NCM/ncm-consulta-test-10k.html" target="_blank" rel="noopener">Avaliar eficácia (teste 500 ou 10k produtos)</a></p>
             </div>
             <div id="ncm-produto-results" class="ncm-produto-results" style="display: none;">
               <h3 class="ncm-results-title">NCM(s) sugerida(s)</h3>
@@ -1921,7 +1922,20 @@
           <div id="ncm-tab-controle-vencimentos" class="ncm-tab-content" style="display: none;">
             <div class="ncm-sercon-panel">
               <h2 class="ncm-sercon-title">Controle de Vencimentos</h2>
-              <p class="ncm-sercon-desc">Pesquise pelo código NCM (8 dígitos) para obter as informações e verificar vencimentos.</p>
+              <p class="ncm-sercon-desc">Pesquise pelo código NCM (8 dígitos) para verificar se está vigente na Tabela NCM e obter Redução, CST e Classificação Tributária (TIPI).</p>
+              <div class="ncm-sercon-form">
+                <div class="ncm-sercon-field">
+                  <label for="ncm-venc-input">Código NCM</label>
+                  <input type="text" id="ncm-venc-input" placeholder="Ex.: 22021000 ou 2202.10.00" maxlength="14" aria-label="Código NCM">
+                </div>
+                <button type="button" id="ncm-venc-btn" class="ncm-sercon-btn">
+                  <i class="bx bx-search"></i> Verificar vencimento
+                </button>
+              </div>
+            </div>
+            <div id="ncm-venc-results" class="ncm-produto-results" style="display: none;">
+              <h3 class="ncm-results-title">Resultado</h3>
+              <div id="ncm-venc-results-inner" class="ncm-produto-grid"></div>
             </div>
           </div>
 
@@ -2572,6 +2586,7 @@
   <!-- Script Principal -->
   <script src="Chat-script.js"></script>
   <script src="../../docs/NCM/Tabela_NCM.js"></script>
+  <script src="../../docs/NCM/Tabela_TIPI.js"></script>
   <script src="../support/ncm-motor.js"></script>
   <script src="../support/ncm-wikipedia.js"></script>
   <script src="../support/ncm-embeddings.js"></script>

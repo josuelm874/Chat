@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste Consulta NCM</title>
+  <style>
+    body{font-family:system-ui;max-width:900px;margin:20px auto;padding:20px;background:#f5f5f5;}
+    h1{color:#333;}
+    .test-list{background:#fff;border-radius:8px;padding:16px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+    .test-item{margin:8px 0;padding:8px;background:#f9f9f9;border-radius:4px;display:flex;justify-content:space-between;align-items:center;}
+    .test-item.ok{background:#e8f5e9;}
+    .test-item.fail{background:#ffebee;}
+    .test-item.partial{background:#fff3e0;}
+    button{background:#1976d2;color:#fff;border:none;padding:12px 24px;border-radius:8px;cursor:pointer;font-size:16px;}
+    button:hover{background:#1565c0;}
+    #summary{margin-top:20px;padding:16px;background:#fff;border-radius:8px;}
+    .query{font-weight:600;}
+    .result{font-size:0.9em;color:#555;}
+  </style>
+</head>
+<body>
+  <h1>Teste de Eficácia – Consulta de Produto NCM</h1>
+  <p>Execute a bateria de testes e verifique os resultados. <a href="ncm-consulta-test-10k.html">Teste em lote (10k produtos)</a></p>
+  <button id="run-tests">Executar todos os testes</button>
+  <div id="summary" style="display:none;"></div>
+  <div id="test-list" class="test-list"></div>
+
+  <script src="Tabela_NCM.js"></script>
+  <script src="../../src/support/ncm-motor.js"></script>
+  <script>
+    var CASOS_TESTE = [
+      { q: 'refrigerante', esperado: '22', desc: 'Bebida gaseificada' },
+      { q: 'arroz agulhinha', esperado: '10', desc: 'Cereal' },
+      { q: 'leite UHT integral', esperado: '04', desc: 'Laticínio' },
+      { q: 'feijão carioca', esperado: '07', desc: 'Leguminosa' },
+      { q: 'achocolatado', esperado: '18', desc: 'Cacau preparado' },
+      { q: 'carne bovina', esperado: '02', desc: 'Carne' },
+      { q: 'óleo de soja', esperado: '15', desc: 'Óleo vegetal' },
+      { q: 'bolacha recheada', esperado: '19', desc: 'Massas alimentícias' },
+      { q: 'água mineral', esperado: '22', desc: 'Bebida' },
+      { q: 'açúcar cristal', esperado: '17', desc: 'Açúcar' },
+      { q: 'fralda descartável', esperado: '96', desc: 'Higiene' },
+      { q: 'detergente líquido', esperado: '34', desc: 'Tensioativo' },
+      { q: 'mouse USB', esperado: '85', desc: 'Eletrônico' },
+      { q: 'geleia de morango', esperado: '20', desc: 'Conserva' },
+      { q: 'café torrado', esperado: '09', desc: 'Café' },
+      { q: 'Ref. 2L cola', esperado: '22', desc: 'Abreviação REF' },
+      { q: 'macarrão espaguete', esperado: '19', desc: 'Massa' },
+      { q: 'castanha de caju', esperado: '08', desc: 'Fruto seco' }
+    ];
+
+    function runTests() {
+      var list = document.getElementById('test-list');
+      var summary = document.getElementById('summary');
+      list.innerHTML = '';
+      summary.style.display = 'block';
+      summary.innerHTML = '<p>Executando...</p>';
+      if (!window.ncmMotor || !window.ncmMotor.isReady()) {
+        summary.innerHTML = '<p style="color:red;">Motor NCM não carregado. Aguarde ou recarregue.</p>';
+        return;
+      }
+      var ok = 0, fail = 0, partial = 0;
+      var detalhes = [];
+      CASOS_TESTE.forEach(function(tc, i) {
+        var r = window.ncmMotor.sugerirNCM(tc.q, { limit: 10 });
+        var temResultado = r && r.length > 0;
+        var capCorreto = temResultado && r[0].capitulo === tc.esperado;
+        var noCapitulo = temResultado && r.some(function(x){ return x.capitulo === tc.esperado; });
+        var top = r && r[0] ? r[0].codigoFormatado + ' (cap. ' + r[0].capitulo + ')' : '-';
+        if (capCorreto) ok++;
+        else if (noCapitulo) partial++;
+        else fail++;
+        var cls = capCorreto ? 'ok' : (noCapitulo ? 'partial' : 'fail');
+        list.innerHTML += '<div class="test-item ' + cls + '"><span class="query">' + (i+1) + '. ' + tc.q + '</span><span class="result">' + top + '</span></div>';
+        detalhes.push({ q: tc.q, esperado: tc.esperado, top: top, ok: capCorreto, noCap: noCapitulo, total: r ? r.length : 0 });
+      });
+      summary.innerHTML = '<p><strong>Resumo:</strong> ' + ok + ' OK, ' + partial + ' no capítulo, ' + fail + ' falhas. Total: ' + CASOS_TESTE.length + ' testes.</p>' +
+        '<p>Taxa de acerto (cap. correto no topo): ' + (ok / CASOS_TESTE.length * 100).toFixed(1) + '%</p>';
+    }
+    document.getElementById('run-tests').addEventListener('click', runTests);
+  </script>
+</body>
+</html>
