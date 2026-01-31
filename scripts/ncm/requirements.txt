@@ -1,2 +1,0 @@
-# convert_ncm_to_json.py (Excel -> JSON)
-openpyxl>=3.0.0
