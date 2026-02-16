@@ -1869,38 +1869,25 @@
         </div>
 
         <div class="ncm-content">
-          <!-- Abas NCM: Consulta de NCM | Correlação de Produtos -->
           <div class="ncm-tabs-header">
             <button type="button" class="ncm-tab-btn active" data-ncm-tab="consulta-produto" aria-selected="true">
               <i class='bx bx-search-alt'></i>
               <span>Consulta de NCM</span>
             </button>
-            <button type="button" class="ncm-tab-btn" data-ncm-tab="correlacao-produtos">
-              <i class='bx bx-table'></i>
-              <span>Correlação de Produtos</span>
+            <button type="button" class="ncm-tab-btn" data-ncm-tab="correlacao" aria-selected="false">
+              <i class='bx bx-link-alt'></i>
+              <span>Correlação</span>
             </button>
           </div>
 
-          <!-- Aba 1: Consulta de NCM (produto ou código) -->
           <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
             <div class="ncm-sercon-panel">
               <h2 class="ncm-sercon-title">Consulta de NCM</h2>
-              <p class="ncm-sercon-desc">Digite o <strong>nome do produto</strong> para obter NCM(s) sugerida(s) ou um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições e dados TIPI (Redução, CST, Classificação Tributária).</p>
-              <details class="ncm-rgi-details">
-                <summary>Regras gerais (RGI) – dicas rápidas</summary>
-                <ul class="ncm-rgi-list">
-                  <li><strong>RGI 1:</strong> Títulos de capítulos são apenas indicativos; valem os textos das posições e notas.</li>
-                  <li><strong>RGI 3a:</strong> Posição mais específica prevalece; o motor prioriza descrições mais detalhadas.</li>
-                  <li><strong>RGI 3b:</strong> Produtos mistos → busque pelo componente que dá a <em>característica essencial</em>.</li>
-                  <li><strong>RGI 3c:</strong> Em empate, usa-se a posição em último na ordem numérica (código maior).</li>
-                  <li><strong>RGI 4:</strong> Sem match direto, o fallback procura artigos mais semelhantes no capítulo sugerido.</li>
-                </ul>
-                <p class="ncm-rgi-ref">Ver <code>docs/NCM-RGI.md</code> para o resumo completo das RGI.</p>
-              </details>
+              <p class="ncm-sercon-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI (Redução de Alíquota, CST, Classificação Tributária).</p>
               <div class="ncm-sercon-form">
                 <div class="ncm-sercon-field">
-                  <label for="ncm-produto-search">Produto ou código NCM</label>
-                  <input type="text" id="ncm-produto-search" placeholder="Ex: Arroz, Refrigerante... ou 22021000, 2202.10.00" maxlength="200" autocomplete="off">
+                  <label for="ncm-produto-search">Código NCM</label>
+                  <input type="text" id="ncm-produto-search" placeholder="Ex: 22021000 ou 2202.10.00" maxlength="20" autocomplete="off">
                 </div>
                 <button type="button" id="ncm-produto-search-btn" class="ncm-sercon-btn">
                   <i class='bx bx-search'></i> Buscar
@@ -1908,51 +1895,32 @@
               </div>
             </div>
             <div id="ncm-produto-results" class="ncm-produto-results" style="display: none;">
-              <h3 class="ncm-results-title">NCM(s) sugerida(s)</h3>
+              <h3 class="ncm-results-title">Resultado</h3>
               <div id="ncm-produto-results-grid" class="ncm-produto-grid"></div>
             </div>
           </div>
 
-          <!-- Aba 2: Correlação de Produtos -->
-          <div id="ncm-tab-correlacao-produtos" class="ncm-tab-content" style="display: none;">
+          <div id="ncm-tab-correlacao" class="ncm-tab-content">
             <div class="ncm-sercon-panel">
-              <h2 class="ncm-sercon-title">Correlação de Produtos</h2>
-              <p class="ncm-sercon-desc">Importe uma planilha (CSV ou Excel) com colunas <strong>Produto</strong> e <strong>NCM</strong>. O sistema verifica se cada produto está com a NCM correta e sugere correções.</p>
-              <div class="ncm-correlacao-form">
-                <div class="ncm-correlacao-field">
-                  <label for="ncm-correlacao-file">Planilha (CSV ou XLSX)</label>
-                  <div class="ncm-correlacao-file-wrap">
-                    <input type="file" id="ncm-correlacao-file" accept=".csv,.xlsx,.xls" aria-label="Selecionar planilha">
-                    <span class="ncm-correlacao-file-name" id="ncm-correlacao-file-name">Nenhum arquivo selecionado</span>
-                  </div>
+              <h2 class="ncm-sercon-title">Correlação produto × NCM</h2>
+              <p class="ncm-sercon-desc">Informe o <strong>nome do produto</strong> e o <strong>código NCM</strong> cadastrado. O sistema verifica se o produto se enquadra na categoria da NCM (regras de incompatibilidade + Ollama). Resultado: <strong>SIM</strong>, <strong>NAO</strong> ou <strong>Revisar manualmente</strong>.</p>
+              <div class="ncm-sercon-form">
+                <div class="ncm-sercon-field">
+                  <label for="ncm-correlacao-produto">Nome do produto</label>
+                  <input type="text" id="ncm-correlacao-produto" placeholder="Ex: Lápis grafite HB" maxlength="200" autocomplete="off">
                 </div>
-                <button type="button" id="ncm-correlacao-verify-btn" class="ncm-sercon-btn" disabled>
-                  <i class="bx bx-check-double"></i> Verificar correlação
+                <div class="ncm-sercon-field">
+                  <label for="ncm-correlacao-ncm">Código NCM (8 dígitos)</label>
+                  <input type="text" id="ncm-correlacao-ncm" placeholder="Ex: 22021000 ou 9608.10.00" maxlength="20" autocomplete="off">
+                </div>
+                <button type="button" id="ncm-correlacao-btn" class="ncm-sercon-btn">
+                  <i class='bx bx-check-circle'></i> Validar
                 </button>
               </div>
-              <p class="ncm-correlacao-hint">Colunas aceitas: <em>Produto</em> (ou Descrição, Nome, Item), <em>NCM</em> (ou Código NCM). Primeira linha = cabeçalho.</p>
             </div>
-            <div id="ncm-correlacao-results" class="ncm-correlacao-results" style="display: none;">
-              <div class="ncm-correlacao-results-header">
-                <h3 class="ncm-results-title">Resultado da correlação</h3>
-                <button type="button" id="ncm-correlacao-export-btn" class="ncm-sercon-btn ncm-correlacao-export-btn">
-                  <i class="bx bx-download"></i> Exportar CSV
-                </button>
-              </div>
-              <div class="ncm-correlacao-table-wrap">
-                <table class="ncm-correlacao-table" id="ncm-correlacao-table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Produto</th>
-                      <th>NCM na planilha</th>
-                      <th>Status</th>
-                      <th>Sugestões</th>
-                    </tr>
-                  </thead>
-                  <tbody id="ncm-correlacao-tbody"></tbody>
-                </table>
-              </div>
+            <div id="ncm-correlacao-result" class="ncm-correlacao-result" style="display: none;">
+              <h3 class="ncm-results-title">Resultado</h3>
+              <div id="ncm-correlacao-result-box" class="ncm-correlacao-result-box"></div>
             </div>
           </div>
         </div>
@@ -2562,11 +2530,8 @@
   <script src="../../docs/NCM/data/Tabela_NCM.js"></script>
   <script src="../../docs/NCM/data/Tabela_TIPI.js"></script>
   <script src="../modules/ncm/ncm-motor.js"></script>
-  <script src="../modules/ncm/ncm-wikipedia.js"></script>
-  <script src="../modules/ncm/ncm-embeddings.js"></script>
-  <script src="../modules/ncm/ncm-sercon-tabs.js"></script>
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   <script src="../modules/ncm/ncm-correlacao.js"></script>
+  <script src="../modules/ncm/ncm-sercon-tabs.js"></script>
 </body>
 
 </html>

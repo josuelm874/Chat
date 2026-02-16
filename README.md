@@ -1,33 +1,33 @@
 # Chat UI – Sercon
 
-Aplicação web (Chat, Suporte, Vagas, NCM) com integração Supabase e motor de correlação NCM.
+Aplicação web (Chat, Suporte, Vagas, NCM) com integração Supabase.
 
 ## Estrutura
 
+Consulte **[ESTRUTURA.md](ESTRUTURA.md)** para a documentação completa pasta a pasta e arquivo por arquivo.
+
 ```
 Chat UI/
-├── assets/
-│   └── images/
-│       ├── branding/   # logo, Sercon
-│       └── avatars/    # profile-1, etc.
-├── docs/
-│   └── NCM/
-│       ├── data/       # Tabela_NCM.js, Tabela_TIPI.js, ncm-embeddings.json
-│       └── fontes/     # JSON intermediários
+├── assets/images/     # branding, avatars
+├── docs/NCM/          # Tabela NCM e TIPI (data/, fontes/)
 └── src/
-    ├── client/     # boot.html, Chat.html (entrada principal)
-    ├── core/       # config, constants, utils, supabase-sync
+    ├── client/        # boot.html, Chat.html (entradas)
+    ├── core/          # config, constants, utils, supabase-sync
     ├── modules/
-    │   ├── ncm/    # motor, sercon-tabs, correlacao, embeddings, wikipedia
-    │   └── suporte/# Suporte.html, boot-suporte
-    └── pages/      # vagas-publicas
+    │   ├── ncm/       # ncm-motor, ncm-sercon-tabs
+    │   └── suporte/   # Suporte.html, boot-suporte
+    └── pages/         # vagas-publicas.html
 ```
 
 ## Como rodar
 
-**Frontend**: servir via HTTP (ex.: `npx serve .` na raiz do projeto) e abrir `src/client/boot.html` ou `src/client/Chat.html`.
+Servir via HTTP na raiz do projeto e abrir:
 
-## Módulos NCM
+- `src/client/boot.html` – tela de carregamento
+- `src/client/Chat.html` – aplicação principal
 
-- **Consulta de NCM**: busca por nome do produto (sugestões de NCM) ou por código NCM (vigência + TIPI).
-- **Correlação de Produtos**: importa planilha, verifica NCMs.
+Exemplo: `npx serve .`
+
+## Módulo NCM
+
+**Consulta de NCM**: digite um código NCM (8 dígitos) para verificar vigência, descrições hierárquicas (2, 4, 6 e 8 dígitos) e dados TIPI (Redução de Alíquota, CST, Classificação Tributária). Usa `Tabela_NCM.js` e `Tabela_TIPI.js`.

@@ -1,281 +1,145 @@
 /**
- * NCM Correlação – Importar planilha, verificar produto × NCM, exportar resultado.
- * Depende: ncm-motor (correlacionar), Tabela_NCM. Opcional: SheetJS (XLSX).
+ * NCM - Correlação produto × NCM (validação por regras de incompatibilidade + Ollama).
+ * Depende de window.ncmMotor (descrição NCM) e carrega incompatibilidades.json.
  */
-
 (function () {
   'use strict';
 
-  var PRODUTO_KEYS = ['produto', 'descricao', 'descriçao', 'nome', 'item', 'produto descricao', 'descricao produto'];
-  var NCM_KEYS = ['ncm', 'codigo ncm', 'cod ncm', 'ncm produto', 'codigo ncm produto', 'codigo'];
+  var INCOMPATIBILIDADES = [];
+  var INCOMPATIBILIDADES_URL = '../../docs/NCM/data/incompatibilidades.json';
+  var OLLAMA_URL_DEFAULT = 'http://localhost:11434/api/generate';
+  var OLLAMA_TIMEOUT_MS = 30000;
 
-  function ready(fn) {
-    if (document.readyState !== 'loading') fn();
-    else document.addEventListener('DOMContentLoaded', fn);
-  }
-
-  function escapeHtml(str) {
+  function normalizarTexto(str) {
     if (str == null) return '';
-    var d = document.createElement('div');
-    d.textContent = String(str);
-    return d.innerHTML;
+    var s = String(str).toLowerCase()
+      .replace(/[áàâãä]/g, 'a').replace(/[éèêë]/g, 'e').replace(/[íìîï]/g, 'i')
+      .replace(/[óòôõö]/g, 'o').replace(/[úùûü]/g, 'u').replace(/ç/g, 'c');
+    return s;
   }
 
-  function normalizeHeader(h) {
-    return String(h || '')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9\s]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
+  /** Extrai palavras relevantes (mín. 4 caracteres, sem acento). */
+  function extrairPalavras(texto) {
+    if (!texto) return [];
+    var norm = normalizarTexto(texto);
+    var palavras = norm.split(/\s|[,.;/\\]/).filter(function (p) { return p.length >= 4; });
+    var seen = {};
+    return palavras.filter(function (p) {
+      if (seen[p]) return false;
+      seen[p] = true;
+      return true;
+    });
   }
 
-  function findColumnIndex(headers, keys) {
-    var i, n, k;
-    for (i = 0; i < headers.length; i++) {
-      n = normalizeHeader(headers[i]);
-      for (k = 0; k < keys.length; k++) {
-        if (n === keys[k] || n.indexOf(keys[k]) === 0) return i;
-      }
+  function palavraContidaEm(palavra, listaPalavras) {
+    for (var i = 0; i < listaPalavras.length; i++) {
+      var p = listaPalavras[i];
+      if (p.indexOf(palavra) !== -1 || palavra.indexOf(p) !== -1) return true;
     }
-    return -1;
+    return false;
   }
 
-  function parseCSV(text) {
-    var lines = text.split(/\r?\n/).filter(function (l) { return l.trim().length > 0; });
-    if (lines.length < 2) return { headers: [], rows: [] };
-    var delim = lines[0].indexOf(';') !== -1 ? ';' : ',';
-    var headers = lines[0].split(delim).map(function (c) { return c.trim().replace(/^"|"$/g, ''); });
-    var rows = [];
-    var i, parts, j;
-    for (i = 1; i < lines.length; i++) {
-      parts = lines[i].split(delim).map(function (c) { return c.trim().replace(/^"|"$/g, ''); });
-      if (parts.some(function (p) { return p.length > 0; })) rows.push(parts);
-    }
-    return { headers: headers, rows: rows };
-  }
+  /** Verifica se produto e descrição NCM são incompatíveis pela regra. */
+  function testarIncompatibilidade(produto, descricaoNcm) {
+    if (!INCOMPATIBILIDADES.length) return false;
+    var palavrasProduto = extrairPalavras(produto);
+    var palavrasNcm = extrairPalavras(descricaoNcm);
 
-  function parseXLSX(ab) {
-    var X = typeof window !== 'undefined' && window.XLSX;
-    if (!X) return { headers: [], rows: [], error: 'SheetJS não carregado. Use CSV ou adicione script XLSX.' };
-    var wb = X.read(ab, { type: 'array' });
-    var first = wb.SheetNames[0];
-    var sh = wb.Sheets[first];
-    var arr = X.utils.sheet_to_json(sh, { header: 1 });
-    if (!arr || arr.length < 2) return { headers: [], rows: [] };
-    var headers = arr[0].map(function (c) { return String(c || '').trim(); });
-    var rows = [];
-    var i, row, r;
-    for (i = 1; i < arr.length; i++) {
-      row = arr[i];
-      if (!row) continue;
-      r = headers.map(function (_, j) { return String((row[j] != null ? row[j] : '')).trim(); });
-      if (r.some(function (p) { return p.length > 0; })) rows.push(r);
-    }
-    return { headers: headers, rows: rows };
-  }
-
-  async function runCorrelacao(rows, colProd, colNcm) {
-    var motor = window.ncmMotor;
-    var embeddings = typeof window !== 'undefined' && window.ncmEmbeddings;
-    var wiki = typeof window !== 'undefined' && window.ncmWikipedia;
-    if (!motor || typeof motor.correlacionar !== 'function') return [];
-    var out = [];
-    var i, r, produto, ncm, texto, res, sim, iaOpts, w;
-    for (i = 0; i < rows.length; i++) {
-      r = rows[i];
-      produto = (r[colProd] != null ? String(r[colProd]) : '').trim();
-      ncm = (r[colNcm] != null ? String(r[colNcm]) : '').trim();
-      if (!produto && !ncm) continue;
-      texto = produto;
-      if (wiki && typeof wiki.enriquecerComWikipedia === 'function') {
-        try {
-          w = await wiki.enriquecerComWikipedia(produto);
-          if (w.wikiUsado && w.textoEnriquecido) texto = w.textoEnriquecido;
-        } catch (e) {}
+    for (var r = 0; r < INCOMPATIBILIDADES.length; r++) {
+      var regra = INCOMPATIBILIDADES[r];
+      var ncmTemAlguma = false;
+      var listNcm = regra.ncm_palavras || [];
+      for (var i = 0; i < listNcm.length; i++) {
+        if (palavraContidaEm(listNcm[i], palavrasNcm)) { ncmTemAlguma = true; break; }
       }
-      res = motor.correlacionar(texto, ncm);
-      if ((!res.sugestoes || res.sugestoes.length === 0) && embeddings && typeof embeddings.sugerirNCMEmbeddings === 'function') {
-        iaOpts = {
-          limit: 5,
-          minSimilarity: 0.28,
-          requireTokenOverlap: true,
-          chapterHint: motor.getChapterHint ? motor.getChapterHint(texto) : null,
-          tokens: motor.getExpandedTokensForProduct ? motor.getExpandedTokensForProduct(texto) : (motor.getTokensForProduct ? motor.getTokensForProduct(texto) : null)
-        };
-        try {
-          sim = await embeddings.sugerirNCMEmbeddings(texto, iaOpts);
-          if (sim && sim.length > 0) {
-            res.sugestoes = sim;
-            res.mensagem = 'NCM pode não corresponder. Sugestões por IA (similaridade + filtros).';
-          }
-        } catch (e) {}
+      var produtoTemAlguma = false;
+      var listProd = regra.produto_palavras || [];
+      for (var j = 0; j < listProd.length; j++) {
+        if (palavraContidaEm(listProd[j], palavrasProduto)) { produtoTemAlguma = true; break; }
       }
-      out.push({
-        index: i + 1,
-        produto: produto,
-        ncm: ncm,
-        ok: res.ok,
-        mensagem: res.mensagem || '',
-        sugestoes: (res.sugestoes || []).slice(0, 5),
-        ncmFormatado: res.ncmInformadoFormatado || ''
+      if (ncmTemAlguma && produtoTemAlguma) return true;
+    }
+    return false;
+  }
+
+  function interpretarResposta(texto) {
+    var t = String(texto || '').replace(/\r?\n/g, ' ').trim().toUpperCase();
+    var primeira = (t.split(/[\s,.]/).filter(Boolean))[0] || '';
+    if (primeira === 'SIM') return 'SIM';
+    if (primeira === 'NAO' || primeira === 'NÃO') return 'NAO';
+    return 'REVISAR';
+  }
+
+  /**
+   * Valida se o produto se enquadra na NCM: regra primeiro, depois Ollama.
+   * @param {string} produto - Nome do produto
+   * @param {string} ncm - Código NCM (8 dígitos)
+   * @param {string} descricao - Descrição da NCM (pode ser vazia; será obtida do motor se possível)
+   * @param {object} opts - { ollamaUrl?, timeoutMs? }
+   * @returns {Promise<string>} 'SIM' | 'NAO' | 'REVISAR' | 'ERRO'
+   */
+  function validarNcm(produto, ncm, descricao, opts) {
+    opts = opts || {};
+    var desc = (descricao || '').trim();
+    if (!desc && typeof window !== 'undefined' && window.ncmMotor) {
+      var item = window.ncmMotor.buscarPorCodigo(ncm);
+      if (item) desc = (item.descricaoCompleta || item.descricao || '').trim();
+    }
+    if (!desc) desc = 'NCM ' + String(ncm).replace(/\D/g, '').slice(0, 8);
+
+    if (testarIncompatibilidade(produto, desc)) return Promise.resolve('NAO');
+
+    var url = opts.ollamaUrl || OLLAMA_URL_DEFAULT;
+    var timeout = opts.timeoutMs != null ? opts.timeoutMs : OLLAMA_TIMEOUT_MS;
+    var prompt = 'Produto: ' + produto + '. NCM cadastrada: ' + ncm + ' - ' + desc + '. O produto pertence a esta categoria? Exemplos: Lapis nao e carne. Carne nao e fruta. Refrigerante e bebida gaseificada. Responda APENAS: SIM ou NAO';
+
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var id = controller ? setTimeout(function () { controller.abort(); }, timeout) : null;
+
+    var init = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'phi3.5',
+        prompt: prompt,
+        stream: false,
+        options: { num_predict: 10, temperature: 0.1 },
+        stop: ['\n', ' ', 'A ', 'O ']
+      })
+    };
+    if (controller && init.signal === undefined) init.signal = controller.signal;
+
+    return fetch(url, init)
+      .then(function (res) {
+        if (id) clearTimeout(id);
+        if (!res.ok) return 'ERRO';
+        return res.json();
+      })
+      .then(function (data) {
+        var text = (data && data.response) ? data.response : '';
+        return interpretarResposta(text);
+      })
+      .catch(function () {
+        if (id) clearTimeout(id);
+        return 'ERRO';
       });
-    }
-    return out;
   }
 
-  function init() {
-    var fileInput = document.getElementById('ncm-correlacao-file');
-    var fileName = document.getElementById('ncm-correlacao-file-name');
-    var verifyBtn = document.getElementById('ncm-correlacao-verify-btn');
-    var resultsEl = document.getElementById('ncm-correlacao-results');
-    var tbody = document.getElementById('ncm-correlacao-tbody');
-    var exportBtn = document.getElementById('ncm-correlacao-export-btn');
-
-    var lastFile = null;
-    var lastResult = [];
-
-    if (!fileInput || !verifyBtn || !tbody) return;
-
-    function toast(msg, type) {
-      if (typeof showToast === 'function') showToast(msg, type || 'info');
-      else alert(msg);
-    }
-
-    function setBusy(b) {
-      verifyBtn.disabled = b;
-      verifyBtn.innerHTML = b
-        ? '<i class="bx bx-loader-alt bx-spin"></i> Verificando...'
-        : '<i class="bx bx-check-double"></i> Verificar correlação';
-    }
-
-    fileInput.addEventListener('change', function () {
-      var f = fileInput.files && fileInput.files[0];
-      lastFile = f || null;
-      if (fileName) fileName.textContent = f ? f.name : 'Nenhum arquivo selecionado';
-      verifyBtn.disabled = !f;
-    });
-
-    verifyBtn.addEventListener('click', function () {
-      if (!lastFile) {
-        toast('Selecione uma planilha (CSV ou XLSX).', 'warning');
-        return;
-      }
-      if (!window.ncmMotor || !window.ncmMotor.isReady()) {
-        toast('Tabela NCM ainda não carregada. Aguarde.', 'error');
-        return;
-      }
-
-      var ext = (lastFile.name || '').toLowerCase();
-      var isCsv = ext.endsWith('.csv');
-      var isXlsx = ext.endsWith('.xlsx') || ext.endsWith('.xls');
-
-      if (!isCsv && !isXlsx) {
-        toast('Use arquivo CSV ou XLSX.', 'warning');
-        return;
-      }
-
-      setBusy(true);
-      lastResult = [];
-
-      async function onParsed(data) {
-        var headers = data.headers || [];
-        var rows = data.rows || [];
-        if (data.error) {
-          setBusy(false);
-          toast(data.error, 'error');
-          return;
-        }
-        var colProd = findColumnIndex(headers, PRODUTO_KEYS);
-        var colNcm = findColumnIndex(headers, NCM_KEYS);
-        if (colProd === -1 || colNcm === -1) {
-          setBusy(false);
-          toast('Planilha deve ter colunas "Produto" (ou Descrição/Nome) e "NCM" (ou Código NCM).', 'error');
-          return;
-        }
-        lastResult = await runCorrelacao(rows, colProd, colNcm);
-        renderTable(lastResult);
-        resultsEl.style.display = 'block';
-        setBusy(false);
-        toast('Correlação concluída: ' + lastResult.length + ' linha(s) verificada(s).', 'success');
-      }
-
-      if (isCsv) {
-        var reader = new FileReader();
-        reader.onload = async function () {
-          var text = (reader.result || '').replace(/\uFEFF/g, '');
-          await onParsed(parseCSV(text));
-        };
-        reader.onerror = function () {
-          setBusy(false);
-          toast('Erro ao ler o arquivo.', 'error');
-        };
-        reader.readAsText(lastFile, 'UTF-8');
-      } else {
-        var r2 = new FileReader();
-        r2.onload = async function () {
-          await onParsed(parseXLSX(r2.result));
-        };
-        r2.onerror = function () {
-          setBusy(false);
-          toast('Erro ao ler o arquivo.', 'error');
-        };
-        r2.readAsArrayBuffer(lastFile);
-      }
-    });
-
-    function renderTable(results) {
-      var html = '';
-      var i, r, statusClass, statusText, sugs;
-      for (i = 0; i < results.length; i++) {
-        r = results[i];
-        statusClass = r.ok ? 'ncm-corr-ok' : 'ncm-corr-revisar';
-        statusText = r.ok ? 'OK' : 'Revisar';
-        sugs = (r.sugestoes || []).map(function (s) {
-          return escapeHtml((s.codigoFormatado || s.codigo || '') + ' ' + (s.descricao || '').slice(0, 60));
-        }).join(', ') || '—';
-        html += '<tr class="' + statusClass + '">' +
-          '<td>' + escapeHtml(r.index) + '</td>' +
-          '<td>' + escapeHtml(r.produto) + '</td>' +
-          '<td>' + escapeHtml(r.ncmFormatado || r.ncm) + '</td>' +
-          '<td><span class="ncm-corr-badge ' + statusClass + '">' + statusText + '</span></td>' +
-          '<td class="ncm-corr-sugestoes">' + sugs + '</td>' +
-          '</tr>';
-      }
-      tbody.innerHTML = html || '<tr><td colspan="5">Nenhuma linha para exibir.</td></tr>';
-    }
-
-    exportBtn.addEventListener('click', function () {
-      if (!lastResult.length) {
-        toast('Execute a verificação antes de exportar.', 'warning');
-        return;
-      }
-      var BOM = '\uFEFF';
-      var lines = ['#;Produto;NCM na planilha;Status;Sugestões'];
-      var i, r, sugs;
-      for (i = 0; i < lastResult.length; i++) {
-        r = lastResult[i];
-        sugs = (r.sugestoes || []).map(function (s) {
-          return (s.codigoFormatado || s.codigo || '') + ' ' + (s.descricao || '').slice(0, 80);
-        }).join(' | ');
-        lines.push([
-          r.index,
-          '"' + (r.produto || '').replace(/"/g, '""') + '"',
-          r.ncmFormatado || r.ncm,
-          r.ok ? 'OK' : 'Revisar',
-          '"' + (sugs || '—').replace(/"/g, '""') + '"'
-        ].join(';'));
-      }
-      var blob = new Blob([BOM + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'ncm-correlacao-resultado.csv';
-      a.click();
-      URL.revokeObjectURL(a.href);
-      toast('CSV exportado.', 'success');
-    });
+  /**
+   * Carrega incompatibilidades.json (fetch). URL relativa ao documento (Chat.html em src/client/).
+   * @returns {Promise<void>}
+   */
+  function carregarIncompatibilidades() {
+    return fetch(INCOMPATIBILIDADES_URL)
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (arr) { INCOMPATIBILIDADES = Array.isArray(arr) ? arr : []; })
+      .catch(function () { INCOMPATIBILIDADES = []; });
   }
 
-  ready(init);
+  window.ncmCorrelacao = {
+    validarNcm: validarNcm,
+    carregarIncompatibilidades: carregarIncompatibilidades,
+    testarIncompatibilidade: testarIncompatibilidade,
+    getIncompatibilidades: function () { return INCOMPATIBILIDADES.slice(); }
+  };
 })();
