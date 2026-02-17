@@ -7391,35 +7391,6 @@ input.invalid:focus {
 .ncm-sercon-btn:hover { background: #5568d3; transform: translateY(-1px); }
 .ncm-sercon-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-/* Correlação - resultado */
-.ncm-correlacao-result { margin-top: 24px; }
-.ncm-correlacao-result-box { margin-top: 12px; }
-.ncm-correlacao-loading { margin: 0; color: #6b7280; display: flex; align-items: center; gap: 8px; }
-.ncm-correlacao-result-item {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.1em;
-}
-.ncm-correlacao-result-item.ncm-correlacao-sim {
-  background: #d1fae5;
-  color: #065f46;
-  border: 2px solid #10b981;
-}
-.ncm-correlacao-result-item.ncm-correlacao-nao {
-  background: #fef3c7;
-  color: #92400e;
-  border: 2px solid #f59e0b;
-}
-.ncm-correlacao-result-item.ncm-correlacao-revisar {
-  background: #f3f4f6;
-  color: #374151;
-  border: 2px solid #9ca3af;
-}
-.ncm-correlacao-label { margin: 0; }
-
 .ncm-produto-results { margin-top: 24px; }
 .ncm-results-title { margin: 0 0 16px 0; font-size: 1.1em; color: #1f2937; }
 .ncm-produto-grid {

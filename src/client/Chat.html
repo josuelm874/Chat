@@ -1874,10 +1874,6 @@
               <i class='bx bx-search-alt'></i>
               <span>Consulta de NCM</span>
             </button>
-            <button type="button" class="ncm-tab-btn" data-ncm-tab="correlacao" aria-selected="false">
-              <i class='bx bx-link-alt'></i>
-              <span>Correlação</span>
-            </button>
           </div>
 
           <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
@@ -1897,30 +1893,6 @@
             <div id="ncm-produto-results" class="ncm-produto-results" style="display: none;">
               <h3 class="ncm-results-title">Resultado</h3>
               <div id="ncm-produto-results-grid" class="ncm-produto-grid"></div>
-            </div>
-          </div>
-
-          <div id="ncm-tab-correlacao" class="ncm-tab-content">
-            <div class="ncm-sercon-panel">
-              <h2 class="ncm-sercon-title">Correlação produto × NCM</h2>
-              <p class="ncm-sercon-desc">Informe o <strong>nome do produto</strong> e o <strong>código NCM</strong> cadastrado. O sistema verifica se o produto se enquadra na categoria da NCM (regras de incompatibilidade + Ollama). Resultado: <strong>SIM</strong>, <strong>NAO</strong> ou <strong>Revisar manualmente</strong>.</p>
-              <div class="ncm-sercon-form">
-                <div class="ncm-sercon-field">
-                  <label for="ncm-correlacao-produto">Nome do produto</label>
-                  <input type="text" id="ncm-correlacao-produto" placeholder="Ex: Lápis grafite HB" maxlength="200" autocomplete="off">
-                </div>
-                <div class="ncm-sercon-field">
-                  <label for="ncm-correlacao-ncm">Código NCM (8 dígitos)</label>
-                  <input type="text" id="ncm-correlacao-ncm" placeholder="Ex: 22021000 ou 9608.10.00" maxlength="20" autocomplete="off">
-                </div>
-                <button type="button" id="ncm-correlacao-btn" class="ncm-sercon-btn">
-                  <i class='bx bx-check-circle'></i> Validar
-                </button>
-              </div>
-            </div>
-            <div id="ncm-correlacao-result" class="ncm-correlacao-result" style="display: none;">
-              <h3 class="ncm-results-title">Resultado</h3>
-              <div id="ncm-correlacao-result-box" class="ncm-correlacao-result-box"></div>
             </div>
           </div>
         </div>
@@ -2530,7 +2502,6 @@
   <script src="../../docs/NCM/data/Tabela_NCM.js"></script>
   <script src="../../docs/NCM/data/Tabela_TIPI.js"></script>
   <script src="../modules/ncm/ncm-motor.js"></script>
-  <script src="../modules/ncm/ncm-correlacao.js"></script>
   <script src="../modules/ncm/ncm-sercon-tabs.js"></script>
 </body>
 
