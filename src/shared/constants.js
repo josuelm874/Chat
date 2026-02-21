@@ -99,7 +99,7 @@ const CONSTANTS = {
   // ==================== VALORES PADRÃO ====================
   
   DEFAULTS: {
-    PROFILE_IMAGE: 'imagens/avatars/profile-1.png',
+    PROFILE_IMAGE: '../../assets/images/avatars/profile-1.png',
     AVATAR_SIZE: 40,
     MESSAGE_TIME_FORMAT: 'HH:mm',
     DATE_FORMAT: 'DD/MM/YYYY',

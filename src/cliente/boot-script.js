@@ -3,7 +3,7 @@
 // Configurações do Boot
 const BOOT_CONFIG = {
     duration: 2000, // Duração total do boot em milissegundos (tempo da animação)
-    redirectUrl: 'Suporte.html' // URL para redirecionar após o boot
+    redirectUrl: 'index.html' // URL para redirecionar após o boot
 };
 
 // ==================== INICIALIZAÇÃO ====================

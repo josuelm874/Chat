@@ -182,7 +182,7 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     left: 70px;
     width: 250px;
     height: 250px;
-    background-image: url('../../../assets/images/branding/logo.png');
+    background-image: url('../../assets/images/branding/logo.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

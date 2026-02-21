@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vagas de Emprego - Sercon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="vagas-style.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <div class="header">
+                <h1>💼 Vagas de Emprego</h1>
+                <p>Encontre a oportunidade perfeita para sua carreira</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar por cargo, empresa ou palavra-chave...">
+                <button class="search-btn" onclick="searchJobs()">
+                    <i class='bx bx-search'></i> Buscar
+                </button>
+            </div>
+            <div class="filters">
+                <select class="filter-select" id="filterLocation">
+                    <option value="">Todas as localizações</option>
+                    <option value="remoto">Remoto</option>
+                    <option value="presencial">Presencial</option>
+                    <option value="hibrido">Híbrido</option>
+                </select>
+                <select class="filter-select" id="filterSchedule">
+                    <option value="">Todos os regimes</option>
+                    <option value="CLT">CLT</option>
+                    <option value="PJ">PJ</option>
+                    <option value="Estágio">Estágio</option>
+                </select>
+            </div>
+            </div>
+
+            <div class="jobs-container" id="jobsContainer"></div>
+
+            <div class="no-jobs hidden" id="noJobs">
+                <div class="no-jobs-icon">😕</div>
+                <h3>Nenhuma vaga encontrada</h3>
+                <p>Tente ajustar os filtros de busca</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes da Vaga -->
+    <div class="modal" id="jobModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalJobTitle">Detalhes da Vaga</h2>
+                <button class="close-modal" onclick="closeJobModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="vagas-script.js"></script>
+</body>
+</html>

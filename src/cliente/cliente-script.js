@@ -2266,7 +2266,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Função para normalizar caminhos de imagens antigos para os novos
   function normalizeImagePath(imagePath) {
     if (!imagePath || typeof imagePath !== 'string') {
-      return "../../../assets/images/avatars/profile-1.png";
+      return "../../assets/images/avatars/profile-1.png";
     }
     
     // Normalizar caminhos antigos
@@ -2281,10 +2281,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (oldPaths.includes(imagePath)) {
       if (imagePath.includes('profile-1')) {
-        return "../../../assets/images/avatars/profile-1.png";
+        return "../../assets/images/avatars/profile-1.png";
       }
       // Para outros arquivos de imagem antigos
-      return imagePath.replace(/^\.?\/?imagens\//, '../../../assets/images/');
+      return imagePath.replace(/^\.?\/?imagens\//, '../../assets/images/');
     }
     
     // Se já é base64 ou URL completa, retornar como está
@@ -2294,7 +2294,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Corrigir caminho incompleto (ex: assets/images/profile-1.png sem avatars)
     if (imagePath.includes('profile-1') && imagePath.includes('assets/images') && !imagePath.includes('avatars')) {
-      return "../../../assets/images/avatars/profile-1.png";
+      return "../../assets/images/avatars/profile-1.png";
     }
     
     // Se já está no caminho correto, retornar como está
@@ -2334,7 +2334,7 @@ document.addEventListener("DOMContentLoaded", () => {
       avatar.src = normalizedProfileImage;
       avatar.onerror = function() {
         this.onerror = null; // Prevenir loop infinito
-        this.src = "../../../assets/images/avatars/profile-1.png";
+        this.src = "../../assets/images/avatars/profile-1.png";
       };
       
       // Container do conteúdo da mensagem
