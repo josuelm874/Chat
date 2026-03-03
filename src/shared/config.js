@@ -156,11 +156,20 @@ const CONFIG = {
    * Supabase – sincronização de dados entre múltiplos PCs.
    * URL do projeto e chave pública (anon/publishable).
    * Tabela: system_data (key, value JSONB, updated_at).
+   * Para usar o mesmo banco da validação NCM (correlacao_ncm.py), use aqui a mesma
+   * SUPABASE_URL do .env do Python; a tabela validacao_ncm (produto, ncm, resultado, detalhe)
+   * será lida pelo Chat UI na consulta NCM.
+   *
+   * IMPORTANTE: URL e ANON_KEY devem ser de um projeto Supabase real (Dashboard → Project Settings → API).
+   * Se aparecer ERR_NAME_NOT_RESOLVED ou "Failed to fetch", o host não existe: use a URL do seu
+   * projeto (ex.: a mesma SUPABASE_URL do .env do script Python).
    */
   SUPABASE: {
     URL: 'https://distsrgjhofvktcxgyub.supabase.co',
     ANON_KEY: 'sb_publishable_Sq8IRu0U3u22SzUz-bF8DQ_bZl-NvG6',
-    TABLE_NAME: 'system_data'
+    TABLE_NAME: 'system_data',
+    /** Tabela de validação produto×NCM (script Python correlacao_ncm). Colunas: produto, ncm, resultado, detalhe. */
+    VALIDACAO_NCM_TABLE: 'validacao_ncm'
   },
   
   // ==================== CONFIGURAÇÕES DE FIREBASE ====================

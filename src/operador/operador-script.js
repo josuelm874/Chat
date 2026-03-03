@@ -1894,10 +1894,71 @@ const contacts = [];
 
     // ==================== INICIALIZAÇÃO DO SISTEMA ====================
 
-    
-
     ensureAdminUser();
-    
+
+    // ==================== TEMA CLARO/ESCURO (PIN 2) ====================
+    (function initTheme() {
+      const stored = localStorage.getItem("operador-theme") || "light";
+      const root = document.documentElement;
+      root.setAttribute("data-theme", stored);
+      const btnLight = document.getElementById("themeToggleLight");
+      const btnDark = document.getElementById("themeToggleDark");
+      if (btnLight) btnLight.classList.toggle("active", stored === "light");
+      if (btnDark) btnDark.classList.toggle("active", stored === "dark");
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("operador-theme", theme);
+        if (btnLight) btnLight.classList.toggle("active", theme === "light");
+        if (btnDark) btnDark.classList.toggle("active", theme === "dark");
+      }
+      btnLight?.addEventListener("click", () => setTheme("light"));
+      btnDark?.addEventListener("click", () => setTheme("dark"));
+    })();
+
+    // Tooltip bar estilo Arch Linux (barra que expande à direita do ícone)
+    let hideSidebarTooltipBar = async () => {};
+    (function initSidebarTooltipBar() {
+      const tooltipBar = document.getElementById("sidebar-tooltip-bar");
+      const lists = document.querySelectorAll(".sidebar .center-icons .list");
+      if (!tooltipBar || !lists.length) return;
+      hideSidebarTooltipBar = () => {
+        if (!tooltipBar.classList.contains("visible")) return Promise.resolve();
+        tooltipBar.classList.remove("visible");
+        tooltipBar.setAttribute("aria-hidden", "true");
+        return new Promise((resolve) => {
+          const handler = (e) => {
+            if (e.propertyName === "max-width") {
+              tooltipBar.removeEventListener("transitionend", handler);
+              resolve();
+            }
+          };
+          tooltipBar.addEventListener("transitionend", handler);
+        });
+      };
+      lists.forEach((list) => {
+        const btn = list.querySelector("button");
+        const titleEl = list.querySelector(".title");
+        if (!btn || !titleEl) return;
+        const isActive = () => btn.classList.contains("active");
+        list.addEventListener("mouseenter", () => {
+          if (isActive()) return;
+          const icon = btn.querySelector(".icon");
+          const rect = icon ? icon.getBoundingClientRect() : btn.getBoundingClientRect();
+          const title = titleEl.textContent.trim();
+          tooltipBar.style.setProperty("--tooltip-x", `${rect.right}px`);
+          tooltipBar.style.setProperty("--tooltip-y", `${rect.top}px`);
+          tooltipBar.style.setProperty("--tooltip-h", `${rect.height}px`);
+          tooltipBar.textContent = title;
+          tooltipBar.classList.add("visible");
+          tooltipBar.setAttribute("aria-hidden", "false");
+        });
+        list.addEventListener("mouseleave", () => {
+          tooltipBar.classList.remove("visible");
+          tooltipBar.setAttribute("aria-hidden", "true");
+        });
+      });
+    })();
+
     const dominiumLoginContainer = document.querySelector("#dominium-login .container");
     const dominiumSignUpLink = document.querySelector("#dominium-login .SignUpLink");
     const dominiumLoginForm = document.getElementById("dominiumLoginForm");
@@ -4484,7 +4545,7 @@ const contacts = [];
 
     const contactBox = document.querySelector(".contact-box");
 
-    const sidebarButtons = document.querySelectorAll(".sidebar button:not(#logoutButton)");
+    const sidebarButtons = document.querySelectorAll(".sidebar .center-icons button[data-section]");
 
     const chatContainer = document.querySelector(".chat-container");
 
@@ -4502,6 +4563,80 @@ const contacts = [];
 
     const taxAgendaContainer = document.querySelector(".tax-agenda-container");
     const ncmContainer = document.querySelector(".ncm-container");
+
+    let taxAgendaClockInterval = null;
+    const TAX_AGENDA_CLOCK_MODE_KEY = "operador-tax-agenda-clock-mode";
+
+    function updateTaxAgendaDateTime() {
+      const dateEl = document.getElementById("taxAgendaDate");
+      const digitalEl = document.getElementById("taxAgendaClockDigital");
+      const hourHand = document.getElementById("clockHourHand");
+      const minuteHand = document.getElementById("clockMinuteHand");
+      const secondHand = document.getElementById("clockSecondHand");
+      if (!dateEl) return;
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+      dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+      dateEl.setAttribute("datetime", now.toISOString());
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+      if (digitalEl) digitalEl.textContent = `${hours}:${minutes}:${seconds}`;
+      const h = now.getHours() % 12;
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      const hourDeg = (h * 30) + (m * 0.5);
+      const minuteDeg = (m * 6) + (s * 0.1);
+      const secondDeg = s * 6;
+      if (hourHand) hourHand.setAttribute("transform", `rotate(${hourDeg} 60 60)`);
+      if (minuteHand) minuteHand.setAttribute("transform", `rotate(${minuteDeg} 60 60)`);
+      if (secondHand) secondHand.setAttribute("transform", `rotate(${secondDeg} 60 60)`);
+    }
+
+    function stopTaxAgendaClock() {
+      if (taxAgendaClockInterval != null) {
+        clearInterval(taxAgendaClockInterval);
+        taxAgendaClockInterval = null;
+      }
+    }
+
+    function startTaxAgendaClock() {
+      stopTaxAgendaClock();
+      updateTaxAgendaDateTime();
+      taxAgendaClockInterval = setInterval(updateTaxAgendaDateTime, 1000);
+    }
+
+    let taxAgendaClockToggleInitialized = false;
+    function initTaxAgendaClockToggle() {
+      if (taxAgendaClockToggleInitialized) return;
+      const toggle = document.getElementById("taxAgendaClockToggle");
+      const analogEl = document.getElementById("taxAgendaClockAnalog");
+      const digitalEl = document.getElementById("taxAgendaClockDigital");
+      if (!toggle || !analogEl || !digitalEl) return;
+      taxAgendaClockToggleInitialized = true;
+      const isDigital = localStorage.getItem(TAX_AGENDA_CLOCK_MODE_KEY) === "digital";
+      function applyMode(digital) {
+        if (digital) {
+          analogEl.classList.add("hidden");
+          analogEl.setAttribute("aria-hidden", "true");
+          digitalEl.classList.remove("hidden");
+          toggle.querySelector("span").textContent = "Analógico";
+          toggle.setAttribute("aria-pressed", "true");
+        } else {
+          analogEl.classList.remove("hidden");
+          analogEl.setAttribute("aria-hidden", "false");
+          digitalEl.classList.add("hidden");
+          toggle.querySelector("span").textContent = "Digital";
+          toggle.setAttribute("aria-pressed", "false");
+        }
+      }
+      applyMode(isDigital);
+      toggle.addEventListener("click", () => {
+        const digital = analogEl.classList.contains("hidden");
+        localStorage.setItem(TAX_AGENDA_CLOCK_MODE_KEY, digital ? "analog" : "digital");
+        applyMode(!digital);
+      });
+    }
 
     const internalChatContainer = document.querySelector(".internal-chat-container");
 
@@ -5238,7 +5373,7 @@ const contacts = [];
 
     sidebarButtons.forEach(button => {
 
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
 
         const section = button.getAttribute("data-section");
 
@@ -5256,11 +5391,35 @@ const contacts = [];
 
         
 
-        sidebarButtons.forEach(btn => btn.classList.remove("active"));
+        // Primeiro recolher a barra do título (se visível)
+        await hideSidebarTooltipBar();
+
+        // Se houver item ativo diferente: recolher cápsula, esperar transição, depois expandir no novo
+        const activeBtn = document.querySelector(".sidebar .center-icons button.active");
+        if (activeBtn && activeBtn !== button) {
+          const oldList = activeBtn.closest(".list");
+          activeBtn.classList.remove("active");
+          await new Promise((resolve) => {
+            let done = false;
+            const finish = () => {
+              if (done) return;
+              done = true;
+              oldList.removeEventListener("transitionend", handler);
+              resolve();
+            };
+            const handler = (e) => {
+              if (e.target === oldList && (e.propertyName === "background" || e.propertyName === "background-color")) finish();
+            };
+            oldList.addEventListener("transitionend", handler);
+            setTimeout(finish, 320);
+          });
+        } else {
+          sidebarButtons.forEach((btn) => btn.classList.remove("active"));
+        }
 
         button.classList.add("active");
 
-
+        stopTaxAgendaClock();
 
         if (section === "chat") {
 
@@ -5421,6 +5580,10 @@ const contacts = [];
           messagesContainer.innerHTML = "";
 
           rightPanel.classList.add("hidden");
+
+          startTaxAgendaClock();
+
+          if (typeof initTaxAgendaClockToggle === 'function') initTaxAgendaClockToggle();
 
         } else if (section === "scheduled-message") {
 
@@ -6268,8 +6431,6 @@ const contacts = [];
 
         generateCalendar(0, 0);
 
-        generateCalendar(1, 1);
-
         
 
         // Verificar se há tarefas para hoje (atualizar badge)
@@ -6792,16 +6953,13 @@ const contacts = [];
         checkTodayTasks();
       }
       generateCalendar(0, 0);
-      generateCalendar(1, 1);
     }
     
     // ==================== FIM LEMBRETES AUTOMÁTICOS ====================
 
     // Gerar calendários iniciais
 
-    generateCalendar(0, 0); // Mês atual no primeiro calendário
-
-    generateCalendar(1, 1); // Próximo mês no segundo calendário
+    generateCalendar(0, 0);
     
     // Inicializar lembretes automáticos (deve ser chamado após tasksListContainer estar definido)
     // Aguardar um pouco para garantir que tasksListContainer esteja disponível
@@ -6869,7 +7027,6 @@ const contacts = [];
 
           generateCalendar(0, 0);
 
-          generateCalendar(1, 1);
 
           
 
@@ -6921,7 +7078,6 @@ const contacts = [];
 
           generateCalendar(0, 0);
 
-          generateCalendar(1, 1);
 
           
 
@@ -7039,7 +7195,6 @@ const contacts = [];
 
           generateCalendar(0, 0);
 
-          generateCalendar(1, 1);
 
           
 

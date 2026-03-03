@@ -228,6 +228,104 @@
     }
   }
 
+  /** Nome da tabela de validação NCM (produto×NCM). */
+  function getValidacaoNcmTable() {
+    return (typeof CONFIG !== 'undefined' && CONFIG.SUPABASE && CONFIG.SUPABASE.VALIDACAO_NCM_TABLE)
+      ? CONFIG.SUPABASE.VALIDACAO_NCM_TABLE
+      : 'validacao_ncm';
+  }
+
+  /** Normaliza NCM para 8 dígitos (com zeros à esquerda). */
+  function normalizarNcm8(ncm) {
+    if (ncm == null) return '';
+    var dig = String(ncm).replace(/\D/g, '');
+    if (dig.length === 0 || dig.length > 8) return '';
+    return dig.padStart(8, '0');
+  }
+
+  /**
+   * Busca uma validação no banco por produto e NCM (tabela validacao_ncm).
+   * Retorna { produto, ncm, resultado, detalhe } ou null.
+   */
+  async function loadValidacaoNcm(produto, ncm) {
+    if (!isSupabaseConfigured || !supabaseClient) return null;
+    produto = (produto || '').trim();
+    ncm = normalizarNcm8(ncm);
+    if (!produto || !ncm) return null;
+    try {
+      var table = getValidacaoNcmTable();
+      var q = await supabaseClient
+        .from(table)
+        .select('produto, ncm, resultado, detalhe')
+        .eq('produto', produto)
+        .eq('ncm', ncm)
+        .maybeSingle();
+      if (q.error) {
+        if (typeof console !== 'undefined' && console.warn) console.warn('Validacao NCM load:', q.error.message);
+        return null;
+      }
+      return q.data;
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) console.error('loadValidacaoNcm:', e);
+      return null;
+    }
+  }
+
+  /**
+   * Lista validações do banco por código NCM (para exibir "produtos já validados para este NCM").
+   * Retorna array de { produto, ncm, resultado, detalhe }, no máximo limit itens.
+   */
+  async function listValidacaoNcmByNcm(ncm, limit) {
+    if (!isSupabaseConfigured || !supabaseClient) return [];
+    ncm = normalizarNcm8(ncm);
+    if (!ncm) return [];
+    limit = Math.min(Number(limit) || 50, 100);
+    try {
+      var table = getValidacaoNcmTable();
+      var q = await supabaseClient
+        .from(table)
+        .select('produto, ncm, resultado, detalhe')
+        .eq('ncm', ncm)
+        .order('produto', { ascending: true })
+        .limit(limit);
+      if (q.error) {
+        if (typeof console !== 'undefined' && console.warn) console.warn('listValidacaoNcmByNcm:', q.error.message);
+        return [];
+      }
+      return q.data || [];
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) console.error('listValidacaoNcmByNcm:', e);
+      return [];
+    }
+  }
+
+  /**
+   * Lista todas as validações do banco (para a aba "Banco cadastrado").
+   * offset e limit para paginação (offset 0-based). Retorna array de { produto, ncm, resultado, detalhe }.
+   */
+  async function listValidacaoNcmAll(limit, offset) {
+    if (!isSupabaseConfigured || !supabaseClient) return [];
+    limit = Math.min(Number(limit) || 100, 500);
+    offset = Math.max(0, Number(offset) || 0);
+    try {
+      var table = getValidacaoNcmTable();
+      var q = await supabaseClient
+        .from(table)
+        .select('produto, ncm, resultado, detalhe')
+        .order('produto', { ascending: true })
+        .order('ncm', { ascending: true })
+        .range(offset, offset + limit - 1);
+      if (q.error) {
+        if (typeof console !== 'undefined' && console.warn) console.warn('listValidacaoNcmAll:', q.error.message);
+        return { data: [], error: q.error.message };
+      }
+      return q.data || [];
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) console.error('listValidacaoNcmAll:', e);
+      return { data: [], error: (e && e.message) ? e.message : String(e) };
+    }
+  }
+
   window.supabaseSync = {
     init: initSupabase,
     save: saveToCloud,
@@ -235,7 +333,12 @@
     sync: syncData,
     syncAll: syncAllData,
     refresh: forceRefreshFromCloud,
-    isConfigured: function () { return isSupabaseConfigured; }
+    isConfigured: function () { return isSupabaseConfigured; },
+    /** Banco de validação NCM (tabela validacao_ncm) */
+    loadValidacaoNcm: loadValidacaoNcm,
+    listValidacaoNcmByNcm: listValidacaoNcmByNcm,
+    listValidacaoNcmAll: listValidacaoNcmAll,
+    normalizarNcm8: normalizarNcm8
   };
 
   if (document.readyState === 'loading') {

@@ -62,29 +62,33 @@
     .job-management-container.active {
       display: flex;
       flex-direction: column;
-      background: #fff;
+      background: var(--glass-bg, rgba(255,255,255,0.72));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       overflow-y: auto;
       padding: 32px;
+      border: 1px solid var(--glass-border, rgba(255,255,255,0.65));
+      box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.85)), var(--shadow-depth, 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.06));
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .job-management-header {
       margin-bottom: 24px;
-      border-bottom: 2px solid #2563eb;
+      border-bottom: 2px solid var(--header-border, #2563eb);
       padding-bottom: 16px;
     }
 
     .job-management-header h2 {
       font-size: 28px;
       font-weight: 700;
-      color: #1f2937;
+      color: var(--header-text, #1f2937);
       margin-bottom: 8px;
     }
 
     .job-management-header p {
       font-size: 14px;
-      color: #6b7280;
+      color: var(--text-secondary, #6b7280);
     }
 
     .job-management-content {
@@ -105,12 +109,12 @@
       display: none; /* Chrome, Safari, Opera */
     }
 
-    /* Tabs de Navegação */
+    /* Tabs de Navegação - estilo pin */
     .job-management-tabs {
       display: flex;
       gap: 8px;
       margin-bottom: 24px;
-      border-bottom: 2px solid #e5e7eb;
+      border-bottom: 2px solid var(--border-subtle, #e5e7eb);
       padding-bottom: 0;
     }
 
@@ -122,38 +126,38 @@
       cursor: pointer;
       font-size: 15px;
       font-weight: 600;
-      color: #6b7280;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       position: relative;
-      border-radius: 8px 8px 0 0;
+      border-radius: 10px 10px 0 0;
     }
 
     .job-tab i {
       font-size: 20px;
-      transition: all 0.3s ease;
+      transition: transform 0.25s ease, color 0.25s ease;
     }
 
     .job-tab:hover {
-      color: #2563eb;
-      background: #f0f9ff;
+      color: var(--accent);
+      background: var(--accent-soft);
     }
 
     .job-tab:hover i {
-      transform: scale(1.1);
+      transform: scale(1.08) translateY(-1px);
     }
 
     .job-tab.active {
-      color: #2563eb;
-      background: #eff6ff;
-      border-bottom-color: #2563eb;
-      box-shadow: 0 -2px 8px rgba(37, 99, 235, 0.1);
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-bottom-color: var(--accent);
+      box-shadow: 0 -2px 10px var(--accent-soft);
     }
 
     .job-tab.active i {
-      color: #2563eb;
+      color: var(--accent);
       animation: tabIconPop 0.4s ease-out;
     }
 
@@ -170,8 +174,8 @@
     }
 
     .tab-badge {
-      background: #e5e7eb;
-      color: #6b7280;
+      background: var(--border-subtle);
+      color: var(--text-secondary);
       padding: 2px 8px;
       border-radius: 12px;
       font-size: 12px;
@@ -181,7 +185,7 @@
     }
 
     .job-tab.active .tab-badge {
-      background: #2563eb;
+      background: var(--accent);
       color: white;
     }
 
@@ -209,19 +213,19 @@
     .job-section-header {
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 2px solid #e5e7eb;
+      border-bottom: 2px solid var(--card-border, #e5e7eb);
     }
 
     .job-section-header h3 {
       font-size: 20px;
       font-weight: 700;
-      color: #1f2937;
+      color: var(--header-text, #1f2937);
       margin-bottom: 8px;
     }
 
     .job-section-header p {
       font-size: 14px;
-      color: #6b7280;
+      color: var(--text-secondary, #6b7280);
     }
 
     /* Lista de Vagas */
@@ -232,17 +236,21 @@
     }
 
     .job-management-card {
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
+      background: var(--glass-bg-solid, rgba(255,255,255,0.92));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border, rgba(255,255,255,0.5));
+      border-radius: 14px;
       padding: 20px;
-      transition: all 0.3s;
+      box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.6)), var(--shadow-depth, 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08));
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.3s ease;
       cursor: pointer;
     }
 
     .job-management-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.6)), var(--card-hover-shadow, 0 4px 8px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.12), 0 32px 64px rgba(0,0,0,0.08));
+      transform: translateY(-4px);
+      border-color: rgba(37, 99, 235, 0.25);
     }
 
     .job-card-header {
@@ -655,60 +663,86 @@
 
   <div class="chat-app" id="chatApp" style="display: none;">
 
-    <!-- Sidebar -->
+    <!-- Sidebar (estilo side bar – pill branco, curvas no hover/active) -->
 
     <div class="sidebar">
 
-      <div class="logo"><img src="../../assets/images/branding/logo.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect fill=%22%23e0e0e0%22 width=%2248%22 height=%2248%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2220%22 font-family=%22sans-serif%22%3EL%3C/text%3E%3C/svg%3E'" alt="logo"></div>
+      <div class="sidebar-logo"><img src="../../assets/images/branding/logo.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect fill=%22%23e0e0e0%22 width=%2248%22 height=%2248%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2220%22 font-family=%22sans-serif%22%3EL%3C/text%3E%3C/svg%3E'" alt="logo"></div>
 
-      <div class="center-icons">
+      <ul class="center-icons">
 
-        <button class="active" data-section="chat" aria-label="Abrir chat">
-          <i class='bx bx-send' aria-hidden="true"></i>
-          <span class="icon-label">Chat</span>
-        </button>
+        <li class="list">
+          <button class="active" data-section="chat" aria-label="Abrir chat">
+            <span class="icon"><i class='bx bx-send' aria-hidden="true"></i></span>
+            <span class="title">Chat</span>
+            <span class="tooltip">Chat</span>
+          </button>
+        </li>
 
-        <button data-section="internal-chat" aria-label="Chat interno">
-          <i class='bx bx-message' aria-hidden="true"></i>
-          <span class="icon-label">Chat Interno</span>
-        </button>
+        <li class="list">
+          <button data-section="internal-chat" aria-label="Chat interno">
+            <span class="icon"><i class='bx bx-message' aria-hidden="true"></i></span>
+            <span class="title">Chat Interno</span>
+            <span class="tooltip">Chat Interno</span>
+          </button>
+        </li>
 
-        <button data-section="admin" aria-label="Painel administrativo">
-          <i class='bx bx-group' aria-hidden="true"></i>
-          <span class="icon-label">Admin</span>
-        </button>
+        <li class="list">
+          <button data-section="admin" aria-label="Painel administrativo">
+            <span class="icon"><i class='bx bx-group' aria-hidden="true"></i></span>
+            <span class="title">Admin</span>
+            <span class="tooltip">Admin</span>
+          </button>
+        </li>
 
-        <button data-section="tax-agenda" aria-label="Agenda fiscal">
-          <i class='bx bx-calendar' aria-hidden="true"></i>
-          <span class="icon-label">Tax Agenda</span>
-        </button>
+        <li class="list">
+          <button data-section="tax-agenda" aria-label="Agenda fiscal">
+            <span class="icon"><i class='bx bx-calendar' aria-hidden="true"></i></span>
+            <span class="title">Tax Agenda</span>
+            <span class="tooltip">Tax Agenda</span>
+            <span class="tax-agenda-badge" aria-hidden="true"></span>
+          </button>
+        </li>
 
-        <button data-section="scheduled-message" aria-label="Mensagens agendadas">
-          <i class='bx bx-message-square-detail' aria-hidden="true"></i>
-          <span class="icon-label">Scheduled Message</span>
-        </button>
+        <li class="list">
+          <button data-section="scheduled-message" aria-label="Mensagens agendadas">
+            <span class="icon"><i class='bx bx-message-square-detail' aria-hidden="true"></i></span>
+            <span class="title">Scheduled Message</span>
+            <span class="tooltip">Scheduled Message</span>
+          </button>
+        </li>
 
-        <button data-section="ncm" aria-label="Abrir consulta NCM">
-          <i class='bx bx-search' aria-hidden="true"></i>
-          <span class="icon-label">Consulta NCM</span>
-        </button>
+        <li class="list">
+          <button data-section="ncm" aria-label="Abrir consulta NCM">
+            <span class="icon"><i class='bx bx-search' aria-hidden="true"></i></span>
+            <span class="title">Consulta NCM</span>
+            <span class="tooltip">Consulta NCM</span>
+          </button>
+        </li>
 
-        <button data-section="job-management" aria-label="Gerenciar vagas de emprego">
-          <i class='bx bx-briefcase-alt-2' aria-hidden="true"></i>
-          <span class="icon-label">Gerenciar Vagas</span>
-        </button>
+        <li class="list">
+          <button data-section="job-management" aria-label="Gerenciar vagas de emprego">
+            <span class="icon"><i class='bx bx-briefcase-alt-2' aria-hidden="true"></i></span>
+            <span class="title">Gerenciar Vagas</span>
+            <span class="tooltip">Gerenciar Vagas</span>
+          </button>
+        </li>
 
+      </ul>
+
+      <div class="sidebar-theme-toggle" aria-label="Tema claro ou escuro">
+        <button type="button" id="themeToggleLight" title="Tema claro" aria-label="Usar tema claro"><i class='bx bx-sun' aria-hidden="true"></i></button>
+        <button type="button" id="themeToggleDark" title="Tema escuro" aria-label="Usar tema escuro"><i class='bx bx-moon' aria-hidden="true"></i></button>
       </div>
 
       <button class="settings" id="logoutButton" title="Logout" aria-label="Fazer logout">
-
         <i class='bx bx-log-out' aria-hidden="true"></i>
-
       </button>
 
     </div>
 
-
+    <!-- Tooltip bar estilo Arch (fora do sidebar para não ser cortado) -->
+    <div id="sidebar-tooltip-bar" class="sidebar-tooltip-bar" aria-hidden="true"></div>
 
     <!-- Chat Container -->
 
@@ -1319,6 +1353,45 @@
 
     <div class="tax-agenda-container">
 
+      <!-- Coluna lateral: Data e Relógio em um bloco (estilo pin dashboard) -->
+      <aside class="tax-agenda-datetime-sidebar">
+        <div class="tax-agenda-datetime-card">
+          <div class="tax-agenda-datetime-inner">
+            <time id="taxAgendaDate" class="tax-agenda-date-value" datetime="">—</time>
+            <div class="tax-agenda-clock-wrapper">
+              <div class="tax-agenda-clock-analog" id="taxAgendaClockAnalog" aria-hidden="false">
+                <svg class="clock-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                  <circle class="clock-face-circle" cx="60" cy="60" r="54"/>
+                  <!-- 12 marcações das horas (estilo pin minimalista) -->
+                  <line x1="60" y1="10" x2="60" y2="18" class="clock-tick"/>
+                  <line x1="93.4" y1="26.6" x2="88.2" y2="31.8" class="clock-tick"/>
+                  <line x1="102" y1="60" x2="94" y2="60" class="clock-tick"/>
+                  <line x1="93.4" y1="93.4" x2="88.2" y2="88.2" class="clock-tick"/>
+                  <line x1="60" y1="102" x2="60" y2="94" class="clock-tick"/>
+                  <line x1="26.6" y1="93.4" x2="31.8" y2="88.2" class="clock-tick"/>
+                  <line x1="18" y1="60" x2="26" y2="60" class="clock-tick"/>
+                  <line x1="26.6" y1="26.6" x2="31.8" y2="31.8" class="clock-tick"/>
+                  <line x1="80.8" y1="19.2" x2="76" y2="24" class="clock-tick"/>
+                  <line x1="100.8" y1="39.2" x2="96" y2="44" class="clock-tick"/>
+                  <line x1="80.8" y1="100.8" x2="76" y2="96" class="clock-tick"/>
+                  <line x1="19.2" y1="80.8" x2="24" y2="76" class="clock-tick"/>
+                  <!-- Ponteiros -->
+                  <line id="clockHourHand" x1="60" y1="60" x2="60" y2="38" class="clock-hand-svg hour-hand"/>
+                  <line id="clockMinuteHand" x1="60" y1="60" x2="60" y2="18" class="clock-hand-svg minute-hand"/>
+                  <line id="clockSecondHand" x1="60" y1="60" x2="60" y2="14" class="clock-hand-svg second-hand"/>
+                  <circle cx="60" cy="60" r="4" class="clock-center"/>
+                </svg>
+              </div>
+              <div class="tax-agenda-clock-digital hidden" id="taxAgendaClockDigital" aria-live="polite">00:00:00</div>
+            </div>
+          </div>
+          <button type="button" class="tax-agenda-clock-toggle" id="taxAgendaClockToggle" title="Alternar entre relógio analógico e digital" aria-pressed="false">
+            <i class='bx bx-time-five' aria-hidden="true"></i>
+            <span>Digital</span>
+          </button>
+        </div>
+      </aside>
+
       <!-- Unified Calendar Box -->
 
       <div class="unified-calendar-box">
@@ -1426,114 +1499,6 @@
             <div class="calendar-day">30</div>
 
             <div class="calendar-day">31</div>
-
-            <div class="calendar-day other-month">1</div>
-
-            <div class="calendar-day other-month">2</div>
-
-            <div class="calendar-day other-month">3</div>
-
-          </div>
-
-        </div>
-
-        
-        
-        <!-- Next Month -->
-
-        <div class="calendar-month-section">
-
-          <div class="calendar-header">
-
-            <div class="calendar-title">Fevereiro 2025</div>
-
-          </div>
-
-          
-          
-          <div class="calendar-grid">
-
-            <div class="calendar-day-header">Dom</div>
-
-            <div class="calendar-day-header">Seg</div>
-
-            <div class="calendar-day-header">Ter</div>
-
-            <div class="calendar-day-header">Qua</div>
-
-            <div class="calendar-day-header">Qui</div>
-
-            <div class="calendar-day-header">Sex</div>
-
-            <div class="calendar-day-header">Sáb</div>
-
-            
-            
-            <!-- Dias do próximo mês -->
-
-            <div class="calendar-day other-month">28</div>
-
-            <div class="calendar-day other-month">29</div>
-
-            <div class="calendar-day other-month">30</div>
-
-            <div class="calendar-day other-month">31</div>
-
-            <div class="calendar-day">1</div>
-
-            <div class="calendar-day">2</div>
-
-            <div class="calendar-day">3</div>
-
-            <div class="calendar-day">4</div>
-
-            <div class="calendar-day">5</div>
-
-            <div class="calendar-day">6</div>
-
-            <div class="calendar-day">7</div>
-
-            <div class="calendar-day">8</div>
-
-            <div class="calendar-day">9</div>
-
-            <div class="calendar-day">10</div>
-
-            <div class="calendar-day">11</div>
-
-            <div class="calendar-day">12</div>
-
-            <div class="calendar-day">13</div>
-
-            <div class="calendar-day">14</div>
-
-            <div class="calendar-day">15</div>
-
-            <div class="calendar-day">16</div>
-
-            <div class="calendar-day">17</div>
-
-            <div class="calendar-day">18</div>
-
-            <div class="calendar-day">19</div>
-
-            <div class="calendar-day">20</div>
-
-            <div class="calendar-day">21</div>
-
-            <div class="calendar-day">22</div>
-
-            <div class="calendar-day">23</div>
-
-            <div class="calendar-day">24</div>
-
-            <div class="calendar-day">25</div>
-
-            <div class="calendar-day">26</div>
-
-            <div class="calendar-day">27</div>
-
-            <div class="calendar-day">28</div>
 
             <div class="calendar-day other-month">1</div>
 
@@ -1874,13 +1839,25 @@
               <i class='bx bx-search-alt'></i>
               <span>Consulta de NCM</span>
             </button>
+            <button type="button" class="ncm-tab-btn" data-ncm-tab="banco-cadastrado" aria-selected="false">
+              <i class='bx bx-data'></i>
+              <span>Banco cadastrado</span>
+            </button>
+            <button type="button" class="ncm-tab-btn" data-ncm-tab="conferir-planilha" aria-selected="false">
+              <i class='bx bx-spreadsheet'></i>
+              <span>Conferir planilha</span>
+            </button>
           </div>
 
           <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
             <div class="ncm-sercon-panel">
               <h2 class="ncm-sercon-title">Consulta de NCM</h2>
-              <p class="ncm-sercon-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI (Redução de Alíquota, CST, Classificação Tributária).</p>
+              <p class="ncm-sercon-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI. Opcional: informe o <strong>nome do produto</strong> para ver se já existe validação no banco (correlação NCM).</p>
               <div class="ncm-sercon-form">
+                <div class="ncm-sercon-field">
+                  <label for="ncm-produto-nome">Nome do produto (opcional)</label>
+                  <input type="text" id="ncm-produto-nome" placeholder="Ex: Refrigerante de cola" maxlength="200" autocomplete="off">
+                </div>
                 <div class="ncm-sercon-field">
                   <label for="ncm-produto-search">Código NCM</label>
                   <input type="text" id="ncm-produto-search" placeholder="Ex: 22021000 ou 2202.10.00" maxlength="20" autocomplete="off">
@@ -1893,6 +1870,84 @@
             <div id="ncm-produto-results" class="ncm-produto-results" style="display: none;">
               <h3 class="ncm-results-title">Resultado</h3>
               <div id="ncm-produto-results-grid" class="ncm-produto-grid"></div>
+            </div>
+          </div>
+
+          <div id="ncm-tab-banco-cadastrado" class="ncm-tab-content" style="display: none;">
+            <div class="ncm-banco-panel">
+              <h2 class="ncm-sercon-title">Banco cadastrado (validações NCM)</h2>
+              <p class="ncm-sercon-desc">Visualização de todos os registros da tabela <strong>validacao_ncm</strong> (produto × NCM) cadastrados pelo script de correlação.</p>
+              <div class="ncm-banco-toolbar">
+                <button type="button" id="ncm-banco-refresh-btn" class="ncm-sercon-btn">
+                  <i class='bx bx-refresh'></i> Atualizar
+                </button>
+                <span id="ncm-banco-count" class="ncm-banco-count"></span>
+              </div>
+              <div id="ncm-banco-loading" class="ncm-banco-loading" style="display: none;">
+                <i class="bx bx-loader-alt bx-spin"></i> Carregando...
+              </div>
+              <div id="ncm-banco-empty" class="ncm-banco-empty" style="display: none;">
+                <i class="bx bx-database"></i>
+                <p>Nenhum registro no banco ou Supabase não configurado.</p>
+              </div>
+              <div id="ncm-banco-table-wrap" class="ncm-banco-table-wrap" style="display: none;">
+                <div class="ncm-banco-scroll">
+                  <table class="ncm-banco-table" id="ncm-banco-table">
+                    <thead>
+                      <tr>
+                        <th>Produto</th>
+                        <th>NCM</th>
+                        <th>Resultado</th>
+                        <th>Detalhe</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ncm-banco-tbody"></tbody>
+                  </table>
+                </div>
+                <div id="ncm-banco-more-wrap" class="ncm-banco-more-wrap" style="display: none;">
+                  <button type="button" id="ncm-banco-more-btn" class="ncm-sercon-btn ncm-banco-more-btn">Carregar mais</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="ncm-tab-conferir-planilha" class="ncm-tab-content" style="display: none;">
+            <div class="ncm-planilha-panel">
+              <h2 class="ncm-sercon-title">Conferir planilha com o banco</h2>
+              <p class="ncm-sercon-desc">Envie um arquivo <strong>CSV</strong> (ou Excel exportado como CSV) com colunas <strong>produto</strong> e <strong>ncm</strong>. O sistema compara com o banco <em>validacao_ncm</em> e exibe apenas os registros que constam no banco e estão com resultado <strong>NAO</strong> ou <strong>Revisar</strong> (o que está errado na planilha). Produtos que não estão no banco não são analisados nem exibidos.</p>
+              <div class="ncm-planilha-toolbar">
+                <label class="ncm-planilha-file-label">
+                  <input type="file" id="ncm-planilha-file" accept=".csv,.txt,application/csv,text/csv" style="display: none;">
+                  <span class="ncm-sercon-btn"><i class="bx bx-upload"></i> Escolher CSV</span>
+                </label>
+                <button type="button" id="ncm-planilha-run-btn" class="ncm-sercon-btn" disabled>
+                  <i class="bx bx-check-double"></i> Conferir
+                </button>
+                <span id="ncm-planilha-file-name" class="ncm-planilha-file-name"></span>
+              </div>
+              <div id="ncm-planilha-loading" class="ncm-banco-loading" style="display: none;">
+                <i class="bx bx-loader-alt bx-spin"></i> <span id="ncm-planilha-loading-text">Conferindo...</span>
+              </div>
+              <div id="ncm-planilha-summary" class="ncm-planilha-summary" style="display: none;"></div>
+              <div id="ncm-planilha-report-wrap" class="ncm-banco-table-wrap" style="display: none;">
+                <div class="ncm-banco-scroll">
+                  <table class="ncm-banco-table ncm-planilha-report-table" id="ncm-planilha-report-table">
+                    <thead>
+                      <tr>
+                        <th>Produto (planilha)</th>
+                        <th>NCM (planilha)</th>
+                        <th>Resultado no banco</th>
+                        <th>Detalhe</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ncm-planilha-report-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+              <div id="ncm-planilha-empty" class="ncm-banco-empty" style="display: none;">
+                <i class="bx bx-info-circle"></i>
+                <p>Nenhuma divergência encontrada ou Supabase não configurado.</p>
+              </div>
             </div>
           </div>
         </div>

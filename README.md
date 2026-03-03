@@ -24,6 +24,8 @@ Exemplo: `npx serve .`
 
 **Consulta de NCM**: digite um código NCM (8 dígitos) para verificar vigência, descrições hierárquicas (2, 4, 6 e 8 dígitos) e dados TIPI (Redução de Alíquota, CST, Classificação Tributária). Usa `tabela-ncm.js` e `tabela-tipi.js`.
 
+**Validação no banco**: o Chat UI pode ser conectado à mesma base Supabase usada pelo script de correlação NCM (`correlacao_ncm.py`). Em `src/shared/config.js` defina `CONFIG.SUPABASE.URL` e `CONFIG.SUPABASE.ANON_KEY` com o mesmo projeto (ex.: a mesma `SUPABASE_URL` do `.env` do Python) e garanta que a tabela `validacao_ncm` (colunas: produto, ncm, resultado, detalhe) exista e que a política RLS permita `SELECT` para a chave anon. Na consulta NCM do operador, o campo opcional **Nome do produto** permite buscar a validação cadastrada; abaixo do resultado são exibidos também os produtos já validados para o NCM informado.
+
 ---
 
 ## Estrutura do projeto
