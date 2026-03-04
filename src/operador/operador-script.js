@@ -668,7 +668,7 @@ function showToast(message, type = 'info') {
 
     color: white; padding: 12px 20px; border-radius: 8px;
 
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.35s var(--ease-out-smooth);
 
   `;
 
@@ -676,9 +676,9 @@ function showToast(message, type = 'info') {
 
   setTimeout(() => {
 
-    toast.style.animation = 'slideOut 0.3s ease-in';
+    toast.style.animation = 'slideOut 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
 
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(() => toast.remove(), 350);
 
   }, 3000);
 
@@ -1926,13 +1926,18 @@ const contacts = [];
         tooltipBar.classList.remove("visible");
         tooltipBar.setAttribute("aria-hidden", "true");
         return new Promise((resolve) => {
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            tooltipBar.removeEventListener("transitionend", handler);
+            resolve();
+          };
           const handler = (e) => {
-            if (e.propertyName === "max-width") {
-              tooltipBar.removeEventListener("transitionend", handler);
-              resolve();
-            }
+            if (e.propertyName === "max-width") finish();
           };
           tooltipBar.addEventListener("transitionend", handler);
+          setTimeout(finish, 320);
         });
       };
       lists.forEach((list) => {
@@ -3501,7 +3506,7 @@ const contacts = [];
 
             detailsDiv.style.display = "block";
 
-            detailsDiv.style.animation = "slideDown 0.3s ease-out";
+            detailsDiv.style.animation = "slideDown 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
             icon.classList.remove("bx-info-circle");
 
@@ -4319,7 +4324,7 @@ const contacts = [];
 
               // Adicionar animação de entrada
 
-              contact.style.animation = "contactFadeIn 0.3s ease-out";
+              contact.style.animation = "contactFadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
             } else {
 
@@ -5391,15 +5396,15 @@ const contacts = [];
 
         
 
-        // Primeiro recolher a barra do título (se visível)
-        await hideSidebarTooltipBar();
-
-        // Se houver item ativo diferente: recolher cápsula, esperar transição, depois expandir no novo
+        // Recolher título e cápsula ao mesmo tempo, depois expandir no novo ícone
         const activeBtn = document.querySelector(".sidebar .center-icons button.active");
+        const tooltipPromise = hideSidebarTooltipBar();
+
+        let capsulePromise = Promise.resolve();
         if (activeBtn && activeBtn !== button) {
           const oldList = activeBtn.closest(".list");
           activeBtn.classList.remove("active");
-          await new Promise((resolve) => {
+          capsulePromise = new Promise((resolve) => {
             let done = false;
             const finish = () => {
               if (done) return;
@@ -5417,6 +5422,7 @@ const contacts = [];
           sidebarButtons.forEach((btn) => btn.classList.remove("active"));
         }
 
+        await Promise.all([tooltipPromise, capsulePromise]);
         button.classList.add("active");
 
         stopTaxAgendaClock();
@@ -12506,7 +12512,7 @@ const contacts = [];
 
           z-index: 10000;
 
-          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transition: all 0.6s var(--ease-out-smooth);
 
           opacity: 1;
 

@@ -396,65 +396,87 @@
         var totalLinhas = rows.length;
         var conferidas = 0;
         var i = 0;
+        var BATCH_SIZE = 20;
 
-        function next() {
-          if (i >= rows.length) {
-            loadingEl.style.display = 'none';
-            runBtn.disabled = false;
-            if (summaryEl) {
-              summaryEl.style.display = 'block';
-              summaryEl.innerHTML = '<strong>Resumo:</strong> ' + totalLinhas + ' linha(s) na planilha, ' + conferidas + ' conferida(s) no banco, <strong>' + divergencias.length + '</strong> com divergência (NAO/Revisar).';
-            }
-            if (divergencias.length === 0) {
-              emptyEl.style.display = 'block';
-              if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Nenhuma divergência encontrada (todos os itens conferidos estão SIM no banco ou não constam no banco).';
-              reportWrap.style.display = 'none';
-            } else {
-              emptyEl.style.display = 'none';
-              reportWrap.style.display = 'block';
-              for (var d = 0; d < divergencias.length; d++) {
-                var r = divergencias[d];
-                var tr = document.createElement('tr');
-                tr.className = 'ncm-planilha-row-erro';
-                tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(r.produto || '') + '</td>' +
-                  '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmPlanilha || '') + '</td>' +
-                  '<td class="ncm-banco-cell-resultado"><span class="ncm-v-res ncm-v-res-' + (r.resultado || '').toLowerCase() + '">' + escapeHtml(r.resultado || '') + '</span></td>' +
-                  '<td class="ncm-banco-cell-detalhe">' + escapeHtml(r.detalhe || '') + '</td>';
-                reportTbody.appendChild(tr);
-              }
-            }
-            return;
+        function finish() {
+          loadingEl.style.display = 'none';
+          runBtn.disabled = false;
+          if (summaryEl) {
+            summaryEl.style.display = 'block';
+            summaryEl.innerHTML = '<strong>Resumo:</strong> ' + totalLinhas + ' linha(s) na planilha, ' + conferidas + ' conferida(s) no banco, <strong>' + divergencias.length + '</strong> com divergência (NAO/Revisar).';
           }
-
-          var row = rows[i];
-          var produto = (row.produto != null ? String(row.produto) : '').trim();
-          var ncmRaw = (row.ncm != null ? String(row.ncm) : '').trim();
-          var ncm8 = normalizarNcm8(ncmRaw);
-          i += 1;
-          if (i % 50 === 0 && loadingText) loadingText.textContent = 'Conferindo... ' + i + '/' + totalLinhas;
-
-          if (!produto || !ncm8) {
-            next();
-            return;
-          }
-          loadValidacaoNcm(produto, ncm8).then(function (reg) {
-            if (reg) {
-              conferidas += 1;
-              var res = (reg.resultado || '').toString().toUpperCase();
-              if (res === 'NAO' || res === 'REVISAR' || (reg.resultado || '').toLowerCase() === 'revisar') {
-                divergencias.push({
-                  produto: produto,
-                  ncmPlanilha: ncmRaw || ncm8,
-                  resultado: reg.resultado || '',
-                  detalhe: reg.detalhe || ''
-                });
-              }
+          if (divergencias.length === 0) {
+            emptyEl.style.display = 'block';
+            if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Nenhuma divergência encontrada (todos os itens conferidos estão SIM no banco ou não constam no banco).';
+            reportWrap.style.display = 'none';
+          } else {
+            emptyEl.style.display = 'none';
+            reportWrap.style.display = 'block';
+            for (var d = 0; d < divergencias.length; d++) {
+              var r = divergencias[d];
+              var tr = document.createElement('tr');
+              tr.className = 'ncm-planilha-row-erro';
+              tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(r.produto || '') + '</td>' +
+                '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmPlanilha || '') + '</td>' +
+                '<td class="ncm-banco-cell-resultado"><span class="ncm-v-res ncm-v-res-' + (r.resultado || '').toLowerCase() + '">' + escapeHtml(r.resultado || '') + '</span></td>' +
+                '<td class="ncm-banco-cell-detalhe">' + escapeHtml(r.detalhe || '') + '</td>';
+              reportTbody.appendChild(tr);
             }
-            next();
-          }).catch(function () { next(); });
+          }
         }
 
-        next();
+        function processBatch() {
+          var batch = [];
+          while (i < rows.length && batch.length < BATCH_SIZE) {
+            var row = rows[i];
+            var produto = (row.produto != null ? String(row.produto) : '').trim();
+            var ncmRaw = (row.ncm != null ? String(row.ncm) : '').trim();
+            var ncm8 = normalizarNcm8(ncmRaw);
+            i += 1;
+            if (produto && ncm8) {
+              batch.push({ produto: produto, ncmRaw: ncmRaw, ncm8: ncm8 });
+            }
+          }
+          if (loadingText) loadingText.textContent = 'Conferindo... ' + Math.min(i, totalLinhas) + '/' + totalLinhas;
+
+          if (batch.length === 0) {
+            finish();
+            return;
+          }
+
+          var promises = batch.map(function (item) {
+            return loadValidacaoNcm(item.produto, item.ncm8)
+              .then(function (reg) {
+                if (reg) {
+                  conferidas += 1;
+                  var res = (reg.resultado || '').toString().toUpperCase();
+                  if (res === 'NAO' || res === 'REVISAR' || (reg.resultado || '').toLowerCase() === 'revisar') {
+                    return {
+                      produto: item.produto,
+                      ncmPlanilha: item.ncmRaw || item.ncm8,
+                      resultado: reg.resultado || '',
+                      detalhe: reg.detalhe || ''
+                    };
+                  }
+                }
+                return null;
+              })
+              .catch(function () { return null; });
+          });
+
+          Promise.all(promises).then(function (results) {
+            for (var r = 0; r < results.length; r++) {
+              if (results[r]) divergencias.push(results[r]);
+            }
+            if (i >= rows.length) {
+              finish();
+            } else {
+              processBatch();
+            }
+          });
+        }
+
+        processBatch();
       };
       reader.onerror = function () {
         loadingEl.style.display = 'none';

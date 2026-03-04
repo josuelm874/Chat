@@ -64,6 +64,7 @@ html {
   width: 100%;
   min-height: 100vh;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -71,7 +72,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  transition: background 0.3s ease;
+  transition: background var(--duration-slow) var(--ease-smooth);
 }
 
 /* ==================== DOMINIUM LOGIN ==================== */
@@ -191,7 +192,7 @@ body {
   left: 0;
   top: 13px;
   font-weight: var(--font-medium);
-  transition: top 0.3s, font-size 0.3s;
+  transition: top var(--duration-slow) var(--ease-smooth), font-size var(--duration-slow) var(--ease-smooth);
   color: var(--white-color);
 }
 
@@ -237,7 +238,7 @@ body {
   cursor: pointer;
   margin-bottom: 2rem;
   color: var(--black-color);
-  transition: background-color 0.3s;
+  transition: background-color var(--duration-slow) var(--ease-smooth);
 }
 
 #dominium-login .login__button:hover {
@@ -268,7 +269,7 @@ body {
   font-size: 0.9rem;
   text-align: center;
   margin-top: 0.5rem;
-  animation: fadeInShake 0.5s ease-out;
+  animation: fadeInShake 0.5s var(--ease-out-smooth);
 }
 
 @keyframes fadeInShake {
@@ -340,6 +341,13 @@ body {
   --shadow-depth: 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.06);
   --shadow-depth-strong: 0 4px 8px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.12), 0 32px 64px rgba(0,0,0,0.1);
   --sidebar-shadow: 0 2px 4px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.15), 0 24px 48px rgba(0,0,0,0.12);
+  /* Transições suaves */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-fast: 0.2s;
+  --duration-normal: 0.28s;
+  --duration-slow: 0.35s;
 }
 [data-theme="dark"] {
   --sidebar-bg: #0a0a0a;
@@ -397,7 +405,8 @@ body {
   padding: 20px 20px 20px 5px;
   gap: 10px;
   align-items: stretch;
-  transition: background 0.3s ease;
+  transition: background var(--duration-slow) var(--ease-smooth);
+  position: relative;
 }
 
 /* ==================== SIDEBAR (estilo side bar – pill preto, curvas) ==================== */
@@ -407,16 +416,16 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  width: 80px;
-  min-width: 80px;
+  width: 64px;
+  min-width: 64px;
   position: relative;
   z-index: 10;
   padding: 16px 0;
-  border-left: 10px solid #0f0f0f;
-  border-radius: 50px;
+  border-left: 8px solid #0f0f0f;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 15px 15px 25px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .sidebar .sidebar-logo {
@@ -435,28 +444,30 @@ body {
 
 .sidebar .center-icons {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
   width: 100%;
   position: relative;
   overflow: visible;
-  padding-top: 8px;
 }
 
 .sidebar .center-icons .list {
   position: relative;
   padding: 2px 0;
   width: 100%;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .sidebar .center-icons .list button {
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 56px;
+  min-height: 48px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -464,6 +475,7 @@ body {
   text-decoration: none;
   padding: 0;
   align-items: center;
+  justify-content: center;
 }
 
 .sidebar .center-icons .list button .icon {
@@ -471,21 +483,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 60px;
-  height: 56px;
+  min-width: 48px;
+  height: 48px;
 }
 
 .sidebar .center-icons .list button .icon i {
   font-size: 1.5rem;
   color: #9ca3af;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 .sidebar .center-icons .list button .title {
   display: none;
   padding: 0 10px;
-  height: 56px;
-  line-height: 56px;
+  height: 48px;
+  line-height: 48px;
   white-space: nowrap;
   font-size: 14px;
   font-weight: 500;
@@ -509,7 +521,7 @@ body {
   position: fixed;
   left: var(--tooltip-x, -9999px);
   top: var(--tooltip-y, -9999px);
-  height: var(--tooltip-h, 56px);
+  height: var(--tooltip-h, 48px);
   max-width: 0;
   overflow: hidden;
   display: flex;
@@ -517,7 +529,7 @@ body {
   padding-left: 0;
   padding-right: 0;
   background: #0f0f0f;
-  border-radius: 0 14px 14px 0;
+  border-radius: 0 10px 10px 0;
   color: #e5e5e5;
   font-size: 14px;
   font-weight: 500;
@@ -525,7 +537,7 @@ body {
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.25);
   z-index: 9999;
   pointer-events: none;
-  transition: max-width 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: max-width var(--duration-normal) var(--ease-bounce), padding var(--duration-normal) var(--ease-bounce);
 }
 
 .sidebar-tooltip-bar.visible {
@@ -549,7 +561,7 @@ body {
 
 /* Cápsula no item ativo – mesma cor do chat-app-bg, animação suave */
 .sidebar .center-icons .list {
-  transition: background 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background var(--duration-normal) var(--ease-bounce);
 }
 
 .sidebar .center-icons .list:has(button.active) {
@@ -558,31 +570,31 @@ body {
 
 .sidebar .center-icons .list:has(button.active)::before,
 .sidebar .center-icons .list:has(button.active)::after {
-  transition: box-shadow 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: box-shadow var(--duration-normal) var(--ease-bounce);
 }
 
 .sidebar .center-icons .list:has(button.active)::before {
   content: '';
   position: absolute;
-  top: -20px;
+  top: -12px;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
   background: transparent;
-  border-bottom-right-radius: 20px;
-  box-shadow: 7.5px 7.5px 0 7.5px var(--chat-app-bg);
+  border-bottom-right-radius: 12px;
+  box-shadow: 6px 6px 0 6px var(--chat-app-bg);
 }
 
 .sidebar .center-icons .list:has(button.active)::after {
   content: '';
   position: absolute;
-  bottom: -20px;
+  bottom: -12px;
   right: 0;
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
   background: transparent;
-  border-top-right-radius: 20px;
-  box-shadow: 7.5px -7.5px 0 7.5px var(--chat-app-bg);
+  border-top-right-radius: 12px;
+  box-shadow: 6px -6px 0 6px var(--chat-app-bg);
 }
 
 /* Badge Tax Agenda */
@@ -659,7 +671,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease, background 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth), background var(--duration-fast) var(--ease-smooth);
 }
 
 .sidebar-theme-toggle button:hover {
@@ -680,7 +692,7 @@ body {
   font-size: 18px;
   color: #9ca3af;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   width: 44px;
   height: 44px;
   display: flex;
@@ -710,16 +722,20 @@ body {
   display: flex;
   overflow: hidden;
   z-index: 5;
-  transition: opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), background var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
 }
 
 .chat-container.hidden {
-  display: none;
+  position: absolute;
+  inset: 0;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 /* Internal Chat Container - Replica o design do chat-container */
@@ -732,16 +748,21 @@ body {
   display: flex;
   overflow: hidden;
   z-index: 5;
-  transition: opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), background var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
 }
 
 .internal-chat-container[style*="display: none"] {
-  display: none !important;
+  display: flex !important;
+  position: absolute;
+  inset: 0;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 /* Garantir que chat-main dentro do internal-chat-container esteja visível */
@@ -750,14 +771,15 @@ body {
   background: var(--main-bg);
   display: flex;
   flex-direction: column;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth);
   position: relative;
 }
 
 .internal-chat-container .chat-main.hidden {
-  display: none !important;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 /* Garantir que message-input dentro do internal-chat-container funcione corretamente */
@@ -782,7 +804,7 @@ body {
   overflow-x: hidden;
   border-right: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset);
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth);
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   position: relative;
@@ -848,7 +870,9 @@ body {
 
 .chat-list.hidden {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .chat-main {
@@ -856,13 +880,15 @@ body {
   background: var(--main-bg);
   display: flex;
   flex-direction: column;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth);
   position: relative;
 }
 
 .chat-main.hidden {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .messages {
@@ -955,7 +981,7 @@ body {
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   text-transform: capitalize;
   letter-spacing: 0.3px;
-  animation: dateDividerPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: dateDividerPop 0.4s var(--ease-bounce);
   z-index: 1;
 }
 
@@ -978,7 +1004,7 @@ body {
   color: var(--header-text);
   line-height: 1.5;
   border-radius: var(--radius-lg);
-  animation: messageSlide 0.2s ease-out;
+  animation: messageSlide var(--duration-normal) var(--ease-out-smooth);
   font-family: 'Inter', 'Segoe UI', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
   border: 1px solid transparent;
   box-shadow: var(--shadow-depth);
@@ -987,7 +1013,7 @@ body {
 @keyframes messageSlide {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -1099,8 +1125,8 @@ body {
   width: 80px;
   height: 80px;
   margin: 6px;
-  animation: emojiPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: emojiPop 0.6s var(--ease-bounce);
+  transition: all var(--duration-slow) var(--ease-bounce);
   cursor: pointer;
   filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.25));
   position: relative;
@@ -1177,7 +1203,7 @@ body {
 }
 
 .emoji-large-container.loaded {
-  animation: lottieLoaded 0.8s ease-out;
+  animation: lottieLoaded 0.8s var(--ease-out-smooth);
 }
 
 /* Tamanhos para múltiplos emojis */
@@ -1207,8 +1233,8 @@ body {
   line-height: 1;
   font-family: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
   display: inline-block;
-  animation: emojiPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: emojiPop 0.5s var(--ease-bounce);
+  transition: all var(--duration-slow) var(--ease-bounce);
   cursor: pointer;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -1265,7 +1291,7 @@ body {
 }
 
 .emoji-large {
-  animation: emojiPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), emojiGlow 3s ease-in-out infinite;
+  animation: emojiPop 0.5s var(--ease-bounce), emojiGlow 3s ease-in-out infinite;
 }
 
 /* Emoji médio (2-3 emojis) */
@@ -1306,7 +1332,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth);
 }
 
 .message-file-preview:hover {
@@ -1334,7 +1360,7 @@ body {
   background: var(--accent-soft);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   min-width: 200px;
 }
 
@@ -1395,7 +1421,7 @@ body {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .message.sent .message-file-download {
@@ -1422,7 +1448,7 @@ body {
   background: var(--glass-inset);
   border-top: 1px solid var(--border-subtle);
   padding: 12px 16px;
-  animation: slideDown 0.3s ease-out;
+  animation: slideDown var(--duration-slow) var(--ease-out-smooth);
 }
 
 @keyframes slideDown {
@@ -1462,7 +1488,7 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .close-preview-inline:hover {
@@ -1554,7 +1580,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   color: var(--text-secondary);
   flex-shrink: 0;
 }
@@ -1592,7 +1618,7 @@ body {
 
 .emoji-panel[style*="display: block"] {
   display: block;
-  animation: slideUpEmoji 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideUpEmoji 0.4s var(--ease-bounce);
 }
 
 @keyframes slideUpEmoji {
@@ -1648,7 +1674,7 @@ body {
   cursor: pointer;
   font-size: 22px;
   font-family: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-slow) var(--ease-bounce);
   position: relative;
   overflow: hidden;
 }
@@ -1663,7 +1689,7 @@ body {
   border-radius: 50%;
   background: var(--accent-soft);
   transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease;
+  transition: width var(--duration-slow) var(--ease-smooth), height var(--duration-slow) var(--ease-smooth);
 }
 
 .emoji-category:hover::before {
@@ -1765,9 +1791,9 @@ body {
   cursor: pointer;
   font-size: 28px;
   font-family: 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--duration-fast) var(--ease-smooth);
   position: relative;
-  animation: emojiAppear 0.3s ease-out backwards;
+  animation: emojiAppear 0.3s var(--ease-out-smooth) backwards;
   line-height: 1;
 }
 
@@ -1790,7 +1816,7 @@ body {
   background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
   border-radius: 8px;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
 }
 
 @keyframes emojiBounce {
@@ -1851,7 +1877,7 @@ body {
   opacity: 0;
   filter: blur(2px);
   z-index: -1;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
 }
 
 .emoji-item:hover::after {
@@ -1919,7 +1945,7 @@ body {
 }
 
 .login-container .container {
-  animation: fadeInScale 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInScale 0.5s var(--ease-smooth);
 }
 
 .login-container .btn.loading {
@@ -2040,7 +2066,7 @@ input.invalid:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   color: var(--text-secondary);
   flex-shrink: 0;
 }
@@ -2068,7 +2094,7 @@ input.invalid:focus {
   background: var(--main-bg);
   padding: 10px 14px;
   border-radius: 12px;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
 }
 
 .message-input input:focus {
@@ -2079,7 +2105,7 @@ input.invalid:focus {
 
 .message-input input::placeholder {
   color: var(--text-secondary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 .message-input i {
@@ -2089,7 +2115,7 @@ input.invalid:focus {
   padding: 8px;
   border-radius: 12px;
   background: var(--accent);
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
 }
 
 .message-input i:hover {
@@ -2114,7 +2140,7 @@ input.invalid:focus {
   min-height: 36px;
   max-height: 36px;
   border: 1px solid var(--border-subtle);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color var(--duration-normal) var(--ease-smooth), box-shadow var(--duration-normal) var(--ease-smooth);
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -2128,7 +2154,7 @@ input.invalid:focus {
   font-size: 16px;
   color: var(--text-secondary);
   margin-right: 8px;
-  transition: color 0.25s ease;
+  transition: color var(--duration-normal) var(--ease-smooth);
 }
 
 .search-bar:focus-within i {
@@ -2142,7 +2168,7 @@ input.invalid:focus {
   font-size: 14px;
   color: var(--text-primary);
   background: transparent;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -2151,7 +2177,7 @@ input.invalid:focus {
 
 .search-bar input::placeholder {
   color: var(--text-secondary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 /* Contacts List */
@@ -2238,9 +2264,9 @@ input.invalid:focus {
   padding: 10px 12px;
   margin-bottom: 4px;
   border-radius: 10px;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background var(--duration-fast) var(--ease-smooth), transform var(--duration-fast) var(--ease-smooth);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   position: relative;
 }
 
@@ -2274,7 +2300,7 @@ input.invalid:focus {
   object-fit: cover;
   margin-right: 12px;
   flex-shrink: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
 .contact:hover img {
@@ -2489,15 +2515,22 @@ input.invalid:focus {
   gap: 10px;
   align-items: stretch;
   z-index: 5;
-  transition: width 0.3s ease, opacity 0.3s ease;
+  transition: width var(--duration-slow) var(--ease-smooth), opacity var(--duration-slow) var(--ease-smooth);
   flex-shrink: 0;
 }
 
 .right-panel.hidden {
-  display: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
   width: 0;
+  min-width: 0;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  overflow: hidden;
+  transition: width var(--duration-slow) var(--ease-smooth), opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .right-panel.expanded {
@@ -2535,8 +2568,8 @@ input.invalid:focus {
   color: white;
   padding: 4px 10px;
   border-radius: 12px;
-  transition: all 0.3s ease;
-  animation: badgePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-slow) var(--ease-smooth);
+  animation: badgePop 0.4s var(--ease-bounce);
   display: none;
   opacity: 0;
   transform: scale(0);
@@ -2561,7 +2594,7 @@ input.invalid:focus {
 }
 
 .tasks-count-badge.updated {
-  animation: badgeUpdate 0.5s ease-out;
+  animation: badgeUpdate 0.5s var(--ease-out-smooth);
 }
 
 @keyframes badgeUpdate {
@@ -2594,7 +2627,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   font-size: 18px;
   flex-shrink: 0;
   position: relative;
@@ -2628,7 +2661,7 @@ input.invalid:focus {
   border-radius: 50%;
   opacity: 0;
   transform: scale(0);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-slow) var(--ease-bounce);
 }
 
 .filter-task-btn.has-filter::after {
@@ -2657,7 +2690,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 20px;
   flex-shrink: 0;
 }
@@ -2685,7 +2718,7 @@ input.invalid:focus {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-20px) scale(0.95);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-slow) var(--ease-bounce);
   z-index: 500;
   border: 1px solid var(--glass-border);
 }
@@ -2726,7 +2759,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 20px;
 }
 
@@ -2792,7 +2825,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: var(--text-secondary);
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 16px;
 }
 
@@ -2828,7 +2861,7 @@ input.invalid:focus {
   color: var(--header-text);
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   background: var(--main-bg);
 }
 
@@ -2944,7 +2977,7 @@ input.invalid:focus {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2991,7 +3024,7 @@ input.invalid:focus {
   gap: 12px;
   padding: 12px 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   color: var(--header-text);
   position: relative;
   background: var(--main-bg);
@@ -3005,7 +3038,7 @@ input.invalid:focus {
 .filter-option i:first-child {
   font-size: 18px;
   color: var(--text-secondary);
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 .filter-option:hover i:first-child {
@@ -3021,7 +3054,7 @@ input.invalid:focus {
 .filter-check {
   font-size: 16px;
   color: transparent;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 .filter-option.active {
@@ -3130,7 +3163,7 @@ input.invalid:focus {
   margin-bottom: 12px;
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-depth);
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -3173,7 +3206,7 @@ input.invalid:focus {
   font-size: 16px;
   flex-shrink: 0;
   margin-top: 2px;
-  transition: transform 0.2s ease, color 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth), color var(--duration-fast) var(--ease-smooth);
 }
 
 .task-item:hover .task-icon {
@@ -3206,7 +3239,7 @@ input.invalid:focus {
   border-radius: 4px;
   letter-spacing: 0.5px;
   opacity: 0.8;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
 }
 
 .task-item.tax-task[data-tax-auto="true"]:hover::before {
@@ -3248,7 +3281,7 @@ input.invalid:focus {
   cursor: pointer;
   flex-shrink: 0;
   accent-color: #10b981;
-  transition: transform 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth);
 }
 
 .task-checkbox:hover {
@@ -3272,7 +3305,7 @@ input.invalid:focus {
   color: var(--header-text);
   margin-bottom: 4px;
   line-height: 1.4;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .task-title.completed {
@@ -3393,7 +3426,7 @@ input.invalid:focus {
   align-items: center;
   -webkit-backdrop-filter: blur(0px);
   backdrop-filter: blur(0px);
-  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  transition: background var(--duration-slow) var(--ease-smooth), backdrop-filter var(--duration-slow) var(--ease-smooth);
 }
 
 .add-task-modal.active {
@@ -3411,7 +3444,7 @@ input.invalid:focus {
   max-height: 80%;
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  animation: modalSlideIn 0.3s ease-out;
+  animation: modalSlideIn var(--duration-slow) var(--ease-out-smooth);
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   position: relative;
@@ -3474,7 +3507,7 @@ input.invalid:focus {
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-20px) scale(0.95);
+    transform: translateY(-16px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -3496,7 +3529,7 @@ input.invalid:focus {
   font-weight: 700;
   color: #1f2937;
   letter-spacing: -0.5px;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
 }
 
 .close-modal-btn {
@@ -3510,7 +3543,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: #6b7280;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 20px;
 }
 
@@ -3562,7 +3595,7 @@ input.invalid:focus {
   font-size: 14px;
   color: #1f2937;
   background: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
@@ -3593,7 +3626,7 @@ input.invalid:focus {
   font-size: 14px;
   color: #1f2937;
   background: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-family: 'Inter', 'Segoe UI', sans-serif;
   cursor: pointer;
   appearance: none;
@@ -3651,7 +3684,7 @@ input.invalid:focus {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .btn-cancel {
@@ -3697,7 +3730,7 @@ input.invalid:focus {
   box-shadow: var(--shadow-depth);
   border: 1px solid var(--border-subtle);
   justify-content: flex-start;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth);
 }
 
 .profile-box:hover {
@@ -3713,7 +3746,7 @@ input.invalid:focus {
   align-items: stretch;
   padding: 16px;
   gap: 12px;
-  transition: opacity 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth);
   box-shadow: var(--shadow-depth);
   border: 1px solid var(--border-subtle);
   justify-content: flex-start;
@@ -3812,7 +3845,7 @@ input.invalid:focus {
   margin-bottom: 4px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   position: relative;
   background: transparent;
   border: none;
@@ -3861,7 +3894,7 @@ input.invalid:focus {
   margin-right: 12px !important;
   /* Visual e interação */
   overflow: hidden !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
   /* Garantir visibilidade - sobrescrever qualquer estilo inline */
   visibility: visible !important;
   opacity: 1 !important;
@@ -4011,7 +4044,7 @@ input.invalid:focus {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #e5e7eb;
-  transition: border-color 0.3s ease;
+  transition: border-color var(--duration-slow) var(--ease-smooth);
 }
 
 .profile-box h3 {
@@ -4020,7 +4053,7 @@ input.invalid:focus {
   font-weight: 600;
   margin: 0;
   text-align: left;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-smooth);
   line-height: 1.4;
   white-space: nowrap;
   overflow: hidden;
@@ -4075,7 +4108,7 @@ input.invalid:focus {
   border-radius: 8px;
   overflow: hidden;
   background: #f9fafb;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .file-category:hover {
@@ -4090,7 +4123,7 @@ input.invalid:focus {
   padding: 12px 14px;
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--duration-fast) var(--ease-smooth);
 }
 
 .file-category-header:hover {
@@ -4112,7 +4145,7 @@ input.invalid:focus {
 .file-category-header .category-arrow {
   font-size: 16px;
   color: #6b7280;
-  transition: transform 0.3s ease;
+  transition: transform var(--duration-slow) var(--ease-smooth);
 }
 
 .file-category-header .category-arrow.expanded {
@@ -4138,7 +4171,7 @@ input.invalid:focus {
 .file-category-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height var(--duration-slow) var(--ease-smooth);
   background: #fff;
 }
 
@@ -4152,7 +4185,7 @@ input.invalid:focus {
   gap: 12px;
   padding: 10px 14px;
   border-bottom: 1px solid #f3f4f6;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--duration-fast) var(--ease-smooth);
 }
 
 .profile-file-item:last-child {
@@ -4220,7 +4253,7 @@ input.invalid:focus {
   background: #f3f4f6;
   color: #6b7280;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .profile-file-download:hover {
@@ -4266,16 +4299,25 @@ input.invalid:focus {
 .admin-container {
   flex: 1;
   height: 100%;
-  display: none;
-  z-index: 5;
-  transition: opacity 0.3s ease;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
   width: 100%;
   max-width: 100%;
   overflow-y: auto;
   padding: 32px;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .admin-container.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   background: var(--glass-bg);
@@ -4284,7 +4326,7 @@ input.invalid:focus {
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow), background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
 }
 
 .admin-header {
@@ -4326,14 +4368,14 @@ input.invalid:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   position: relative;
   border-radius: 10px 10px 0 0;
 }
 
 .admin-tab i {
   font-size: 20px;
-  transition: transform 0.25s ease, color 0.25s ease;
+  transition: transform var(--duration-normal) var(--ease-smooth), color var(--duration-normal) var(--ease-smooth);
 }
 
 .admin-tab:hover {
@@ -4354,7 +4396,7 @@ input.invalid:focus {
 
 .admin-tab.active i {
   color: var(--accent);
-  animation: tabIconPop 0.4s ease-out;
+  animation: tabIconPop 0.4s var(--ease-out-smooth);
 }
 
 @keyframes tabIconPop {
@@ -4372,7 +4414,7 @@ input.invalid:focus {
 /* Tab Content */
 .admin-tab-content {
   display: none;
-  animation: tabFadeIn 0.4s ease-out;
+  animation: tabFadeIn 0.4s var(--ease-out-smooth);
 }
 
 .admin-tab-content.active {
@@ -4526,7 +4568,7 @@ input.invalid:focus {
   font-size: 14px;
   color: #1f2937;
   background: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .form-field input:focus,
@@ -4573,7 +4615,7 @@ input.invalid:focus {
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .btn-select-image {
@@ -4610,7 +4652,7 @@ input.invalid:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   white-space: nowrap;
 }
 
@@ -4658,7 +4700,7 @@ input.invalid:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .user-item:hover {
@@ -4920,7 +4962,7 @@ input.invalid:focus {
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .btn-confirm-onboarding:hover {
@@ -4963,7 +5005,7 @@ input.invalid:focus {
   border-radius: 6px;
   font-size: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4984,7 +5026,7 @@ input.invalid:focus {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .btn-delete-user:hover {
@@ -5011,7 +5053,7 @@ input.invalid:focus {
 
 /* Detalhes expandidos do contribuinte */
 .contributor-item {
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .contributor-item:has(.contributor-details[style*="display: block"]) {
@@ -5022,21 +5064,30 @@ input.invalid:focus {
 
 .contributor-details {
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 /* Tax Agenda Container */
 .tax-agenda-container {
   flex: 1;
   height: 100%;
-  display: none;
-  z-index: 5;
-  transition: opacity 0.3s ease;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
   width: 100%;
   max-width: 100%;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .tax-agenda-container.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 5;
   display: flex;
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -5044,7 +5095,7 @@ input.invalid:focus {
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow), background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
   overflow: visible;
   padding: 32px;
   gap: 24px;
@@ -5078,7 +5129,7 @@ input.invalid:focus {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
 }
 
 .tax-agenda-datetime-inner {
@@ -5192,7 +5243,7 @@ input.invalid:focus {
   border: 1px solid var(--glass-border);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .tax-agenda-clock-toggle:hover {
@@ -5235,7 +5286,7 @@ input.invalid:focus {
   flex-direction: column;
   overflow: visible;
   padding: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth);
   flex: 1;
   min-height: 0;
 }
@@ -5286,7 +5337,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: #9ca3af;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 16px;
 }
 
@@ -5326,7 +5377,7 @@ input.invalid:focus {
   font-size: 11px;
   font-weight: 500;
   color: #4b5563;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   position: relative;
   background: transparent;
   border: none;
@@ -5352,7 +5403,7 @@ input.invalid:focus {
   height: 5px;
   border-radius: 50%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .day-indicator.reminder {
@@ -5422,7 +5473,7 @@ input.invalid:focus {
   color: white;
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
-  animation: daySelected 0.4s ease-out;
+  animation: daySelected 0.4s var(--ease-out-smooth);
 }
 
 @keyframes daySelected {
@@ -5455,7 +5506,7 @@ input.invalid:focus {
   color: #1f2937;
   font-weight: 600;
   border: 2px solid #9ca3af;
-  animation: highlightPulse 0.5s ease;
+  animation: highlightPulse 0.5s var(--ease-smooth);
 }
 
 @keyframes highlightPulse {
@@ -5743,14 +5794,23 @@ input.invalid:focus {
 .scheduled-message-container {
   flex: 1;
   height: 100%;
-  display: none;
-  z-index: 5;
-  transition: opacity 0.3s ease;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
   width: 100%;
   max-width: 100%;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .scheduled-message-container.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 5;
   display: flex;
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
@@ -5760,12 +5820,11 @@ input.invalid:focus {
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
   overflow-y: auto;
   padding: 32px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow), background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
   width: 100%;
   height: calc(100vh - 40px);
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  position: relative;
 }
 
 .scheduled-message-container::-webkit-scrollbar {
@@ -5860,7 +5919,7 @@ input.invalid:focus {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   font-size: 14px;
   color: var(--header-text);
 }
@@ -5873,7 +5932,7 @@ input.invalid:focus {
 .contact-selector-button i {
   font-size: 20px;
   color: var(--text-secondary);
-  transition: transform 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth);
 }
 
 .contact-selector-button.active i {
@@ -5903,7 +5962,7 @@ input.invalid:focus {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -6010,7 +6069,7 @@ input.invalid:focus {
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   border-bottom: 1px solid #f3f4f6;
 }
 
@@ -6053,7 +6112,7 @@ input.invalid:focus {
   font-size: 18px;
   color: #10b981;
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
 }
 
 .contact-selector-item.selected i {
@@ -6077,7 +6136,7 @@ input.invalid:focus {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 14px;
   color: #1f2937;
 }
@@ -6090,7 +6149,7 @@ input.invalid:focus {
 .datetime-selector-button i {
   font-size: 20px;
   color: #6b7280;
-  transition: transform 0.2s ease;
+  transition: transform var(--duration-fast) var(--ease-smooth);
 }
 
 .datetime-selector-button.active i {
@@ -6117,7 +6176,7 @@ input.invalid:focus {
   width: 520px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-slow) var(--ease-bounce);
   z-index: 500;
   border: 2px solid #e5e7eb;
 }
@@ -6157,7 +6216,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: white;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 20px;
 }
 
@@ -6214,7 +6273,7 @@ input.invalid:focus {
   align-items: center;
   justify-content: center;
   color: #6b7280;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   font-size: 18px;
 }
 
@@ -6250,7 +6309,7 @@ input.invalid:focus {
   color: #4b5563;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   background: white;
   border: 2px solid transparent;
 }
@@ -6284,7 +6343,7 @@ input.invalid:focus {
   color: white;
   font-weight: 700;
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
-  animation: daySelected 0.4s ease-out;
+  animation: daySelected 0.4s var(--ease-out-smooth);
 }
 
 .schedule-calendar-day.selected:hover {
@@ -6335,7 +6394,7 @@ input.invalid:focus {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6438,7 +6497,7 @@ input.invalid:focus {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6466,7 +6525,7 @@ input.invalid:focus {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6487,7 +6546,7 @@ input.invalid:focus {
 .btn-download-pdf img {
   width: 32px;
   height: 32px;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   filter: brightness(0) invert(1);
 }
 
@@ -6514,7 +6573,7 @@ input.invalid:focus {
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   padding: 20px;
-  animation: slideDown 0.4s ease-out;
+  animation: slideDown 0.4s var(--ease-out-smooth);
 }
 
 .report-preview-header {
@@ -6662,7 +6721,7 @@ input.invalid:focus {
   margin-bottom: 16px;
   padding: 12px 16px;
   border-radius: 12px;
-  transition: all 0.2s ease;
+  transition: all var(--duration-fast) var(--ease-smooth);
   max-width: 70%;
   display: flex;
   flex-direction: column;
@@ -6914,7 +6973,7 @@ input.invalid:focus {
     justify-content: space-around;
     align-items: center;
     padding: 8px 0;
-    border-radius: 20px;
+    border-radius: 12px;
     border-left: none;
   }
 
@@ -7283,7 +7342,7 @@ input.invalid:focus {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   padding: 20px;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   cursor: pointer;
 }
 
@@ -7393,7 +7452,7 @@ input.invalid:focus {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .btn-view-details:hover {
@@ -7454,7 +7513,7 @@ input.invalid:focus {
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .close-modal-btn:hover {
@@ -7524,7 +7583,7 @@ input.invalid:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
 }
 
 .btn-redirect-vacancy:hover {
@@ -7562,7 +7621,7 @@ input.invalid:focus {
   display: flex;
   overflow: hidden;
   z-index: 5;
-  transition: opacity 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity var(--duration-slow) var(--ease-smooth), background var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
   border-radius: 16px;
   border: 1px solid var(--glass-border);
   box-shadow: inset 0 1px 0 var(--glass-inset), var(--shadow-depth);
@@ -7570,10 +7629,13 @@ input.invalid:focus {
 }
 
 .ncm-container.hidden {
-  display: none !important;
+  position: absolute;
+  inset: 0;
   opacity: 0;
-  pointer-events: none;
   visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
 }
 
 .ncm-main {
@@ -7641,7 +7703,7 @@ input.invalid:focus {
   z-index: 10000;
   opacity: 0;
   transform: translateY(-20px);
-  transition: all 0.3s ease;
+  transition: all var(--duration-slow) var(--ease-smooth);
   pointer-events: none;
   font-weight: 600;
   display: flex;
@@ -7684,10 +7746,10 @@ input.invalid:focus {
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all var(--duration-normal) var(--ease-smooth);
   border-radius: 10px 10px 0 0;
 }
-.ncm-tab-btn i { font-size: 18px; transition: transform 0.25s ease; }
+.ncm-tab-btn i { font-size: 18px; transition: transform var(--duration-normal) var(--ease-smooth); }
 .ncm-tab-btn:hover { color: var(--accent); background: var(--accent-soft); }
 .ncm-tab-btn:hover i { transform: scale(1.08) translateY(-1px); }
 .ncm-tab-btn.active {
@@ -7765,7 +7827,7 @@ input.invalid:focus {
   border-radius: 10px;
   font-size: 1em;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color var(--duration-fast) var(--ease-smooth);
 }
 .ncm-sercon-field input:focus { border-color: var(--accent); }
 .ncm-sercon-btn {
@@ -7780,7 +7842,7 @@ input.invalid:focus {
   font-weight: 600;
   font-size: 1em;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 .ncm-sercon-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
 .ncm-sercon-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -7797,7 +7859,7 @@ input.invalid:focus {
   border: 2px solid var(--border-subtle);
   border-radius: 12px;
   padding: 20px;
-  transition: all 0.2s;
+  transition: all var(--duration-fast) var(--ease-smooth);
 }
 .ncm-produto-card:hover { border-color: var(--accent); box-shadow: var(--card-hover-shadow); }
 .ncm-produto-card-head {

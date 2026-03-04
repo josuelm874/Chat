@@ -52,14 +52,23 @@
     .job-management-container {
       flex: 1;
       height: 100%;
-      display: none;
-      z-index: 5;
-      transition: opacity 0.3s ease;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 0;
       width: 100%;
       max-width: 100%;
+      transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
     }
 
     .job-management-container.active {
+      position: relative;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 5;
       display: flex;
       flex-direction: column;
       background: var(--glass-bg, rgba(255,255,255,0.72));
@@ -70,7 +79,7 @@
       padding: 32px;
       border: 1px solid var(--glass-border, rgba(255,255,255,0.65));
       box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.85)), var(--shadow-depth, 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.06));
-      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow), background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
     }
 
     .job-management-header {
@@ -130,14 +139,14 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.25s ease;
+      transition: all var(--duration-normal) var(--ease-smooth);
       position: relative;
       border-radius: 10px 10px 0 0;
     }
 
     .job-tab i {
       font-size: 20px;
-      transition: transform 0.25s ease, color 0.25s ease;
+      transition: transform var(--duration-normal) var(--ease-smooth), color var(--duration-normal) var(--ease-smooth);
     }
 
     .job-tab:hover {
@@ -158,7 +167,7 @@
 
     .job-tab.active i {
       color: var(--accent);
-      animation: tabIconPop 0.4s ease-out;
+      animation: tabIconPop 0.4s var(--ease-out-smooth);
     }
 
     @keyframes tabIconPop {
@@ -192,7 +201,7 @@
     /* Conteúdo das Tabs */
     .job-tab-panel {
       display: none;
-      animation: tabFadeIn 0.4s ease-out;
+      animation: tabFadeIn 0.4s var(--ease-out-smooth);
     }
 
     .job-tab-panel.active {
@@ -243,7 +252,7 @@
       border-radius: 14px;
       padding: 20px;
       box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.6)), var(--shadow-depth, 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08));
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.3s ease;
+      transition: transform var(--duration-normal) var(--ease-smooth), box-shadow var(--duration-normal) var(--ease-smooth), border-color var(--duration-normal) var(--ease-smooth), background var(--duration-slow) var(--ease-smooth);
       cursor: pointer;
     }
 
@@ -335,7 +344,7 @@
       cursor: pointer;
       font-size: 0.85em;
       font-weight: 500;
-      transition: all 0.3s;
+      transition: all var(--duration-slow) var(--ease-smooth);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -485,7 +494,7 @@
       color: #666;
       padding: 5px 10px;
       border-radius: 6px;
-      transition: all 0.3s;
+      transition: all var(--duration-slow) var(--ease-smooth);
     }
 
     .close-job-modal:hover {
@@ -538,7 +547,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: 500;
-      transition: all 0.3s;
+      transition: all var(--duration-slow) var(--ease-smooth);
       display: flex;
       align-items: center;
       gap: 8px;
