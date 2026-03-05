@@ -1923,7 +1923,7 @@
           <div id="ncm-tab-conferir-planilha" class="ncm-tab-content" style="display: none;">
             <div class="ncm-planilha-panel">
               <h2 class="ncm-sercon-title">Conferir planilha com o banco</h2>
-              <p class="ncm-sercon-desc">Envie um arquivo <strong>CSV</strong> (ou Excel exportado como CSV) com colunas <strong>produto</strong> e <strong>ncm</strong>. O sistema compara com o banco <em>validacao_ncm</em> e exibe apenas os registros que constam no banco e estão com resultado <strong>NAO</strong> ou <strong>Revisar</strong> (o que está errado na planilha). Produtos que não estão no banco não são analisados nem exibidos.</p>
+              <p class="ncm-sercon-desc">Envie um arquivo <strong>CSV</strong> (ou Excel exportado como CSV) com colunas <strong>produto</strong> e <strong>ncm</strong>. O sistema considera apenas produtos validados como <strong>SIM</strong> no banco (match pelas 2 primeiras palavras). Compara a NCM da planilha com a(s) NCM(s) correta(s). Divergências: NCM da planilha diferente do banco. Aba "Não encontrados": produtos sem registro SIM no banco.</p>
               <div class="ncm-planilha-toolbar">
                 <label class="ncm-planilha-file-label">
                   <input type="file" id="ncm-planilha-file" accept=".csv,.txt,application/csv,text/csv" style="display: none;">
@@ -1938,24 +1938,54 @@
                 <i class="bx bx-loader-alt bx-spin"></i> <span id="ncm-planilha-loading-text">Conferindo...</span>
               </div>
               <div id="ncm-planilha-summary" class="ncm-planilha-summary" style="display: none;"></div>
-              <div id="ncm-planilha-report-wrap" class="ncm-banco-table-wrap" style="display: none;">
-                <div class="ncm-banco-scroll">
-                  <table class="ncm-banco-table ncm-planilha-report-table" id="ncm-planilha-report-table">
-                    <thead>
-                      <tr>
-                        <th>Produto (planilha)</th>
-                        <th>NCM (planilha)</th>
-                        <th>Resultado no banco</th>
-                        <th>Detalhe</th>
-                      </tr>
-                    </thead>
-                    <tbody id="ncm-planilha-report-tbody"></tbody>
-                  </table>
+              <div class="ncm-planilha-reports-tabs">
+                <div class="ncm-planilha-reports-tab-btns">
+                  <button type="button" class="ncm-planilha-report-tab-btn active" data-planilha-report="divergencias">
+                    <i class="bx bx-error-circle"></i> Divergências
+                  </button>
+                  <button type="button" class="ncm-planilha-report-tab-btn" data-planilha-report="nao-encontrados">
+                    <i class="bx bx-search-alt"></i> Não encontrados
+                  </button>
                 </div>
-              </div>
-              <div id="ncm-planilha-empty" class="ncm-banco-empty" style="display: none;">
-                <i class="bx bx-info-circle"></i>
-                <p>Nenhuma divergência encontrada ou Supabase não configurado.</p>
+                <div id="ncm-planilha-divergencias-wrap" class="ncm-planilha-report-panel active">
+                  <div id="ncm-planilha-report-wrap" class="ncm-banco-table-wrap" style="display: none;">
+                    <div class="ncm-banco-scroll">
+                      <table class="ncm-banco-table ncm-planilha-report-table" id="ncm-planilha-report-table">
+                        <thead>
+                          <tr>
+                            <th>Produto (planilha)</th>
+                            <th>NCM (planilha)</th>
+                            <th>NCM(s) esperada(s) no banco</th>
+                          </tr>
+                        </thead>
+                        <tbody id="ncm-planilha-report-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div id="ncm-planilha-empty" class="ncm-banco-empty" style="display: none;">
+                    <i class="bx bx-check-circle"></i>
+                    <p>Nenhuma divergência encontrada.</p>
+                  </div>
+                </div>
+                <div id="ncm-planilha-nao-encontrados-panel" class="ncm-planilha-report-panel" style="display: none;">
+                  <div id="ncm-planilha-nao-encontrados-table-wrap" class="ncm-banco-table-wrap" style="display: none;">
+                    <div class="ncm-banco-scroll">
+                      <table class="ncm-banco-table ncm-planilha-report-table">
+                        <thead>
+                          <tr>
+                            <th>Produto (planilha)</th>
+                            <th>NCM (planilha)</th>
+                          </tr>
+                        </thead>
+                        <tbody id="ncm-planilha-nao-encontrados-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div id="ncm-planilha-nao-encontrados-empty" class="ncm-banco-empty" style="display: none;">
+                    <i class="bx bx-check-circle"></i>
+                    <p>Todos os produtos foram encontrados no banco.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

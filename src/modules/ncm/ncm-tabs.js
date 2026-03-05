@@ -354,6 +354,12 @@
       summaryEl.style.display = 'none';
       reportWrap.style.display = 'none';
       emptyEl.style.display = 'none';
+      var naoEncTbody = document.getElementById('ncm-planilha-nao-encontrados-tbody');
+      var naoEncWrap = document.getElementById('ncm-planilha-nao-encontrados-table-wrap');
+      var naoEncEmpty = document.getElementById('ncm-planilha-nao-encontrados-empty');
+      if (naoEncTbody) naoEncTbody.innerHTML = '';
+      if (naoEncWrap) naoEncWrap.style.display = 'none';
+      if (naoEncEmpty) naoEncEmpty.style.display = 'none';
     });
 
     runBtn.addEventListener('click', function () {
@@ -391,23 +397,30 @@
         }
 
         var normalizarNcm8 = window.supabaseSync.normalizarNcm8;
-        var loadValidacaoNcm = window.supabaseSync.loadValidacaoNcm;
+        var listValidacaoNcmSimByProduto = window.supabaseSync.listValidacaoNcmSimByProduto;
         var divergencias = [];
+        var naoEncontrados = [];
         var totalLinhas = rows.length;
         var conferidas = 0;
         var i = 0;
         var BATCH_SIZE = 20;
+
+        var naoEncontradosTbody = document.getElementById('ncm-planilha-nao-encontrados-tbody');
+        var naoEncontradosWrap = document.getElementById('ncm-planilha-nao-encontrados-table-wrap');
+        var naoEncontradosEmpty = document.getElementById('ncm-planilha-nao-encontrados-empty');
+        var divergenciasPanel = document.getElementById('ncm-planilha-divergencias-wrap');
+        var naoEncontradosPanel = document.getElementById('ncm-planilha-nao-encontrados-panel');
 
         function finish() {
           loadingEl.style.display = 'none';
           runBtn.disabled = false;
           if (summaryEl) {
             summaryEl.style.display = 'block';
-            summaryEl.innerHTML = '<strong>Resumo:</strong> ' + totalLinhas + ' linha(s) na planilha, ' + conferidas + ' conferida(s) no banco, <strong>' + divergencias.length + '</strong> com divergência (NAO/Revisar).';
+            summaryEl.innerHTML = '<strong>Resumo:</strong> ' + totalLinhas + ' linha(s) na planilha, ' + conferidas + ' conferida(s) com banco, <strong>' + divergencias.length + '</strong> divergência(s), <strong>' + naoEncontrados.length + '</strong> não encontrado(s).';
           }
           if (divergencias.length === 0) {
             emptyEl.style.display = 'block';
-            if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Nenhuma divergência encontrada (todos os itens conferidos estão SIM no banco ou não constam no banco).';
+            if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Nenhuma divergência encontrada.';
             reportWrap.style.display = 'none';
           } else {
             emptyEl.style.display = 'none';
@@ -418,9 +431,26 @@
               tr.className = 'ncm-planilha-row-erro';
               tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(r.produto || '') + '</td>' +
                 '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmPlanilha || '') + '</td>' +
-                '<td class="ncm-banco-cell-resultado"><span class="ncm-v-res ncm-v-res-' + (r.resultado || '').toLowerCase() + '">' + escapeHtml(r.resultado || '') + '</span></td>' +
-                '<td class="ncm-banco-cell-detalhe">' + escapeHtml(r.detalhe || '') + '</td>';
+                '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmEsperadas || '') + '</td>';
               reportTbody.appendChild(tr);
+            }
+          }
+          if (naoEncontradosTbody && naoEncontradosWrap && naoEncontradosEmpty) {
+            if (naoEncontrados.length === 0) {
+              naoEncontradosEmpty.style.display = 'block';
+              naoEncontradosWrap.style.display = 'none';
+            } else {
+              naoEncontradosEmpty.style.display = 'none';
+              naoEncontradosWrap.style.display = 'block';
+              naoEncontradosTbody.innerHTML = '';
+              for (var n = 0; n < naoEncontrados.length; n++) {
+                var item = naoEncontrados[n];
+                var tr = document.createElement('tr');
+                tr.className = 'ncm-planilha-row-nao-encontrado';
+                tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(item.produto || '') + '</td>' +
+                  '<td class="ncm-banco-cell-ncm">' + escapeHtml(item.ncmPlanilha || '') + '</td>';
+                naoEncontradosTbody.appendChild(tr);
+              }
             }
           }
         }
@@ -445,23 +475,39 @@
           }
 
           var promises = batch.map(function (item) {
-            return loadValidacaoNcm(item.produto, item.ncm8)
-              .then(function (reg) {
-                if (reg) {
-                  conferidas += 1;
-                  var res = (reg.resultado || '').toString().toUpperCase();
-                  if (res === 'NAO' || res === 'REVISAR' || (reg.resultado || '').toLowerCase() === 'revisar') {
-                    return {
-                      produto: item.produto,
-                      ncmPlanilha: item.ncmRaw || item.ncm8,
-                      resultado: reg.resultado || '',
-                      detalhe: reg.detalhe || ''
-                    };
-                  }
+            return listValidacaoNcmSimByProduto(item.produto)
+              .then(function (sims) {
+                if (!sims || sims.length === 0) {
+                  naoEncontrados.push({
+                    produto: item.produto,
+                    ncmPlanilha: item.ncmRaw || item.ncm8
+                  });
+                  return null;
                 }
-                return null;
+                conferidas += 1;
+                var ncmsValidas = [];
+                var seen = {};
+                for (var k = 0; k < sims.length; k++) {
+                  var n = normalizarNcm8(sims[k].ncm);
+                  if (n && !seen[n]) { seen[n] = true; ncmsValidas.push(n); }
+                }
+                var ncmPlanilhaNorm = item.ncm8;
+                var ncmCorreta = ncmsValidas.indexOf(ncmPlanilhaNorm) >= 0;
+                if (ncmCorreta) return null;
+                var ncmEsperadas = ncmsValidas.length > 0 ? ncmsValidas.join(', ') : '';
+                return {
+                  produto: item.produto,
+                  ncmPlanilha: item.ncmRaw || item.ncm8,
+                  ncmEsperadas: ncmEsperadas
+                };
               })
-              .catch(function () { return null; });
+              .catch(function () {
+                naoEncontrados.push({
+                  produto: item.produto,
+                  ncmPlanilha: item.ncmRaw || item.ncm8
+                });
+                return null;
+              });
           });
 
           Promise.all(promises).then(function (results) {
@@ -485,6 +531,27 @@
         else alert('Erro ao ler o arquivo.');
       };
       reader.readAsText(file, 'UTF-8');
+    });
+
+    var reportTabBtns = document.querySelectorAll('.ncm-planilha-report-tab-btn');
+    var reportPanels = document.querySelectorAll('.ncm-planilha-report-panel');
+    reportTabBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.getAttribute('data-planilha-report');
+        reportTabBtns.forEach(function (b) { b.classList.remove('active'); });
+        reportPanels.forEach(function (p) {
+          p.classList.remove('active');
+          p.style.display = 'none';
+        });
+        btn.classList.add('active');
+        var panel = target === 'divergencias'
+          ? document.getElementById('ncm-planilha-divergencias-wrap')
+          : document.getElementById('ncm-planilha-nao-encontrados-panel');
+        if (panel) {
+          panel.classList.add('active');
+          panel.style.display = 'block';
+        }
+      });
     });
   }
 

@@ -272,6 +272,43 @@
   }
 
   /**
+   * Retorna as primeiras 2 palavras do texto (para match de produto).
+   */
+  function primeirasDuasPalavras(texto) {
+    var palavras = String(texto || '').trim().split(/\s+/).filter(Boolean);
+    if (palavras.length < 2) return '';
+    return palavras.slice(0, 2).join(' ');
+  }
+
+  /**
+   * Lista validações SIM do banco cujo produto começa com as 2 primeiras palavras do parâmetro.
+   * Usado na conferência de planilha: só considera produtos validados como SIM.
+   * Retorna array de { produto, ncm, resultado, detalhe }.
+   */
+  async function listValidacaoNcmSimByProduto(produto) {
+    if (!isSupabaseConfigured || !supabaseClient) return [];
+    var prefix = primeirasDuasPalavras(produto);
+    if (!prefix) return [];
+    try {
+      var table = getValidacaoNcmTable();
+      var q = await supabaseClient
+        .from(table)
+        .select('produto, ncm, resultado, detalhe')
+        .ilike('produto', prefix + '%')
+        .ilike('resultado', 'sim')
+        .limit(50);
+      if (q.error) {
+        if (typeof console !== 'undefined' && console.warn) console.warn('listValidacaoNcmSimByProduto:', q.error.message);
+        return [];
+      }
+      return q.data || [];
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) console.error('listValidacaoNcmSimByProduto:', e);
+      return [];
+    }
+  }
+
+  /**
    * Lista validações do banco por código NCM (para exibir "produtos já validados para este NCM").
    * Retorna array de { produto, ncm, resultado, detalhe }, no máximo limit itens.
    */
@@ -337,8 +374,10 @@
     /** Banco de validação NCM (tabela validacao_ncm) */
     loadValidacaoNcm: loadValidacaoNcm,
     listValidacaoNcmByNcm: listValidacaoNcmByNcm,
+    listValidacaoNcmSimByProduto: listValidacaoNcmSimByProduto,
     listValidacaoNcmAll: listValidacaoNcmAll,
-    normalizarNcm8: normalizarNcm8
+    normalizarNcm8: normalizarNcm8,
+    primeirasDuasPalavras: primeirasDuasPalavras
   };
 
   if (document.readyState === 'loading') {
