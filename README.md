@@ -138,6 +138,23 @@ Chat UI/
 
 ---
 
+## Documentação Técnica
+
+Documentação completa em **`docs/`**:
+
+- [Índice da documentação](docs/README.md)
+- [Arquitetura](docs/ARCHITECTURE.md)
+- [Módulos compartilhados](docs/SHARED.md)
+- [Supabase](docs/SUPABASE.md)
+- [Módulo NCM](docs/NCM.md)
+- [Interface Operador](docs/OPERADOR.md)
+- [Interface Cliente](docs/CLIENTE.md)
+- [Interface Público](docs/PUBLICO.md)
+- [Configuração](docs/CONFIG.md)
+- [Design System](docs/DESIGN_SYSTEM.md)
+
+---
+
 ## Fluxo de carregamento
 
 ### Operador

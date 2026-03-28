@@ -1079,6 +1079,21 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Reinicializar emojis após login (caso os elementos não tenham sido encontrados antes)
       initializeEmojis();
+
+      // Sync Supabase — carregar dados da nuvem e assinar mensagens em tempo real
+      if (typeof window.supabaseSync !== 'undefined') {
+        window.supabaseSync.onReady(async function () {
+          try {
+            await window.supabaseSync.syncAll(['users', 'contributors', 'contributorContacts', 'contributorEmployees', 'supportMessages']);
+            if (typeof loadMessages === 'function') loadMessages();
+          } catch (e) { /* offline — localStorage usado */ }
+
+          // Atualizar mensagens em tempo real quando o operador responder
+          window.supabaseSync.subscribeToKey('supportMessages', function () {
+            if (typeof loadMessages === 'function') loadMessages();
+          });
+        });
+      }
     }
     if (loginSection) {
       loginSection.classList.add("hidden");

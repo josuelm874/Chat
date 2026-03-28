@@ -1898,69 +1898,211 @@ const contacts = [];
 
     // ==================== TEMA CLARO/ESCURO (PIN 2) ====================
     (function initTheme() {
-      const stored = localStorage.getItem("operador-theme") || "light";
       const root = document.documentElement;
+      // Detectar preferência do sistema na primeira visita
+      let stored = localStorage.getItem("operador-theme");
+      if (!stored) {
+        stored = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+          ? "dark" : "light";
+      }
       root.setAttribute("data-theme", stored);
+
       const btnLight = document.getElementById("themeToggleLight");
       const btnDark = document.getElementById("themeToggleDark");
-      if (btnLight) btnLight.classList.toggle("active", stored === "light");
-      if (btnDark) btnDark.classList.toggle("active", stored === "dark");
-      function setTheme(theme) {
-        root.setAttribute("data-theme", theme);
-        localStorage.setItem("operador-theme", theme);
+
+      function applyThemeButtons(theme) {
         if (btnLight) btnLight.classList.toggle("active", theme === "light");
         if (btnDark) btnDark.classList.toggle("active", theme === "dark");
       }
-      btnLight?.addEventListener("click", () => setTheme("light"));
-      btnDark?.addEventListener("click", () => setTheme("dark"));
+      applyThemeButtons(stored);
+
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        localStorage.setItem("operador-theme", theme);
+        applyThemeButtons(theme);
+      }
+
+      if (btnLight) btnLight.addEventListener("click", () => setTheme("light"));
+      if (btnDark) btnDark.addEventListener("click", () => setTheme("dark"));
+
+      // Reagir a mudanças na preferência do OS (só quando o usuário não escolheu manualmente)
+      if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+          if (!localStorage.getItem("operador-theme")) {
+            const auto = e.matches ? "dark" : "light";
+            root.setAttribute("data-theme", auto);
+            applyThemeButtons(auto);
+          }
+        });
+      }
+    })();
+
+    // ==================== SUPABASE: SYNC INICIAL + REAL-TIME ====================
+    (function initSupabaseIntegration() {
+      if (!window.supabaseSync) return;
+
+      // Quando Supabase estiver pronto, executar sync + real-time
+      window.supabaseSync.onReady(async function() {
+        // Migração única de dados localStorage → Supabase
+        if (!localStorage.getItem('sercon_cloud_migrated_v1')) {
+          const migrationKeys = [
+            'users', 'contributors', 'contributorContacts', 'contributorEmployees',
+            'supportMessages', 'internalMessages', 'tasks', 'recruitmentRequests', 'chatui_lembretes'
+          ];
+          for (const key of migrationKeys) {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              try { await window.supabaseSync.save(key, JSON.parse(raw)); } catch(e) {}
+            }
+          }
+          localStorage.setItem('sercon_cloud_migrated_v1', '1');
+          console.log('[Sercon] Migração localStorage → Supabase concluída.');
+        }
+
+        // Sync bidirecional de todos os dados
+        try {
+          const result = await window.supabaseSync.syncAll();
+          console.log('[Sercon] Cloud sync result:', result);
+          // Recarregar listas após sync
+          if (typeof updateSupportContactsList === 'function') updateSupportContactsList();
+          if (typeof updateInternalContactsList === 'function') updateInternalContactsList();
+          if (typeof renderLembretes === 'function') renderLembretes();
+        } catch(e) {
+          console.warn('[Sercon] Cloud sync falhou:', e);
+        }
+
+        // Real-time subscriptions
+        window.supabaseSync.subscribeToKey('supportMessages', function() {
+          if (typeof updateSupportContactsList === 'function') updateSupportContactsList();
+          // Recarregar chat ativo se houver
+          const activeContact = document.querySelector(".contacts-list .contact.active");
+          if (activeContact) {
+            const contactId = activeContact.getAttribute("data-contact-id");
+            if (contactId && typeof updateChat === 'function') {
+              try { updateChat(contactId); } catch(e) {}
+            }
+          }
+        });
+
+        window.supabaseSync.subscribeToKey('internalMessages', function() {
+          if (typeof updateInternalContactsList === 'function') updateInternalContactsList();
+        });
+
+        window.supabaseSync.subscribeToKey('users', function() {
+          if (typeof renderUsersList === 'function') renderUsersList();
+        });
+
+        window.supabaseSync.subscribeToKey('contributors', function() {
+          if (typeof renderContributorsList === 'function') renderContributorsList();
+        });
+      });
     })();
 
     // Tooltip bar estilo Arch Linux (barra que expande à direita do ícone)
     let hideSidebarTooltipBar = async () => {};
+    let _tooltipPendingShow = null;
+
     (function initSidebarTooltipBar() {
       const tooltipBar = document.getElementById("sidebar-tooltip-bar");
       const lists = document.querySelectorAll(".sidebar .center-icons .list");
       if (!tooltipBar || !lists.length) return;
-      hideSidebarTooltipBar = () => {
-        if (!tooltipBar.classList.contains("visible")) return Promise.resolve();
+
+      // Listener global: quando a transição de retração terminar, executa o próximo show
+      tooltipBar.addEventListener("transitionend", (e) => {
+        if (e.propertyName !== "max-width") return;
+        if (tooltipBar.classList.contains("visible")) return;
+        tooltipBar.classList.remove("retracting");
+        if (_tooltipPendingShow) {
+          const fn = _tooltipPendingShow;
+          _tooltipPendingShow = null;
+          fn();
+        }
+      });
+
+      // Aplica o tooltip para um ícone
+      const applyTooltip = (btn, titleEl) => {
+        const icon = btn.querySelector(".icon");
+        const rect = icon ? icon.getBoundingClientRect() : btn.getBoundingClientRect();
+        tooltipBar.classList.remove("retracting");
+        tooltipBar.style.setProperty("--tooltip-x", `${rect.right}px`);
+        tooltipBar.style.setProperty("--tooltip-y", `${rect.top}px`);
+        tooltipBar.style.setProperty("--tooltip-h", `${rect.height}px`);
+        tooltipBar.textContent = titleEl.textContent.trim();
+        tooltipBar.classList.add("visible");
+        tooltipBar.setAttribute("aria-hidden", "false");
+      };
+
+      // Retrai o tooltip com animação rápida
+      // Só adiciona .retracting se o tooltip estava visível — evita travar o estado
+      // quando é chamado em ícone ativo (onde o tooltip nunca foi exibido).
+      const retractTooltip = () => {
+        if (tooltipBar.classList.contains("visible")) {
+          tooltipBar.classList.add("retracting");
+        }
         tooltipBar.classList.remove("visible");
         tooltipBar.setAttribute("aria-hidden", "true");
+      };
+
+      // Promessa usada pelo click handler da sidebar (aguarda retração completa)
+      hideSidebarTooltipBar = () => {
+        _tooltipPendingShow = null;
+        if (!tooltipBar.classList.contains("visible") && !tooltipBar.classList.contains("retracting")) {
+          return Promise.resolve();
+        }
+        retractTooltip();
         return new Promise((resolve) => {
           let done = false;
           const finish = () => {
             if (done) return;
             done = true;
-            tooltipBar.removeEventListener("transitionend", handler);
+            tooltipBar.removeEventListener("transitionend", h);
+            tooltipBar.classList.remove("retracting");
             resolve();
           };
-          const handler = (e) => {
-            if (e.propertyName === "max-width") finish();
-          };
-          tooltipBar.addEventListener("transitionend", handler);
-          setTimeout(finish, 320);
+          const h = (e) => { if (e.propertyName === "max-width") finish(); };
+          tooltipBar.addEventListener("transitionend", h);
+          setTimeout(finish, 220);
         });
       };
+
       lists.forEach((list) => {
         const btn = list.querySelector("button");
         const titleEl = list.querySelector(".title");
         if (!btn || !titleEl) return;
         const isActive = () => btn.classList.contains("active");
+
         list.addEventListener("mouseenter", () => {
+          _tooltipPendingShow = null;
           if (isActive()) return;
-          const icon = btn.querySelector(".icon");
-          const rect = icon ? icon.getBoundingClientRect() : btn.getBoundingClientRect();
-          const title = titleEl.textContent.trim();
-          tooltipBar.style.setProperty("--tooltip-x", `${rect.right}px`);
-          tooltipBar.style.setProperty("--tooltip-y", `${rect.top}px`);
-          tooltipBar.style.setProperty("--tooltip-h", `${rect.height}px`);
-          tooltipBar.textContent = title;
-          tooltipBar.classList.add("visible");
-          tooltipBar.setAttribute("aria-hidden", "false");
+
+          const isShowingOrRetracting =
+            tooltipBar.classList.contains("visible") ||
+            tooltipBar.classList.contains("retracting");
+
+          if (isShowingOrRetracting) {
+            // Recolhe o tooltip atual primeiro, depois exibe o deste ícone
+            retractTooltip();
+            _tooltipPendingShow = () => {
+              if (list.matches(":hover") && !isActive()) applyTooltip(btn, titleEl);
+            };
+          } else {
+            applyTooltip(btn, titleEl);
+          }
         });
+
         list.addEventListener("mouseleave", () => {
-          tooltipBar.classList.remove("visible");
-          tooltipBar.setAttribute("aria-hidden", "true");
+          _tooltipPendingShow = null;
+          retractTooltip();
         });
+      });
+
+      // Injetar elemento de cápsula em cada .list (feito aqui para garantir DOM pronto)
+      lists.forEach((list) => {
+        if (list.querySelector(".sidebar-capsule")) return; // evita duplicata
+        const capsule = document.createElement("span");
+        capsule.className = "sidebar-capsule";
+        capsule.setAttribute("aria-hidden", "true");
+        list.insertBefore(capsule, list.firstChild);
       });
     })();
 
@@ -2823,31 +2965,31 @@ const contacts = [];
 
         adminTabs.forEach(t => t.classList.remove("active"));
 
-        adminTabContents.forEach(content => content.classList.remove("active"));
+        adminTabContents.forEach(content => deactivatePanel(content));
 
-        
+
 
         // Adicionar active na aba clicada
 
         tab.classList.add("active");
 
-        
+
 
         // Mostrar conteúdo correspondente
 
         if (targetTab === "users") {
 
-          document.getElementById("usersTab").classList.add("active");
+          activatePanel(document.getElementById("usersTab"));
 
         } else if (targetTab === "contributors") {
 
-          document.getElementById("contributorsTab").classList.add("active");
+          activatePanel(document.getElementById("contributorsTab"));
 
           renderContributorsList();
 
         } else if (targetTab === "recruitment-requests") {
 
-          document.getElementById("recruitmentRequestsTab")?.classList.add("active");
+          activatePanel(document.getElementById("recruitmentRequestsTab"));
 
           // Carregar solicitações quando a aba for aberta
           if (typeof window.renderRecruitmentRequests === 'function') {
@@ -4452,7 +4594,7 @@ const contacts = [];
 
       // Atualizar ao rolar
 
-      element.addEventListener('scroll', updateScrollGradient);
+      element.addEventListener('scroll', updateScrollGradient, { passive: true });
 
       
 
@@ -4593,9 +4735,9 @@ const contacts = [];
       const hourDeg = (h * 30) + (m * 0.5);
       const minuteDeg = (m * 6) + (s * 0.1);
       const secondDeg = s * 6;
-      if (hourHand) hourHand.setAttribute("transform", `rotate(${hourDeg} 60 60)`);
-      if (minuteHand) minuteHand.setAttribute("transform", `rotate(${minuteDeg} 60 60)`);
-      if (secondHand) secondHand.setAttribute("transform", `rotate(${secondDeg} 60 60)`);
+      if (hourHand) hourHand.style.transform = `rotate(${hourDeg}deg)`;
+      if (minuteHand) minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+      if (secondHand) secondHand.style.transform = `rotate(${secondDeg}deg)`;
     }
 
     function stopTaxAgendaClock() {
@@ -4642,6 +4784,35 @@ const contacts = [];
         applyMode(!digital);
       });
     }
+
+    // ==================== SUB-TABS DO TAX AGENDA ====================
+    function initTaxAgendaSubtabs() {
+      const subtabBtns = document.querySelectorAll(".tax-subtab");
+      const subtabPanels = {
+        obligations: document.getElementById("obligationsSubPanel"),
+        lembretes: document.getElementById("lembretesSubPanel")
+      };
+      if (!subtabBtns.length) return;
+      subtabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const target = btn.dataset.subtab;
+          subtabBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          Object.entries(subtabPanels).forEach(([key, panel]) => {
+            if (!panel) return;
+            if (key === target) {
+              activatePanel(panel);
+            } else {
+              deactivatePanel(panel);
+            }
+          });
+          if (target === "lembretes" && typeof renderLembretes === "function") {
+            renderLembretes();
+          }
+        });
+      });
+    }
+    initTaxAgendaSubtabs();
 
     const internalChatContainer = document.querySelector(".internal-chat-container");
 
@@ -5001,6 +5172,23 @@ const contacts = [];
 
         contactBox.classList.remove("hidden");
 
+        // Atualizar chat header
+        const chatHeader = document.getElementById("chatHeader");
+        const chatHeaderName = document.getElementById("chatHeaderName");
+        const chatHeaderStatus = document.getElementById("chatHeaderStatus");
+        const chatHeaderAvatar = document.getElementById("chatHeaderAvatar");
+        if (chatHeader) chatHeader.style.display = "flex";
+        if (chatHeaderName) chatHeaderName.textContent = contact.name || "Contato";
+        if (chatHeaderStatus) chatHeaderStatus.textContent = contact.status || "";
+        if (chatHeaderAvatar) {
+          const initial = (contact.name || "?").charAt(0).toUpperCase();
+          if (contact.image && !contact.image.includes("profile-1.png")) {
+            chatHeaderAvatar.innerHTML = `<img src="${contact.image}" alt="${contact.name}" onerror="this.parentElement.textContent='${initial}'">`;
+          } else {
+            chatHeaderAvatar.textContent = initial;
+          }
+        }
+
         console.log(`✅ Contact-box atualizado`);
 
       } catch (error) {
@@ -5344,9 +5532,13 @@ const contacts = [];
 
       }
 
+      // Esconder chat header quando não há contato selecionado
+      const chatHeaderEl = document.getElementById("chatHeader");
+      if (chatHeaderEl) chatHeaderEl.style.display = "none";
+
     }
 
-  
+
 
     // Evento de clique nos contatos
 
@@ -5373,6 +5565,18 @@ const contacts = [];
     });
 
   
+
+    // Helpers para ativar/desativar painéis com suporte a inert
+    function activatePanel(el) {
+      if (!el) return;
+      el.classList.add('active');
+      el.removeAttribute('inert');
+    }
+    function deactivatePanel(el) {
+      if (!el) return;
+      el.classList.remove('active');
+      el.setAttribute('inert', '');
+    }
 
     // Evento de clique nos botões da sidebar
 
@@ -5403,20 +5607,24 @@ const contacts = [];
         let capsulePromise = Promise.resolve();
         if (activeBtn && activeBtn !== button) {
           const oldList = activeBtn.closest(".list");
+          const oldCapsule = oldList.querySelector(".sidebar-capsule");
           activeBtn.classList.remove("active");
           capsulePromise = new Promise((resolve) => {
             let done = false;
             const finish = () => {
               if (done) return;
               done = true;
-              oldList.removeEventListener("transitionend", handler);
+              const target = oldCapsule || oldList;
+              target.removeEventListener("transitionend", handler);
               resolve();
             };
             const handler = (e) => {
-              if (e.target === oldList && (e.propertyName === "background" || e.propertyName === "background-color")) finish();
+              if (e.propertyName === "clip-path" || e.propertyName === "background" || e.propertyName === "background-color") finish();
             };
-            oldList.addEventListener("transitionend", handler);
-            setTimeout(finish, 320);
+            const target = oldCapsule || oldList;
+            target.addEventListener("transitionend", handler);
+            // Fallback: ligeiramente maior que --capsule-duration (0.48s)
+            setTimeout(finish, 540);
           });
         } else {
           sidebarButtons.forEach((btn) => btn.classList.remove("active"));
@@ -5429,24 +5637,24 @@ const contacts = [];
 
         if (section === "chat") {
 
-          chatContainer.classList.remove("hidden");
+          activatePanel(chatContainer);
 
           chatList.classList.remove("hidden");
 
           chatMain.classList.remove("hidden");
 
-          taxAgendaContainer.classList.remove("active");
+          deactivatePanel(taxAgendaContainer);
 
-          adminContainer.classList.remove("active");
+          deactivatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
 
-          if (ncmContainer) ncmContainer.classList.add("hidden");
-          
+          deactivatePanel(ncmContainer);
+
           const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
+          deactivatePanel(jobManagementContainer);
 
-          if (internalChatContainer) internalChatContainer.style.display = "none";
+          deactivatePanel(internalChatContainer);
 
           rightPanel.classList.remove("hidden");
 
@@ -5476,23 +5684,25 @@ const contacts = [];
 
         } else if (section === "internal-chat") {
 
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
 
           chatList.classList.add("hidden");
 
           chatMain.classList.add("hidden");
 
-          taxAgendaContainer.classList.remove("active");
+          deactivatePanel(taxAgendaContainer);
 
-          adminContainer.classList.remove("active");
+          deactivatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
+
+          deactivatePanel(ncmContainer);
 
           const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
+          deactivatePanel(jobManagementContainer);
 
           if (internalChatContainer) {
-            internalChatContainer.style.display = "flex";
+            activatePanel(internalChatContainer);
             // Garantir que o chat-main dentro do internal-chat-container esteja visível
             const internalChatMain = internalChatContainer.querySelector(".chat-main");
             if (internalChatMain) {
@@ -5534,24 +5744,24 @@ const contacts = [];
 
         } else if (section === "admin") {
 
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
 
           chatList.classList.add("hidden");
 
           chatMain.classList.add("hidden");
 
-          taxAgendaContainer.classList.remove("active");
+          deactivatePanel(taxAgendaContainer);
 
-          adminContainer.classList.add("active");
+          activatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
 
           const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
+          deactivatePanel(jobManagementContainer);
 
-          if (ncmContainer) ncmContainer.classList.add("hidden");
+          deactivatePanel(ncmContainer);
 
-          if (internalChatContainer) internalChatContainer.style.display = "none";
+          deactivatePanel(internalChatContainer);
 
           contactBox.classList.add("hidden");
 
@@ -5563,21 +5773,21 @@ const contacts = [];
 
         } else if (section === "tax-agenda") {
 
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
 
           chatList.classList.add("hidden");
 
           chatMain.classList.add("hidden");
 
-          taxAgendaContainer.classList.add("active");
+          activatePanel(taxAgendaContainer);
 
-          adminContainer.classList.remove("active");
+          deactivatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
 
-          if (ncmContainer) ncmContainer.classList.add("hidden");
+          deactivatePanel(ncmContainer);
 
-          if (internalChatContainer) internalChatContainer.style.display = "none";
+          deactivatePanel(internalChatContainer);
 
           contactBox.classList.add("hidden");
 
@@ -5591,78 +5801,30 @@ const contacts = [];
 
           if (typeof initTaxAgendaClockToggle === 'function') initTaxAgendaClockToggle();
 
-        } else if (section === "scheduled-message") {
-
-          chatContainer.classList.add("hidden");
-
-          chatList.classList.add("hidden");
-
-          chatMain.classList.add("hidden");
-
-          taxAgendaContainer.classList.remove("active");
-
-          adminContainer.classList.remove("active");
-
-          scheduledMessageContainer.classList.add("active");
-
-          const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
-
-          if (ncmContainer) ncmContainer.classList.add("hidden");
-
-          if (internalChatContainer) internalChatContainer.style.display = "none";
-
-          contactBox.classList.add("hidden");
-
-          contactElements.forEach(c => c.classList.remove("active"));
-
-          messagesContainer.innerHTML = "";
-
-          rightPanel.classList.add("hidden");
-
-          
-
-          // Carregar contatos no seletor
-
-          if (typeof loadContactsSelector === 'function') {
-
-            loadContactsSelector();
-
-          }
-
-          
-
-          // Resetar área de relatório
-
-          if (reportPreview) reportPreview.style.display = 'none';
-
-          if (downloadPdfBtn) downloadPdfBtn.style.display = 'none';
+          // Resetar sub-tabs para "Agenda Fiscal"
+          const subtabObligations = document.getElementById("subtabObligations");
+          if (subtabObligations) subtabObligations.click();
 
         } else if (section === "ncm") {
 
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
 
           chatList.classList.add("hidden");
 
           chatMain.classList.add("hidden");
 
-          taxAgendaContainer.classList.remove("active");
+          deactivatePanel(taxAgendaContainer);
 
-          adminContainer.classList.remove("active");
+          deactivatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
 
           const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
+          deactivatePanel(jobManagementContainer);
 
-          if (ncmContainer) {
-            ncmContainer.classList.remove("hidden");
-            ncmContainer.style.display = "";
-            ncmContainer.style.visibility = "";
-            ncmContainer.style.opacity = "";
-          }
+          activatePanel(ncmContainer);
 
-          if (internalChatContainer) internalChatContainer.style.display = "none";
+          deactivatePanel(internalChatContainer);
 
           contactBox.classList.add("hidden");
 
@@ -5673,14 +5835,14 @@ const contacts = [];
           rightPanel.classList.add("hidden");
 
         } else if (section === "job-management") {
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
           chatList.classList.add("hidden");
           chatMain.classList.add("hidden");
-          taxAgendaContainer.classList.remove("active");
-          adminContainer.classList.remove("active");
-          scheduledMessageContainer.classList.remove("active");
-          if (ncmContainer) ncmContainer.classList.add("hidden");
-          if (internalChatContainer) internalChatContainer.style.display = "none";
+          deactivatePanel(taxAgendaContainer);
+          deactivatePanel(adminContainer);
+          deactivatePanel(scheduledMessageContainer);
+          deactivatePanel(ncmContainer);
+          deactivatePanel(internalChatContainer);
           contactBox.classList.add("hidden");
           contactElements.forEach(c => c.classList.remove("active"));
           messagesContainer.innerHTML = "";
@@ -5689,7 +5851,7 @@ const contacts = [];
           // Mostrar container de gerenciamento de vagas
           const jobManagementContainer = document.querySelector(".job-management-container");
           if (jobManagementContainer) {
-            jobManagementContainer.classList.add("active");
+            activatePanel(jobManagementContainer);
             // Carregar vagas quando a seção for aberta
             if (typeof loadJobManagementData === 'function') {
               loadJobManagementData();
@@ -5698,22 +5860,22 @@ const contacts = [];
 
         } else {
 
-          chatContainer.classList.add("hidden");
+          deactivatePanel(chatContainer);
 
           chatList.classList.add("hidden");
 
           chatMain.classList.add("hidden");
 
-          taxAgendaContainer.classList.remove("active");
+          deactivatePanel(taxAgendaContainer);
 
-          adminContainer.classList.remove("active");
+          deactivatePanel(adminContainer);
 
-          scheduledMessageContainer.classList.remove("active");
+          deactivatePanel(scheduledMessageContainer);
 
           const jobManagementContainer = document.querySelector(".job-management-container");
-          if (jobManagementContainer) jobManagementContainer.classList.remove("active");
+          deactivatePanel(jobManagementContainer);
 
-          if (ncmContainer) ncmContainer.classList.add("hidden");
+          deactivatePanel(ncmContainer);
 
           contactBox.classList.add("hidden");
 
@@ -9592,7 +9754,16 @@ const contacts = [];
       contactInfo.appendChild(headerRow);
       contactInfo.appendChild(footerRow);
 
-      contact.appendChild(avatar);
+      // Wrapper do avatar com status dot
+      const avatarWrap = document.createElement("div");
+      avatarWrap.classList.add("contact-avatar-wrap");
+      avatarWrap.appendChild(avatar);
+      const statusDot = document.createElement("span");
+      statusDot.classList.add("status-dot");
+      if (!chatData.isOnline) statusDot.classList.add("offline");
+      avatarWrap.appendChild(statusDot);
+
+      contact.appendChild(avatarWrap);
       contact.appendChild(contactInfo);
 
       if (chatData.contributorId) {
@@ -11287,16 +11458,10 @@ const contacts = [];
     function updateActiveContributorEmployeesList() {
       // Detectar qual contato de contribuinte está selecionado (ativo)
       const activeContributorContact = document.querySelector(".contact.support-contact.contributor-contact.active");
-      if (!activeContributorContact) {
-        console.log("[updateActiveContributorEmployeesList] Nenhum contribuinte ativo encontrado");
-        return; // Se não há contribuinte ativo, não fazer nada
-      }
-      
+      if (!activeContributorContact) return;
+
       const activeChatId = activeContributorContact.getAttribute("data-support-chat-id");
-      if (!activeChatId) {
-        console.log("[updateActiveContributorEmployeesList] ChatId não encontrado no contato ativo");
-        return;
-      }
+      if (!activeChatId) return;
       
       if (!supportChats[activeChatId]) {
         console.log(`[updateActiveContributorEmployeesList] Chat ${activeChatId} não encontrado em supportChats`);
@@ -12899,7 +13064,7 @@ const contacts = [];
     // Atualizar lista de contatos a cada 5 segundos
     createManagedInterval(() => {
       const chatContainer = document.querySelector(".chat-container");
-      if (chatContainer && !chatContainer.classList.contains("hidden")) {
+      if (chatContainer && chatContainer.classList.contains("active")) {
         updateSupportContactsList();
       }
     }, 5000);
@@ -13085,7 +13250,71 @@ const contacts = [];
 
     }
 
-    
+    // ==================== MENU ⋮ DO CHAT (Exportar Histórico) ====================
+    (function initChatOptionsMenu() {
+      const chatOptionsBtn = document.getElementById("chatOptionsBtn");
+      const chatOptionsDropdown = document.getElementById("chatOptionsDropdown");
+      const chatOptionExportReport = document.getElementById("chatOptionExportReport");
+      const closeReportModalBtn = document.getElementById("closeReportModal");
+      const reportBackdrop = document.getElementById("reportModalBackdrop");
+
+      if (!chatOptionsBtn) return;
+
+      // Toggle dropdown
+      chatOptionsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        chatOptionsDropdown.classList.toggle("hidden");
+      });
+
+      // Fechar dropdown ao clicar fora
+      document.addEventListener("click", () => {
+        if (chatOptionsDropdown) chatOptionsDropdown.classList.add("hidden");
+      });
+
+      function openReportOverlay() {
+        if (typeof loadContactsSelector === "function") loadContactsSelector();
+
+        // Pré-selecionar o contato ativo no chat
+        const activeContactEl = document.querySelector(".contacts-list .contact.active");
+        if (activeContactEl) {
+          const chatId = activeContactEl.getAttribute("data-support-chat-id");
+          const contactId = activeContactEl.getAttribute("data-contact-id");
+          if (chatId && supportChats[chatId]) {
+            selectedContact = { id: chatId, type: "support", clientName: supportChats[chatId].clientName };
+          } else if (contactId) {
+            const c = contacts.find(ct => String(ct.id) === String(contactId));
+            if (c) selectedContact = { ...c, type: "normal" };
+          }
+          const displayEl = document.getElementById("selectedContactDisplay");
+          if (displayEl && selectedContact) {
+            displayEl.textContent = selectedContact.clientName || selectedContact.name || "Contato";
+          }
+        }
+
+        scheduledMessageContainer.classList.add("overlay-active");
+        if (closeReportModalBtn) closeReportModalBtn.classList.remove("hidden");
+        if (reportBackdrop) reportBackdrop.classList.remove("hidden");
+        if (reportPreview) reportPreview.style.display = "none";
+        if (downloadPdfBtn) downloadPdfBtn.style.display = "none";
+      }
+
+      function closeReportOverlay() {
+        scheduledMessageContainer.classList.remove("overlay-active");
+        if (closeReportModalBtn) closeReportModalBtn.classList.add("hidden");
+        if (reportBackdrop) reportBackdrop.classList.add("hidden");
+      }
+
+      if (chatOptionExportReport) {
+        chatOptionExportReport.addEventListener("click", () => {
+          chatOptionsDropdown.classList.add("hidden");
+          openReportOverlay();
+        });
+      }
+
+      if (closeReportModalBtn) closeReportModalBtn.addEventListener("click", closeReportOverlay);
+      if (reportBackdrop) reportBackdrop.addEventListener("click", closeReportOverlay);
+    })();
+
 
     // Função para criar item de contato no seletor
 
@@ -16824,6 +17053,250 @@ const contacts = [];
     }
 
     // ==================== FIM GERENCIAMENTO DE VAGAS ====================
+
+    // ==================== LEMBRETES ====================
+
+    const LEMBRETES_KEY = "chatui_lembretes";
+    let lembreteCurrentFilter = "all";
+
+    function getLembretes() {
+      try { return JSON.parse(localStorage.getItem(LEMBRETES_KEY) || "[]"); } catch { return []; }
+    }
+
+    function saveLembretes(list) {
+      localStorage.setItem(LEMBRETES_KEY, JSON.stringify(list));
+      updateLembretesBadge();
+    }
+
+    function updateLembretesBadge() {
+      const badge = document.getElementById("lembretesNavBadge");
+      if (!badge) return;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const list = getLembretes();
+      const hasPending = list.some(l => {
+        if (l.done) return false;
+        const d = new Date(l.data + "T00:00:00");
+        return d <= today;
+      });
+      badge.classList.toggle("visible", hasPending);
+    }
+
+    function formatLembreteDate(data, hora) {
+      if (!data) return "";
+      const d = new Date(data + "T00:00:00");
+      const opts = { day: "2-digit", month: "short", year: "numeric" };
+      let str = d.toLocaleDateString("pt-BR", opts);
+      if (hora) str += " · " + hora;
+      return str;
+    }
+
+    function isOverdue(data) {
+      if (!data) return false;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const d = new Date(data + "T00:00:00");
+      return d < today;
+    }
+
+    function isToday(data) {
+      if (!data) return false;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const d = new Date(data + "T00:00:00");
+      return d.getTime() === today.getTime();
+    }
+
+    function isThisWeek(data) {
+      if (!data) return false;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const end = new Date(today); end.setDate(today.getDate() + 7);
+      const d = new Date(data + "T00:00:00");
+      return d >= today && d < end;
+    }
+
+    function renderLembretes() {
+      const list = getLembretes();
+      const container = document.getElementById("lembretesListContainer");
+      const empty = document.getElementById("lembretesEmpty");
+      if (!container || !empty) return;
+
+      const filtered = list.filter(l => {
+        if (lembreteCurrentFilter === "today") return isToday(l.data) && !l.done;
+        if (lembreteCurrentFilter === "week") return isThisWeek(l.data) && !l.done;
+        if (lembreteCurrentFilter === "overdue") return isOverdue(l.data) && !l.done;
+        return true;
+      });
+
+      container.innerHTML = "";
+      if (filtered.length === 0) {
+        empty.classList.remove("hidden");
+        return;
+      }
+      empty.classList.add("hidden");
+
+      filtered.sort((a, b) => {
+        if (a.done !== b.done) return a.done ? 1 : -1;
+        return new Date(a.data + "T00:00:00") - new Date(b.data + "T00:00:00");
+      });
+
+      filtered.forEach((l, i) => {
+        const overdue = isOverdue(l.data) && !l.done;
+        const card = document.createElement("div");
+        card.className = "lembrete-card" + (overdue ? " overdue" : "") + (l.done ? " done" : "");
+        card.dataset.id = l.id;
+        card.dataset.cat = l.cat || "geral";
+        card.style.animationDelay = (i * 0.045) + "s";
+        card.innerHTML = `
+          <div class="lembrete-card-top">
+            <div class="lembrete-card-title">${escapeHtml(l.titulo)}</div>
+            <div class="lembrete-card-actions">
+              <button class="lembrete-card-action done-btn" title="${l.done ? "Desfazer" : "Concluir"}">
+                <i class='bx ${l.done ? "bx-undo" : "bx-check"}'></i>
+              </button>
+              <button class="lembrete-card-action edit-btn" title="Editar"><i class='bx bx-pencil'></i></button>
+              <button class="lembrete-card-action delete delete-btn" title="Excluir"><i class='bx bx-trash'></i></button>
+            </div>
+          </div>
+          ${l.descricao ? `<div class="lembrete-card-desc">${escapeHtml(l.descricao)}</div>` : ""}
+          <div class="lembrete-card-footer">
+            <div class="lembrete-card-date">
+              <i class='bx bx-calendar'></i>
+              ${formatLembreteDate(l.data, l.hora)}
+            </div>
+            <span class="lembrete-cat-badge ${l.cat || "geral"}">${l.cat || "geral"}</span>
+          </div>`;
+
+        card.querySelector(".done-btn").addEventListener("click", e => {
+          e.stopPropagation();
+          toggleLembreteDone(l.id);
+        });
+        card.querySelector(".edit-btn").addEventListener("click", e => {
+          e.stopPropagation();
+          openLembreteModal(l.id);
+        });
+        card.querySelector(".delete-btn").addEventListener("click", e => {
+          e.stopPropagation();
+          deleteLembrete(l.id);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
+    function openLembreteModal(editId) {
+      const modal = document.getElementById("lembreteModal");
+      const form = document.getElementById("lembreteForm");
+      const title = document.getElementById("lembreteModalTitle");
+      if (!modal || !form) return;
+
+      form.reset();
+      document.getElementById("lembreteEditId").value = "";
+      document.querySelectorAll(".lembrete-cat").forEach(b => b.classList.toggle("active", b.dataset.cat === "geral"));
+
+      if (editId) {
+        const list = getLembretes();
+        const item = list.find(l => l.id === editId);
+        if (item) {
+          title.textContent = "Editar Lembrete";
+          document.getElementById("lembreteEditId").value = item.id;
+          document.getElementById("lembreteTitulo").value = item.titulo;
+          document.getElementById("lembreteDescricao").value = item.descricao || "";
+          document.getElementById("lembreteData").value = item.data;
+          document.getElementById("lembreteHora").value = item.hora || "";
+          document.querySelectorAll(".lembrete-cat").forEach(b => b.classList.toggle("active", b.dataset.cat === item.cat));
+        }
+      } else {
+        title.textContent = "Novo Lembrete";
+        const today = new Date();
+        document.getElementById("lembreteData").value = today.toISOString().split("T")[0];
+      }
+
+      modal.classList.remove("hidden");
+    }
+
+    function closeLembreteModal() {
+      const modal = document.getElementById("lembreteModal");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    function deleteLembrete(id) {
+      const list = getLembretes().filter(l => l.id !== id);
+      saveLembretes(list);
+      renderLembretes();
+    }
+
+    function toggleLembreteDone(id) {
+      const list = getLembretes();
+      const item = list.find(l => l.id === id);
+      if (item) { item.done = !item.done; saveLembretes(list); renderLembretes(); }
+    }
+
+    // Bind modal events
+    const addLembreteBtn = document.getElementById("addLembreteBtn");
+    if (addLembreteBtn) addLembreteBtn.addEventListener("click", () => openLembreteModal(null));
+
+    const closeLembreteModalBtn = document.getElementById("closeLembreteModal");
+    if (closeLembreteModalBtn) closeLembreteModalBtn.addEventListener("click", closeLembreteModal);
+
+    const cancelLembreteBtn = document.getElementById("cancelLembreteBtn");
+    if (cancelLembreteBtn) cancelLembreteBtn.addEventListener("click", closeLembreteModal);
+
+    const lembreteModal = document.getElementById("lembreteModal");
+    if (lembreteModal) {
+      lembreteModal.addEventListener("click", e => { if (e.target === lembreteModal) closeLembreteModal(); });
+    }
+
+    // Category selection
+    document.querySelectorAll(".lembrete-cat").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".lembrete-cat").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // Filter buttons
+    document.querySelectorAll(".lembrete-filter").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".lembrete-filter").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        lembreteCurrentFilter = btn.dataset.filter;
+        renderLembretes();
+      });
+    });
+
+    // Form submit
+    const lembreteForm = document.getElementById("lembreteForm");
+    if (lembreteForm) {
+      lembreteForm.addEventListener("submit", e => {
+        e.preventDefault();
+        const editId = document.getElementById("lembreteEditId").value;
+        const titulo = document.getElementById("lembreteTitulo").value.trim();
+        const descricao = document.getElementById("lembreteDescricao").value.trim();
+        const data = document.getElementById("lembreteData").value;
+        const hora = document.getElementById("lembreteHora").value;
+        const cat = document.querySelector(".lembrete-cat.active")?.dataset.cat || "geral";
+
+        if (!titulo || !data) return;
+
+        const list = getLembretes();
+        if (editId) {
+          const item = list.find(l => l.id === editId);
+          if (item) Object.assign(item, { titulo, descricao, data, hora, cat });
+        } else {
+          list.push({ id: "lr_" + Date.now(), titulo, descricao, data, hora, cat, done: false });
+        }
+        saveLembretes(list);
+        closeLembreteModal();
+        renderLembretes();
+      });
+    }
+
+    // Init badge on load
+    updateLembretesBadge();
+
+    // ==================== FIM LEMBRETES ====================
 
   });
 

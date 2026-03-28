@@ -69,12 +69,14 @@ body {
 /* Trapézios - Animação de Revelação */
 .trapezio-inferior {
     clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
-    animation: revealLeftToRight 1s ease-out forwards;
+    animation: revealLeftToRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: clip-path;
 }
 
 .trapezio-superior {
     clip-path: polygon(100% 0%, 100% 100%, 100% 100%, 100% 0%);
-    animation: revealRightToLeft 1s ease-out 0.95s forwards;
+    animation: revealRightToLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+    will-change: clip-path;
 }
 
 @keyframes revealLeftToRight {
@@ -97,16 +99,29 @@ body {
 
 /* Animação de Saída */
 .boot-container.fade-out {
-    animation: fadeOut 0.8s ease-out forwards;
+    animation: fadeOut 0.6s cubic-bezier(0.4, 0, 1, 1) forwards;
+    pointer-events: none;
 }
 
 @keyframes fadeOut {
     from {
         opacity: 1;
+        transform: scale(1);
     }
     to {
         opacity: 0;
-        transform: scale(1.1);
+        transform: scale(1.03);
+    }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    .trapezio-inferior,
+    .trapezio-superior {
+        animation-duration: 0.01ms !important;
+    }
+    .boot-container.fade-out {
+        animation-duration: 0.01ms !important;
     }
 }
 

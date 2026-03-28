@@ -216,99 +216,6 @@
     return null;
   }
 
-  var BANCO_PAGE_SIZE = 200;
-
-  function initBancoCadastrado() {
-    var panel = document.getElementById('ncm-tab-banco-cadastrado');
-    var refreshBtn = document.getElementById('ncm-banco-refresh-btn');
-    var loadingEl = document.getElementById('ncm-banco-loading');
-    var emptyEl = document.getElementById('ncm-banco-empty');
-    var tableWrap = document.getElementById('ncm-banco-table-wrap');
-    var tbody = document.getElementById('ncm-banco-tbody');
-    var countEl = document.getElementById('ncm-banco-count');
-    var moreWrap = document.getElementById('ncm-banco-more-wrap');
-    var moreBtn = document.getElementById('ncm-banco-more-btn');
-    if (!panel || !tbody) return;
-
-    var offset = 0;
-
-    function setLoading(loading) {
-      if (loadingEl) loadingEl.style.display = loading ? 'flex' : 'none';
-      if (refreshBtn) refreshBtn.disabled = loading;
-    }
-
-    function renderRows(rows) {
-      if (!rows || rows.length === 0) return;
-      for (var i = 0; i < rows.length; i++) {
-        var r = rows[i];
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(r.produto || '') + '</td>' +
-          '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncm || '') + '</td>' +
-          '<td class="ncm-banco-cell-resultado"><span class="ncm-v-res ncm-v-res-' + (r.resultado || '').toLowerCase() + '">' + escapeHtml(r.resultado || '') + '</span></td>' +
-          '<td class="ncm-banco-cell-detalhe">' + escapeHtml(r.detalhe || '') + '</td>';
-        tbody.appendChild(tr);
-      }
-    }
-
-    function loadPage(append) {
-      if (!window.supabaseSync || !window.supabaseSync.isConfigured()) {
-        setLoading(false);
-        if (emptyEl) { emptyEl.style.display = 'block'; var p = emptyEl.querySelector('p'); if (p) p.textContent = 'Supabase não configurado. Configure em config.js (SUPABASE.URL e ANON_KEY).'; }
-        if (tableWrap) tableWrap.style.display = 'none';
-        return;
-      }
-      setLoading(true);
-      if (!append) {
-        offset = 0;
-        tbody.innerHTML = '';
-      }
-      window.supabaseSync.listValidacaoNcmAll(BANCO_PAGE_SIZE, offset).then(function (result) {
-        setLoading(false);
-        var rows = (result && result.data) ? result.data : (Array.isArray(result) ? result : null);
-        var errMsg = (result && result.error) ? result.error : null;
-        if (!append && errMsg) {
-          if (emptyEl) {
-            emptyEl.style.display = 'block';
-            var p = emptyEl.querySelector('p');
-            if (p) p.innerHTML = 'Não foi possível conectar ao banco. Verifique <strong>CONFIG.SUPABASE.URL</strong> e <strong>ANON_KEY</strong> em <code>config.js</code> (use a URL do seu projeto no Supabase; se ERR_NAME_NOT_RESOLVED, o ID do projeto está errado).';
-          }
-          if (tableWrap) tableWrap.style.display = 'none';
-          if (countEl) countEl.textContent = '';
-          return;
-        }
-        if (!append && (!rows || rows.length === 0)) {
-          if (emptyEl) emptyEl.style.display = 'block';
-          if (emptyEl) { var p2 = emptyEl.querySelector('p'); if (p2) p2.textContent = 'Nenhum registro no banco ou Supabase não configurado.'; }
-          if (tableWrap) tableWrap.style.display = 'none';
-          if (countEl) countEl.textContent = '0 registros';
-          return;
-        }
-        if (emptyEl) emptyEl.style.display = 'none';
-        if (tableWrap) tableWrap.style.display = 'block';
-        if (rows && rows.length > 0) {
-          renderRows(rows);
-          offset += rows.length;
-          var total = tbody.querySelectorAll('tr').length;
-          if (countEl) countEl.textContent = total + ' registro(s)';
-          if (moreWrap) moreWrap.style.display = rows.length >= BANCO_PAGE_SIZE ? 'block' : 'none';
-        } else {
-          if (moreWrap) moreWrap.style.display = 'none';
-        }
-      }).catch(function () {
-        setLoading(false);
-        if (!append) {
-          if (emptyEl) { emptyEl.style.display = 'block'; var p = emptyEl.querySelector('p'); if (p) p.textContent = 'Erro ao carregar o banco.'; }
-          if (tableWrap) tableWrap.style.display = 'none';
-        }
-      });
-    }
-
-    if (refreshBtn) refreshBtn.addEventListener('click', function () { loadPage(false); });
-    if (moreBtn) moreBtn.addEventListener('click', function () { loadPage(true); });
-
-    window._ncmLoadBancoCadastrado = loadPage;
-  }
-
   /**
    * Parse CSV: primeira linha = cabeçalho; detecta separador ; ou ,; retorna { headers, rows }.
    * rows = array de objetos com chaves normalizadas (lowercase, trim).
@@ -335,9 +242,130 @@
     return { headers: headers, rows: rows };
   }
 
+  function normalizarNcm8Local(ncm) {
+    if (ncm == null) return '';
+    var dig = String(ncm).replace(/\D/g, '');
+    if (dig.length === 0 || dig.length > 8) return '';
+    return dig.length <= 8 ? dig.padStart(8, '0') : dig.slice(0, 8);
+  }
+
+  /** Normaliza nome de produto: maiúsculas, sem espaços duplicados. */
+  function normalizeProductName(name) {
+    return String(name || '').trim().toUpperCase().replace(/\s+/g, ' ');
+  }
+
+  /** Encontra índice da coluna de produto (cabeçalhos flexíveis). */
+  function findColunaProdutoPlanilha(headers) {
+    var aliases = ['produto', 'produtos', 'descrição', 'descricao',
+      'descrição de produtos', 'descricao de produtos',
+      'descrição do produto', 'descricao do produto', 'nome do produto'];
+    for (var a = 0; a < aliases.length; a++) {
+      var idx = headers.indexOf(aliases[a]);
+      if (idx >= 0) return idx;
+    }
+    // Fallback: qualquer cabeçalho que contenha "produto" ou "descri"
+    for (var i = 0; i < headers.length; i++) {
+      var h = headers[i];
+      if (h.indexOf('produto') >= 0 || h.indexOf('descri') >= 0) return i;
+    }
+    return -1;
+  }
+
+  /** Encontra índice da coluna NCM. */
+  function findColunaNcmPlanilha(headers) {
+    var aliases = ['ncm', 'codigo ncm', 'código ncm', 'cod. ncm', 'cod ncm', 'codigo', 'código'];
+    for (var a = 0; a < aliases.length; a++) {
+      var idx = headers.indexOf(aliases[a]);
+      if (idx >= 0) return idx;
+    }
+    // Fallback: qualquer cabeçalho que contenha "ncm"
+    for (var i = 0; i < headers.length; i++) {
+      if (headers[i].indexOf('ncm') >= 0) return i;
+    }
+    return -1;
+  }
+
+  /**
+   * Busca um produto no banco por prefixo (banco entry começa com queryNorm ou é igual).
+   * Evita matches parciais de palavras exigindo que após o prefixo venha espaço ou fim.
+   */
+  function bancoPrefixMatch(queryNorm, bancoPrefixList) {
+    for (var i = 0; i < bancoPrefixList.length; i++) {
+      var e = bancoPrefixList[i];
+      if (e.normalized === queryNorm || e.normalized.startsWith(queryNorm + ' ')) return e;
+    }
+    return null;
+  }
+
+  /**
+   * Tenta encontrar um produto no banco:
+   * 1. Match exato pelo nome normalizado.
+   * 2. Se não encontrar, reduz palavras da direita até mínimo de 3,
+   *    e verifica se alguma entrada do banco começa com esse prefixo.
+   */
+  function findProductInBanco(produto, bancoExact, bancoPrefixList) {
+    var norm = normalizeProductName(produto);
+    if (bancoExact[norm]) return { found: true, ncm: bancoExact[norm].ncm };
+
+    var words = norm.split(' ').filter(Boolean);
+    for (var i = words.length - 1; i >= 3; i--) {
+      var partial = words.slice(0, i).join(' ');
+      var hit = bancoPrefixMatch(partial, bancoPrefixList);
+      if (hit) return { found: true, ncm: hit.ncm };
+    }
+    return { found: false };
+  }
+
+  /** Verifica se o arquivo é Excel (.xlsx, .xls, .xlsm, etc.) por extensão ou tipo. */
+  function isExcelFile(file) {
+    if (!file || !file.name) return false;
+    var name = file.name.toLowerCase();
+    if (name.endsWith('.xlsx') || name.endsWith('.xls') || name.endsWith('.xlsm') || name.endsWith('.xlsb')) return true;
+    var t = (file.type || '').toLowerCase();
+    return t.indexOf('spreadsheet') >= 0 || t.indexOf('excel') >= 0 || t === 'application/vnd.ms-excel' || t === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || t.indexOf('macroenabled') >= 0;
+  }
+
+  /**
+   * Lê um ArrayBuffer de arquivo Excel (XLSX/XLS) e retorna { headers, rows } no mesmo formato de parseCsv.
+   * Usa a primeira aba; primeira linha = cabeçalhos (normalizados em minúsculas).
+   */
+  function parseExcelToHeadersRows(arrayBuffer) {
+    if (typeof XLSX === 'undefined') return { headers: [], rows: [] };
+    try {
+      var workbook = XLSX.read(arrayBuffer, { type: 'array', cellDates: false, cellNF: false, cellStyles: false });
+      var sheetName = workbook.SheetNames[0];
+      if (!sheetName) return { headers: [], rows: [] };
+      var sheet = workbook.Sheets[sheetName];
+      if (!sheet || !sheet['!ref']) return { headers: [], rows: [] };
+      var data = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+      if (!data || data.length === 0) return { headers: [], rows: [] };
+      var headerRow = data[0];
+      var headers = [];
+      for (var h = 0; h < headerRow.length; h++) {
+        headers.push(String(headerRow[h] != null ? headerRow[h] : '').trim().toLowerCase());
+      }
+      var rows = [];
+      for (var i = 1; i < data.length; i++) {
+        var line = data[i];
+        var obj = {};
+        for (var j = 0; j < headers.length; j++) {
+          var key = headers[j] || 'col' + j;
+          obj[key] = (line[j] != null ? String(line[j]).trim() : '');
+        }
+        rows.push(obj);
+      }
+      return { headers: headers, rows: rows };
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) console.error('parseExcelToHeadersRows:', e);
+      return { headers: [], rows: [] };
+    }
+  }
+
   function initConferirPlanilha() {
+    var bancoInput = document.getElementById('ncm-planilha-banco-file');
     var fileInput = document.getElementById('ncm-planilha-file');
     var runBtn = document.getElementById('ncm-planilha-run-btn');
+    var bancoFileNameEl = document.getElementById('ncm-planilha-banco-file-name');
     var fileNameEl = document.getElementById('ncm-planilha-file-name');
     var loadingEl = document.getElementById('ncm-planilha-loading');
     var loadingText = document.getElementById('ncm-planilha-loading-text');
@@ -345,214 +373,242 @@
     var reportWrap = document.getElementById('ncm-planilha-report-wrap');
     var reportTbody = document.getElementById('ncm-planilha-report-tbody');
     var emptyEl = document.getElementById('ncm-planilha-empty');
-    if (!fileInput || !runBtn || !reportTbody) return;
+    var reportActionsEl = document.getElementById('ncm-planilha-report-actions');
+    var gerarRelatorioBtn = document.getElementById('ncm-planilha-gerar-relatorio-btn');
+    var lastAllResults = [];
+    if (!bancoInput || !fileInput || !runBtn || !reportTbody) return;
+
+    function updateRunButton() {
+      var hasBanco = bancoInput.files && bancoInput.files[0];
+      var hasPlanilha = fileInput.files && fileInput.files[0];
+      runBtn.disabled = !(hasBanco && hasPlanilha);
+    }
+
+    function clearReports() {
+      summaryEl.style.display = 'none';
+      reportWrap.style.display = 'none';
+      if (emptyEl) emptyEl.style.display = 'none';
+      if (reportActionsEl) reportActionsEl.style.display = 'none';
+      lastAllResults = [];
+      reportTbody.innerHTML = '';
+    }
+
+    bancoInput.addEventListener('change', function () {
+      var file = bancoInput.files && bancoInput.files[0];
+      if (bancoFileNameEl) bancoFileNameEl.textContent = file ? file.name : '';
+      clearReports();
+      updateRunButton();
+    });
 
     fileInput.addEventListener('change', function () {
       var file = fileInput.files && fileInput.files[0];
-      runBtn.disabled = !file;
-      fileNameEl.textContent = file ? file.name : '';
-      summaryEl.style.display = 'none';
-      reportWrap.style.display = 'none';
-      emptyEl.style.display = 'none';
-      var naoEncTbody = document.getElementById('ncm-planilha-nao-encontrados-tbody');
-      var naoEncWrap = document.getElementById('ncm-planilha-nao-encontrados-table-wrap');
-      var naoEncEmpty = document.getElementById('ncm-planilha-nao-encontrados-empty');
-      if (naoEncTbody) naoEncTbody.innerHTML = '';
-      if (naoEncWrap) naoEncWrap.style.display = 'none';
-      if (naoEncEmpty) naoEncEmpty.style.display = 'none';
+      if (fileNameEl) fileNameEl.textContent = file ? file.name : '';
+      clearReports();
+      updateRunButton();
     });
 
     runBtn.addEventListener('click', function () {
-      var file = fileInput.files && fileInput.files[0];
-      if (!file) return;
-      if (!window.supabaseSync || !window.supabaseSync.isConfigured()) {
-        emptyEl.style.display = 'block';
-        if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Supabase não configurado. Configure em config.js (SUPABASE.URL e ANON_KEY).';
-        reportWrap.style.display = 'none';
-        summaryEl.style.display = 'none';
-        return;
-      }
+      var bancoFile = bancoInput.files && bancoInput.files[0];
+      var planilhaFile = fileInput.files && fileInput.files[0];
+      if (!bancoFile || !planilhaFile) return;
 
       loadingEl.style.display = 'flex';
-      loadingText.textContent = 'Lendo planilha...';
+      loadingText.textContent = 'Lendo banco...';
       runBtn.disabled = true;
       reportWrap.style.display = 'none';
       emptyEl.style.display = 'none';
       summaryEl.style.display = 'none';
       reportTbody.innerHTML = '';
 
-      var reader = new FileReader();
-      reader.onload = function () {
-        var text = (reader.result || '').toString().replace(/^\uFEFF/, '');
-        var parsed = parseCsv(text);
-        var rows = parsed.rows || [];
-        var prodIdx = parsed.headers.indexOf('produto');
-        var ncmIdx = parsed.headers.indexOf('ncm');
-        if (prodIdx < 0 || ncmIdx < 0) {
+      // Banco é sempre CSV
+      var readerBanco = new FileReader();
+      readerBanco.onerror = function () {
+        loadingEl.style.display = 'none';
+        runBtn.disabled = false;
+        if (typeof showToast === 'function') showToast('Erro ao ler o arquivo do banco.', 'error');
+        else alert('Erro ao ler o arquivo do banco.');
+      };
+      readerBanco.onload = function () {
+        var textBanco = (readerBanco.result || '').toString().replace(/^\uFEFF/, '');
+        var parsedBanco = parseCsv(textBanco);
+        var headersBanco = parsedBanco.headers || [];
+        var idxProdBanco = findColunaProdutoPlanilha(headersBanco);
+        var idxNcmBanco = findColunaNcmPlanilha(headersBanco);
+        if (idxProdBanco < 0 || idxNcmBanco < 0) {
           loadingEl.style.display = 'none';
           runBtn.disabled = false;
-          if (typeof showToast === 'function') showToast('CSV deve ter colunas "produto" e "ncm" no cabeçalho.', 'warning');
-          else alert('CSV deve ter colunas "produto" e "ncm" no cabeçalho.');
+          if (typeof showToast === 'function') showToast('O banco CSV deve ter colunas de produto (produto, descrição...) e ncm no cabeçalho.', 'warning');
+          else alert('O banco CSV deve ter colunas de produto (produto, descrição...) e ncm no cabeçalho.');
           return;
         }
 
-        var normalizarNcm8 = window.supabaseSync.normalizarNcm8;
-        var listValidacaoNcmSimByProduto = window.supabaseSync.listValidacaoNcmSimByProduto;
-        var divergencias = [];
-        var naoEncontrados = [];
-        var totalLinhas = rows.length;
-        var conferidas = 0;
-        var i = 0;
-        var BATCH_SIZE = 20;
+        var keyProdBanco = headersBanco[idxProdBanco];
+        var keyNcmBanco = headersBanco[idxNcmBanco];
 
-        var naoEncontradosTbody = document.getElementById('ncm-planilha-nao-encontrados-tbody');
-        var naoEncontradosWrap = document.getElementById('ncm-planilha-nao-encontrados-table-wrap');
-        var naoEncontradosEmpty = document.getElementById('ncm-planilha-nao-encontrados-empty');
-        var divergenciasPanel = document.getElementById('ncm-planilha-divergencias-wrap');
-        var naoEncontradosPanel = document.getElementById('ncm-planilha-nao-encontrados-panel');
-
-        function finish() {
-          loadingEl.style.display = 'none';
-          runBtn.disabled = false;
-          if (summaryEl) {
-            summaryEl.style.display = 'block';
-            summaryEl.innerHTML = '<strong>Resumo:</strong> ' + totalLinhas + ' linha(s) na planilha, ' + conferidas + ' conferida(s) com banco, <strong>' + divergencias.length + '</strong> divergência(s), <strong>' + naoEncontrados.length + '</strong> não encontrado(s).';
-          }
-          if (divergencias.length === 0) {
-            emptyEl.style.display = 'block';
-            if (emptyEl.querySelector('p')) emptyEl.querySelector('p').textContent = 'Nenhuma divergência encontrada.';
-            reportWrap.style.display = 'none';
-          } else {
-            emptyEl.style.display = 'none';
-            reportWrap.style.display = 'block';
-            for (var d = 0; d < divergencias.length; d++) {
-              var r = divergencias[d];
-              var tr = document.createElement('tr');
-              tr.className = 'ncm-planilha-row-erro';
-              tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(r.produto || '') + '</td>' +
-                '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmPlanilha || '') + '</td>' +
-                '<td class="ncm-banco-cell-ncm">' + escapeHtml(r.ncmEsperadas || '') + '</td>';
-              reportTbody.appendChild(tr);
-            }
-          }
-          if (naoEncontradosTbody && naoEncontradosWrap && naoEncontradosEmpty) {
-            if (naoEncontrados.length === 0) {
-              naoEncontradosEmpty.style.display = 'block';
-              naoEncontradosWrap.style.display = 'none';
-            } else {
-              naoEncontradosEmpty.style.display = 'none';
-              naoEncontradosWrap.style.display = 'block';
-              naoEncontradosTbody.innerHTML = '';
-              for (var n = 0; n < naoEncontrados.length; n++) {
-                var item = naoEncontrados[n];
-                var tr = document.createElement('tr');
-                tr.className = 'ncm-planilha-row-nao-encontrado';
-                tr.innerHTML = '<td class="ncm-banco-cell-produto">' + escapeHtml(item.produto || '') + '</td>' +
-                  '<td class="ncm-banco-cell-ncm">' + escapeHtml(item.ncmPlanilha || '') + '</td>';
-                naoEncontradosTbody.appendChild(tr);
-              }
-            }
-          }
+        // Montar índice do banco: exact map + lista de prefixos
+        var bancoExact = {};
+        var bancoPrefixList = [];
+        for (var r = 0; r < parsedBanco.rows.length; r++) {
+          var bRow = parsedBanco.rows[r];
+          var bProd = (bRow[keyProdBanco] != null ? String(bRow[keyProdBanco]) : '').trim();
+          var bNcm = (bRow[keyNcmBanco] != null ? String(bRow[keyNcmBanco]) : '').trim();
+          if (!bProd || !bNcm) continue;
+          if (bNcm.toUpperCase() === 'REVISAR') continue;
+          var bNorm = normalizeProductName(bProd);
+          bancoExact[bNorm] = { ncm: bNcm };
+          bancoPrefixList.push({ normalized: bNorm, ncm: bNcm });
         }
 
-        function processBatch() {
-          var batch = [];
-          while (i < rows.length && batch.length < BATCH_SIZE) {
-            var row = rows[i];
-            var produto = (row.produto != null ? String(row.produto) : '').trim();
-            var ncmRaw = (row.ncm != null ? String(row.ncm) : '').trim();
-            var ncm8 = normalizarNcm8(ncmRaw);
-            i += 1;
-            if (produto && ncm8) {
-              batch.push({ produto: produto, ncmRaw: ncmRaw, ncm8: ncm8 });
-            }
+        loadingText.textContent = 'Lendo planilha...';
+        var readerPlanilha = new FileReader();
+        readerPlanilha.onerror = function () {
+          loadingEl.style.display = 'none';
+          runBtn.disabled = false;
+          if (typeof showToast === 'function') showToast('Erro ao ler a planilha.', 'error');
+          else alert('Erro ao ler a planilha.');
+        };
+        readerPlanilha.onload = function () {
+          var parsedPlanilha;
+          if (isExcelFile(planilhaFile)) {
+            parsedPlanilha = parseExcelToHeadersRows(readerPlanilha.result);
+          } else {
+            var textPlanilha = (readerPlanilha.result || '').toString().replace(/^\uFEFF/, '');
+            parsedPlanilha = parseCsv(textPlanilha);
           }
-          if (loadingText) loadingText.textContent = 'Conferindo... ' + Math.min(i, totalLinhas) + '/' + totalLinhas;
-
-          if (batch.length === 0) {
-            finish();
+          var headersPlanilha = parsedPlanilha.headers || [];
+          var prodIdxPlanilha = findColunaProdutoPlanilha(headersPlanilha);
+          var ncmIdxPlanilha = findColunaNcmPlanilha(headersPlanilha);
+          if (prodIdxPlanilha < 0 || ncmIdxPlanilha < 0) {
+            loadingEl.style.display = 'none';
+            runBtn.disabled = false;
+            if (typeof showToast === 'function') showToast('Planilha: não foi encontrada coluna de produto (produto, produtos, descrição...) ou coluna NCM.', 'warning');
+            else alert('Planilha: não foi encontrada coluna de produto (produto, produtos, descrição...) ou coluna NCM.');
             return;
           }
 
-          var promises = batch.map(function (item) {
-            return listValidacaoNcmSimByProduto(item.produto)
-              .then(function (sims) {
-                if (!sims || sims.length === 0) {
-                  naoEncontrados.push({
-                    produto: item.produto,
-                    ncmPlanilha: item.ncmRaw || item.ncm8
-                  });
-                  return null;
-                }
-                conferidas += 1;
-                var ncmsValidas = [];
-                var seen = {};
-                for (var k = 0; k < sims.length; k++) {
-                  var n = normalizarNcm8(sims[k].ncm);
-                  if (n && !seen[n]) { seen[n] = true; ncmsValidas.push(n); }
-                }
-                var ncmPlanilhaNorm = item.ncm8;
-                var ncmCorreta = ncmsValidas.indexOf(ncmPlanilhaNorm) >= 0;
-                if (ncmCorreta) return null;
-                var ncmEsperadas = ncmsValidas.length > 0 ? ncmsValidas.join(', ') : '';
-                return {
-                  produto: item.produto,
-                  ncmPlanilha: item.ncmRaw || item.ncm8,
-                  ncmEsperadas: ncmEsperadas
-                };
-              })
-              .catch(function () {
-                naoEncontrados.push({
-                  produto: item.produto,
-                  ncmPlanilha: item.ncmRaw || item.ncm8
-                });
-                return null;
-              });
-          });
+          var keyProd = headersPlanilha[prodIdxPlanilha];
+          var keyNcm = headersPlanilha[ncmIdxPlanilha];
+          var rows = parsedPlanilha.rows || [];
+          var totalLinhas = rows.length;
+          var allResults = [];
+          var i = 0;
+          var CHUNK_SIZE = 500;
 
-          Promise.all(promises).then(function (results) {
-            for (var r = 0; r < results.length; r++) {
-              if (results[r]) divergencias.push(results[r]);
+          function finish() {
+            loadingEl.style.display = 'none';
+            runBtn.disabled = false;
+            lastAllResults = allResults.slice();
+
+            var totalValidas = 0;
+            var totalDivergentes = 0;
+            for (var x = 0; x < allResults.length; x++) {
+              if (allResults[x].situacao === 'Válida') totalValidas++;
+              else totalDivergentes++;
             }
-            if (i >= rows.length) {
-              finish();
+
+            if (summaryEl) {
+              summaryEl.style.display = 'block';
+              summaryEl.innerHTML =
+                '<strong>Resumo:</strong> ' + allResults.length + ' produto(s) processado(s) — ' +
+                '<strong style="color:#059669">' + totalValidas + ' válido(s)</strong>, ' +
+                '<strong style="color:#d97706">' + totalDivergentes + ' divergente(s)</strong>.';
+            }
+
+            if (reportActionsEl) reportActionsEl.style.display = 'flex';
+
+            if (allResults.length === 0) {
+              if (emptyEl) {
+                emptyEl.style.display = 'block';
+                var p = emptyEl.querySelector('p');
+                if (p) p.textContent = 'Nenhum produto encontrado na planilha.';
+              }
+              reportWrap.style.display = 'none';
             } else {
-              processBatch();
+              if (emptyEl) emptyEl.style.display = 'none';
+              reportWrap.style.display = 'block';
+              for (var d = 0; d < allResults.length; d++) {
+                var res = allResults[d];
+                var isValida = res.situacao === 'Válida';
+                var tr = document.createElement('tr');
+                tr.className = isValida ? 'ncm-planilha-row-valida' : 'ncm-planilha-row-erro';
+                var badgeClass = isValida ? 'ncm-situacao-valida' : 'ncm-situacao-divergente';
+                var sugestaoHtml = isValida ? '' : escapeHtml(res.sugestao || '');
+                tr.innerHTML =
+                  '<td class="ncm-banco-cell-produto">' + escapeHtml(res.produto || '') + '</td>' +
+                  '<td class="ncm-banco-cell-ncm">' + escapeHtml(res.ncmPlanilha || '') + '</td>' +
+                  '<td class="ncm-banco-cell-resultado"><span class="ncm-situacao-badge ' + badgeClass + '">' + escapeHtml(res.situacao) + '</span></td>' +
+                  '<td class="ncm-banco-cell-detalhe">' + sugestaoHtml + '</td>';
+                reportTbody.appendChild(tr);
+              }
             }
-          });
-        }
+          }
 
-        processBatch();
+          function processChunk() {
+            var end = Math.min(i + CHUNK_SIZE, totalLinhas);
+            for (; i < end; i++) {
+              var row = rows[i];
+              var produto = (row[keyProd] != null ? String(row[keyProd]) : '').trim();
+              var ncmRaw = (row[keyNcm] != null ? String(row[keyNcm]) : '').trim();
+              var ncm8 = normalizarNcm8Local(ncmRaw);
+              if (!produto) continue;
+
+              var hit = findProductInBanco(produto, bancoExact, bancoPrefixList);
+              if (!hit.found) {
+                allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Divergente', sugestao: 'Informação em Falta' });
+              } else {
+                var ncmBanco8 = normalizarNcm8Local(hit.ncm);
+                if (ncm8 && ncm8 === ncmBanco8) {
+                  allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Válida', sugestao: '' });
+                } else {
+                  allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Divergente', sugestao: hit.ncm });
+                }
+              }
+            }
+
+            if (loadingText) loadingText.textContent = 'Processando... ' + Math.min(i, totalLinhas) + '/' + totalLinhas;
+            if (i >= totalLinhas) { finish(); return; }
+            setTimeout(processChunk, 0);
+          }
+
+          processChunk();
+        };
+        if (isExcelFile(planilhaFile)) readerPlanilha.readAsArrayBuffer(planilhaFile);
+        else readerPlanilha.readAsText(planilhaFile, 'UTF-8');
       };
-      reader.onerror = function () {
-        loadingEl.style.display = 'none';
-        runBtn.disabled = false;
-        if (typeof showToast === 'function') showToast('Erro ao ler o arquivo.', 'error');
-        else alert('Erro ao ler o arquivo.');
-      };
-      reader.readAsText(file, 'UTF-8');
+      readerBanco.readAsText(bancoFile, 'UTF-8');
     });
 
-    var reportTabBtns = document.querySelectorAll('.ncm-planilha-report-tab-btn');
-    var reportPanels = document.querySelectorAll('.ncm-planilha-report-panel');
-    reportTabBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var target = btn.getAttribute('data-planilha-report');
-        reportTabBtns.forEach(function (b) { b.classList.remove('active'); });
-        reportPanels.forEach(function (p) {
-          p.classList.remove('active');
-          p.style.display = 'none';
-        });
-        btn.classList.add('active');
-        var panel = target === 'divergencias'
-          ? document.getElementById('ncm-planilha-divergencias-wrap')
-          : document.getElementById('ncm-planilha-nao-encontrados-panel');
-        if (panel) {
-          panel.classList.add('active');
-          panel.style.display = 'block';
+    if (gerarRelatorioBtn) {
+      gerarRelatorioBtn.addEventListener('click', function () {
+        if (typeof XLSX === 'undefined') {
+          if (typeof showToast === 'function') showToast('Biblioteca SheetJS não carregada. Não é possível gerar Excel.', 'error');
+          else alert('Biblioteca SheetJS não carregada. Não é possível gerar Excel.');
+          return;
+        }
+        if (lastAllResults.length === 0) {
+          if (typeof showToast === 'function') showToast('Nenhum dado para exportar. Execute uma conferência primeiro.', 'warning');
+          else alert('Nenhum dado para exportar. Execute uma conferência primeiro.');
+          return;
+        }
+        try {
+          var wb = XLSX.utils.book_new();
+          var dados = [['Produto', 'NCM da planilha', 'Situação', 'Sugestão/Informação']];
+          for (var d = 0; d < lastAllResults.length; d++) {
+            var r = lastAllResults[d];
+            dados.push([r.produto || '', r.ncmPlanilha || '', r.situacao || '', r.sugestao || '']);
+          }
+          var sheet = XLSX.utils.aoa_to_sheet(dados);
+          XLSX.utils.book_append_sheet(wb, sheet, 'Conferencia NCM');
+          var nomeArquivo = 'relatorio_conferencia_ncm_' + new Date().toISOString().slice(0, 10) + '.xlsx';
+          XLSX.writeFile(wb, nomeArquivo);
+          if (typeof showToast === 'function') showToast('Relatório gerado: ' + nomeArquivo, 'success');
+        } catch (e) {
+          if (typeof console !== 'undefined' && console.error) console.error('Gerar relatório:', e);
+          if (typeof showToast === 'function') showToast('Erro ao gerar relatório.', 'error');
+          else alert('Erro ao gerar relatório.');
         }
       });
-    });
+    }
   }
 
   function initTabs() {
@@ -575,13 +631,6 @@
       var panel = document.getElementById('ncm-tab-' + tabId);
       if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected', 'true'); }
       if (panel) { panel.classList.add('active'); panel.style.display = 'block'; }
-      if (tabId === 'banco-cadastrado' && typeof window._ncmLoadBancoCadastrado === 'function') {
-        var bancoPanel = document.getElementById('ncm-tab-banco-cadastrado');
-        if (bancoPanel && bancoPanel.querySelector('.ncm-banco-panel') && !bancoPanel.querySelector('.ncm-banco-panel').getAttribute('data-banco-loaded')) {
-          bancoPanel.querySelector('.ncm-banco-panel').setAttribute('data-banco-loaded', '1');
-          window._ncmLoadBancoCadastrado(false);
-        }
-      }
     }
 
     tabBtns.forEach(function (btn) {
@@ -592,7 +641,6 @@
     });
 
     initConsultaNcm();
-    initBancoCadastrado();
     initConferirPlanilha();
   }
 

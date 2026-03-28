@@ -13,7 +13,7 @@
     opacity: 0;
     visibility: hidden;
     z-index: 99999 !important;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal.active {
@@ -29,12 +29,14 @@
     width: 90%;
     max-width: 440px;
     box-shadow: 0 20px 48px rgba(15, 23, 42, 0.4);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
+    transform: translateY(16px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal.active .modal-content {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 .modal .modal-header {
@@ -46,7 +48,7 @@
 
 .modal .modal-header h2 {
     font-size: 20px;
-    color: #1f2937;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -55,13 +57,13 @@
     height: 34px;
     border-radius: 8px;
     border: none;
-    background: #f3f4f6;
-    color: #6b7280;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.15s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .close-modal-btn i {
@@ -69,7 +71,7 @@
 }
 
 .close-modal-btn:hover {
-    background: #e5e7eb;
+    background: var(--border);
     transform: rotate(90deg);
 }
 
@@ -190,8 +192,20 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     pointer-events: none;
 }
 
-/* ==================== DOMINIUM LOGIN ==================== */
-:root {
+/* ==================== DESIGN TOKENS ==================== */
+:root, [data-theme="light"] {
+  --bg-primary: #FAFAFA;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border: #E5E7EB;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --accent: #2563EB;
+  --accent-soft: #EFF6FF;
+  --status-success: #10B981;
+  --status-error: #EF4444;
+  --shadow-depth: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.08);
+  /* Login tokens */
   --white-color: hsl(0,0%,100%);
   --black-color: hsl(0, 0%, 0%);
   --body-font: "Poppins", sans-serif;
@@ -200,6 +214,8 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
   --small-font-size: .813rem;
   --font-medium: 500;
 }
+
+/* ==================== DOMINIUM LOGIN ==================== */
 
 #dominium-login {
     position: fixed;
@@ -253,7 +269,6 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     margin-inline: 1.5rem;
     padding: 2.5rem 1.5rem;
     border-radius: 1rem;
-    backdrop-filter: blur(8px);
     width: 100%;
     max-width: 432px;
 }
@@ -1105,12 +1120,11 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     align-items: center;
     justify-content: center;
     z-index: 1002;
-    backdrop-filter: blur(4px);
 }
 
 .sector-modal.active {
     display: flex;
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
@@ -1131,13 +1145,14 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideUpModal 0.4s ease-out;
+    animation: slideUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
 }
 
 @keyframes slideUpModal {
     from {
         opacity: 0;
-        transform: translateY(30px) scale(0.95);
+        transform: translateY(20px) scale(0.97);
     }
     to {
         opacity: 1;
@@ -1179,7 +1194,7 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
 
 .sector-option:hover {
@@ -1215,7 +1230,7 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     font-weight: 600;
     color: #6b7280;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, color 0.15s ease;
 }
 
 .sector-modal-close:hover {
@@ -1237,8 +1252,9 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     flex-direction: column;
     overflow: hidden;
     z-index: 1001;
-    animation: slideUp 0.3s ease-out;
-    transition: all 0.3s ease;
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.3s ease, right 0.3s cubic-bezier(0.4, 0, 0.2, 1), bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 /* Quando dentro do support-chat-container, ajustar posicionamento */
@@ -1281,11 +1297,11 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(16px) scale(0.98);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -1573,6 +1589,7 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     text-transform: capitalize;
     letter-spacing: 0.3px;
     animation: dateDividerPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, opacity;
     z-index: 1;
 }
 
@@ -1652,7 +1669,8 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     border-radius: 12px;
     font-size: 14px;
     line-height: 1.5;
-    animation: messageSlide 0.3s ease-out;
+    animation: messageSlide 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
     word-wrap: break-word;
     font-family: 'Inter', 'Segoe UI', 'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
 }
@@ -1660,7 +1678,7 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
 @keyframes messageSlide {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(8px);
     }
     to {
         opacity: 1;
@@ -1720,25 +1738,26 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     width: 80px;
     height: 80px;
     margin: 6px;
-    animation: emojiPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: emojiPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
     cursor: pointer;
     filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.25));
     position: relative;
     border-radius: 12px;
+    will-change: transform;
 }
 
 @keyframes emojiPop {
     0% {
         opacity: 0;
-        transform: scale(0) rotate(-180deg);
+        transform: scale(0.3);
     }
-    50% {
-        transform: scale(1.15) rotate(10deg);
+    55% {
+        transform: scale(1.12);
     }
     100% {
         opacity: 1;
-        transform: scale(1) rotate(0deg);
+        transform: scale(1);
     }
 }
 
@@ -2050,7 +2069,6 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
     width: 100% !important;
     height: 100% !important;
     background: rgba(15, 23, 42, 0.88) !important;
-    backdrop-filter: blur(6px) !important;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -2434,13 +2452,13 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
 
 .emoji-panel[style*="display: block"] {
   display: block;
-  animation: slideUpEmoji 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideUpEmoji 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUpEmoji {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(30px) scale(0.9);
+    transform: translateX(-50%) translateY(14px) scale(0.96);
   }
   to {
     opacity: 1;
@@ -2467,10 +2485,9 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
 .emoji-panel-count {
   font-size: 11px;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--accent-soft);
   padding: 4px 10px;
   border-radius: 12px;
-  backdrop-filter: blur(4px);
 }
 
 .emoji-categories {
@@ -2616,11 +2633,11 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
 @keyframes emojiAppear {
   from {
     opacity: 0;
-    transform: scale(0.3) rotate(-15deg);
+    transform: scale(0.5);
   }
   to {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
   }
 }
 
@@ -3894,10 +3911,10 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
   margin: 0;
 }
 
-@keyframes fadeIn {
+@keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -3916,5 +3933,16 @@ body:not(:has(#supportApp:not([style*="display: none"])))::before {
   
   #proximityFields {
     padding: 15px;
+  }
+}
+
+/* ==================== ACESSIBILIDADE - REDUÇÃO DE MOVIMENTO ==================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

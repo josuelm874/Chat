@@ -45,41 +45,28 @@
   <script src="../shared/constants.js"></script>
   <script src="../shared/utils.js"></script>
   <script src="../shared/supabase-sync.js"></script>
+  <!-- SheetJS para leitura de Excel (.xlsx, .xls) na conferência NCM -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
   <!-- Estilos de Gerenciamento de Vagas -->
   <style>
     /* ==================== ESTILOS DE GERENCIAMENTO DE VAGAS ==================== */
 
     .job-management-container {
-      flex: 1;
-      height: 100%;
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      z-index: 0;
-      width: 100%;
-      max-width: 100%;
-      transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow);
-    }
-
-    .job-management-container.active {
-      position: relative;
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      z-index: 5;
       display: flex;
       flex-direction: column;
-      background: var(--glass-bg, rgba(255,255,255,0.72));
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(20, 25, 40, 0.50);
+      backdrop-filter: blur(12px) saturate(1.4);
+      -webkit-backdrop-filter: blur(12px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.30) !important;
       border-radius: 16px;
       overflow-y: auto;
       padding: 32px;
-      border: 1px solid var(--glass-border, rgba(255,255,255,0.65));
-      box-shadow: inset 0 1px 0 var(--glass-inset, rgba(255,255,255,0.85)), var(--shadow-depth, 0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.06));
-      transition: opacity var(--duration-slow) var(--ease-smooth), visibility var(--duration-slow), background var(--duration-slow) var(--ease-smooth), border-color var(--duration-slow) var(--ease-smooth), box-shadow var(--duration-slow) var(--ease-smooth);
+      box-shadow: var(--shadow-depth, 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.08));
+    }
+
+    [data-theme="dark"] .job-management-container {
+      background: rgba(240, 245, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
 
     .job-management-header {
@@ -714,14 +701,6 @@
         </li>
 
         <li class="list">
-          <button data-section="scheduled-message" aria-label="Mensagens agendadas">
-            <span class="icon"><i class='bx bx-message-square-detail' aria-hidden="true"></i></span>
-            <span class="title">Scheduled Message</span>
-            <span class="tooltip">Scheduled Message</span>
-          </button>
-        </li>
-
-        <li class="list">
           <button data-section="ncm" aria-label="Abrir consulta NCM">
             <span class="icon"><i class='bx bx-search' aria-hidden="true"></i></span>
             <span class="title">Consulta NCM</span>
@@ -753,9 +732,12 @@
     <!-- Tooltip bar estilo Arch (fora do sidebar para não ser cortado) -->
     <div id="sidebar-tooltip-bar" class="sidebar-tooltip-bar" aria-hidden="true"></div>
 
+    <!-- Panels Wrapper (grid-stacking para transições suaves) -->
+    <div class="panels-wrapper">
+
     <!-- Chat Container -->
 
-    <div class="chat-container">
+    <div class="chat-container active">
 
       <!-- Chat List -->
 
@@ -786,6 +768,27 @@
       <!-- Chat Main -->
 
       <div class="chat-main">
+
+        <!-- Chat Header (mostrado quando um contato está selecionado) -->
+        <div class="chat-header" id="chatHeader" style="display:none">
+          <div class="chat-header-info">
+            <div class="chat-header-avatar" id="chatHeaderAvatar"></div>
+            <div class="chat-header-text">
+              <span class="chat-header-name" id="chatHeaderName">—</span>
+              <span class="chat-header-status" id="chatHeaderStatus"></span>
+            </div>
+          </div>
+          <div class="chat-header-actions">
+            <button class="chat-options-btn" id="chatOptionsBtn" title="Opções do chat" aria-label="Opções do chat">
+              <i class='bx bx-dots-vertical-rounded'></i>
+            </button>
+            <div class="chat-options-dropdown hidden" id="chatOptionsDropdown">
+              <button class="chat-option-item" id="chatOptionExportReport">
+                <i class='bx bx-file-blank'></i> Exportar Histórico
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div class="messages"></div>
 
@@ -888,7 +891,7 @@
 
 
     <!-- Internal Chat Container -->
-    <div class="internal-chat-container" id="internalChatContainer" style="display: none;">
+    <div class="internal-chat-container" id="internalChatContainer" inert>
       <!-- Chat List -->
       <div class="chat-list">
         <div class="search-bar">
@@ -957,7 +960,7 @@
 
     <!-- Admin Container -->
 
-    <div class="admin-container">
+    <div class="admin-container" inert>
 
       <div class="admin-header">
 
@@ -1152,7 +1155,7 @@
         
         <!-- Tab Content: Contribuintes -->
 
-        <div class="admin-tab-content" id="contributorsTab">
+        <div class="admin-tab-content" id="contributorsTab" inert>
 
           <div class="admin-section">
 
@@ -1339,7 +1342,7 @@
         </div>
 
         <!-- Tab Content: Solicitação de Funcionário -->
-        <div class="admin-tab-content" id="recruitmentRequestsTab">
+        <div class="admin-tab-content" id="recruitmentRequestsTab" inert>
           <div class="admin-section">
             <div class="section-header">
               <h3>Solicitações de Recrutamento</h3>
@@ -1360,7 +1363,7 @@
 
     <!-- Tax Agenda Container -->
 
-    <div class="tax-agenda-container">
+    <div class="tax-agenda-container" inert>
 
       <!-- Coluna lateral: Data e Relógio em um bloco (estilo pin dashboard) -->
       <aside class="tax-agenda-datetime-sidebar">
@@ -1371,19 +1374,20 @@
               <div class="tax-agenda-clock-analog" id="taxAgendaClockAnalog" aria-hidden="false">
                 <svg class="clock-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                   <circle class="clock-face-circle" cx="60" cy="60" r="54"/>
-                  <!-- 12 marcações das horas (estilo pin minimalista) -->
-                  <line x1="60" y1="10" x2="60" y2="18" class="clock-tick"/>
-                  <line x1="93.4" y1="26.6" x2="88.2" y2="31.8" class="clock-tick"/>
-                  <line x1="102" y1="60" x2="94" y2="60" class="clock-tick"/>
-                  <line x1="93.4" y1="93.4" x2="88.2" y2="88.2" class="clock-tick"/>
-                  <line x1="60" y1="102" x2="60" y2="94" class="clock-tick"/>
-                  <line x1="26.6" y1="93.4" x2="31.8" y2="88.2" class="clock-tick"/>
-                  <line x1="18" y1="60" x2="26" y2="60" class="clock-tick"/>
-                  <line x1="26.6" y1="26.6" x2="31.8" y2="31.8" class="clock-tick"/>
-                  <line x1="80.8" y1="19.2" x2="76" y2="24" class="clock-tick"/>
-                  <line x1="100.8" y1="39.2" x2="96" y2="44" class="clock-tick"/>
-                  <line x1="80.8" y1="100.8" x2="76" y2="96" class="clock-tick"/>
-                  <line x1="19.2" y1="80.8" x2="24" y2="76" class="clock-tick"/>
+                  <!-- Marcações das horas — posições calculadas a cada 30° (r_outer=54)
+                       Maiores (12,3,6,9): r_inner=43 | Menores (resto): r_inner=49 -->
+                  <!-- 12h --> <line x1="60.0" y1="6.0"   x2="60.0" y2="17.0"  class="clock-tick clock-tick-major"/>
+                  <!-- 1h  --> <line x1="87.0" y1="13.2"  x2="84.5" y2="17.6"  class="clock-tick clock-tick-minor"/>
+                  <!-- 2h  --> <line x1="106.8" y1="33.0" x2="102.4" y2="35.5" class="clock-tick clock-tick-minor"/>
+                  <!-- 3h  --> <line x1="114.0" y1="60.0" x2="103.0" y2="60.0" class="clock-tick clock-tick-major"/>
+                  <!-- 4h  --> <line x1="106.8" y1="87.0" x2="102.4" y2="84.5" class="clock-tick clock-tick-minor"/>
+                  <!-- 5h  --> <line x1="87.0" y1="106.8" x2="84.5" y2="102.4" class="clock-tick clock-tick-minor"/>
+                  <!-- 6h  --> <line x1="60.0" y1="114.0" x2="60.0" y2="103.0" class="clock-tick clock-tick-major"/>
+                  <!-- 7h  --> <line x1="33.0" y1="106.8" x2="35.5" y2="102.4" class="clock-tick clock-tick-minor"/>
+                  <!-- 8h  --> <line x1="13.2" y1="87.0"  x2="17.6" y2="84.5"  class="clock-tick clock-tick-minor"/>
+                  <!-- 9h  --> <line x1="6.0"  y1="60.0"  x2="17.0" y2="60.0"  class="clock-tick clock-tick-major"/>
+                  <!-- 10h --> <line x1="13.2" y1="33.0"  x2="17.6" y2="35.5"  class="clock-tick clock-tick-minor"/>
+                  <!-- 11h --> <line x1="33.0" y1="13.2"  x2="35.5" y2="17.6"  class="clock-tick clock-tick-minor"/>
                   <!-- Ponteiros -->
                   <line id="clockHourHand" x1="60" y1="60" x2="60" y2="38" class="clock-hand-svg hour-hand"/>
                   <line id="clockMinuteHand" x1="60" y1="60" x2="60" y2="18" class="clock-hand-svg minute-hand"/>
@@ -1721,16 +1725,55 @@
 
         </div>
 
-        
-        
-        <div class="tasks-list">
-
-          <!-- Vencimentos tributários e lembretes serão carregados automaticamente via JavaScript -->
-
+        <!-- Sub-tabs: Agenda Fiscal / Lembretes -->
+        <div class="tax-agenda-subtabs" id="taxAgendaSubtabs">
+          <button class="tax-subtab active" data-subtab="obligations" id="subtabObligations">
+            <i class='bx bx-calendar-check'></i> Agenda Fiscal
+          </button>
+          <button class="tax-subtab" data-subtab="lembretes" id="subtabLembretes">
+            <i class='bx bx-bell'></i> Lembretes
+            <span class="lembretes-badge" id="lembretesNavBadge" aria-hidden="true"></span>
+          </button>
         </div>
 
-        
-        
+        <!-- Painel: Agenda Fiscal (Obrigações) -->
+        <div id="obligationsSubPanel" class="tax-subtab-panel active">
+          <div class="tasks-list">
+            <!-- Vencimentos tributários e lembretes serão carregados automaticamente via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Painel: Lembretes -->
+        <div id="lembretesSubPanel" class="tax-subtab-panel" inert>
+          <div class="lembretes-header">
+            <div class="lembretes-header-top">
+              <div class="lembretes-title-area">
+                <h2><i class='bx bx-bell'></i> Lembretes</h2>
+                <p>Seus eventos e tarefas organizados</p>
+              </div>
+              <button class="add-lembrete-btn" id="addLembreteBtn">
+                <i class='bx bx-plus'></i> Novo Lembrete
+              </button>
+            </div>
+            <div class="lembretes-filters">
+              <button class="lembrete-filter active" data-filter="all">Todos</button>
+              <button class="lembrete-filter" data-filter="today">Hoje</button>
+              <button class="lembrete-filter" data-filter="week">Esta semana</button>
+              <button class="lembrete-filter" data-filter="overdue">Vencidos</button>
+            </div>
+          </div>
+          <div class="lembretes-content">
+            <div class="lembretes-list" id="lembretesListContainer"></div>
+            <div class="lembretes-empty hidden" id="lembretesEmpty">
+              <i class='bx bx-bell-off'></i>
+              <p>Nenhum lembrete encontrado</p>
+              <span>Clique em "Novo Lembrete" para criar o primeiro</span>
+            </div>
+          </div>
+        </div>
+
+
+
         <!-- Modal para adicionar lembrete -->
 
         <div class="add-task-modal" id="addTaskModal">
@@ -1830,11 +1873,11 @@
 
 
     <!-- Consulta NCM Container -->
-    <div class="ncm-container hidden" id="ncmSection" data-section="ncm">
+    <div class="ncm-container" id="ncmSection" data-section="ncm" inert>
       <div class="ncm-main">
         <div class="ncm-header">
           <div class="header-info">
-            <img src="../../assets/images/branding/Sercon.png" onerror="this.src='../../assets/images/branding/logo.png'" alt="Sercon">
+            <img src="../../assets/images/branding/logo.png" alt="Sercon">
             <div class="header-text">
               <h3>🧠 Consult - NCM</h3>
               <p class="header-subtitle">Consulta Avançada de Nomenclatura Comum do Mercosul</p>
@@ -1847,10 +1890,6 @@
             <button type="button" class="ncm-tab-btn active" data-ncm-tab="consulta-produto" aria-selected="true">
               <i class='bx bx-search-alt'></i>
               <span>Consulta de NCM</span>
-            </button>
-            <button type="button" class="ncm-tab-btn" data-ncm-tab="banco-cadastrado" aria-selected="false">
-              <i class='bx bx-data'></i>
-              <span>Banco cadastrado</span>
             </button>
             <button type="button" class="ncm-tab-btn" data-ncm-tab="conferir-planilha" aria-selected="false">
               <i class='bx bx-spreadsheet'></i>
@@ -1882,52 +1921,19 @@
             </div>
           </div>
 
-          <div id="ncm-tab-banco-cadastrado" class="ncm-tab-content" style="display: none;">
-            <div class="ncm-banco-panel">
-              <h2 class="ncm-sercon-title">Banco cadastrado (validações NCM)</h2>
-              <p class="ncm-sercon-desc">Visualização de todos os registros da tabela <strong>validacao_ncm</strong> (produto × NCM) cadastrados pelo script de correlação.</p>
-              <div class="ncm-banco-toolbar">
-                <button type="button" id="ncm-banco-refresh-btn" class="ncm-sercon-btn">
-                  <i class='bx bx-refresh'></i> Atualizar
-                </button>
-                <span id="ncm-banco-count" class="ncm-banco-count"></span>
-              </div>
-              <div id="ncm-banco-loading" class="ncm-banco-loading" style="display: none;">
-                <i class="bx bx-loader-alt bx-spin"></i> Carregando...
-              </div>
-              <div id="ncm-banco-empty" class="ncm-banco-empty" style="display: none;">
-                <i class="bx bx-database"></i>
-                <p>Nenhum registro no banco ou Supabase não configurado.</p>
-              </div>
-              <div id="ncm-banco-table-wrap" class="ncm-banco-table-wrap" style="display: none;">
-                <div class="ncm-banco-scroll">
-                  <table class="ncm-banco-table" id="ncm-banco-table">
-                    <thead>
-                      <tr>
-                        <th>Produto</th>
-                        <th>NCM</th>
-                        <th>Resultado</th>
-                        <th>Detalhe</th>
-                      </tr>
-                    </thead>
-                    <tbody id="ncm-banco-tbody"></tbody>
-                  </table>
-                </div>
-                <div id="ncm-banco-more-wrap" class="ncm-banco-more-wrap" style="display: none;">
-                  <button type="button" id="ncm-banco-more-btn" class="ncm-sercon-btn ncm-banco-more-btn">Carregar mais</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div id="ncm-tab-conferir-planilha" class="ncm-tab-content" style="display: none;">
             <div class="ncm-planilha-panel">
               <h2 class="ncm-sercon-title">Conferir planilha com o banco</h2>
-              <p class="ncm-sercon-desc">Envie um arquivo <strong>CSV</strong> (ou Excel exportado como CSV) com colunas <strong>produto</strong> e <strong>ncm</strong>. O sistema considera apenas produtos validados como <strong>SIM</strong> no banco (match pelas 2 primeiras palavras). Compara a NCM da planilha com a(s) NCM(s) correta(s). Divergências: NCM da planilha diferente do banco. Aba "Não encontrados": produtos sem registro SIM no banco.</p>
+              <p class="ncm-sercon-desc">Selecione o <strong>banco</strong> (arquivo <strong>.csv</strong> com colunas de produto e ncm) e a <strong>planilha</strong> a conferir (CSV ou Excel; detecta automaticamente colunas como produto/produtos/descrição de produtos e ncm). O sistema busca cada produto pelo nome exato e, se não encontrar, reduz o nome palavra por palavra até no mínimo 3 palavras.</p>
               <div class="ncm-planilha-toolbar">
                 <label class="ncm-planilha-file-label">
-                  <input type="file" id="ncm-planilha-file" accept=".csv,.txt,application/csv,text/csv" style="display: none;">
-                  <span class="ncm-sercon-btn"><i class="bx bx-upload"></i> Escolher CSV</span>
+                  <input type="file" id="ncm-planilha-banco-file" accept=".csv,text/csv,application/csv" style="display: none;">
+                  <span class="ncm-sercon-btn"><i class="bx bx-folder-open"></i> Banco (.csv)</span>
+                </label>
+                <span id="ncm-planilha-banco-file-name" class="ncm-planilha-file-name"></span>
+                <label class="ncm-planilha-file-label">
+                  <input type="file" id="ncm-planilha-file" accept=".csv,.txt,.xlsx,.xls,application/csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" style="display: none;">
+                  <span class="ncm-sercon-btn"><i class="bx bx-upload"></i> Planilha</span>
                 </label>
                 <button type="button" id="ncm-planilha-run-btn" class="ncm-sercon-btn" disabled>
                   <i class="bx bx-check-double"></i> Conferir
@@ -1938,54 +1944,29 @@
                 <i class="bx bx-loader-alt bx-spin"></i> <span id="ncm-planilha-loading-text">Conferindo...</span>
               </div>
               <div id="ncm-planilha-summary" class="ncm-planilha-summary" style="display: none;"></div>
-              <div class="ncm-planilha-reports-tabs">
-                <div class="ncm-planilha-reports-tab-btns">
-                  <button type="button" class="ncm-planilha-report-tab-btn active" data-planilha-report="divergencias">
-                    <i class="bx bx-error-circle"></i> Divergências
-                  </button>
-                  <button type="button" class="ncm-planilha-report-tab-btn" data-planilha-report="nao-encontrados">
-                    <i class="bx bx-search-alt"></i> Não encontrados
-                  </button>
+              <div id="ncm-planilha-report-actions" class="ncm-planilha-toolbar" style="display: none; margin-top: 8px;">
+                <button type="button" id="ncm-planilha-gerar-relatorio-btn" class="ncm-sercon-btn">
+                  <i class="bx bx-download"></i> Gerar relatório (Excel)
+                </button>
+              </div>
+              <div id="ncm-planilha-report-wrap" class="ncm-banco-table-wrap" style="display: none;">
+                <div class="ncm-banco-scroll">
+                  <table class="ncm-banco-table ncm-planilha-report-table" id="ncm-planilha-report-table">
+                    <thead>
+                      <tr>
+                        <th>Produto</th>
+                        <th>NCM da planilha</th>
+                        <th>Situação</th>
+                        <th>Sugestão/Informação</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ncm-planilha-report-tbody"></tbody>
+                  </table>
                 </div>
-                <div id="ncm-planilha-divergencias-wrap" class="ncm-planilha-report-panel active">
-                  <div id="ncm-planilha-report-wrap" class="ncm-banco-table-wrap" style="display: none;">
-                    <div class="ncm-banco-scroll">
-                      <table class="ncm-banco-table ncm-planilha-report-table" id="ncm-planilha-report-table">
-                        <thead>
-                          <tr>
-                            <th>Produto (planilha)</th>
-                            <th>NCM (planilha)</th>
-                            <th>NCM(s) esperada(s) no banco</th>
-                          </tr>
-                        </thead>
-                        <tbody id="ncm-planilha-report-tbody"></tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div id="ncm-planilha-empty" class="ncm-banco-empty" style="display: none;">
-                    <i class="bx bx-check-circle"></i>
-                    <p>Nenhuma divergência encontrada.</p>
-                  </div>
-                </div>
-                <div id="ncm-planilha-nao-encontrados-panel" class="ncm-planilha-report-panel" style="display: none;">
-                  <div id="ncm-planilha-nao-encontrados-table-wrap" class="ncm-banco-table-wrap" style="display: none;">
-                    <div class="ncm-banco-scroll">
-                      <table class="ncm-banco-table ncm-planilha-report-table">
-                        <thead>
-                          <tr>
-                            <th>Produto (planilha)</th>
-                            <th>NCM (planilha)</th>
-                          </tr>
-                        </thead>
-                        <tbody id="ncm-planilha-nao-encontrados-tbody"></tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div id="ncm-planilha-nao-encontrados-empty" class="ncm-banco-empty" style="display: none;">
-                    <i class="bx bx-check-circle"></i>
-                    <p>Todos os produtos foram encontrados no banco.</p>
-                  </div>
-                </div>
+              </div>
+              <div id="ncm-planilha-empty" class="ncm-banco-empty" style="display: none;">
+                <i class="bx bx-check-circle"></i>
+                <p>Nenhum produto encontrado na planilha.</p>
               </div>
             </div>
           </div>
@@ -1993,11 +1974,19 @@
       </div>
     </div>
 
-    <!-- Chat Report Container -->
+    <!-- Backdrop para overlay do relatório -->
+    <div class="report-modal-backdrop hidden" id="reportModalBackdrop"></div>
 
-    <div class="scheduled-message-container">
+    <!-- Chat Report Container (usado como sidebar section ou overlay do chat) -->
 
-      <div class="scheduled-message-box">
+    <div class="scheduled-message-container" inert>
+
+      <div class="scheduled-message-box" style="position:relative;">
+
+        <!-- Botão fechar (visível apenas quando usado como overlay) -->
+        <button class="report-modal-close hidden" id="closeReportModal" title="Fechar relatório" aria-label="Fechar relatório">
+          <i class='bx bx-x'></i>
+        </button>
 
         <div class="scheduled-message-header">
 
@@ -2329,7 +2318,7 @@
     </div>
 
     <!-- Job Management Container (Gerenciamento de Vagas) -->
-    <div class="job-management-container" id="jobManagementSection" data-section="job-management">
+    <div class="job-management-container" id="jobManagementSection" data-section="job-management" inert>
 
       <div class="job-management-header">
 
@@ -2470,6 +2459,8 @@
 
     </div>
 
+    </div><!-- /.panels-wrapper -->
+
     <!-- Modal de Detalhes da Vaga -->
     <div class="job-detail-modal hidden" id="jobDetailModal">
       <div class="job-detail-modal-content">
@@ -2488,6 +2479,52 @@
       </div>
     </div>
     
+    <!-- Modal de criar/editar lembrete (position:fixed — pode ficar aqui no DOM) -->
+    <div class="lembrete-modal hidden" id="lembreteModal">
+      <div class="lembrete-modal-content">
+        <div class="lembrete-modal-header">
+          <h3 id="lembreteModalTitle">Novo Lembrete</h3>
+          <button class="lembrete-modal-close" id="closeLembreteModal" aria-label="Fechar">
+            <i class='bx bx-x'></i>
+          </button>
+        </div>
+        <form id="lembreteForm" autocomplete="off">
+          <input type="hidden" id="lembreteEditId">
+          <div class="lembrete-form-group">
+            <label for="lembreteTitulo">Título <span class="required">*</span></label>
+            <input type="text" id="lembreteTitulo" placeholder="Ex: Reunião com cliente..." required>
+          </div>
+          <div class="lembrete-form-group">
+            <label for="lembreteDescricao">Descrição</label>
+            <textarea id="lembreteDescricao" placeholder="Detalhes do lembrete..." rows="3"></textarea>
+          </div>
+          <div class="lembrete-form-row">
+            <div class="lembrete-form-group">
+              <label for="lembreteData">Data <span class="required">*</span></label>
+              <input type="date" id="lembreteData" required>
+            </div>
+            <div class="lembrete-form-group">
+              <label for="lembreteHora">Hora</label>
+              <input type="time" id="lembreteHora">
+            </div>
+          </div>
+          <div class="lembrete-form-group">
+            <label>Categoria</label>
+            <div class="lembrete-categories">
+              <button type="button" class="lembrete-cat active" data-cat="geral">Geral</button>
+              <button type="button" class="lembrete-cat" data-cat="reuniao">Reunião</button>
+              <button type="button" class="lembrete-cat" data-cat="tarefa">Tarefa</button>
+              <button type="button" class="lembrete-cat" data-cat="prazo">Prazo</button>
+            </div>
+          </div>
+          <div class="lembrete-form-actions">
+            <button type="button" id="cancelLembreteBtn">Cancelar</button>
+            <button type="submit" id="saveLembreteBtn"><i class='bx bx-check'></i> Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Container Oculto para Geração de PDF (captura completa) -->
 
     <div class="pdf-render-container" id="pdfRenderContainer">

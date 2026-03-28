@@ -10,12 +10,14 @@
   var TABLE_NAME = 'system_data';
   var DEFAULT_SYNC_KEYS = [
     'users', 'contributors', 'contributorContacts', 'contributorEmployees',
-    'supportMessages', 'internalMessages', 'tasks', 'recruitmentRequests'
+    'supportMessages', 'internalMessages', 'tasks', 'recruitmentRequests',
+    'chatui_lembretes'
   ];
 
   var supabaseClient = null;
   var isSupabaseConfigured = false;
   var supabaseScriptAdded = false;
+  var _readyCallbacks = [];
 
   function getConfig() {
     if (typeof CONFIG !== 'undefined' && CONFIG.SUPABASE) {
@@ -54,6 +56,9 @@
               if (typeof console !== 'undefined' && console.log) {
                 console.log('✅ Supabase (Chat UI) inicializado com sucesso!');
               }
+              // Disparar callbacks de "pronto"
+              _readyCallbacks.forEach(function(cb) { try { cb(); } catch(e) {} });
+              _readyCallbacks = [];
             }
           };
           script.onerror = function () {
@@ -127,7 +132,7 @@
           .from(TABLE_NAME)
           .select('value, updated_at')
           .eq('key', key)
-          .single();
+          .maybeSingle();
 
         if (!q.error && q.data) {
           try {
@@ -166,9 +171,9 @@
         .from(TABLE_NAME)
         .select('value, updated_at')
         .eq('key', key)
-        .single();
+        .maybeSingle();
 
-      if (q.error && q.error.code !== 'PGRST116') {
+      if (q.error) {
         return { synced: false, error: q.error.message };
       }
       if (!q.data) {
@@ -217,7 +222,7 @@
         .from(TABLE_NAME)
         .select('value, updated_at')
         .eq('key', key)
-        .single();
+        .maybeSingle();
       if (q.error || !q.data) return null;
       var t = new Date(q.data.updated_at).getTime();
       localStorage.setItem(key, JSON.stringify(q.data.value));
@@ -363,6 +368,51 @@
     }
   }
 
+  /**
+   * Assinar atualizações em tempo real de uma chave específica na tabela system_data.
+   * callback(newValue) é chamado sempre que o valor da chave for atualizado no banco.
+   */
+  function subscribeToKey(key, callback) {
+    if (!isSupabaseConfigured || !supabaseClient) return null;
+    try {
+      return supabaseClient
+        .channel('system_data_' + key)
+        .on('postgres_changes', {
+          event: 'UPDATE',
+          schema: 'public',
+          table: TABLE_NAME,
+          filter: 'key=eq.' + key
+        }, function(payload) {
+          if (payload.new && payload.new.value !== undefined) {
+            try {
+              localStorage.setItem(key, JSON.stringify(payload.new.value));
+              localStorage.setItem(key + '_updated',
+                new Date(payload.new.updated_at || Date.now()).getTime().toString());
+            } catch (e) {}
+            if (typeof callback === 'function') callback(payload.new.value);
+          }
+        })
+        .subscribe();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.error) {
+        console.error('Erro ao assinar ' + key + ':', e);
+      }
+      return null;
+    }
+  }
+
+  /**
+   * Registrar um callback a ser chamado quando o Supabase estiver pronto.
+   * Se já estiver configurado, chama imediatamente.
+   */
+  function onReady(callback) {
+    if (isSupabaseConfigured) {
+      try { callback(); } catch(e) {}
+    } else {
+      _readyCallbacks.push(callback);
+    }
+  }
+
   window.supabaseSync = {
     init: initSupabase,
     save: saveToCloud,
@@ -371,6 +421,8 @@
     syncAll: syncAllData,
     refresh: forceRefreshFromCloud,
     isConfigured: function () { return isSupabaseConfigured; },
+    subscribeToKey: subscribeToKey,
+    onReady: onReady,
     /** Banco de validação NCM (tabela validacao_ncm) */
     loadValidacaoNcm: loadValidacaoNcm,
     listValidacaoNcmByNcm: listValidacaoNcmByNcm,
