@@ -1419,9 +1419,15 @@ function checkAuthentication() {
   if (typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated() && hasSavedCredentials) {
 
     // Usuário autenticado com remember me, mostrar chat
-
+    // Bloquear transições durante a exibição inicial para evitar deslocamento visual
+    document.documentElement.classList.add('preload');
     loginContainer?.classList.add("hidden");
     chatApp.style.display = "flex";
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('preload');
+      });
+    });
 
   } else {
 
@@ -1891,6 +1897,18 @@ const contacts = [];
   
 
   document.addEventListener("DOMContentLoaded", async () => {
+
+    // Prevenir restauração de scroll do browser (causaria deslocamento dos panels após reload)
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+
+    // Prevenir flash de transições CSS no carregamento inicial
+    // Remove a classe após 2 frames para garantir que o primeiro render seja estável
+    document.documentElement.classList.add('preload');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('preload');
+      });
+    });
 
     // ==================== INICIALIZAÇÃO DO SISTEMA ====================
 

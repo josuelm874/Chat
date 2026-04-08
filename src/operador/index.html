@@ -2525,6 +2525,30 @@
       </div>
     </div>
 
+    <!-- Modal de seleção e ordenação de colunas do relatório NCM -->
+    <div class="lembrete-modal hidden" id="ncmRelatorioModal" role="dialog" aria-labelledby="ncmRelatorioTitle" aria-hidden="true">
+      <div class="lembrete-modal-content ncm-relatorio-modal-content">
+        <div class="lembrete-modal-header">
+          <h3 id="ncmRelatorioTitle">Colunas do relatório</h3>
+          <button class="lembrete-modal-close ncm-relatorio-close-btn" aria-label="Fechar">
+            <i class='bx bx-x'></i>
+          </button>
+        </div>
+        <p class="ncm-relatorio-modal-hint">
+          <i class='bx bx-info-circle'></i>
+          Arraste para reordenar. Colunas marcadas são incluídas no Excel.
+        </p>
+        <!-- Lista unificada — preenchida e ordenada pelo JS -->
+        <ul class="ncm-relatorio-modal-col-list" id="ncmRelatorioColList"></ul>
+        <div class="lembrete-form-actions">
+          <button type="button" class="ncm-relatorio-cancel-btn ncm-relatorio-close-btn">Cancelar</button>
+          <button type="button" id="ncmRelatorioConfirmBtn" class="ncm-sercon-btn">
+            <i class='bx bx-download'></i> Gerar Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Container Oculto para Geração de PDF (captura completa) -->
 
     <div class="pdf-render-container" id="pdfRenderContainer">

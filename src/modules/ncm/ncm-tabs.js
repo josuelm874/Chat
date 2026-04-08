@@ -249,9 +249,317 @@
     return dig.length <= 8 ? dig.padStart(8, '0') : dig.slice(0, 8);
   }
 
-  /** Normaliza nome de produto: maiúsculas, sem espaços duplicados. */
-  function normalizeProductName(name) {
-    return String(name || '').trim().toUpperCase().replace(/\s+/g, ' ');
+  var MATCH_MIN_CONFIDENCE = 0.81;
+  var MATCH_AMBIGUITY_DELTA = 0.02;
+  var PRODUCT_TOKEN_STOPWORDS = {
+    DE: true, DA: true, DO: true, DAS: true, DOS: true,
+    COM: true, SEM: true, PARA: true, POR: true, E: true
+  };
+  var PRODUCT_NOISE_TOKENS = {
+    ML: true, M: true, KG: true, G: true, L: true, LT: true, LITRO: true, LITROS: true,
+    UN: true, UND: true, UNID: true, UNIDADE: true, UNIDADES: true,
+    CX: true, CXA: true, CAIXA: true, PCT: true, PACOTE: true, PCTE: true,
+    FD: true, FARDO: true, C: true
+  };
+  var PRODUCT_ANCHOR_TOKENS = {
+    ALISAMENTO: true, CAPILAR: true, CONDICIONADOR: true, CREME: true,
+    DESCOLORANTE: true, ACUCAR: true, CRISTAL: true
+  };
+  var PRODUCT_ABBREVIATIONS = {
+    ABS: 'ABSORVENTE',
+    ABSV: 'ABSORVENTE',
+    ABSORV: 'ABSORVENTE',
+    ALIS: 'ALISAMENTO',
+    CAP: 'CAPILAR',
+    CONDIC: 'CONDICIONADOR',
+    COND: 'CONDICIONADOR',
+    CR: 'CREME',
+    CREM: 'CREME',
+    LIQ: 'LIQUIDO',
+    LIQD: 'LIQUIDO',
+    LQ: 'LIQUIDO',
+    ACUC: 'ACUCAR',
+    ACUCR: 'ACUCAR',
+    CUCAR: 'ACUCAR',
+    UCAR: 'ACUCAR',
+    CRIST: 'CRISTAL',
+    DESINF: 'DESINFETANTE',
+    DES: 'DESCOLORANTE',
+    DETERG: 'DETERGENTE',
+    DET: 'DETERGENTE',
+    SAB: 'SABONETE',
+    SABON: 'SABONETE',
+    FRALD: 'FRALDA',
+    FR: 'FRALDA',
+    ALIM: 'ALIMENTO',
+    BISC: 'BISCOITO',
+    REFRI: 'REFRIGERANTE'
+  };
+  var PRODUCT_SYNONYMS_URL = '../../data/produto-sinonimos-template.json';
+  var productSynonymsLoadPromise = null;
+
+  /** Remove acentos e normaliza espaços/símbolos do texto. */
+  function normalizeProductNameAdvanced(name) {
+    var raw = String(name || '').trim().toUpperCase();
+    if (!raw) return '';
+    var semAcento = raw;
+    try {
+      semAcento = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    } catch (e) { semAcento = raw; }
+    return semAcento
+      .replace(/[�?]/g, 'C')
+      .replace(/[^\w\s]/g, ' ')
+      .replace(/_/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function toProductTokens(text) {
+    var norm = normalizeProductNameAdvanced(text);
+    if (!norm) return [];
+    var parts = norm.split(' ');
+    var out = [];
+    for (var i = 0; i < parts.length; i++) {
+      var tk = parts[i];
+      if (!tk) continue;
+      if (tk.length < 2) continue;
+      if (/^\d+$/.test(tk)) continue;
+      if (/^\d+(ML|M|KG|G|L|LT)$/.test(tk)) continue;
+      if (tk.length > 4 && tk.endsWith('S')) tk = tk.slice(0, -1);
+      if (PRODUCT_TOKEN_STOPWORDS[tk]) continue;
+      if (PRODUCT_NOISE_TOKENS[tk]) continue;
+      out.push(tk);
+    }
+    return out;
+  }
+
+  function expandAbbreviations(tokens) {
+    var out = [];
+    for (var i = 0; i < tokens.length; i++) {
+      var tk = tokens[i];
+      out.push(PRODUCT_ABBREVIATIONS[tk] || tk);
+    }
+    return out;
+  }
+
+  function canonicalProductName(name) {
+    return expandAbbreviations(toProductTokens(name)).join(' ');
+  }
+
+  function normalizeSynonymToken(token) {
+    var norm = normalizeProductNameAdvanced(token || '');
+    if (!norm) return '';
+    if (norm.indexOf(' ') >= 0) return '';
+    return norm;
+  }
+
+  function applySynonymPair(canonicalWord, variantWord) {
+    var canonical = normalizeSynonymToken(canonicalWord);
+    var variant = normalizeSynonymToken(variantWord);
+    if (!canonical || !variant) return false;
+    PRODUCT_ABBREVIATIONS[variant] = canonical;
+    PRODUCT_ANCHOR_TOKENS[canonical] = true;
+    return true;
+  }
+
+  function loadExternalSynonyms() {
+    if (typeof fetch !== 'function') return Promise.resolve(0);
+    return fetch(PRODUCT_SYNONYMS_URL, { cache: 'no-store' })
+      .then(function (resp) {
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        return resp.json();
+      })
+      .then(function (data) {
+        if (!data || typeof data !== 'object') return 0;
+        var total = 0;
+        var categoryNames = Object.keys(data);
+        for (var c = 0; c < categoryNames.length; c++) {
+          var categoryName = categoryNames[c];
+          if (categoryName.indexOf('_') === 0) continue;
+          var category = data[categoryName];
+          if (!category || typeof category !== 'object' || Array.isArray(category)) continue;
+          var canonicalWords = Object.keys(category);
+          for (var i = 0; i < canonicalWords.length; i++) {
+            var canonical = canonicalWords[i];
+            var variants = category[canonical];
+            if (!Array.isArray(variants)) continue;
+            // Garante que a forma canônica também seja conhecida como âncora.
+            applySynonymPair(canonical, canonical);
+            for (var v = 0; v < variants.length; v++) {
+              if (applySynonymPair(canonical, variants[v])) total++;
+            }
+          }
+        }
+        return total;
+      });
+  }
+
+  function ensureProductSynonymsLoaded() {
+    if (!productSynonymsLoadPromise) {
+      productSynonymsLoadPromise = loadExternalSynonyms().catch(function (e) {
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn('ncm-tabs: nao foi possivel carregar dicionario externo de sinonimos:', e);
+        }
+        return 0;
+      });
+    }
+    return productSynonymsLoadPromise;
+  }
+
+  function tokenSet(tokens) {
+    var set = {};
+    for (var i = 0; i < tokens.length; i++) set[tokens[i]] = true;
+    return set;
+  }
+
+  function computeTokenSimilarity(queryTokens, targetTokens) {
+    if (!queryTokens.length || !targetTokens.length) return 0;
+    var qSet = tokenSet(queryTokens);
+    var tSet = tokenSet(targetTokens);
+    var inter = 0;
+    var uq = 0;
+    var ut = 0;
+    var k;
+    for (k in qSet) { if (!Object.prototype.hasOwnProperty.call(qSet, k)) continue; uq++; if (tSet[k]) inter++; }
+    for (k in tSet) { if (!Object.prototype.hasOwnProperty.call(tSet, k)) continue; ut++; }
+    var union = uq + ut - inter;
+    if (union <= 0 || uq <= 0) return 0;
+    var coverageQuery = inter / uq;
+    var jaccard = inter / union;
+    var score = (coverageQuery * 0.75) + (jaccard * 0.25);
+    var anchorMatches = 0;
+    for (k in qSet) {
+      if (!Object.prototype.hasOwnProperty.call(qSet, k)) continue;
+      if (PRODUCT_ANCHOR_TOKENS[k] && tSet[k]) anchorMatches++;
+    }
+    if (anchorMatches > 0) score += Math.min(0.06, anchorMatches * 0.02);
+    if (queryTokens[0] && targetTokens[0] && queryTokens[0] === targetTokens[0]) score += 0.03;
+    return Math.max(0, Math.min(1, score));
+  }
+
+  function findTopCandidates(queryTokens, bancoEntries, limit) {
+    var out = [];
+    var max = Math.max(1, limit || 3);
+    for (var i = 0; i < bancoEntries.length; i++) {
+      var entry = bancoEntries[i];
+      var score = computeTokenSimilarity(queryTokens, entry.tokens);
+      if (score <= 0) continue;
+      out.push({ entry: entry, score: score });
+    }
+    out.sort(function (a, b) { return b.score - a.score; });
+    return out.slice(0, max);
+  }
+
+  function makeMatchResult(entry, strategy, confidence) {
+    return {
+      found: true,
+      ncm: entry.ncm,
+      matchedProduct: entry.original,
+      strategy: strategy,
+      confidence: Math.max(0, Math.min(1, confidence))
+    };
+  }
+
+  function formatMatchMeta(hit) {
+    if (!hit || !hit.found) return '';
+    var conf = Number(hit.confidence || 0);
+    var confTxt = conf.toFixed(2);
+    var strat = hit.strategy || 'desconhecido';
+    var prod = hit.matchedProduct ? (' em "' + hit.matchedProduct + '"') : '';
+    return 'Match: ' + strat + ' (' + confTxt + ')' + prod;
+  }
+
+  function buildBancoMatcherIndex(rows, keyProdBanco, keyNcmBanco) {
+    var exact = {};
+    var canonical = {};
+    var entries = [];
+
+    for (var r = 0; r < rows.length; r++) {
+      var bRow = rows[r];
+      var bProd = (bRow[keyProdBanco] != null ? String(bRow[keyProdBanco]) : '').trim();
+      var bNcm = (bRow[keyNcmBanco] != null ? String(bRow[keyNcmBanco]) : '').trim();
+      if (!bProd || !bNcm) continue;
+      if (bNcm.toUpperCase() === 'REVISAR') continue;
+
+      var norm = normalizeProductNameAdvanced(bProd);
+      var canonicalName = canonicalProductName(bProd);
+      var tokens = canonicalName ? canonicalName.split(' ').filter(Boolean) : [];
+      if (!norm) continue;
+
+      var entry = {
+        original: bProd,
+        normalized: norm,
+        canonical: canonicalName,
+        tokens: tokens,
+        ncm: bNcm
+      };
+      entries.push(entry);
+      if (!exact[norm]) exact[norm] = entry;
+      if (canonicalName && !canonical[canonicalName]) canonical[canonicalName] = entry;
+    }
+
+    return { exact: exact, canonical: canonical, entries: entries };
+  }
+
+  /**
+   * Match de produto em camadas:
+   * 1) Exato normalizado
+   * 2) Exato por abreviações/sinônimos (canônico)
+   * 3) Prefixo canônico
+   * 4) Similaridade de tokens (limiar conservador)
+   */
+  function findProductInBanco(produto, bancoIndex) {
+    var norm = normalizeProductNameAdvanced(produto);
+    if (!norm) return { found: false };
+
+    var byExact = bancoIndex.exact[norm];
+    if (byExact) return makeMatchResult(byExact, 'exato', 1);
+
+    var queryCanonical = canonicalProductName(produto);
+    if (!queryCanonical) return { found: false };
+
+    var byCanonical = bancoIndex.canonical[queryCanonical];
+    if (byCanonical) return makeMatchResult(byCanonical, 'abreviacao/sinonimo', 0.99);
+
+    var queryTokens = queryCanonical.split(' ').filter(Boolean);
+    for (var i = queryTokens.length; i >= 2; i--) {
+      var prefix = queryTokens.slice(0, i).join(' ');
+      for (var p = 0; p < bancoIndex.entries.length; p++) {
+        var entryPrefix = bancoIndex.entries[p];
+        if (entryPrefix.canonical === prefix || entryPrefix.canonical.indexOf(prefix + ' ') === 0) {
+          var confPrefix = i >= 3 ? 0.93 : 0.88;
+          return makeMatchResult(entryPrefix, 'prefixo-canonico', confPrefix);
+        }
+      }
+    }
+
+    var ranked = findTopCandidates(queryTokens, bancoIndex.entries, 3);
+    var best = ranked.length > 0 ? ranked[0] : null;
+    var second = ranked.length > 1 ? ranked[1] : null;
+
+    if (!best || best.score < MATCH_MIN_CONFIDENCE) {
+      return {
+        found: false,
+        candidates: ranked.map(function (r) {
+          return { produto: r.entry.original, ncm: r.entry.ncm, confidence: Number(r.score.toFixed(2)) };
+        })
+      };
+    }
+    if (
+      second &&
+      (best.score - second.score) <= MATCH_AMBIGUITY_DELTA &&
+      second.entry &&
+      second.entry.ncm !== best.entry.ncm
+    ) {
+      return {
+        found: false,
+        candidates: ranked.map(function (r2) {
+          return { produto: r2.entry.original, ncm: r2.entry.ncm, confidence: Number(r2.score.toFixed(2)) };
+        })
+      };
+    }
+
+    return makeMatchResult(best.entry, 'similaridade', best.score);
   }
 
   /** Encontra índice da coluna de produto (cabeçalhos flexíveis). */
@@ -283,37 +591,6 @@
       if (headers[i].indexOf('ncm') >= 0) return i;
     }
     return -1;
-  }
-
-  /**
-   * Busca um produto no banco por prefixo (banco entry começa com queryNorm ou é igual).
-   * Evita matches parciais de palavras exigindo que após o prefixo venha espaço ou fim.
-   */
-  function bancoPrefixMatch(queryNorm, bancoPrefixList) {
-    for (var i = 0; i < bancoPrefixList.length; i++) {
-      var e = bancoPrefixList[i];
-      if (e.normalized === queryNorm || e.normalized.startsWith(queryNorm + ' ')) return e;
-    }
-    return null;
-  }
-
-  /**
-   * Tenta encontrar um produto no banco:
-   * 1. Match exato pelo nome normalizado.
-   * 2. Se não encontrar, reduz palavras da direita até mínimo de 3,
-   *    e verifica se alguma entrada do banco começa com esse prefixo.
-   */
-  function findProductInBanco(produto, bancoExact, bancoPrefixList) {
-    var norm = normalizeProductName(produto);
-    if (bancoExact[norm]) return { found: true, ncm: bancoExact[norm].ncm };
-
-    var words = norm.split(' ').filter(Boolean);
-    for (var i = words.length - 1; i >= 3; i--) {
-      var partial = words.slice(0, i).join(' ');
-      var hit = bancoPrefixMatch(partial, bancoPrefixList);
-      if (hit) return { found: true, ncm: hit.ncm };
-    }
-    return { found: false };
   }
 
   /** Verifica se o arquivo é Excel (.xlsx, .xls, .xlsm, etc.) por extensão ou tipo. */
@@ -376,6 +653,7 @@
     var reportActionsEl = document.getElementById('ncm-planilha-report-actions');
     var gerarRelatorioBtn = document.getElementById('ncm-planilha-gerar-relatorio-btn');
     var lastAllResults = [];
+    var lastExtraHeaders = [];
     if (!bancoInput || !fileInput || !runBtn || !reportTbody) return;
 
     function updateRunButton() {
@@ -390,6 +668,7 @@
       if (emptyEl) emptyEl.style.display = 'none';
       if (reportActionsEl) reportActionsEl.style.display = 'none';
       lastAllResults = [];
+      lastExtraHeaders = [];
       reportTbody.innerHTML = '';
     }
 
@@ -407,18 +686,20 @@
       updateRunButton();
     });
 
-    runBtn.addEventListener('click', function () {
+    runBtn.addEventListener('click', async function () {
       var bancoFile = bancoInput.files && bancoInput.files[0];
       var planilhaFile = fileInput.files && fileInput.files[0];
       if (!bancoFile || !planilhaFile) return;
 
       loadingEl.style.display = 'flex';
-      loadingText.textContent = 'Lendo banco...';
+      loadingText.textContent = 'Carregando dicionario...';
       runBtn.disabled = true;
       reportWrap.style.display = 'none';
       emptyEl.style.display = 'none';
       summaryEl.style.display = 'none';
       reportTbody.innerHTML = '';
+      await ensureProductSynonymsLoaded();
+      loadingText.textContent = 'Lendo banco...';
 
       // Banco é sempre CSV
       var readerBanco = new FileReader();
@@ -445,19 +726,8 @@
         var keyProdBanco = headersBanco[idxProdBanco];
         var keyNcmBanco = headersBanco[idxNcmBanco];
 
-        // Montar índice do banco: exact map + lista de prefixos
-        var bancoExact = {};
-        var bancoPrefixList = [];
-        for (var r = 0; r < parsedBanco.rows.length; r++) {
-          var bRow = parsedBanco.rows[r];
-          var bProd = (bRow[keyProdBanco] != null ? String(bRow[keyProdBanco]) : '').trim();
-          var bNcm = (bRow[keyNcmBanco] != null ? String(bRow[keyNcmBanco]) : '').trim();
-          if (!bProd || !bNcm) continue;
-          if (bNcm.toUpperCase() === 'REVISAR') continue;
-          var bNorm = normalizeProductName(bProd);
-          bancoExact[bNorm] = { ncm: bNcm };
-          bancoPrefixList.push({ normalized: bNorm, ncm: bNcm });
-        }
+        // Montar índice do banco para matching em camadas
+        var bancoIndex = buildBancoMatcherIndex(parsedBanco.rows, keyProdBanco, keyNcmBanco);
 
         loadingText.textContent = 'Lendo planilha...';
         var readerPlanilha = new FileReader();
@@ -488,6 +758,14 @@
 
           var keyProd = headersPlanilha[prodIdxPlanilha];
           var keyNcm = headersPlanilha[ncmIdxPlanilha];
+
+          lastExtraHeaders = [];
+          for (var eh = 0; eh < headersPlanilha.length; eh++) {
+            if (eh !== prodIdxPlanilha && eh !== ncmIdxPlanilha) {
+              lastExtraHeaders.push(headersPlanilha[eh]);
+            }
+          }
+
           var rows = parsedPlanilha.rows || [];
           var totalLinhas = rows.length;
           var allResults = [];
@@ -501,8 +779,10 @@
 
             var totalValidas = 0;
             var totalDivergentes = 0;
+            var totalNaoEncontrados = 0;
             for (var x = 0; x < allResults.length; x++) {
               if (allResults[x].situacao === 'Válida') totalValidas++;
+              else if (allResults[x].situacao === 'Não encontrado') totalNaoEncontrados++;
               else totalDivergentes++;
             }
 
@@ -511,7 +791,8 @@
               summaryEl.innerHTML =
                 '<strong>Resumo:</strong> ' + allResults.length + ' produto(s) processado(s) — ' +
                 '<strong style="color:#059669">' + totalValidas + ' válido(s)</strong>, ' +
-                '<strong style="color:#d97706">' + totalDivergentes + ' divergente(s)</strong>.';
+                '<strong style="color:#d97706">' + totalDivergentes + ' divergente(s)</strong>, ' +
+                '<strong style="color:#64748b">' + totalNaoEncontrados + ' não encontrado(s)</strong>.';
             }
 
             if (reportActionsEl) reportActionsEl.style.display = 'flex';
@@ -529,10 +810,11 @@
               for (var d = 0; d < allResults.length; d++) {
                 var res = allResults[d];
                 var isValida = res.situacao === 'Válida';
+                var isNaoEncontrado = res.situacao === 'Não encontrado';
                 var tr = document.createElement('tr');
-                tr.className = isValida ? 'ncm-planilha-row-valida' : 'ncm-planilha-row-erro';
-                var badgeClass = isValida ? 'ncm-situacao-valida' : 'ncm-situacao-divergente';
-                var sugestaoHtml = isValida ? '' : escapeHtml(res.sugestao || '');
+                tr.className = isValida ? 'ncm-planilha-row-valida' : (isNaoEncontrado ? 'ncm-planilha-row-nao-encontrado' : 'ncm-planilha-row-erro');
+                var badgeClass = isValida ? 'ncm-situacao-valida' : (isNaoEncontrado ? 'ncm-situacao-nao-encontrado' : 'ncm-situacao-divergente');
+                var sugestaoHtml = escapeHtml(res.sugestao || '');
                 tr.innerHTML =
                   '<td class="ncm-banco-cell-produto">' + escapeHtml(res.produto || '') + '</td>' +
                   '<td class="ncm-banco-cell-ncm">' + escapeHtml(res.ncmPlanilha || '') + '</td>' +
@@ -552,15 +834,49 @@
               var ncm8 = normalizarNcm8Local(ncmRaw);
               if (!produto) continue;
 
-              var hit = findProductInBanco(produto, bancoExact, bancoPrefixList);
+              var extraCols = {};
+              for (var ec = 0; ec < lastExtraHeaders.length; ec++) {
+                var ecKey = lastExtraHeaders[ec];
+                extraCols[ecKey] = row[ecKey] != null ? String(row[ecKey]).trim() : '';
+              }
+
+              var hit = findProductInBanco(produto, bancoIndex);
               if (!hit.found) {
-                allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Divergente', sugestao: 'Informação em Falta' });
+                var sugestaoNaoEncontrado = 'Sem correspondência confiável no Banco_Dados.';
+                if (hit.candidates && hit.candidates.length > 0) {
+                  var cands = [];
+                  for (var c = 0; c < hit.candidates.length; c++) {
+                    var cand = hit.candidates[c];
+                    cands.push(cand.produto + ' [' + cand.ncm + '] (' + Number(cand.confidence || 0).toFixed(2) + ')');
+                  }
+                  sugestaoNaoEncontrado = 'Candidatos: ' + cands.join(' | ');
+                }
+                allResults.push({
+                  produto: produto,
+                  ncmPlanilha: ncmRaw || ncm8,
+                  situacao: 'Não encontrado',
+                  sugestao: sugestaoNaoEncontrado,
+                  extraCols: extraCols
+                });
               } else {
                 var ncmBanco8 = normalizarNcm8Local(hit.ncm);
+                var rastreio = formatMatchMeta(hit);
                 if (ncm8 && ncm8 === ncmBanco8) {
-                  allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Válida', sugestao: '' });
+                  allResults.push({
+                    produto: produto,
+                    ncmPlanilha: ncmRaw || ncm8,
+                    situacao: 'Válida',
+                    sugestao: rastreio,
+                    extraCols: extraCols
+                  });
                 } else {
-                  allResults.push({ produto: produto, ncmPlanilha: ncmRaw || ncm8, situacao: 'Divergente', sugestao: hit.ncm });
+                  allResults.push({
+                    produto: produto,
+                    ncmPlanilha: ncmRaw || ncm8,
+                    situacao: 'Divergente',
+                    sugestao: 'NCM banco: ' + hit.ncm + (rastreio ? ' | ' + rastreio : ''),
+                    extraCols: extraCols
+                  });
                 }
               }
             }
@@ -578,37 +894,190 @@
       readerBanco.readAsText(bancoFile, 'UTF-8');
     });
 
+    // Colunas fixas — sempre incluídas, apenas reordenáveis
+    var FIXED_COLS = [
+      { key: 'produto',     label: 'Produto' },
+      { key: 'ncmPlanilha', label: 'NCM da planilha' },
+      { key: 'situacao',    label: 'Situação' },
+      { key: 'sugestao',    label: 'Sugestão/Informação' }
+    ];
+
+    function _criarItemLista(key, label, isFixed) {
+      var li = document.createElement('li');
+      li.className = 'ncm-relatorio-modal-col-item' + (isFixed ? ' ncm-relatorio-col-fixed' : '');
+      li.setAttribute('draggable', 'true');
+      li.setAttribute('data-key', key);
+      li.setAttribute('data-type', isFixed ? 'fixed' : 'extra');
+
+      var cb = isFixed
+        ? '<input type="checkbox" checked disabled class="ncm-relatorio-cb">'
+        : '<input type="checkbox" checked class="ncm-relatorio-cb ncm-relatorio-extra-cb">';
+
+      var badge = isFixed
+        ? '<span class="ncm-relatorio-badge-fixed">fixo</span>'
+        : '';
+
+      li.innerHTML =
+        '<span class="ncm-relatorio-drag-handle"><i class="bx bx-grid-vertical"></i></span>' +
+        cb +
+        '<span class="ncm-relatorio-col-name">' + escapeHtml(label) + '</span>' +
+        badge;
+      return li;
+    }
+
+    function _initDragDrop(list) {
+      var dragging = null;
+
+      list.addEventListener('dragstart', function(e) {
+        dragging = e.target.closest('li');
+        if (!dragging) return;
+        dragging.classList.add('ncm-relatorio-dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      list.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        var target = e.target.closest('li');
+        if (!target || target === dragging) return;
+        var rect = target.getBoundingClientRect();
+        var after = e.clientY > rect.top + rect.height / 2;
+        list.querySelectorAll('li').forEach(function(li) {
+          li.classList.remove('ncm-relatorio-drop-above', 'ncm-relatorio-drop-below');
+        });
+        target.classList.add(after ? 'ncm-relatorio-drop-below' : 'ncm-relatorio-drop-above');
+      });
+
+      list.addEventListener('dragleave', function(e) {
+        if (!list.contains(e.relatedTarget)) {
+          list.querySelectorAll('li').forEach(function(li) {
+            li.classList.remove('ncm-relatorio-drop-above', 'ncm-relatorio-drop-below');
+          });
+        }
+      });
+
+      list.addEventListener('drop', function(e) {
+        e.preventDefault();
+        var target = e.target.closest('li');
+        list.querySelectorAll('li').forEach(function(li) {
+          li.classList.remove('ncm-relatorio-drop-above', 'ncm-relatorio-drop-below');
+        });
+        if (!target || target === dragging) return;
+        var rect = target.getBoundingClientRect();
+        var after = e.clientY > rect.top + rect.height / 2;
+        if (after) {
+          list.insertBefore(dragging, target.nextSibling);
+        } else {
+          list.insertBefore(dragging, target);
+        }
+      });
+
+      list.addEventListener('dragend', function() {
+        if (dragging) dragging.classList.remove('ncm-relatorio-dragging');
+        dragging = null;
+        list.querySelectorAll('li').forEach(function(li) {
+          li.classList.remove('ncm-relatorio-drop-above', 'ncm-relatorio-drop-below');
+        });
+      });
+    }
+
+    function showRelatorioModal() {
+      var modal = document.getElementById('ncmRelatorioModal');
+      if (!modal) return;
+      var list = document.getElementById('ncmRelatorioColList');
+      if (!list) return;
+      list.innerHTML = '';
+
+      // Colunas fixas
+      for (var f = 0; f < FIXED_COLS.length; f++) {
+        list.appendChild(_criarItemLista(FIXED_COLS[f].key, FIXED_COLS[f].label, true));
+      }
+      // Colunas extras da planilha
+      for (var x = 0; x < lastExtraHeaders.length; x++) {
+        list.appendChild(_criarItemLista(lastExtraHeaders[x], lastExtraHeaders[x], false));
+      }
+
+      _initDragDrop(list);
+      modal.classList.remove('hidden');
+    }
+
+    function hideRelatorioModal() {
+      var modal = document.getElementById('ncmRelatorioModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function gerarRelatorioComColunas() {
+      if (typeof XLSX === 'undefined') {
+        if (typeof showToast === 'function') showToast('Biblioteca SheetJS não carregada. Não é possível gerar Excel.', 'error');
+        else alert('Biblioteca SheetJS não carregada. Não é possível gerar Excel.');
+        return;
+      }
+      // Lê a ordem e seleção direto do DOM
+      var list = document.getElementById('ncmRelatorioColList');
+      var items = list ? list.querySelectorAll('li') : [];
+      var cols = [];
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        var cb = item.querySelector('.ncm-relatorio-cb');
+        if (cb && !cb.checked) continue;
+        cols.push({
+          key:   item.getAttribute('data-key'),
+          type:  item.getAttribute('data-type'),
+          label: item.querySelector('.ncm-relatorio-col-name').textContent
+        });
+      }
+      if (cols.length === 0) {
+        if (typeof showToast === 'function') showToast('Selecione ao menos uma coluna.', 'warning');
+        return;
+      }
+      try {
+        var wb = XLSX.utils.book_new();
+        var headerRow = cols.map(function(c) { return c.label; });
+        var dados = [headerRow];
+        var fixedGetters = {
+          produto:     function(r) { return r.produto || ''; },
+          ncmPlanilha: function(r) { return r.ncmPlanilha || ''; },
+          situacao:    function(r) { return r.situacao || ''; },
+          sugestao:    function(r) { return r.sugestao || ''; }
+        };
+        for (var d = 0; d < lastAllResults.length; d++) {
+          var r = lastAllResults[d];
+          var dataRow = cols.map(function(c) {
+            if (c.type === 'fixed') return fixedGetters[c.key](r);
+            return r.extraCols && r.extraCols[c.key] != null ? r.extraCols[c.key] : '';
+          });
+          dados.push(dataRow);
+        }
+        var sheet = XLSX.utils.aoa_to_sheet(dados);
+        XLSX.utils.book_append_sheet(wb, sheet, 'Conferencia NCM');
+        var nomeArquivo = 'relatorio_conferencia_ncm_' + new Date().toISOString().slice(0, 10) + '.xlsx';
+        XLSX.writeFile(wb, nomeArquivo);
+        if (typeof showToast === 'function') showToast('Relatório gerado: ' + nomeArquivo, 'success');
+        hideRelatorioModal();
+      } catch (e) {
+        if (typeof console !== 'undefined' && console.error) console.error('Gerar relatório:', e);
+        if (typeof showToast === 'function') showToast('Erro ao gerar relatório.', 'error');
+        else alert('Erro ao gerar relatório.');
+      }
+    }
+
     if (gerarRelatorioBtn) {
       gerarRelatorioBtn.addEventListener('click', function () {
-        if (typeof XLSX === 'undefined') {
-          if (typeof showToast === 'function') showToast('Biblioteca SheetJS não carregada. Não é possível gerar Excel.', 'error');
-          else alert('Biblioteca SheetJS não carregada. Não é possível gerar Excel.');
-          return;
-        }
         if (lastAllResults.length === 0) {
           if (typeof showToast === 'function') showToast('Nenhum dado para exportar. Execute uma conferência primeiro.', 'warning');
           else alert('Nenhum dado para exportar. Execute uma conferência primeiro.');
           return;
         }
-        try {
-          var wb = XLSX.utils.book_new();
-          var dados = [['Produto', 'NCM da planilha', 'Situação', 'Sugestão/Informação']];
-          for (var d = 0; d < lastAllResults.length; d++) {
-            var r = lastAllResults[d];
-            dados.push([r.produto || '', r.ncmPlanilha || '', r.situacao || '', r.sugestao || '']);
-          }
-          var sheet = XLSX.utils.aoa_to_sheet(dados);
-          XLSX.utils.book_append_sheet(wb, sheet, 'Conferencia NCM');
-          var nomeArquivo = 'relatorio_conferencia_ncm_' + new Date().toISOString().slice(0, 10) + '.xlsx';
-          XLSX.writeFile(wb, nomeArquivo);
-          if (typeof showToast === 'function') showToast('Relatório gerado: ' + nomeArquivo, 'success');
-        } catch (e) {
-          if (typeof console !== 'undefined' && console.error) console.error('Gerar relatório:', e);
-          if (typeof showToast === 'function') showToast('Erro ao gerar relatório.', 'error');
-          else alert('Erro ao gerar relatório.');
-        }
+        showRelatorioModal();
       });
     }
+
+    var modalConfirmBtn = document.getElementById('ncmRelatorioConfirmBtn');
+    var modalCloseBtns  = document.querySelectorAll('.ncm-relatorio-close-btn');
+    var modalOverlay    = document.getElementById('ncmRelatorioModal');
+
+    if (modalConfirmBtn) modalConfirmBtn.addEventListener('click', gerarRelatorioComColunas);
+    modalCloseBtns.forEach(function(btn) { btn.addEventListener('click', hideRelatorioModal); });
+    if (modalOverlay) modalOverlay.addEventListener('click', function(e) { if (e.target === modalOverlay) hideRelatorioModal(); });
   }
 
   function initTabs() {
@@ -640,6 +1109,7 @@
       });
     });
 
+    ensureProductSynonymsLoaded();
     initConsultaNcm();
     initConferirPlanilha();
   }

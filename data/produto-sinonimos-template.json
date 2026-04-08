@@ -1,0 +1,127 @@
+{
+  "_guia": {
+    "descricao": "Template para assimilacao de nomenclaturas de produtos (palavra completa -> variacoes).",
+    "como_usar": [
+      "Use sempre a forma canônica na chave (ex.: CONDICIONADOR).",
+      "Na lista, coloque abreviacoes, sinonimos e grafias comuns do cliente.",
+      "Mantenha tudo em maiusculo para facilitar comparacao.",
+      "Evite variacoes ambiguas que possam apontar para produtos diferentes."
+    ]
+  },
+  "higienicos": {
+    "ALISAMENTO": [
+      "ALIS",
+      "ALISAM",
+      "ALISA"
+    ],
+    "CAPILAR": [
+      "CAP",
+      "CPLR"
+    ],
+    "CONDICIONADOR": [
+      "CONDIC",
+      "COND",
+      "CONDIC."
+    ],
+    "CREME": [
+      "CR",
+      "CREM",
+      "CR."
+    ],
+    "DESCOLORANTE": [
+      "DES",
+      "DESCOL",
+      "DES."
+    ],
+    "SABONETE": [
+      "SAB",
+      "SABON",
+      "SAB."
+    ],
+    "LIQUIDO": [
+      "LIQ",
+      "LIQD",
+      "LQ"
+    ]
+  },
+  "alimentos": {
+    "ACUCAR": [
+      "ACUC",
+      "ACUCR",
+      "ACUCAR",
+      "AÇUCAR"
+    ],
+    "CRISTAL": [
+      "CRIST",
+      "CRIST."
+    ],
+    "REFRIGERANTE": [
+      "REFRI",
+      "REFRIG"
+    ],
+    "BISCOITO": [
+      "BISC",
+      "BISC."
+    ],
+    "ALIMENTO": [
+      "ALIM"
+    ],
+    "ARROZ": [
+      "ARR"
+    ],
+    "FEIJAO": [
+      "FEIJ"
+    ]
+  },
+  "mercadorias": {
+    "DETERGENTE": [
+      "DET",
+      "DETERG",
+      "DETERG."
+    ],
+    "DESINFETANTE": [
+      "DESINF",
+      "DESINF."
+    ],
+    "AMACIANTE": [
+      "AMAC",
+      "AMACI."
+    ],
+    "ALVEJANTE": [
+      "ALV",
+      "ALVEJ."
+    ],
+    "UNIDADE": [
+      "UN",
+      "UND",
+      "UNID"
+    ],
+    "CAIXA": [
+      "CX",
+      "CXA"
+    ],
+    "PACOTE": [
+      "PCT",
+      "PCTE"
+    ],
+    "QUILOGRAMA": [
+      "KG"
+    ],
+    "GRAMA": [
+      "G"
+    ],
+    "MILILITRO": [
+      "ML"
+    ],
+    "LITRO": [
+      "L",
+      "LT"
+    ]
+  },
+  "customize_aqui": {
+    "EXEMPLO_PALAVRA_COMPLETA": [
+      "EXEMPLO_ABREV_1",
+      "EXEMPLO_ABREV_2"
+    ]
+  }
+}

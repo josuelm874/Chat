@@ -62,14 +62,22 @@ html {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
   scrollbar-width: none;
   scroll-behavior: smooth;
 }
 
+/* Previne flash de transições CSS no carregamento inicial da página */
+html.preload * {
+  transition: none !important;
+  animation: none !important;
+}
+
 body {
   background: var(--chat-app-bg);
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
   margin: 0;
   padding: 0;
   transition: background var(--duration-slow) var(--ease-smooth);
@@ -768,7 +776,7 @@ body {
   pointer-events: none;
   transform: translateY(32px) scale(0.97);
   filter: blur(8px);
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
   transition:
     opacity    0.36s cubic-bezier(0.4, 0, 0.2, 1),
     visibility 0.36s,
@@ -788,7 +796,8 @@ body {
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0) scale(1);
-  filter: blur(0);
+  filter: none;
+  will-change: transform;
 }
 
 /* Chat Container – wrapper transparente, filhos são cards separados */
@@ -840,11 +849,11 @@ body {
   height: 100%;
   min-height: 100%;
   max-height: 100%;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  border-radius: 16px;
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 20px;
   padding: 12px 8px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -914,8 +923,10 @@ body {
 }
 
 [data-theme="dark"] .chat-list {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .chat-list.hidden {
@@ -927,11 +938,11 @@ body {
 
 .chat-main {
   flex: 1;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  border-radius: 16px;
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -941,8 +952,10 @@ body {
 }
 
 [data-theme="dark"] .chat-main {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .chat-main.hidden {
@@ -3857,24 +3870,27 @@ input.invalid:focus {
 
 .profile-box {
   flex: 1;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border-radius: 16px;
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border-radius: 20px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px 20px 30px 20px;
   gap: 10px;
   box-shadow: var(--shadow-depth);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   justify-content: flex-start;
   transition: box-shadow var(--duration-slow) var(--ease-smooth), transform var(--duration-slow) var(--ease-smooth);
 }
 
 [data-theme="dark"] .profile-box {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .profile-box:hover {
@@ -3884,7 +3900,7 @@ input.invalid:focus {
 .contact-box {
   flex: 1;
   background: var(--main-bg);
-  border-radius: 12px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -4442,20 +4458,23 @@ input.invalid:focus {
 /* Admin Container */
 .admin-container {
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 32px;
   display: flex;
   flex-direction: column;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 20px;
   box-shadow: var(--shadow-depth-strong);
 }
 
 [data-theme="dark"] .admin-container {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .admin-header {
@@ -5218,13 +5237,13 @@ input.invalid:focus {
 /* Tax Agenda Container */
 .tax-agenda-container {
   display: flex;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 20px;
   box-shadow: var(--shadow-depth-strong);
-  overflow: visible;
+  overflow: hidden;
   padding: 32px;
   gap: 24px;
   max-height: 100%;
@@ -5233,8 +5252,10 @@ input.invalid:focus {
 }
 
 [data-theme="dark"] .tax-agenda-container {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Coluna lateral: Data e Relógio (estilo dashboard pin) */
@@ -5952,11 +5973,11 @@ input.invalid:focus {
 
 .scheduled-message-container {
   display: flex;
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
-  border-radius: 16px;
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 20px;
   box-shadow: var(--shadow-depth);
   overflow-y: auto;
   padding: 32px;
@@ -5969,8 +5990,10 @@ input.invalid:focus {
 }
 
 [data-theme="dark"] .scheduled-message-container {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* Gradiente dinâmico - ambos os lados quando no meio */
@@ -7765,18 +7788,20 @@ input.invalid:focus {
    ============================================ */
 
 .ncm-container {
-  background: rgba(20, 25, 40, 0.50);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.30);
+  background: rgba(15, 20, 35, 0.40);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   display: flex;
   overflow: hidden;
   border-radius: 20px;
   box-shadow: var(--shadow-depth-strong);
 }
 [data-theme="dark"] .ncm-container {
-  background: rgba(240, 245, 255, 0.18);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(240, 245, 255, 0.12);
+  backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(1.8) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .ncm-main {
@@ -8394,6 +8419,7 @@ input.invalid:focus {
 .ncm-situacao-badge      { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .ncm-situacao-valida     { background: rgba(16, 185, 129, 0.15); color: #059669; }
 .ncm-situacao-divergente { background: rgba(217, 119, 6, 0.15);  color: #d97706; }
+.ncm-situacao-nao-encontrado { background: rgba(100, 116, 139, 0.15); color: #475569; }
 
 .ncm-banco-more-wrap {
   margin-top: var(--space-md);
@@ -9274,4 +9300,155 @@ input.invalid:focus {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+/* ==================== NCM RELATORIO MODAL ==================== */
+.ncm-relatorio-modal-content {
+  max-width: 480px;
+}
+.ncm-relatorio-modal-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -6px 0 14px;
+}
+.ncm-relatorio-modal-col-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+/* Cada item da lista */
+.ncm-relatorio-modal-col-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: var(--card-bg);
+  border: 1px solid transparent;
+  transition: background var(--duration-fast) var(--ease-smooth),
+              border-color var(--duration-fast) var(--ease-smooth),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+  cursor: grab;
+  user-select: none;
+}
+.ncm-relatorio-modal-col-item:active { cursor: grabbing; }
+
+/* Colunas fixas — tom levemente diferente */
+.ncm-relatorio-col-fixed {
+  opacity: 0.75;
+}
+
+/* Drag handle */
+.ncm-relatorio-drag-handle {
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity var(--duration-fast) var(--ease-smooth);
+}
+.ncm-relatorio-modal-col-item:hover .ncm-relatorio-drag-handle {
+  opacity: 1;
+}
+
+/* Checkbox */
+.ncm-relatorio-cb {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.ncm-relatorio-col-fixed .ncm-relatorio-cb {
+  cursor: not-allowed;
+}
+
+/* Nome da coluna */
+.ncm-relatorio-col-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+/* Badge "fixo" */
+.ncm-relatorio-badge-fixed {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  background: rgba(128, 128, 128, 0.12);
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* Estado: sendo arrastado */
+.ncm-relatorio-dragging {
+  opacity: 0.35;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  border-color: var(--accent) !important;
+}
+
+/* Indicadores de destino do drop */
+.ncm-relatorio-drop-above {
+  border-top: 2px solid var(--accent) !important;
+}
+.ncm-relatorio-drop-below {
+  border-bottom: 2px solid var(--accent) !important;
+}
+
+/* Botão cancelar */
+.ncm-relatorio-cancel-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+.ncm-relatorio-cancel-btn:hover {
+  background: var(--sidebar-hover-bg, rgba(0,0,0,0.05));
+  color: var(--text-primary);
+}
+
+/* ==================== APPLE LIQUID GLASS — SPECULAR HIGHLIGHT ==================== */
+/* Simula a refração de luz na borda superior do vidro, característica do Liquid Glass da Apple */
+.chat-list,
+.chat-main,
+.admin-container,
+.tax-agenda-container,
+.ncm-container,
+.scheduled-message-container,
+.profile-box {
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.30),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 8px 40px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.10);
+}
+[data-theme="dark"] .chat-list,
+[data-theme="dark"] .chat-main,
+[data-theme="dark"] .admin-container,
+[data-theme="dark"] .tax-agenda-container,
+[data-theme="dark"] .ncm-container,
+[data-theme="dark"] .scheduled-message-container,
+[data-theme="dark"] .profile-box {
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.20),
+    0 8px 40px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.20);
 }
