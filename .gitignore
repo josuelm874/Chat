@@ -1,7 +1,30 @@
 node_modules/
+dist/
 __pycache__/
 *.pyc
 .cursor/
 *.log
 .DS_Store
 desktop.ini
+Thumbs.db
+
+# Playwright
+playwright-report/
+test-results/
+tests/report/trace/
+tests/tmp/
+
+# Segredos / ambiente
+.env
+.env.local
+.env.production
+*.env
+
+# Tabelas de dados pesadas (NCM/TIPI)
+data/tabela-ncm.json
+data/tabela-tipi.json
+
+# IDEs
+.idea/
+*.swp
+*.swo

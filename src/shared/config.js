@@ -9,21 +9,23 @@ const CONFIG = {
   // ==================== CONFIGURAÇÕES DE ARMAZENAMENTO ====================
   
   /**
-   * Tamanho máximo de armazenamento de mensagens (em MB)
-   * Quando excedido, mensagens antigas são limpas
+   * Política de armazenamento: arquivos são preservados integralmente (sem compressão
+   * nem strip de dados). Quando o localStorage fica cheio (QuotaExceededError) o
+   * sistema remove as mensagens mais antigas em FIFO até caber a nova mensagem.
+   * O limite prático do navegador fica perto de 5MB por origin.
    */
-  MAX_MESSAGES_STORAGE_MB: 4,
-  
+  MAX_MESSAGES_STORAGE_MB: 5,
+
   /**
-   * Tamanho máximo de arquivo individual (em bytes)
-   * Arquivos maiores que 500KB terão dados removidos após limpeza
+   * Limiar para avisar o usuário que o armazenamento está quase cheio (80%).
    */
-  MAX_FILE_SIZE_FOR_STORAGE: 500 * 1024, // 500KB
-  
+  STORAGE_WARN_THRESHOLD: 0.8,
+
   /**
-   * Tamanho máximo de arquivo para upload (em bytes)
+   * Tamanho máximo de arquivo aceito no upload (em bytes). Acima disso o arquivo
+   * simplesmente não cabe no localStorage nem codificado em base64.
    */
-  MAX_FILE_UPLOAD_SIZE: 10 * 1024 * 1024, // 10MB
+  MAX_FILE_UPLOAD_SIZE: 25 * 1024 * 1024, // 25MB
   
   // ==================== CONFIGURAÇÕES DE TEMPO ====================
   
@@ -151,24 +153,30 @@ const CONFIG = {
   },
   
   // ==================== CONFIGURAÇÕES DE SUPABASE ====================
-  
+
   /**
-   * Supabase – sincronização de dados entre múltiplos PCs.
-   * URL do projeto e chave pública (anon/publishable).
-   * Tabela: system_data (key, value JSONB, updated_at).
-   * Para usar o mesmo banco da validação NCM (correlacao_ncm.py), use aqui a mesma
-   * SUPABASE_URL do .env do Python; a tabela validacao_ncm (produto, ncm, resultado, detalhe)
-   * será lida pelo Chat UI na consulta NCM.
+   * Supabase – sincronização de dados em tempo real entre múltiplos PCs.
    *
-   * IMPORTANTE: URL e ANON_KEY devem ser de um projeto Supabase real (Dashboard → Project Settings → API).
-   * Se aparecer ERR_NAME_NOT_RESOLVED ou "Failed to fetch", o host não existe: use a URL do seu
-   * projeto (ex.: a mesma SUPABASE_URL do .env do script Python).
+   * COMO OBTER OS VALORES:
+   *   1. Acesse https://supabase.com e faça login
+   *   2. Abra seu projeto → Project Settings → API
+   *   3. Copie:
+   *      • "Project URL"  → cole em URL abaixo
+   *      • "anon public"  → cole em ANON_KEY abaixo (começa com eyJ...)
+   *
+   * A ANON_KEY é pública por design (fica visível no JS do browser).
+   * A segurança real vem das políticas RLS configuradas no banco.
+   * NUNCA coloque a SERVICE_ROLE key aqui — ela dá acesso irrestrito.
+   *
+   * Tabela principal : system_data    (key, value JSONB, updated_at)
+   * Tabela NCM       : validacao_ncm  (produto, ncm, resultado, detalhe)
+   * Script de criação: supabase/migrations/001_initial_schema.sql
    */
   SUPABASE: {
-    URL: 'https://distsrgjhofvktcxgyub.supabase.co',
-    ANON_KEY: 'sb_publishable_Sq8IRu0U3u22SzUz-bF8DQ_bZl-NvG6',
+    URL: 'https://ilibmcfjdkrenimxvdxg.supabase.co',
+    ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaWJtY2ZqZGtyZW5pbXh2ZHhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MzExNzQsImV4cCI6MjA5NDEwNzE3NH0.yOroCWfGN84Ut6wnl_hmQoMW0Xlau1_h6tfhPFkW3eQ',
     TABLE_NAME: 'system_data',
-    /** Tabela de validação produto×NCM (script Python correlacao_ncm). Colunas: produto, ncm, resultado, detalhe. */
+    /** Tabela de validação produto×NCM (script Python correlacao_ncm). */
     VALIDACAO_NCM_TABLE: 'validacao_ncm'
   },
   
@@ -197,16 +205,4 @@ const CONFIG = {
    * Níveis de log
    */
   LOG_LEVELS: {
-    ERROR: 'error',
-    WARN: 'warn',
-    INFO: 'info',
-    DEBUG: 'debug'
-  }
-};
-
-// Exportar configuração (compatível com módulos ES6 e script tags)
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = CONFIG;
-}
-
-
+    ER

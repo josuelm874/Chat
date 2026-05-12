@@ -62,7 +62,7 @@ function getRelativeDate(date) {
 }
 
 /**
- * Escapa HTML para evitar XSS
+ * Escapa HTML para evitar XSS (uso em conteúdo de texto/innerHTML)
  * @param {string} str - Texto a escapar
  * @returns {string} Texto escapado
  */
@@ -72,6 +72,22 @@ function escapeHtml(str) {
   var d = document.createElement('div');
   d.textContent = s;
   return d.innerHTML;
+}
+
+/**
+ * Escapa string para uso seguro dentro de atributos HTML (src, alt, data-*, etc.)
+ * Escapa &, ", ', < e > — mais completo que escapeHtml para contexto de atributo.
+ * @param {string} str - Valor a escapar
+ * @returns {string} Valor escapado
+ */
+function escapeAttr(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 /**

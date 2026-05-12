@@ -1,26 +1,8 @@
-// ==================== FUNÇÕES UTILITÁRIAS ====================
+// generateUniqueId, getCurrentTime, getRelativeDate, createDateDivider
+// definidas em shared/utils.js (carregado antes deste arquivo)
 
-
-
-function generateUniqueId() {
-
-  return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-
-}
-
-
-
-function getCurrentTime() {
-
-  const now = new Date();
-
-  return String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
-
-}
-
-
-
-// Função para obter data relativa ou formatada
+// Função para obter data relativa ou formatada — mantida localmente por compatibilidade
+// TODO: remover quando confirmar que operador/index.html carrega utils.js antes
 
 function getRelativeDate(date) {
 
@@ -30,17 +12,17 @@ function getRelativeDate(date) {
 
     today.setHours(0, 0, 0, 0);
 
-    
+
 
     const yesterday = new Date(today);
 
     yesterday.setDate(today.getDate() - 1);
 
-    
+
 
     const messageDate = new Date(date);
 
-    
+
 
     // Verificar se a data é válida
 
@@ -80,7 +62,6 @@ function getRelativeDate(date) {
 
   } catch (error) {
 
-    console.error('Erro ao obter data relativa:', error);
 
     return 'Hoje';
 
@@ -130,7 +111,6 @@ function isOnlyEmojis(text) {
 
   if (result) {
 
-    console.log(`✨ Detectado: Mensagem só com emojis! "${trimmed}"`);
 
   }
 
@@ -154,9 +134,7 @@ function extractEmojis(text) {
 
   
 
-  console.log(`🔎 Extraindo emojis de: "${text}"`);
 
-  console.log(`   Encontrados: ${matches.length} emoji(s):`, matches);
 
   
 
@@ -206,7 +184,6 @@ function getEmojiCodepoint(emoji) {
 
   const result = codepoints.join('_');
 
-  console.log(`🔍 Emoji "${emoji}" → Codepoint: ${result}`);
 
   return result;
 
@@ -222,7 +199,6 @@ function getNotoEmojiLottieUrl(emoji) {
 
   const url = `https://fonts.gstatic.com/s/e/notoemoji/latest/${codepoint}/lottie.json`;
 
-  console.log(`📡 URL Lottie: ${url}`);
 
   return url;
 
@@ -262,17 +238,11 @@ const emojiStats = {
 
 function showEmojiStats() {
 
-  console.log('\n📊 ESTATÍSTICAS DE EMOJIS ANIMADOS:');
 
-  console.log(`   Total processados: ${emojiStats.total}`);
 
-  console.log(`   ✅ Com animação Lottie: ${emojiStats.lottieSuccess} (${Math.round(emojiStats.lottieSuccess/emojiStats.total*100)}%)`);
 
-  console.log(`   📝 Fallback estático: ${emojiStats.fallback} (${Math.round(emojiStats.fallback/emojiStats.total*100)}%)`);
 
-  console.log(`   ❌ Falhas: ${emojiStats.lottieFailed}`);
 
-  console.log('');
 
 }
 
@@ -294,7 +264,6 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
   if (noLottieEmojis.has(emoji)) {
 
-    console.log(`💨 Emoji ${emoji} sem Lottie conhecido, usando fallback direto`);
 
     emojiStats.fallback++;
 
@@ -334,7 +303,6 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
     emojiStats.lottieSuccess++;
 
-    console.log(`✨ Emoji ${emoji} carregado do cache!`);
 
     return;
 
@@ -346,13 +314,11 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
   try {
 
-    console.log(`⏳ Carregando ${emoji} de ${lottieUrl}`);
 
     
 
     const response = await fetch(lottieUrl);
 
-    console.log(`📥 Resposta para ${emoji}: Status ${response.status}`);
 
     
 
@@ -384,7 +350,6 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
     
 
-    console.log(`✅ JSON Lottie carregado para ${emoji}! Tamanho: ${JSON.stringify(animationData).length} bytes`);
 
     
 
@@ -420,7 +385,6 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
     emojiStats.lottieSuccess++;
 
-    console.log(`🎬 Emoji ${emoji} carregado com animação Lottie do Google! ✨`);
 
     
 
@@ -444,13 +408,9 @@ async function loadLottieWithFallback(emoji, lottieDiv, container) {
 
     
 
-    console.warn(`⚠️ Lottie indisponível para ${emoji} (codepoint: ${getEmojiCodepoint(emoji)})`);
 
-    console.warn(`   Erro: ${error.message}`);
 
-    console.warn(`   URL tentada: ${lottieUrl}`);
 
-    console.log(`📝 Usando Noto Color Emoji estático como fallback`);
 
     
 
@@ -562,7 +522,6 @@ function createLargeEmoji(emoji, index = 0) {
 
       // Lottie não disponível, usar emoji estático Noto
 
-      console.warn('⚠️ Biblioteca Lottie não carregada, usando emojis estáticos');
 
       useFallbackEmoji(emoji, lottieDiv);
 
@@ -622,7 +581,11 @@ function getFileIcon(fileName) {
 
     'xls': 'bxs-spreadsheet', 'xlsx': 'bxs-spreadsheet',
 
-    'zip': 'bx-archive', 'rar': 'bx-archive',
+    'ppt': 'bx-slideshow', 'pptx': 'bx-slideshow',
+
+    'zip': 'bx-archive', 'rar': 'bx-archive', '7z': 'bx-archive',
+
+    'mp3': 'bx-music', 'wav': 'bx-music', 'm4a': 'bx-music', 'ogg': 'bx-music', 'flac': 'bx-music',
 
     'default': 'bx-file-blank'
 
@@ -648,7 +611,17 @@ function isVideoFile(fileName) {
 
   const ext = fileName.split('.').pop().toLowerCase();
 
-  return ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext);
+  return ['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(ext);
+
+}
+
+
+
+function isAudioFile(fileName) {
+
+  const ext = fileName.split('.').pop().toLowerCase();
+
+  return ['mp3', 'wav', 'm4a', 'ogg', 'oga', 'flac', 'aac'].includes(ext);
 
 }
 
@@ -803,7 +776,6 @@ function safeJsonParse(jsonString, defaultValue) {
     const parsed = JSON.parse(jsonString);
     return parsed !== null ? parsed : defaultValue;
   } catch (error) {
-    console.warn('Erro ao fazer parse JSON, usando valor padrão:', error);
     return defaultValue;
   }
 }
@@ -942,7 +914,6 @@ function setContributorContacts(contacts) {
 function clearStaticContributorContacts() {
   localStorage.removeItem('contributorContacts');
   localStorage.removeItem('contributorContactsUpdatedAt');
-  console.log('✅ Contatos estáticos de contribuintes removidos do localStorage');
   // Recarregar lista de contatos se a função de atualização estiver disponível
   if (typeof updateSupportContactsList === 'function') {
     updateSupportContactsList();
@@ -1061,7 +1032,7 @@ let contributorWelcomeNameEl = null;
 let pendingContributorContext = null;
 
 function getContributorsFromStorage() {
-  const rawContributors = JSON.parse(localStorage.getItem("contributors") || "[]");
+  const rawContributors = getStorageItem("contributors", []);
   let changed = false;
 
   const normalizedContributors = rawContributors.map(contributor => {
@@ -1198,7 +1169,7 @@ const inputValidator = {
 
   validate: (type, value) => (!value || !value.trim()) ? { valid: false, message: 'Campo obrigatório' } : { valid: true },
 
-  sanitize: (text) => text,
+  sanitize: (text) => escapeHtml(text),
 
   validateFile: (file) => file ? { valid: true, errors: [] } : { valid: false, errors: ['Sem arquivo'] }
 
@@ -1213,10 +1184,8 @@ async function initializeDefaultUsers() {
   try {
 
     ensureAdminUser();
-    console.log("✅ Usuário administrador garantido");
   } catch (error) {
 
-    console.error('Erro ao inicializar usuários:', error);
 
   }
 
@@ -1234,39 +1203,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
-// ==================== INTEGRAÇÃO FIREBASE REMOVIDA ====================
-// O sistema agora funciona apenas com localStorage
-
-// Função stub para compatibilidade (sempre retorna false)
-function isFirebaseAvailable() {
-  return false; // Firebase removido - usar apenas localStorage
-}
-
-// Função vazia para compatibilidade (Firebase removido)
-async function syncUsersWithFirebase() {
-  // Firebase removido - usar apenas localStorage
-  return Promise.resolve();
-}
-
-// Função vazia para compatibilidade (Firebase removido)
-function saveSupportMessageToFirebase(message) {
-  // Firebase removido - usar apenas localStorage
-  return Promise.resolve();
-}
-
-// Função vazia para compatibilidade (Firebase removido)
-function listenToSupportMessages(chatId, callback) {
-  // Firebase removido - usar apenas localStorage
-}
-
-// Função vazia para compatibilidade (Firebase removido)
-function updateOnlineStatus(username, isOnline) {
-  // Firebase removido - usar apenas localStorage
-}
-
-
-
-// ==================== FIM INTEGRAÇÃO FIREBASE ====================
 
 
 
@@ -1294,7 +1230,6 @@ async function hashPassword(password) {
 
   } catch (error) {
 
-    console.error('Erro ao criar hash:', error);
 
     return simpleHash(password);
 
@@ -1426,6 +1361,7 @@ function checkAuthentication() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('preload');
+        if (typeof window.updateSidebarNotch === "function") window.updateSidebarNotch(false);
       });
     });
 
@@ -1468,7 +1404,6 @@ async function loginUser(username, password) {
 
     const authResult = await secureAuth.authenticate(username, password);
 
-    console.log("[loginUser] Tentativa de login para", username, "Resultado:", authResult);
     
 
     if (authResult.success) {
@@ -1479,18 +1414,14 @@ async function loginUser(username, password) {
       const needsOnboarding = isContributor && (user.mustResetPassword || user.status === "pending");
       pendingContributorContext = null;
       localStorage.setItem("clientName", user.fullName || user.username || "");
-      
-
-      // Atualizar status online no Firebase
-
-      updateOnlineStatus(username, true);
-
-      
 
       // Esconder login e mostrar chat
 
       document.getElementById("dominium-login")?.classList.add("hidden");
       document.getElementById("chatApp").style.display = "flex";
+      requestAnimationFrame(() => {
+        if (typeof window.updateSidebarNotch === "function") window.updateSidebarNotch(false);
+      });
 
 
       const adminSidebarButton = document.querySelector(".sidebar button[data-section='admin']");
@@ -1756,11 +1687,23 @@ const contacts = [];
 
     const ext = fileName.split('.').pop().toLowerCase();
 
-    return ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext);
+    return ['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(ext);
 
   }
 
-  
+
+
+  // Verificar se arquivo é áudio
+
+  function isAudioFile(fileName) {
+
+    const ext = fileName.split('.').pop().toLowerCase();
+
+    return ['mp3', 'wav', 'm4a', 'ogg', 'oga', 'flac', 'aac'].includes(ext);
+
+  }
+
+
 
   // Criar elemento HTML para arquivo
 
@@ -1770,7 +1713,7 @@ const contacts = [];
 
     container.classList.add('message-file');
 
-    
+
 
     // Se for imagem, mostrar preview
 
@@ -1811,6 +1754,36 @@ const contacts = [];
       preview.appendChild(video);
 
       container.appendChild(preview);
+
+    }
+
+    // Se for áudio, mostrar player inline
+
+    else if (isAudioFile(file.name)) {
+
+      const wrap = document.createElement('div');
+
+      wrap.classList.add('message-file-audio');
+
+      const nameEl = document.createElement('div');
+
+      nameEl.classList.add('message-file-name');
+
+      nameEl.textContent = file.name;
+
+      const audio = document.createElement('audio');
+
+      audio.src = fileData;
+
+      audio.controls = true;
+
+      audio.preload = 'metadata';
+
+      wrap.appendChild(nameEl);
+
+      wrap.appendChild(audio);
+
+      container.appendChild(wrap);
 
     }
 
@@ -1914,6 +1887,68 @@ const contacts = [];
 
     ensureAdminUser();
 
+    // ==================== BACKGROUND ASSÍNCRONO ====================
+    // Carrega o MP4 (light e dark) de forma assíncrona para não bloquear o render inicial.
+    // O #appBgLayer exibe cor sólida (--chat-app-bg) enquanto a mídia carrega, depois faz fade-in.
+    (function initAppBackground() {
+      const BG = {
+        light: { type: 'video', src: '../../assets/images/branding/Background White.mp4' },
+        dark:  { type: 'video', src: '../../assets/images/branding/Background Black.mp4' },
+      };
+
+      const layer = document.getElementById('appBgLayer');
+      if (!layer) return;
+
+      let currentSrc = null;
+
+      function loadBackground(theme) {
+        const cfg = BG[theme] || BG.light;
+        if (currentSrc === cfg.src) return; // já carregado
+        currentSrc = cfg.src;
+
+        // Fade out e remove mídia anterior
+        const prev = layer.firstElementChild;
+        if (prev) {
+          prev.classList.remove('loaded');
+          setTimeout(() => { if (layer.contains(prev)) layer.removeChild(prev); }, 500);
+        }
+
+        if (cfg.type === 'video') {
+          const vid = document.createElement('video');
+          vid.autoplay = true;
+          vid.loop = true;
+          vid.muted = true;
+          vid.playsInline = true;
+          vid.setAttribute('playsinline', '');
+          vid.disablePictureInPicture = true;
+          vid.disableRemotePlayback = true;
+          vid.setAttribute('controlsList', 'nodownload nofullscreen noremoteplayback');
+          vid.src = cfg.src;
+          layer.appendChild(vid);
+          vid.addEventListener('canplay', function onCanPlay() {
+            vid.removeEventListener('canplay', onCanPlay);
+            vid.classList.add('loaded');
+            vid.play().catch(() => {});
+          }, { once: true });
+          vid.load();
+        } else {
+          const img = document.createElement('img');
+          img.alt = '';
+          img.decoding = 'async';
+          img.src = cfg.src;
+          layer.appendChild(img);
+          if (img.complete) {
+            img.classList.add('loaded');
+          } else {
+            img.addEventListener('load', function() { img.classList.add('loaded'); }, { once: true });
+          }
+        }
+      }
+
+      // Expor para uso no setTheme
+      window._loadAppBackground = loadBackground;
+    })();
+
     // ==================== TEMA CLARO/ESCURO (PIN 2) ====================
     (function initTheme() {
       const root = document.documentElement;
@@ -1925,31 +1960,53 @@ const contacts = [];
       }
       root.setAttribute("data-theme", stored);
 
-      const btnLight = document.getElementById("themeToggleLight");
-      const btnDark = document.getElementById("themeToggleDark");
+      const themeSwitch = document.getElementById("themeSwitch");
+      const themeRingProgress = document.querySelector(".theme-switch-chain .theme-ring-progress");
 
-      function applyThemeButtons(theme) {
-        if (btnLight) btnLight.classList.toggle("active", theme === "light");
-        if (btnDark) btnDark.classList.toggle("active", theme === "dark");
+      function syncThemeSwitch(theme) {
+        if (themeSwitch) themeSwitch.checked = (theme === "dark");
       }
-      applyThemeButtons(stored);
+      syncThemeSwitch(stored);
+
+      if (window._loadAppBackground) window._loadAppBackground(stored);
 
       function setTheme(theme) {
         root.setAttribute("data-theme", theme);
         localStorage.setItem("operador-theme", theme);
-        applyThemeButtons(theme);
+        syncThemeSwitch(theme);
+        if (window._loadAppBackground) window._loadAppBackground(theme);
       }
 
-      if (btnLight) btnLight.addEventListener("click", () => setTheme("light"));
-      if (btnDark) btnDark.addEventListener("click", () => setTheme("dark"));
+      function playThemeRingAnimation(toDark) {
+        if (!themeRingProgress) return;
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        themeRingProgress.classList.remove("theme-ring-to-dark", "theme-ring-to-light");
+        void themeRingProgress.offsetWidth;
+        themeRingProgress.classList.add(toDark ? "theme-ring-to-dark" : "theme-ring-to-light");
+      }
 
-      // Reagir a mudanças na preferência do OS (só quando o usuário não escolheu manualmente)
+      if (themeRingProgress) {
+        themeRingProgress.addEventListener("animationend", function (ev) {
+          if (ev.target !== themeRingProgress) return;
+          if (ev.animationName !== "theme-ring-to-dark" && ev.animationName !== "theme-ring-to-light") return;
+          themeRingProgress.classList.remove("theme-ring-to-dark", "theme-ring-to-light");
+        });
+      }
+
+      if (themeSwitch) {
+        themeSwitch.addEventListener("change", function () {
+          playThemeRingAnimation(this.checked);
+          setTheme(this.checked ? "dark" : "light");
+        });
+      }
+
       if (window.matchMedia) {
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
           if (!localStorage.getItem("operador-theme")) {
-            const auto = e.matches ? "dark" : "light";
+            var auto = e.matches ? "dark" : "light";
             root.setAttribute("data-theme", auto);
-            applyThemeButtons(auto);
+            syncThemeSwitch(auto);
+            if (window._loadAppBackground) window._loadAppBackground(auto);
           }
         });
       }
@@ -1962,7 +2019,9 @@ const contacts = [];
       // Quando Supabase estiver pronto, executar sync + real-time
       window.supabaseSync.onReady(async function() {
         // Migração única de dados localStorage → Supabase
-        if (!localStorage.getItem('sercon_cloud_migrated_v1')) {
+        var _cloudMigrated = 'softtech_cloud_migrated_v1';
+        var _cloudMigratedLegacy = 'sercon_cloud_migrated_v1';
+        if (!localStorage.getItem(_cloudMigrated) && !localStorage.getItem(_cloudMigratedLegacy)) {
           const migrationKeys = [
             'users', 'contributors', 'contributorContacts', 'contributorEmployees',
             'supportMessages', 'internalMessages', 'tasks', 'recruitmentRequests', 'chatui_lembretes'
@@ -1973,45 +2032,64 @@ const contacts = [];
               try { await window.supabaseSync.save(key, JSON.parse(raw)); } catch(e) {}
             }
           }
-          localStorage.setItem('sercon_cloud_migrated_v1', '1');
-          console.log('[Sercon] Migração localStorage → Supabase concluída.');
+          localStorage.setItem(_cloudMigrated, '1');
+        } else if (!localStorage.getItem(_cloudMigrated)) {
+          localStorage.setItem(_cloudMigrated, '1');
         }
 
         // Sync bidirecional de todos os dados
         try {
           const result = await window.supabaseSync.syncAll();
-          console.log('[Sercon] Cloud sync result:', result);
           // Recarregar listas após sync
           if (typeof updateSupportContactsList === 'function') updateSupportContactsList();
           if (typeof updateInternalContactsList === 'function') updateInternalContactsList();
           if (typeof renderLembretes === 'function') renderLembretes();
         } catch(e) {
-          console.warn('[Sercon] Cloud sync falhou:', e);
         }
 
-        // Real-time subscriptions
-        window.supabaseSync.subscribeToKey('supportMessages', function() {
+        // Real-time subscriptions — canais guardados para unsubscribe no unload
+        const _supaChannels = [];
+
+        // Debounce para evitar chamadas concorrentes de updateChat
+        let _updateChatTimer = null;
+        function _debouncedUpdateChat(contactId) {
+          clearTimeout(_updateChatTimer);
+          _updateChatTimer = setTimeout(function() {
+            if (typeof updateChat === 'function') {
+              try { updateChat(contactId); } catch(e) {}
+            }
+          }, 80);
+        }
+
+        const _ch1 = window.supabaseSync.subscribeToKey('supportMessages', function() {
           if (typeof updateSupportContactsList === 'function') updateSupportContactsList();
           // Recarregar chat ativo se houver
           const activeContact = document.querySelector(".contacts-list .contact.active");
           if (activeContact) {
             const contactId = activeContact.getAttribute("data-contact-id");
-            if (contactId && typeof updateChat === 'function') {
-              try { updateChat(contactId); } catch(e) {}
-            }
+            if (contactId) _debouncedUpdateChat(contactId);
           }
         });
+        if (_ch1) _supaChannels.push(_ch1);
 
-        window.supabaseSync.subscribeToKey('internalMessages', function() {
+        const _ch2 = window.supabaseSync.subscribeToKey('internalMessages', function() {
           if (typeof updateInternalContactsList === 'function') updateInternalContactsList();
         });
+        if (_ch2) _supaChannels.push(_ch2);
 
-        window.supabaseSync.subscribeToKey('users', function() {
+        const _ch3 = window.supabaseSync.subscribeToKey('users', function() {
           if (typeof renderUsersList === 'function') renderUsersList();
         });
+        if (_ch3) _supaChannels.push(_ch3);
 
-        window.supabaseSync.subscribeToKey('contributors', function() {
+        const _ch4 = window.supabaseSync.subscribeToKey('contributors', function() {
           if (typeof renderContributorsList === 'function') renderContributorsList();
+        });
+        if (_ch4) _supaChannels.push(_ch4);
+
+        // Limpar subscriptions ao sair da página
+        window.addEventListener('beforeunload', function() {
+          _supaChannels.forEach(function(ch) { try { ch.unsubscribe(); } catch(e) {} });
         });
       });
     })();
@@ -2140,12 +2218,13 @@ const contacts = [];
     
     // Carregar credenciais salvas se existirem
     const savedUsername = localStorage.getItem("savedUsername");
-    const savedPassword = localStorage.getItem("savedPassword");
-    
+    const savedPasswordEncoded = localStorage.getItem("savedPassword");
+    const savedPassword = savedPasswordEncoded ? (() => { try { return atob(savedPasswordEncoded); } catch(e) { return ''; } })() : '';
+
     if (savedUsername && dominiumLoginUsernameInput) {
       dominiumLoginUsernameInput.value = savedUsername;
     }
-    
+
     if (savedPassword && dominiumLoginPasswordInput && rememberMeCheckbox) {
       dominiumLoginPasswordInput.value = savedPassword;
       rememberMeCheckbox.checked = true;
@@ -2192,7 +2271,7 @@ const contacts = [];
         // Salvar ou remover credenciais baseado no checkbox
         if (rememberMe) {
           localStorage.setItem("savedUsername", username);
-          localStorage.setItem("savedPassword", password);
+          localStorage.setItem("savedPassword", btoa(password));
         } else {
           localStorage.removeItem("savedUsername");
           localStorage.removeItem("savedPassword");
@@ -2307,7 +2386,6 @@ const contacts = [];
           hideContributorOnboarding();
           showToast("Dados confirmados! Seu acesso ao suporte foi liberado.", "success");
         } catch (error) {
-          console.error("Erro ao concluir onboarding do contribuinte:", error);
           showToast("Não foi possível concluir a confirmação. Tente novamente.", "error");
         } finally {
           if (submitBtn) {
@@ -2320,20 +2398,6 @@ const contacts = [];
     
 
     // ==================== INICIALIZAÇÃO DO LOGIN ====================
-
-    
-
-    // Sincronizar usuários com Firebase ao carregar (se disponível)
-
-    try {
-
-      await syncUsersWithFirebase();
-
-    } catch (error) {
-
-      console.log("📝 Modo Local: Usando apenas localStorage");
-
-    }
 
     
 
@@ -2434,7 +2498,7 @@ const contacts = [];
 
     function isAdmin() {
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       return currentUser.role === "admin";
 
@@ -2446,7 +2510,6 @@ const contacts = [];
 
     async function addUser(fullName, username, sector, role, adminPassword, userPassword, confirmPassword) {
       const users = getUsersFromStorage();
-      console.log("[addUser] Usuários atuais:", users);
       
 
       // Verificar se usuário já existe
@@ -2467,7 +2530,7 @@ const contacts = [];
 
       } else {
 
-        currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+        currentUser = getStorageItem("currentUser", {});
 
       }
 
@@ -2530,18 +2593,16 @@ const contacts = [];
         role,
         passwordHash: generateUltraSecureHash(userPassword || ""),
         profileImage,
+        status: "active",
         createdAt: Date.now()
 
       };
 
-      console.log("[addUser] Novo usuário montado:", newUser);
       
 
       // Adicionar localmente
 
       const updatedUsers = persistUsersToStorage([...users, newUser]);
-      console.log("[addUser] Usuários após persistir:", updatedUsers);
-      console.log("[addUser] LocalStorage(users):", localStorage.getItem("users"));
       
 
       // Firebase removido - usar apenas localStorage
@@ -2555,7 +2616,7 @@ const contacts = [];
     // Função para deletar usuário
 
     async function deleteUser(username, adminPassword) {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       
       if (!currentUser || currentUser.role !== "admin") {
@@ -2628,7 +2689,6 @@ const contacts = [];
       
       const rawUsers = Array.isArray(forcedUsers) ? sanitizeUsers(forcedUsers) : ensureAdminUser();
       const users = rawUsers.filter(user => user.role !== "contributor");
-      console.log("[renderUsersList] Renderizando", users.length, "usuários:", users.map(u => u.username));
       usersList.innerHTML = "";
 
       totalUsersSpan.textContent = `${users.length} usuário${users.length !== 1 ? 's' : ''}`;
@@ -3005,24 +3065,137 @@ const contacts = [];
 
           renderContributorsList();
 
-        } else if (targetTab === "recruitment-requests") {
-
-          activatePanel(document.getElementById("recruitmentRequestsTab"));
-
-          // Carregar solicitações quando a aba for aberta
-          if (typeof window.renderRecruitmentRequests === 'function') {
-            window.renderRecruitmentRequests();
-          } else {
-            console.warn('⚠️ renderRecruitmentRequests não está disponível');
-          }
-
+        } else if (targetTab === "sectors") {
+          activatePanel(document.getElementById("sectorsTab"));
+          renderSectorsList();
         }
 
       });
 
     });
 
-    
+    // ==================== GERENCIAMENTO DE SETORES ====================
+
+    function getSectors() {
+      var raw = localStorage.getItem('sectors');
+      if (!raw) return [];
+      try { return JSON.parse(raw) || []; } catch (_) { return []; }
+    }
+
+    function saveSectors(list) {
+      localStorage.setItem('sectors', JSON.stringify(list));
+      localStorage.setItem('sectorsUpdatedAt', Date.now().toString());
+      populateSectorDropdown();
+    }
+
+    function populateSectorDropdown() {
+      var select = document.getElementById('newUserSector');
+      if (!select) return;
+      var currentValue = select.value;
+      var sectors = getSectors();
+      select.innerHTML = '<option value="">Selecione um setor</option>';
+      sectors.forEach(function (name) {
+        var opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+      });
+      if (currentValue) select.value = currentValue;
+    }
+
+    function renderSectorsList() {
+      var container = document.getElementById('sectorsList');
+      if (!container) return;
+      var sectors = getSectors();
+      container.innerHTML = '';
+      if (sectors.length === 0) {
+        container.innerHTML =
+          '<div class="sectors-empty-state">' +
+            '<i class="bx bx-category-alt" aria-hidden="true"></i>' +
+            '<h4>Nenhum setor cadastrado</h4>' +
+            '<p>Crie o primeiro setor para organizar os atendimentos.</p>' +
+            '<button type="button" class="btn-create-first-sector" id="createFirstSectorBtn">' +
+              '<i class="bx bx-plus"></i> Criar primeiro setor' +
+            '</button>' +
+          '</div>';
+        var firstBtn = container.querySelector('#createFirstSectorBtn');
+        if (firstBtn) {
+          firstBtn.addEventListener('click', function () {
+            var form = document.getElementById('addSectorForm');
+            var input = document.getElementById('newSectorName');
+            if (form) form.classList.remove('hidden');
+            if (input) { input.value = ''; input.focus(); }
+          });
+        }
+        return;
+      }
+      sectors.forEach(function (name, idx) {
+        var div = document.createElement('div');
+        div.className = 'user-item';
+        div.innerHTML =
+          '<div class="user-info">' +
+            '<div class="user-details">' +
+              '<span class="user-name"><i class="bx bx-category" style="margin-right:6px;"></i>' + name + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="user-actions">' +
+            '<button class="btn-delete-user" data-idx="' + idx + '" title="Remover setor"><i class="bx bx-trash"></i></button>' +
+          '</div>';
+        div.querySelector('.btn-delete-user').addEventListener('click', function () {
+          var s = getSectors();
+          s.splice(idx, 1);
+          saveSectors(s);
+          renderSectorsList();
+        });
+        container.appendChild(div);
+      });
+    }
+
+    // Add sector form
+    var addSectorBtn = document.getElementById('addSectorBtn');
+    var addSectorForm = document.getElementById('addSectorForm');
+    var saveSectorBtn = document.getElementById('saveSectorBtn');
+    var cancelSectorBtn = document.getElementById('cancelSectorBtn');
+    var newSectorNameInput = document.getElementById('newSectorName');
+
+    if (addSectorBtn && addSectorForm) {
+      addSectorBtn.addEventListener('click', function () {
+        addSectorForm.classList.remove('hidden');
+        if (newSectorNameInput) { newSectorNameInput.value = ''; newSectorNameInput.focus(); }
+      });
+    }
+    if (cancelSectorBtn && addSectorForm) {
+      cancelSectorBtn.addEventListener('click', function () {
+        addSectorForm.classList.add('hidden');
+      });
+    }
+    if (saveSectorBtn) {
+      saveSectorBtn.addEventListener('click', function () {
+        var currentUser = {};
+        try { currentUser = getStorageItem('currentUser', {}); } catch (_) {}
+        if (currentUser.role !== 'admin') {
+          if (typeof showToast === 'function') showToast('Apenas administradores podem criar setores.', 'error');
+          return;
+        }
+        var name = (newSectorNameInput ? newSectorNameInput.value : '').trim();
+        if (!name) return;
+        var sectors = getSectors();
+        if (sectors.some(function (s) { return s.toLowerCase() === name.toLowerCase(); })) {
+          if (typeof showToast === 'function') showToast('Este setor já existe.', 'error');
+          return;
+        }
+        sectors.push(name);
+        saveSectors(sectors);
+        renderSectorsList();
+        if (addSectorForm) addSectorForm.classList.add('hidden');
+        if (typeof showToast === 'function') showToast('Setor "' + name + '" criado com sucesso!', 'success');
+      });
+    }
+
+    // Init: populate dropdown (lista vazia até o admin criar o primeiro setor)
+    populateSectorDropdown();
+
+    // ==================== FIM GERENCIAMENTO DE SETORES ====================
 
     // ==================== FIM SISTEMA DE ABAS ====================
 
@@ -3318,7 +3491,6 @@ const contacts = [];
 
       } catch (error) {
 
-        console.error("Erro ao buscar CEP:", error);
 
         showToast("Erro ao buscar CEP. Tente novamente.", "error");
 
@@ -3915,13 +4087,35 @@ const contacts = [];
 
     }
 
+    const soundMuteToggle = document.getElementById("soundMuteToggle");
+    if (soundMuteToggle) {
+      const syncMuteBtn = () => {
+        const muted = localStorage.getItem("notificationSoundMuted") === "1";
+        soundMuteToggle.setAttribute("aria-pressed", muted ? "true" : "false");
+        soundMuteToggle.setAttribute("title", muted ? "Ativar notificações" : "Silenciar notificações");
+        soundMuteToggle.setAttribute("aria-label", muted ? "Ativar notificações" : "Silenciar notificações");
+        const icon = soundMuteToggle.querySelector("i");
+        if (icon) icon.className = muted ? "bx bx-bell-off" : "bx bx-bell";
+        soundMuteToggle.classList.toggle("is-muted", muted);
+      };
+      syncMuteBtn();
+      soundMuteToggle.addEventListener("click", () => {
+        const muted = localStorage.getItem("notificationSoundMuted") === "1";
+        localStorage.setItem("notificationSoundMuted", muted ? "0" : "1");
+        syncMuteBtn();
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === "notificationSoundMuted") syncMuteBtn();
+      });
+    }
+
     
 
     // Atualizar informações do perfil do usuário logado
 
     function updateProfileInfo() {
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       
 
@@ -4035,9 +4229,9 @@ const contacts = [];
     function isSystemFile(fileName) {
       if (!fileName) return true;
       const systemFiles = [
-        'logo.png', 'profile-1.png', 'Sercon.png',
-        'logo.jpg', 'profile-1.jpg', 'Sercon.jpg',
-        'logo.jpeg', 'profile-1.jpeg', 'Sercon.jpeg'
+        'logo.png', 'profile-1.png', 'SoftTech.png', 'Sercon.png',
+        'logo.jpg', 'profile-1.jpg', 'SoftTech.jpg', 'Sercon.jpg',
+        'logo.jpeg', 'profile-1.jpeg', 'SoftTech.jpeg', 'Sercon.jpeg'
       ];
       const lowerFileName = fileName.toLowerCase();
       return systemFiles.some(sysFile => lowerFileName.includes(sysFile.toLowerCase()));
@@ -4055,7 +4249,7 @@ const contacts = [];
 
     function getUserFiles() {
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       const userName = currentUser.fullName || currentUser.username;
       const userSector = currentUser.sector || "";
@@ -4067,7 +4261,7 @@ const contacts = [];
       const seenFiles = new Set(); // Para evitar duplicatas
 
       // 1. Buscar mensagens do localStorage (supportMessages)
-      const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const allMessages = getStorageItem("supportMessages", []);
 
       allMessages.forEach(msg => {
 
@@ -4139,7 +4333,7 @@ const contacts = [];
 
       // 2. Buscar arquivos em contact.messages dos contatos
       try {
-        const contacts = JSON.parse(localStorage.getItem("contacts") || "[]");
+        const contacts = getStorageItem("contacts", []);
         
         contacts.forEach(contact => {
           if (contact.messages && Array.isArray(contact.messages)) {
@@ -4216,7 +4410,6 @@ const contacts = [];
 
       } catch (error) {
 
-        console.warn("Erro ao buscar arquivos dos contatos:", error);
 
       }
 
@@ -4422,102 +4615,178 @@ const contacts = [];
 
     
 
-    const searchInput = document.querySelector(".search-bar input");
+    const searchInput = document.getElementById("contactsUnifiedSearch")
+      || document.querySelector(".search-bar input");
 
-    
+    function escapeSearchHtml(text) {
+      return String(text == null ? "" : text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function highlightAllMatches(fullText, term) {
+      const text = String(fullText || "");
+      if (!term) return escapeSearchHtml(text);
+      const lower = text.toLowerCase();
+      const termLower = term.toLowerCase();
+      let result = "";
+      let cursor = 0;
+      let idx = lower.indexOf(termLower, cursor);
+      while (idx !== -1) {
+        result += escapeSearchHtml(text.slice(cursor, idx));
+        result += `<mark>${escapeSearchHtml(text.slice(idx, idx + term.length))}</mark>`;
+        cursor = idx + term.length;
+        idx = lower.indexOf(termLower, cursor);
+      }
+      result += escapeSearchHtml(text.slice(cursor));
+      return result;
+    }
+
+    function searchAcrossMessages(term) {
+      const results = [];
+      if (!term || !supportChats) return results;
+      const lower = term.toLowerCase();
+      Object.keys(supportChats).forEach(chatId => {
+        const chat = supportChats[chatId];
+        const messages = Array.isArray(chat?.messages) ? chat.messages : [];
+        // Coletar TODAS as mensagens que batem, de qualquer remetente (cliente ou operador)
+        messages.forEach(msg => {
+          const text = msg?.text ? String(msg.text) : "";
+          if (!text || !text.toLowerCase().includes(lower)) return;
+          const senderLabel = msg.type === "client"
+            ? (msg.senderName || chat.clientName || "Cliente")
+            : (msg.senderName || msg.sender || "Operador");
+          results.push({
+            chatId,
+            messageId: msg.id,
+            clientName: chat.clientName || "Contato",
+            senderLabel,
+            senderType: msg.type === "client" ? "client" : "agent",
+            fullText: highlightAllMatches(text, term),
+            timestamp: getMessageTimestampValue(msg)
+          });
+        });
+      });
+      results.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      return results;
+    }
+
+    function clearMessageMatchesSection() {
+      const section = document.getElementById("supportMessageMatchesSection");
+      if (!section) return;
+      section.innerHTML = "";
+      section.hidden = true;
+    }
+
+    function pulseMessageById(messageId) {
+      if (!messageId) return;
+      const el = document.querySelector(`.messages [data-message-id="${messageId}"]`);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.remove("message-pulse");
+      void el.offsetWidth;
+      el.classList.add("message-pulse");
+      setTimeout(() => el.classList.remove("message-pulse"), 2200);
+    }
+
+    async function openChatFromMatch(chatId, messageId) {
+      if (typeof loadSupportChat !== "function") return;
+      await loadSupportChat(chatId);
+      setTimeout(() => pulseMessageById(messageId), 120);
+    }
+
+    function renderMessageMatches(term) {
+      const section = document.getElementById("supportMessageMatchesSection");
+      if (!section) return;
+      const matches = searchAcrossMessages(term);
+      if (matches.length === 0) {
+        section.innerHTML = "";
+        section.hidden = true;
+        return;
+      }
+      section.hidden = false;
+      section.innerHTML = `<div class="message-matches-header">Mensagens (${matches.length})</div>`;
+      matches.forEach(match => {
+        const item = document.createElement("div");
+        item.className = `contact message-match sender-${match.senderType}`;
+        item.setAttribute("data-chat-id", match.chatId);
+        if (match.messageId) item.setAttribute("data-message-id", match.messageId);
+        const avatar = createAvatarElement(match.clientName, 36);
+        const avatarWrap = document.createElement("div");
+        avatarWrap.className = "contact-avatar-wrap";
+        avatarWrap.appendChild(avatar);
+        const info = document.createElement("div");
+        info.className = "contact-info";
+        info.innerHTML = `
+          <div class="contact-info-header">
+            <h4 class="contact-name">${escapeSearchHtml(match.clientName)}</h4>
+            <span class="contact-match-sender">${escapeSearchHtml(match.senderLabel)}</span>
+          </div>
+          <div class="contact-info-footer">
+            <p class="contact-match-preview">${match.fullText}</p>
+          </div>`;
+        item.appendChild(avatarWrap);
+        item.appendChild(info);
+        item.addEventListener("click", () => openChatFromMatch(match.chatId, match.messageId));
+        section.appendChild(item);
+      });
+    }
 
     if (searchInput) {
+      let _contactsSearchDebounce = null;
 
-      searchInput.addEventListener("input", (e) => {
-
-        const searchTerm = e.target.value.toLowerCase().trim();
-
-        
-
-        // Selecionar todos os contatos (normais e de suporte)
-
-        const allContacts = document.querySelectorAll(".contact");
-
-        
+      const runUnifiedSearch = (raw) => {
+        const searchTerm = (raw || "").toLowerCase().trim();
+        const supportSection = document.getElementById("supportContactsSection");
+        const allContacts = document.querySelectorAll("#supportContactsSection .contact");
 
         if (searchTerm === "") {
-
-          // Se o campo está vazio, mostrar todos os contatos
-
-          allContacts.forEach(contact => {
-
-            contact.style.display = "flex";
-
-          });
-
+          allContacts.forEach(c => { c.style.display = "flex"; });
+          clearMessageMatchesSection();
+          if (supportSection) supportSection.hidden = false;
           return;
-
         }
 
-        
-
-        // Filtrar contatos por nome ou setor
-
+        let nameMatches = 0;
         allContacts.forEach(contact => {
-
-          const contactName = contact.querySelector(".contact-info h4");
-
-          const contactPreview = contact.querySelector(".contact-info p");
-
-          
-
-          if (contactName) {
-
-            const name = contactName.textContent.toLowerCase();
-
-            const preview = contactPreview ? contactPreview.textContent.toLowerCase() : "";
-
-            
-
-            // Verificar se o termo de busca está presente no nome ou na preview
-
-            if (name.includes(searchTerm) || preview.includes(searchTerm)) {
-
-              contact.style.display = "flex";
-
-              
-
-              // Adicionar animação de entrada
-
-              contact.style.animation = "contactFadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
-
-            } else {
-
-              contact.style.display = "none";
-
-            }
-
+          const nameEl = contact.querySelector(".contact-info h4");
+          const previewEl = contact.querySelector(".contact-info p");
+          const name = nameEl ? nameEl.textContent.toLowerCase() : "";
+          const preview = previewEl ? previewEl.textContent.toLowerCase() : "";
+          if (name.includes(searchTerm) || preview.includes(searchTerm)) {
+            contact.style.display = "flex";
+            contact.style.animation = "contactFadeIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+            nameMatches++;
+          } else {
+            contact.style.display = "none";
           }
-
         });
 
+        if (nameMatches === 0) {
+          if (supportSection) supportSection.hidden = true;
+          renderMessageMatches(searchTerm);
+        } else {
+          if (supportSection) supportSection.hidden = false;
+          clearMessageMatchesSection();
+        }
+      };
+
+      searchInput.addEventListener("input", (e) => {
+        const value = e.target.value;
+        clearTimeout(_contactsSearchDebounce);
+        _contactsSearchDebounce = setTimeout(() => runUnifiedSearch(value), 150);
       });
-
-      
-
-      // Limpar pesquisa ao clicar no X (se adicionar botão de limpar)
 
       searchInput.addEventListener("keydown", (e) => {
-
         if (e.key === "Escape") {
-
           searchInput.value = "";
-
-          // Disparar evento input para mostrar todos os contatos
-
-          searchInput.dispatchEvent(new Event("input"));
-
+          runUnifiedSearch("");
           searchInput.blur();
-
         }
-
       });
-
     }
 
     
@@ -4712,6 +4981,127 @@ const contacts = [];
 
     const sidebarButtons = document.querySelectorAll(".sidebar .center-icons button[data-section]");
 
+    // ── Notch côncavo: círculo branco protuberante + sidebar com clip-path dinâmico
+    //    que recorta um semicírculo ao redor do círculo + scoops côncavos acima/abaixo,
+    //    replicando a forma do vídeo de referência (Barra lateral.mp4). ──
+    const sidebarEl = document.querySelector(".sidebar");
+    const sidebarNotchEl = document.querySelector(".sidebar-notch");
+    const chatAppEl = document.getElementById("chatApp");
+
+    function buildNotchClipPath(W, H, ny) {
+      // Geometria fiel ao vídeo @Inspirações/Barra lateral.mp4:
+      // O FUNDO do scoop é um ARCO CONCÊNTRICO ao círculo — mesma curvatura,
+      // mas raio maior (arcR = R + GAP), afundando o scoop e criando um
+      // espaçamento UNIFORME entre o círculo e a borda do scoop.
+      const R = 24;         // raio do círculo (= --notch-size / 2)
+      const CX = 50;        // centro x do círculo (= CSS left)
+      const GAP = 8;        // espaço uniforme entre o círculo e o fundo do scoop
+      const arcR = R + GAP; // raio do arco (concêntrico com círculo → gap uniforme)
+      const sh = R + 26;    // folga vertical total acima/abaixo do círculo (= 50)
+      // Ângulo do arco que forma o fundo do scoop (metade).
+      // 45° → arco total 90° (quarto de círculo) — bem arredondado.
+      const alpha = (45 * Math.PI) / 180;
+      const cosA = Math.cos(alpha); // ≈ 0.707
+      const sinA = Math.sin(alpha); // ≈ 0.707
+      // Pontos onde o arco encosta tangencialmente no fundo do scoop:
+      const arcX = CX - arcR * cosA;    // x do ponto de encontro com a bezier
+      const arcOff = arcR * sinA;       // Y offset do centro do círculo
+      // Distância dos pontos de controle bezier (controla suavidade da transição):
+      const t = 20;
+      const y1 = Math.max(0, ny - sh);
+      const y2 = Math.min(H, ny + sh);
+      return (
+        `path('M 0 0 L ${W} 0 L ${W} ${y1} ` +
+        // Bezier de entrada: borda reta → tangente do arco (parte superior)
+        `C ${W} ${y1 + t} ${arcX + t * sinA} ${ny - arcOff - t * cosA} ${arcX} ${ny - arcOff} ` +
+        // Arco concêntrico com raio arcR (R+GAP) — gap uniforme ao redor do círculo
+        `A ${arcR} ${arcR} 0 0 0 ${arcX} ${ny + arcOff} ` +
+        // Bezier de saída: tangente do arco → borda reta (parte inferior, simétrica)
+        `C ${arcX + t * sinA} ${ny + arcOff + t * cosA} ${W} ${y2 - t} ${W} ${y2} ` +
+        `L ${W} ${H} L 0 ${H} Z')`
+      );
+    }
+
+    const notchIconEl = sidebarNotchEl ? sidebarNotchEl.querySelector(".sidebar-notch-icon") : null;
+
+    function syncNotchIcon(activeBtn, previousBtn) {
+      if (!notchIconEl || !activeBtn) return;
+      // Copia a classe do ícone do botão ativo (ex.: "bx bx-send") para que o
+      // notch exiba o mesmo glifo dentro do círculo.
+      const srcIcon = activeBtn.querySelector(".icon i");
+      if (!srcIcon) return;
+      const iconName = Array.from(srcIcon.classList).find((c) => c.startsWith("bx-"));
+      notchIconEl.className = "sidebar-notch-icon bx" + (iconName ? " " + iconName : "");
+
+      // Animação: o novo ícone "sai" do centro do botão na sidebar e desliza até
+      // o centro do notch, mudando de cor (branco → dourado) ao longo do trajeto.
+      // Isso é feito calculando o offset entre o botão ativo e o centro do notch
+      // e aplicando uma transform inicial que depois anima para zero.
+      if (previousBtn && previousBtn !== activeBtn) {
+        const notchRect = sidebarNotchEl.getBoundingClientRect();
+        const btnRect = activeBtn.getBoundingClientRect();
+        const notchCenterX = notchRect.left + notchRect.width / 2;
+        const notchCenterY = notchRect.top + notchRect.height / 2;
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
+        const dx = btnCenterX - notchCenterX;
+        const dy = btnCenterY - notchCenterY;
+        // Posiciona o ícone na posição do botão antes de iniciar a animação
+        notchIconEl.style.transition = "none";
+        notchIconEl.style.transform = `translate(${dx}px, ${dy}px)`;
+        notchIconEl.style.color = getComputedStyle(document.documentElement).getPropertyValue("--bg-surface").trim() || "#ffffff";
+        // Reflow forçado para o browser aplicar o estado inicial antes da animação
+        void notchIconEl.offsetWidth;
+        notchIconEl.style.transition =
+          "transform 600ms cubic-bezier(0.22, 1, 0.36, 1), color 500ms ease-out 120ms";
+        notchIconEl.style.transform = "translate(0, 0)";
+        notchIconEl.style.color = "#fbbf24";
+      } else {
+        // Sem animação (primeira carga): ícone direto no centro do notch
+        notchIconEl.style.transition = "none";
+        notchIconEl.style.transform = "translate(0, 0)";
+        notchIconEl.style.color = "#fbbf24";
+      }
+    }
+
+    function updateSidebarNotch(animate = true, previousActiveBtn = null) {
+      if (!sidebarEl || !sidebarNotchEl || !chatAppEl) return;
+      const activeBtn = sidebarEl.querySelector(".center-icons .list button.active");
+      if (!activeBtn) return;
+      syncNotchIcon(activeBtn, previousActiveBtn);
+      const iconEl = activeBtn.querySelector(".icon") || activeBtn;
+      const sbRect = sidebarEl.getBoundingClientRect();
+      const caRect = chatAppEl.getBoundingClientRect();
+      const btnRect = iconEl.getBoundingClientRect();
+      // Y relativo à sidebar (para o clip-path)
+      const ySidebar = (btnRect.top - sbRect.top) + (btnRect.height / 2);
+      // Y relativo ao chat-app (para posicionar o círculo, que é sibling da sidebar)
+      const yChatApp = (btnRect.top - caRect.top) + (btnRect.height / 2);
+      const W = sbRect.width;
+      const H = sbRect.height;
+      const clipPath = buildNotchClipPath(W, H, ySidebar);
+      if (!animate) {
+        const prevNotchTransition = sidebarNotchEl.style.transition;
+        const prevSbTransition = sidebarEl.style.transition;
+        sidebarNotchEl.style.transition = "none";
+        sidebarEl.style.transition = "none";
+        chatAppEl.style.setProperty("--notch-y", yChatApp + "px");
+        sidebarEl.style.setProperty("--notch-clip", clipPath);
+        // force reflow
+        void sidebarNotchEl.offsetHeight;
+        sidebarNotchEl.style.transition = prevNotchTransition || "";
+        sidebarEl.style.transition = prevSbTransition || "";
+      } else {
+        chatAppEl.style.setProperty("--notch-y", yChatApp + "px");
+        sidebarEl.style.setProperty("--notch-clip", clipPath);
+      }
+      sidebarEl.classList.add("notch-ready");
+    }
+    // Inicializa após layout
+    requestAnimationFrame(() => updateSidebarNotch(false));
+    window.addEventListener("resize", () => updateSidebarNotch(false));
+    window.updateSidebarNotch = updateSidebarNotch;
+
     const chatContainer = document.querySelector(".chat-container");
 
     const chatList = document.querySelector(".chat-list");
@@ -4775,9 +5165,10 @@ const contacts = [];
     function initTaxAgendaClockToggle() {
       if (taxAgendaClockToggleInitialized) return;
       const toggle = document.getElementById("taxAgendaClockToggle");
+      const wrapper = document.querySelector(".tax-agenda-clock-wrapper");
       const analogEl = document.getElementById("taxAgendaClockAnalog");
       const digitalEl = document.getElementById("taxAgendaClockDigital");
-      if (!toggle || !analogEl || !digitalEl) return;
+      if (!analogEl || !digitalEl) return;
       taxAgendaClockToggleInitialized = true;
       const isDigital = localStorage.getItem(TAX_AGENDA_CLOCK_MODE_KEY) === "digital";
       function applyMode(digital) {
@@ -4785,22 +5176,40 @@ const contacts = [];
           analogEl.classList.add("hidden");
           analogEl.setAttribute("aria-hidden", "true");
           digitalEl.classList.remove("hidden");
-          toggle.querySelector("span").textContent = "Analógico";
-          toggle.setAttribute("aria-pressed", "true");
+          digitalEl.setAttribute("aria-hidden", "false");
+          if (toggle) {
+            const span = toggle.querySelector("span");
+            if (span) span.textContent = "Analógico";
+            toggle.setAttribute("aria-pressed", "true");
+          }
         } else {
           analogEl.classList.remove("hidden");
           analogEl.setAttribute("aria-hidden", "false");
           digitalEl.classList.add("hidden");
-          toggle.querySelector("span").textContent = "Digital";
-          toggle.setAttribute("aria-pressed", "false");
+          digitalEl.setAttribute("aria-hidden", "true");
+          if (toggle) {
+            const span = toggle.querySelector("span");
+            if (span) span.textContent = "Digital";
+            toggle.setAttribute("aria-pressed", "false");
+          }
         }
       }
-      applyMode(isDigital);
-      toggle.addEventListener("click", () => {
+      function toggleMode() {
         const digital = analogEl.classList.contains("hidden");
         localStorage.setItem(TAX_AGENDA_CLOCK_MODE_KEY, digital ? "analog" : "digital");
         applyMode(!digital);
-      });
+      }
+      applyMode(isDigital);
+      if (wrapper) {
+        wrapper.setAttribute("role", "button");
+        wrapper.setAttribute("tabindex", "0");
+        wrapper.setAttribute("title", "Clique para alternar entre analógico e digital");
+        wrapper.addEventListener("click", toggleMode);
+        wrapper.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleMode(); }
+        });
+      }
+      if (toggle) toggle.addEventListener("click", (e) => { e.stopPropagation(); toggleMode(); });
     }
 
     // ==================== SUB-TABS DO TAX AGENDA ====================
@@ -4810,6 +5219,8 @@ const contacts = [];
         obligations: document.getElementById("obligationsSubPanel"),
         lembretes: document.getElementById("lembretesSubPanel")
       };
+      const taxTasks = document.querySelector(".tax-agenda-tasks");
+      const titleTextEl = document.getElementById("tasksListTitleText");
       if (!subtabBtns.length) return;
       subtabBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -4824,6 +5235,16 @@ const contacts = [];
               deactivatePanel(panel);
             }
           });
+          if (taxTasks) {
+            if (target === "lembretes") {
+              taxTasks.classList.add("lembretes-active");
+            } else {
+              taxTasks.classList.remove("lembretes-active");
+            }
+          }
+          if (titleTextEl) {
+            titleTextEl.textContent = target === "lembretes" ? "Lembretes" : "Agenda Fiscal";
+          }
           if (target === "lembretes" && typeof renderLembretes === "function") {
             renderLembretes();
           }
@@ -4858,13 +5279,11 @@ const contacts = [];
 
     function updateChat(contactId) {
 
-      console.log(`📝 Atualizando chat para contato ID: ${contactId}`);
 
       const contact = contacts.find(c => c.id === parseInt(contactId));
 
       if (!contact) {
 
-        console.error(`❌ Contato ${contactId} não encontrado`);
 
         return;
 
@@ -4908,27 +5327,17 @@ const contacts = [];
         });
       }
       
-      console.log(`[updateChat] ⚠️ PRESERVANDO ${existingFileDataMap.size} file.data das mensagens existentes do contato`);
 
       // CRITICAL: Carregar mensagens do localStorage e mesclar com mensagens existentes
       // Preservar file.data das mensagens existentes
       try {
-        const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const allMessages = getStorageItem("supportMessages", []);
         const contactChatId = `chat_contact_${contact.id}`;
         
         // DEBUG: Log mensagens existentes do contato
-        console.log(`[updateChat] Contato ${contact.id} - Mensagens existentes:`, contact.messages?.length || 0);
         if (contact.messages && contact.messages.length > 0) {
           const messagesWithFiles = contact.messages.filter(m => m.file && m.file.data);
-          console.log(`[updateChat] Mensagens com file.data:`, messagesWithFiles.length);
           messagesWithFiles.forEach((m, idx) => {
-            console.log(`[updateChat] Mensagem ${idx + 1} com arquivo:`, {
-              timestamp: m.timestamp,
-              id: m.id,
-              fileName: m.file?.name,
-              hasData: !!m.file?.data,
-              dataLength: m.file?.data?.length || 0
-            });
           });
         }
         
@@ -4941,22 +5350,12 @@ const contacts = [];
           return isContactMessage;
         });
         
-        console.log(`[updateChat] Mensagens do localStorage para contato ${contact.id}:`, localStorageMessages.length);
         const localStorageMessagesWithFiles = localStorageMessages.filter(m => m.file);
-        console.log(`[updateChat] Mensagens do localStorage com file (sem data):`, localStorageMessagesWithFiles.length);
         localStorageMessagesWithFiles.forEach((m, idx) => {
-          console.log(`[updateChat] localStorage mensagem ${idx + 1} com file:`, {
-            timestamp: m.timestamp,
-            id: m.id,
-            fileName: m.file?.name,
-            hasData: !!m.file?.data,
-            dataLength: m.file?.data?.length || 0
-          });
         });
         
         // CRITICAL: Usar o mapa de file.data criado ANTES do try/catch para preservar arquivos
         // O mapa existingFileDataMap já foi criado acima com TODOS os file.data das mensagens existentes
-        console.log(`[updateChat] Usando mapa existente com ${existingFileDataMap.size} file.data preservados`);
         
         // Criar também um mapa de informações completas dos arquivos para facilitar a mesclagem
         const existingFileInfoMap = new Map();
@@ -4986,7 +5385,6 @@ const contacts = [];
           
           // CRITICAL: Se encontrou file.data existente no mapa, SEMPRE usar ele
           if (existingFileInfo && existingFileInfo.data) {
-            console.log(`[updateChat] ✅ PRESERVANDO file.data da mensagem existente para timestamp ${msg.timestamp}, id: ${msg.id}, fileName: ${existingFileInfo.name}`);
             
             // SEMPRE usar o file.data do mapa (fonte de verdade)
             msg.file = {
@@ -4996,10 +5394,8 @@ const contacts = [];
               data: existingFileInfo.data // CRITICAL: SEMPRE usar file.data do mapa
             };
           } else if (msg.file && !msg.file.data) {
-            console.log(`[updateChat] ⚠️ Mensagem timestamp ${msg.timestamp}, id: ${msg.id} tem file mas não tem data e não encontrou no mapa`);
           } else if (msg.file && msg.file.data) {
             // Mensagem do localStorage tem file.data, mas vamos verificar se há uma versão mais completa no mapa
-            console.log(`[updateChat] Mensagem timestamp ${msg.timestamp}, id: ${msg.id} já tem file.data no localStorage`);
           }
           
           return msg;
@@ -5034,7 +5430,6 @@ const contacts = [];
             // Se encontrou no mapa, usar do mapa (prioridade)
             if (existingFileInfo && existingFileInfo.data) {
               fileDataToUse = existingFileInfo.data;
-              console.log(`[updateChat] ✅ USANDO file.data do mapa durante conversão para timestamp ${converted.timestamp}, id: ${converted.id}`);
             }
             
             converted.file = {
@@ -5044,14 +5439,6 @@ const contacts = [];
               data: fileDataToUse // CRITICAL: Usar do mapa se existir, senão do localStorage
             };
             
-            console.log(`[updateChat] Convertendo mensagem com arquivo:`, {
-              id: converted.id,
-              timestamp: converted.timestamp,
-              fileName: converted.file.name,
-              hasData: !!converted.file.data,
-              dataLength: converted.file.data?.length || 0,
-              source: existingFileInfo ? 'mapa' : (msg.file.data ? 'localStorage' : 'nenhum')
-            });
           }
           
           return converted;
@@ -5079,7 +5466,6 @@ const contacts = [];
             if (!alreadyIncluded) {
               // Mensagem não está no localStorage, adicionar se tiver arquivo
               if (existingMsg.file && existingMsg.file.data) {
-                console.log(`[updateChat] Adicionando mensagem local com arquivo não encontrada no localStorage:`, existingMsg.id || existingMsg.timestamp, existingMsg.file.name);
                 convertedMessages.push(existingMsg);
               } else if (!existingMsg.file) {
                 // Mensagem sem arquivo também deve ser adicionada
@@ -5104,7 +5490,6 @@ const contacts = [];
                   // Se a mensagem convertida não tem file.data ou tem mas a existente é mais recente, usar a existente
                   if (!convertedMsg.file || !convertedMsg.file.data || 
                       (existingMsg.timestamp && convertedMsg.timestamp && existingMsg.timestamp > convertedMsg.timestamp)) {
-                    console.log(`[updateChat] Atualizando file.data da mensagem já incluída:`, existingMsg.id || existingMsg.timestamp, existingMsg.file.name);
                     if (!convertedMsg.file) {
                       convertedMsg.file = {};
                     }
@@ -5127,15 +5512,7 @@ const contacts = [];
         
         // DEBUG: Verificar quantas mensagens têm file.data após mesclagem
         const finalMessagesWithFiles = contact.messages.filter(m => m.file && m.file.data);
-        console.log(`[updateChat] ✅ Após mesclagem: ${contact.messages.length} mensagens totais, ${finalMessagesWithFiles.length} com file.data`);
         finalMessagesWithFiles.forEach((m, idx) => {
-          console.log(`[updateChat] Mensagem final ${idx + 1} com arquivo:`, {
-            timestamp: m.timestamp,
-            id: m.id,
-            fileName: m.file?.name,
-            hasData: !!m.file?.data,
-            dataLength: m.file?.data?.length || 0
-          });
         });
         
         // Ordenar mensagens por timestamp
@@ -5151,20 +5528,17 @@ const contacts = [];
               (lm.timestamp === msg.timestamp)
             );
             if (localStorageMsg && localStorageMsg.file && localStorageMsg.file.data) {
-              console.log(`[updateChat] ✅ Restaurando file.data do localStorage para mensagem ${idx + 1}`);
               msg.file.data = localStorageMsg.file.data;
             }
           }
         });
       } catch (error) {
-        console.warn("Erro ao carregar mensagens do localStorage:", error);
         // Se houver erro, manter as mensagens existentes do contato
         if (!contact.messages) {
           contact.messages = [];
         }
       }
 
-      console.log(`✅ Contato encontrado: ${contact.name}`);
 
 
 
@@ -5201,17 +5575,20 @@ const contacts = [];
         if (chatHeaderAvatar) {
           const initial = (contact.name || "?").charAt(0).toUpperCase();
           if (contact.image && !contact.image.includes("profile-1.png")) {
-            chatHeaderAvatar.innerHTML = `<img src="${contact.image}" alt="${contact.name}" onerror="this.parentElement.textContent='${initial}'">`;
+            chatHeaderAvatar.innerHTML = '';
+            const _hdrImg = document.createElement('img');
+            _hdrImg.src = contact.image;
+            _hdrImg.alt = contact.name || '?';
+            _hdrImg.addEventListener('error', function() { chatHeaderAvatar.textContent = initial; });
+            chatHeaderAvatar.appendChild(_hdrImg);
           } else {
             chatHeaderAvatar.textContent = initial;
           }
         }
 
-        console.log(`✅ Contact-box atualizado`);
 
       } catch (error) {
 
-        console.error('❌ Erro ao atualizar contact-box:', error);
 
       }
 
@@ -5219,7 +5596,7 @@ const contacts = [];
 
       // Obter nome do usuário logado
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       const userName = currentUser.fullName || currentUser.username || "Usuário";
 
@@ -5233,7 +5610,6 @@ const contacts = [];
 
       
 
-      console.log(`📨 Renderizando ${contact.messages.length} mensagens...`);
 
       
 
@@ -5259,13 +5635,11 @@ const contacts = [];
 
             lastMessageDate = messageDateString;
 
-            console.log(`📅 Indicador de data adicionado: ${dateText}`);
 
           }
 
         } catch (error) {
 
-          console.error(`❌ Erro ao adicionar indicador de data na mensagem ${index}:`, error);
 
         }
 
@@ -5310,7 +5684,7 @@ const contacts = [];
             
             // SEMPRE buscar do localStorage primeiro (fonte de verdade, como no Suporte)
             try {
-              const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+              const allMessages = getStorageItem("supportMessages", []);
               const contactChatId = `chat_contact_${contact.id}`;
               
               // Buscar mensagem no localStorage usando múltiplos critérios
@@ -5334,25 +5708,13 @@ const contacts = [];
               
               if (localStorageMsg && localStorageMsg.file && localStorageMsg.file.data) {
                 fileDataToRender = localStorageMsg.file.data;
-                console.log(`[updateChat] ✅ file.data encontrado no localStorage:`, {
-                  timestamp: message.timestamp,
-                  id: message.id,
-                  fileName: message.file.name,
-                  dataLength: fileDataToRender.length
-                });
               } else {
                 // Fallback: usar file.data de contact.messages se existir
                 if (message.file.data) {
                   fileDataToRender = message.file.data;
-                  console.log(`[updateChat] Usando file.data de contact.messages:`, {
-                    timestamp: message.timestamp,
-                    id: message.id,
-                    fileName: message.file.name
-                  });
                 }
               }
             } catch (error) {
-              console.warn(`[updateChat] Erro ao buscar file.data do localStorage:`, error);
               // Fallback: usar file.data de contact.messages se existir
               if (message.file.data) {
                 fileDataToRender = message.file.data;
@@ -5360,13 +5722,6 @@ const contacts = [];
             }
             
             if (fileDataToRender) {
-              console.log(`[updateChat] ✅ Renderizando mensagem com arquivo:`, {
-                timestamp: message.timestamp,
-                id: message.id,
-                fileName: message.file.name,
-                hasData: !!fileDataToRender,
-                dataLength: fileDataToRender.length || 0
-              });
               const fileObj = {
                 name: message.file.name,
                 size: message.file.size,
@@ -5382,13 +5737,6 @@ const contacts = [];
                 messageDiv.appendChild(captionDiv);
               }
             } else {
-              console.error(`[updateChat] ❌ ERRO: Mensagem tem file mas não encontrou file.data (nem no localStorage nem em contact.messages):`, {
-                timestamp: message.timestamp,
-                id: message.id,
-                fileName: message.file.name,
-                hasFileInMessage: !!message.file,
-                hasDataInMessage: !!message.file.data
-              });
             }
           }
           // Renderizar emojis grandes ou texto normal
@@ -5456,7 +5804,6 @@ const contacts = [];
 
         } catch (error) {
 
-          console.error(`❌ Erro ao renderizar mensagem ${index}:`, error);
 
         }
 
@@ -5490,7 +5837,6 @@ const contacts = [];
 
       
 
-      console.log(`✅ Chat atualizado com sucesso para ${contact.name}`);
 
     }
 
@@ -5566,7 +5912,6 @@ const contacts = [];
 
         const contactId = contact.getAttribute("data-contact-id");
 
-        console.log(`🔵 Clicou no contato ID: ${contactId}`);
 
         try {
 
@@ -5574,7 +5919,6 @@ const contacts = [];
 
         } catch (error) {
 
-          console.error('❌ Erro ao atualizar chat:', error);
 
         }
 
@@ -5618,38 +5962,21 @@ const contacts = [];
 
         
 
-        // Recolher título e cápsula ao mesmo tempo, depois expandir no novo ícone
+        // Troca SÍNCRONA do .active (sem await entre remove/add) para evitar que
+        // o ícone da aba antiga apareça duplicado (uma vez no notch, outra na sidebar)
+        // durante o intervalo em que nenhum botão está ativo.
         const activeBtn = document.querySelector(".sidebar .center-icons button.active");
-        const tooltipPromise = hideSidebarTooltipBar();
-
-        let capsulePromise = Promise.resolve();
         if (activeBtn && activeBtn !== button) {
-          const oldList = activeBtn.closest(".list");
-          const oldCapsule = oldList.querySelector(".sidebar-capsule");
           activeBtn.classList.remove("active");
-          capsulePromise = new Promise((resolve) => {
-            let done = false;
-            const finish = () => {
-              if (done) return;
-              done = true;
-              const target = oldCapsule || oldList;
-              target.removeEventListener("transitionend", handler);
-              resolve();
-            };
-            const handler = (e) => {
-              if (e.propertyName === "clip-path" || e.propertyName === "background" || e.propertyName === "background-color") finish();
-            };
-            const target = oldCapsule || oldList;
-            target.addEventListener("transitionend", handler);
-            // Fallback: ligeiramente maior que --capsule-duration (0.48s)
-            setTimeout(finish, 540);
-          });
-        } else {
+        } else if (!activeBtn) {
           sidebarButtons.forEach((btn) => btn.classList.remove("active"));
         }
-
-        await Promise.all([tooltipPromise, capsulePromise]);
         button.classList.add("active");
+        if (typeof updateSidebarNotch === "function") updateSidebarNotch(true, activeBtn);
+
+        // Depois de trocar o estado visual, escondemos o tooltip (rápido, < 160ms)
+        const tooltipPromise = hideSidebarTooltipBar();
+        await tooltipPromise;
 
         stopTaxAgendaClock();
 
@@ -5935,7 +6262,7 @@ const contacts = [];
 
       if (currentSupportChatId) {
 
-        const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+        const currentUser = getStorageItem("currentUser", {});
 
         const userName = currentUser.fullName || currentUser.username || "Usuário";
 
@@ -5974,7 +6301,7 @@ const contacts = [];
           id: generateUniqueId(),
           chatId: targetChatId,
           sender: userName,
-          profileImage: "../../assets/images/avatars/profile-1.png",
+          profileImage: currentUser.profileImage || DEFAULT_PROFILE_IMAGE,
           text: sanitizedText,
           type: "support",
           sector: chatSector,
@@ -6024,7 +6351,6 @@ const contacts = [];
 
           
 
-          console.log(`🎨 Renderizando ${emojiCount} emoji(s) com animação Lottie!`);
 
           
 
@@ -6040,19 +6366,16 @@ const contacts = [];
 
               // Manter tamanho grande padrão (80px)
 
-              console.log(`📏 1 emoji - Tamanho grande (80px)`);
 
             } else if (emojiCount <= 3) {
 
               emojiContainer.classList.add('emoji-medium');
 
-              console.log(`📏 ${emojiCount} emojis - Tamanho médio (60px)`);
 
             } else {
 
               emojiContainer.classList.add('emoji-small');
 
-              console.log(`📏 ${emojiCount} emojis - Tamanho pequeno (45px)`);
 
             }
 
@@ -6092,19 +6415,11 @@ const contacts = [];
 
         // Salvar no localStorage
 
-        const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const messages = getStorageItem("supportMessages", []);
 
         messages.push(messageData);
 
         localStorage.setItem("supportMessages", JSON.stringify(messages));
-
-        
-
-        // Salvar no Firebase
-
-        saveSupportMessageToFirebase(messageData);
-
-        
 
         // Atualizar lista de contatos
         updateSupportContactsList();
@@ -6164,18 +6479,17 @@ const contacts = [];
           isEmojiOnly: onlyEmojis
         };
         
-        const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const allMessages = getStorageItem("supportMessages", []);
         allMessages.push(messageData);
         localStorage.setItem("supportMessages", JSON.stringify(allMessages));
       } catch (error) {
-        console.warn("Erro ao salvar mensagem no localStorage:", error);
       }
 
       
 
       // Obter nome do usuário logado
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       const userName = currentUser.fullName || currentUser.username || "Usuário";
 
@@ -7043,29 +7357,23 @@ const contacts = [];
         }
       });
       
-      console.log(`🔍 [initializeAutoTaxReminders] Verificando lembretes para ${monthNames[currentMonth]}/${currentYear}:`, alreadyCreated ? 'marcado como criado' : 'não marcado', `| Encontrados no DOM: ${foundCount}/${expectedTitles.length}`);
       
       // Se já foram criados E existem no DOM, não recriar
       if (alreadyCreated && foundCount === expectedTitles.length && expectedTitles.length > 0) {
-        console.log(`⏭️ [initializeAutoTaxReminders] Lembretes já existem. Pulando criação.`);
         return;
       }
       
       // Se foram marcados como criados mas não existem no DOM, limpar a marcação
       if (alreadyCreated && foundCount < expectedTitles.length) {
-        console.log(`⚠️ [initializeAutoTaxReminders] Lembretes marcados como criados mas não encontrados no DOM. Recriando...`);
         localStorage.removeItem(remindersKey);
       }
       
       // Obter tasksListContainer se não estiver disponível no escopo
       const container = tasksListContainer || document.querySelector(".tasks-list");
-      console.log(`📦 [initializeAutoTaxReminders] Container encontrado:`, container ? 'SIM' : 'NÃO');
       if (!container) {
-        console.error('❌ [initializeAutoTaxReminders] tasksListContainer não encontrado!');
         return;
       }
       
-      console.log(`📋 [initializeAutoTaxReminders] Criando ${reminders.length} lembretes...`);
       
       // Criar elementos de lembretes e adicionar ao DOM
       let createdCount = 0;
@@ -7116,16 +7424,13 @@ const contacts = [];
           
           container.appendChild(taskItem);
           createdCount++;
-          console.log(`✅ [initializeAutoTaxReminders] Lembrete criado: ${reminder.title} - ${reminder.day} ${reminder.month} ${reminder.year}`);
         }
       });
       
       // Marcar como criados apenas se foram criados lembretes
       if (createdCount > 0) {
         localStorage.setItem(remindersKey, 'true');
-        console.log(`✅ [initializeAutoTaxReminders] ${createdCount} lembretes fiscais automáticos criados para ${apuracaoMonth}/${currentYear}`);
       } else {
-        console.log(`⚠️ [initializeAutoTaxReminders] Nenhum lembrete foi criado (todos já existem?)`);
       }
       
       // Reordenar tarefas
@@ -7153,7 +7458,6 @@ const contacts = [];
       if (tasksListContainer) {
         initializeAutoTaxReminders();
       } else {
-        console.warn('⚠️ tasksListContainer não encontrado, tentando novamente...');
         setTimeout(() => {
           const container = document.querySelector(".tasks-list");
           if (container) {
@@ -7712,7 +8016,6 @@ const contacts = [];
 
       
 
-      console.log(`📋 Tarefas ordenadas: ${todayTasks.length} de hoje, ${otherTasks.length} futuras/passadas`);
 
     }
 
@@ -7826,7 +8129,6 @@ const contacts = [];
 
         
 
-        console.log(`📌 Grupo de hoje criado: ${todayTasksCount} tarefa(s)`);
 
         
 
@@ -7916,7 +8218,6 @@ const contacts = [];
 
           generateMiniCalendar('end');
 
-          console.log('📅 Seletor de intervalo de datas aberto');
 
         }
 
@@ -7954,7 +8255,6 @@ const contacts = [];
 
         filterTaskBtn.classList.remove("active");
 
-        console.log('❌ Seletor de datas fechado');
 
       });
 
@@ -8176,7 +8476,6 @@ const contacts = [];
 
         startDateDisplay.textContent = formatDateDisplay(date);
 
-        console.log(`📅 Data inicial selecionada: ${formatDateDisplay(date)}`);
 
         
 
@@ -8194,7 +8493,6 @@ const contacts = [];
 
           // showToast('⚠️ Selecione primeiro a data inicial', 'error');
 
-          console.warn('⚠️ Selecione primeiro a data inicial');
 
           return;
 
@@ -8204,7 +8502,6 @@ const contacts = [];
 
         endDateDisplay.textContent = formatDateDisplay(date);
 
-        console.log(`📅 Data final selecionada: ${formatDateDisplay(date)}`);
 
       }
 
@@ -8530,9 +8827,7 @@ const contacts = [];
 
       
 
-      console.log(`📅 Filtrando tarefas do dia: ${formatDateDisplay(date)}`);
 
-      console.log(`   ${visibleCount} tarefa(s) encontrada(s)`);
 
       
 
@@ -8562,8 +8857,7 @@ const contacts = [];
 
       // Log para debug
 
-      // console.log(`${visibleCount} tarefa(s) encontrada(s) em ${dateFormatted}`);
-
+      //
       
 
       // Adicionar indicador visual no botão e na lista
@@ -8698,9 +8992,7 @@ const contacts = [];
 
       
 
-      console.log(`🔍 Filtro de intervalo aplicado: ${visibleCount} tarefa(s) visível(is)`);
 
-      console.log(`   Período: ${formatDateDisplay(startDate)} → ${formatDateDisplay(endDate)}`);
 
       
 
@@ -8762,7 +9054,6 @@ const contacts = [];
 
       // O usuário pode fechar manualmente ou fazer novo filtro
 
-      console.log('✅ Filtro aplicado com sucesso!');
 
     }
 
@@ -8926,7 +9217,6 @@ const contacts = [];
 
           taxAgendaBtn.classList.add('has-today-tasks');
 
-          console.log('🔴 Badge ativado: Há tarefas para hoje!');
 
         } else {
 
@@ -9036,7 +9326,6 @@ const contacts = [];
 
       
 
-      console.log('🔄 Filtro removido - Todas as tarefas visíveis');
 
     }
 
@@ -9151,7 +9440,6 @@ const contacts = [];
           }
         }
       } catch (error) {
-        console.warn('Erro ao validar nome em getColorFromName:', error);
         safeName = '?';
       }
 
@@ -9196,7 +9484,6 @@ const contacts = [];
 
         }
       } catch (error) {
-        console.warn('Erro ao gerar hash em getColorFromName:', error);
         hash = 0;
       }
 
@@ -9234,7 +9521,6 @@ const contacts = [];
           }
         }
       } catch (error) {
-        console.warn('Erro ao validar nome em createAvatarElement:', error);
         safeName = '?';
         initial = '?';
       }
@@ -9381,7 +9667,7 @@ const contacts = [];
 
       // Obter setor do usuário logado
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       const userSector = currentUser.sector || "";
 
@@ -9389,7 +9675,7 @@ const contacts = [];
 
       // Carregar mensagens do localStorage
 
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
 
       
 
@@ -9658,7 +9944,6 @@ const contacts = [];
 
             return getRelativeDate(timestamp);
           } catch (error) {
-            console.warn("Não foi possível formatar a data do contato:", error);
           }
         }
 
@@ -9817,7 +10102,6 @@ const contacts = [];
 
       if (!supportContactsSection) {
 
-        console.warn("supportContactsSection não encontrado");
 
         return;
 
@@ -9935,12 +10219,10 @@ const contacts = [];
         if (chat.isContactOnly) {
           // Se o chat tem um contribuinte mas não está na lista de ativos, remover
           if (chat.contributorId && !activeContributorIds.includes(chat.contributorId)) {
-            console.log(`🗑️ Removendo chat órfão: ${chatId} (contribuinte ${chat.contributorId} não encontrado)`);
             delete supportChats[chatId];
           }
           // Se o chat não está na lista de contatos válidos, remover
           else if (!validChatIds.has(chatId)) {
-            console.log(`🗑️ Removendo chat órfão: ${chatId} (não está na lista de contatos válidos)`);
             delete supportChats[chatId];
           }
         }
@@ -9975,7 +10257,6 @@ const contacts = [];
 
       if (chatIds.length > 0) {
 
-        console.log(`📨 ${chatIds.length} chat(s) de suporte carregado(s)`);
 
       }
 
@@ -9994,11 +10275,9 @@ const contacts = [];
                 c.id === chat.contributorId && (c.status || "active") === "active"
               );
             if (!contributorExists) {
-              console.log(`⚠️ Chat ${chatId} tem contribuinte ${chat.contributorId} que não está mais ativo`);
             }
             return contributorExists;
           }
-          console.log(`⚠️ Chat ${chatId} não tem contributorId`);
           return false; // Não mostrar contatos sem contribuinte
         }
         return false; // Não mostrar chats que não são contatos
@@ -10044,7 +10323,7 @@ const contacts = [];
     // Função para adicionar mensagem individual ao chat (sem recarregar tudo)
 
     function addSupportMessageToChat(msg) {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const userName = currentUser.fullName || currentUser.username || "Usuário";
 
       const effectiveTimestamp = getMessageTimestampValue(msg);
@@ -10092,7 +10371,6 @@ const contacts = [];
         
         // Se não há contribuinte válido, não criar o chat (ignorar mensagem)
         if (contributorId && !contributorExists) {
-          console.warn(`⚠️ Mensagem ignorada: contribuinte ${contributorId} não encontrado ou inativo`);
           return; // Ignorar mensagem de contribuinte inválido
         }
         
@@ -10385,7 +10663,6 @@ const contacts = [];
       const isChatEmployee = isEmployeeChatId(chatId);
       const contributorIdFromChat = chatData.contributorId || getContributorIdFromChatId(chatId);
       
-      console.log(`[loadSupportChat] Iniciando carregamento - chatId: ${chatId}, contributorId do chatData: ${chatData.contributorId}, contributorId extraído: ${getContributorIdFromChatId(chatId)}, contributorIdFromChat final: ${contributorIdFromChat}`);
 
       // CRITICAL: Recarregar mensagens para garantir que apenas as mensagens corretas estejam no chat
       // As funções loadEmployeeChatMessages e loadAdminChatMessages são assíncronas e atualizam chatData.messages diretamente
@@ -10409,7 +10686,7 @@ const contacts = [];
         chatData.lastMessageTimestamp = getMessageTimestampValue(chatData.lastMessage);
       }
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const userSector = currentUser.sector || "";
 
       if (!chatData.sector && userSector) {
@@ -10623,15 +10900,12 @@ const contacts = [];
       // DEBUG: Verificar quantas mensagens têm file.data ANTES da renderização
       const messagesWithFiles = messagesToDisplay.filter(m => m.file);
       const messagesWithFileData = messagesToDisplay.filter(m => m.file && m.file.data);
-      console.log(`📨 Carregando ${messagesToDisplay.length} mensagens do chat ${chatId} (${isChatEmployee ? 'funcionário' : 'administrador'})`);
-      console.log(`[loadSupportChat] ⚠️ ANTES da renderização - Mensagens com file: ${messagesWithFiles.length}, com file.data: ${messagesWithFileData.length}`);
       
       // CRITICAL: Garantir que todas as mensagens com arquivo tenham file.data antes de renderizar
       // Buscar file.data do localStorage para todas as mensagens que não têm
       if (messagesWithFiles.length > messagesWithFileData.length) {
-        console.log(`[loadSupportChat] ⚠️ ALERTA: ${messagesWithFiles.length - messagesWithFileData.length} mensagens têm file mas não têm file.data! Buscando do localStorage...`);
         try {
-          const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+          const allMessages = getStorageItem("supportMessages", []);
           const localStorageMessagesMap = new Map();
           allMessages.forEach(lm => {
             if (lm.id && lm.file && lm.file.data) {
@@ -10662,16 +10936,13 @@ const contacts = [];
               if (fileDataFromStorage) {
                 msg.file.data = fileDataFromStorage;
                 restoredCount++;
-                console.log(`[loadSupportChat] ✅ Restaurado file.data ANTES da renderização para mensagem ${msg.id || msg.timestamp}`);
               }
             }
           });
           
           if (restoredCount > 0) {
-            console.log(`[loadSupportChat] ✅ Total de ${restoredCount} file.data restaurados ANTES da renderização`);
           }
         } catch (error) {
-          console.error(`[loadSupportChat] ❌ Erro ao restaurar file.data antes da renderização:`, error);
         }
       }
 
@@ -10762,7 +11033,7 @@ const contacts = [];
           // O chatId pode ter sido alterado durante o carregamento, então buscar por ID/timestamp
           if (!fileDataToRender) {
             try {
-              const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+              const allMessages = getStorageItem("supportMessages", []);
               
               // Buscar mensagem no localStorage usando ID ou timestamp (não chatId)
               // Isso garante que encontremos a mensagem mesmo se o chatId foi alterado
@@ -10786,41 +11057,14 @@ const contacts = [];
               
               if (localStorageMsg && localStorageMsg.file && localStorageMsg.file.data) {
                 fileDataToRender = localStorageMsg.file.data;
-                console.log(`[loadSupportChat] ✅ file.data encontrado no localStorage:`, {
-                  timestamp: msg.timestamp,
-                  id: msg.id,
-                  fileName: msg.file.name,
-                  dataLength: fileDataToRender.length,
-                  foundBy: msg.id ? 'ID' : 'timestamp'
-                });
               } else if (msg.file) {
-                console.warn(`[loadSupportChat] ⚠️ Mensagem tem file mas não encontrou file.data no localStorage:`, {
-                  timestamp: msg.timestamp,
-                  id: msg.id,
-                  fileName: msg.file.name,
-                  searchedMessages: allMessages.length
-                });
               }
             } catch (error) {
-              console.warn(`[loadSupportChat] Erro ao buscar file.data do localStorage:`, error);
             }
           } else {
-            console.log(`[loadSupportChat] ✅ file.data já presente na mensagem:`, {
-              timestamp: msg.timestamp,
-              id: msg.id,
-              fileName: msg.file.name,
-              dataLength: fileDataToRender.length
-            });
           }
           
           if (fileDataToRender) {
-            console.log(`[loadSupportChat] ✅ Renderizando mensagem com arquivo:`, {
-              timestamp: msg.timestamp,
-              id: msg.id,
-              fileName: msg.file.name,
-              hasData: !!fileDataToRender,
-              dataLength: fileDataToRender.length || 0
-            });
             
             const fileObj = {
               name: msg.file.name,
@@ -10838,13 +11082,6 @@ const contacts = [];
               messageDiv.appendChild(captionDiv);
             }
           } else {
-            console.error(`[loadSupportChat] ❌ ERRO: Mensagem tem file mas não encontrou file.data (nem no localStorage nem em msg.file):`, {
-              timestamp: msg.timestamp,
-              id: msg.id,
-              fileName: msg.file.name,
-              hasFileInMessage: !!msg.file,
-              hasDataInMessage: !!msg.file.data
-            });
           }
         }
 
@@ -10951,7 +11188,6 @@ const contacts = [];
 
       // Renderizar lista de funcionários se for um contribuinte (tanto chat do admin quanto de funcionário)
       // isChatEmployee e contributorIdFromChat já foram declarados no início da função
-      console.log(`[loadSupportChat] Verificando renderização de funcionários - contributorIdFromChat: ${contributorIdFromChat}, isChatEmployee: ${isChatEmployee}`);
       
       // CRITICAL: Sempre renderizar lista de funcionários se houver um contributorId
       // Mesmo que não haja funcionários, a função deve ser chamada para garantir que está visível quando necessário
@@ -10968,7 +11204,6 @@ const contacts = [];
         
         // CRITICAL: Sempre renderizar lista de funcionários ao abrir chat de contribuinte
       // Usar setTimeout para garantir que o DOM esteja pronto e que markSupportMessagesAsRead tenha terminado
-        console.log(`[loadSupportChat] Renderizando lista de funcionários para contribuinte ${contributorIdFromChat}`);
         setTimeout(() => {
           renderEmployeesList(contributorIdFromChat);
         // Após re-renderizar, remover o indicador de não lidas (employee-unread-indicator)
@@ -11043,11 +11278,10 @@ const contacts = [];
       }
       
       // Carregar mensagens do localStorage e Firebase
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
       
       // DEBUG: Verificar quantas mensagens têm file.data no localStorage
       const messagesWithFiles = messages.filter(m => m.file && m.file.data);
-      console.log(`[loadEmployeeChatMessages] Total de mensagens no localStorage: ${messages.length}, com file.data: ${messagesWithFiles.length}`);
       
       // DEBUG: Verificar mensagens com arquivo que pertencem a este funcionário ANTES da filtragem
       const messagesWithFilesForEmployee = messages.filter(msg => {
@@ -11056,21 +11290,8 @@ const contacts = [];
                (msg.type === "client" && msg.contributorId === contributorId && msg.employeeId === employeeId) ||
                (msg.type === "support" && msg.contributorId === contributorId && msg.targetEmployeeId === employeeId);
       });
-      console.log(`[loadEmployeeChatMessages] Mensagens com file.data que PERTENCEM a este funcionário (antes do filtro): ${messagesWithFilesForEmployee.length}`);
       if (messagesWithFilesForEmployee.length > 0) {
         messagesWithFilesForEmployee.forEach((msg, idx) => {
-          console.log(`[loadEmployeeChatMessages] Mensagem ${idx + 1} com arquivo que pertence ao funcionário:`, {
-            id: msg.id,
-            timestamp: msg.timestamp,
-            type: msg.type,
-            chatId: msg.chatId,
-            expectedChatId: employeeChatId,
-            contributorId: msg.contributorId,
-            employeeId: msg.employeeId,
-            targetEmployeeId: msg.targetEmployeeId,
-            fileName: msg.file.name,
-            hasData: !!msg.file.data
-          });
         });
       }
       
@@ -11107,16 +11328,6 @@ const contacts = [];
               (msg.type === "client" && msg.contributorId === contributorId && msg.employeeId === employeeId) ||
               (msg.type === "support" && msg.contributorId === contributorId && msg.targetEmployeeId === employeeId);
             if (shouldBeIncluded) {
-              console.warn(`[loadEmployeeChatMessages] ⚠️ Mensagem com arquivo não incluída mas deveria estar:`, {
-                id: msg.id,
-                timestamp: msg.timestamp,
-                chatId: msg.chatId,
-                type: msg.type,
-                contributorId: msg.contributorId,
-                employeeId: msg.employeeId,
-                targetEmployeeId: msg.targetEmployeeId,
-                fileName: msg.file.name
-              });
               return true;
             }
           }
@@ -11125,13 +11336,11 @@ const contacts = [];
       });
       
       if (messagesWithFilesNotIncluded.length > 0) {
-        console.warn(`[loadEmployeeChatMessages] ⚠️ ${messagesWithFilesNotIncluded.length} mensagens com arquivo não foram incluídas na filtragem!`);
       }
       
       // DEBUG: Verificar quantas mensagens filtradas têm file
       const filteredMessagesWithFiles = employeeMessages.filter(m => m.file);
       const filteredMessagesWithFileData = employeeMessages.filter(m => m.file && m.file.data);
-      console.log(`[loadEmployeeChatMessages] Mensagens filtradas: ${employeeMessages.length}, com file: ${filteredMessagesWithFiles.length}, com file.data: ${filteredMessagesWithFileData.length}`);
       
       // Atualizar chatId das mensagens para o chat do funcionário
       employeeMessages.forEach(msg => {
@@ -11172,7 +11381,6 @@ const contacts = [];
           const storageMsg = localStorageMessagesMap.get(msg.id);
           if (storageMsg.file && storageMsg.file.data) {
             fileDataFromStorage = storageMsg.file.data;
-            console.log(`[loadEmployeeChatMessages] ✅ file.data encontrado por ID: ${msg.id}`);
           }
         }
         
@@ -11181,20 +11389,13 @@ const contacts = [];
           const storageMsg = localStorageMessagesMap.get('ts:' + msg.timestamp);
           if (storageMsg.file && storageMsg.file.data) {
             fileDataFromStorage = storageMsg.file.data;
-            console.log(`[loadEmployeeChatMessages] ✅ file.data encontrado por timestamp: ${msg.timestamp}`);
           }
         }
         
         // Se encontrou file.data no localStorage, SEMPRE usar ele (sobrescrever se necessário)
         if (fileDataFromStorage && msg.file) {
           msg.file.data = fileDataFromStorage;
-          console.log(`[loadEmployeeChatMessages] ✅ Restaurado file.data do localStorage para mensagem ${msg.id || msg.timestamp}, fileName: ${msg.file.name}`);
         } else if (msg.file && !msg.file.data) {
-          console.warn(`[loadEmployeeChatMessages] ⚠️ Mensagem tem file mas não encontrou file.data:`, {
-            id: msg.id,
-            timestamp: msg.timestamp,
-            fileName: msg.file.name
-          });
         } else if (msg.id && existingMessagesMap.has(msg.id)) {
           // Fallback: usar file.data da mensagem existente se não encontrou no localStorage
           const existingMsg = existingMessagesMap.get(msg.id);
@@ -11246,11 +11447,10 @@ const contacts = [];
     // Função para carregar mensagens do chat do administrador
     async function loadAdminChatMessages(adminChatId, contributorId) {
       // Carregar mensagens do localStorage e Firebase
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
       
       // DEBUG: Verificar quantas mensagens têm file.data no localStorage
       const messagesWithFiles = messages.filter(m => m.file && m.file.data);
-      console.log(`[loadAdminChatMessages] Total de mensagens no localStorage: ${messages.length}, com file.data: ${messagesWithFiles.length}`);
       
       // Filtrar mensagens do administrador (sem employeeId e sem targetEmployeeId)
       // CRITICAL: Apenas mensagens que NÃO são de funcionários
@@ -11282,7 +11482,6 @@ const contacts = [];
       // DEBUG: Verificar quantas mensagens filtradas têm file
       const filteredMessagesWithFiles = adminMessages.filter(m => m.file);
       const filteredMessagesWithFileData = adminMessages.filter(m => m.file && m.file.data);
-      console.log(`[loadAdminChatMessages] Mensagens filtradas: ${adminMessages.length}, com file: ${filteredMessagesWithFiles.length}, com file.data: ${filteredMessagesWithFileData.length}`);
       
       // Atualizar chatId das mensagens para o chat do administrador
       adminMessages.forEach(msg => {
@@ -11323,7 +11522,6 @@ const contacts = [];
             const storageMsg = localStorageMessagesMap.get(msg.id);
             if (storageMsg.file && storageMsg.file.data) {
               fileDataFromStorage = storageMsg.file.data;
-              console.log(`[loadAdminChatMessages] ✅ file.data encontrado por ID: ${msg.id}`);
             }
           }
           
@@ -11332,20 +11530,13 @@ const contacts = [];
             const storageMsg = localStorageMessagesMap.get('ts:' + msg.timestamp);
             if (storageMsg.file && storageMsg.file.data) {
               fileDataFromStorage = storageMsg.file.data;
-              console.log(`[loadAdminChatMessages] ✅ file.data encontrado por timestamp: ${msg.timestamp}`);
             }
           }
           
           // Se encontrou file.data no localStorage, SEMPRE usar ele (sobrescrever se necessário)
           if (fileDataFromStorage && msg.file) {
             msg.file.data = fileDataFromStorage;
-            console.log(`[loadAdminChatMessages] ✅ Restaurado file.data do localStorage para mensagem ${msg.id || msg.timestamp}, fileName: ${msg.file.name}`);
           } else if (msg.file && !msg.file.data) {
-            console.warn(`[loadAdminChatMessages] ⚠️ Mensagem tem file mas não encontrou file.data:`, {
-              id: msg.id,
-              timestamp: msg.timestamp,
-              fileName: msg.file.name
-            });
           } else if (msg.id && existingMessagesMap.has(msg.id)) {
             // Fallback: usar file.data da mensagem existente se não encontrou no localStorage
             const existingMsg = existingMessagesMap.get(msg.id);
@@ -11380,7 +11571,6 @@ const contacts = [];
     async function handleEmployeeClick(event) {
       // Prevenir múltiplas execuções simultâneas
       if (isSwitchingEmployee) {
-        console.warn("[handleEmployeeClick] Já está alternando entre funcionários, ignorando clique");
         return;
       }
       
@@ -11409,13 +11599,11 @@ const contacts = [];
       
       // Se já está no chat deste funcionário, não fazer nada
       if (isCurrentlyEmployeeChat && currentSupportChatId === employeeChatId) {
-        console.log("[handleEmployeeClick] Já está no chat deste funcionário, ignorando");
         return;
       }
       
       // Ativar flag de alternância
       isSwitchingEmployee = true;
-      console.log(`[handleEmployeeClick] Iniciando alternância para funcionário ${employeeId}`);
       
       try {
         // ChatId do administrador
@@ -11463,9 +11651,7 @@ const contacts = [];
         // Atualizar lista de funcionários para mostrar badges atualizados
         renderEmployeesList(contributorIdFromCurrent);
         
-        console.log(`[handleEmployeeClick] Alternância concluída para funcionário ${employeeId}`);
       } catch (error) {
-        console.error("[handleEmployeeClick] Erro ao alternar entre funcionários:", error);
       } finally {
         // Sempre liberar o flag, mesmo em caso de erro
         isSwitchingEmployee = false;
@@ -11482,17 +11668,14 @@ const contacts = [];
       if (!activeChatId) return;
       
       if (!supportChats[activeChatId]) {
-        console.log(`[updateActiveContributorEmployeesList] Chat ${activeChatId} não encontrado em supportChats`);
         return;
       }
       
       const activeChat = supportChats[activeChatId];
       if (!activeChat.contributorId) {
-        console.log(`[updateActiveContributorEmployeesList] Chat ${activeChatId} não tem contributorId`);
         return;
       }
       
-      console.log(`[updateActiveContributorEmployeesList] Atualizando lista de funcionários para contribuinte ${activeChat.contributorId}`);
       // Atualizar lista de funcionários do contribuinte ativo (sempre recriar, como updateSupportContactsList faz)
       renderEmployeesList(activeChat.contributorId);
     }
@@ -11500,7 +11683,7 @@ const contacts = [];
     // Função para contar total de mensagens não lidas do chat de contribuintes
     function getTotalSupportUnreadCount() {
       let totalUnread = 0;
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
       
       // Contar mensagens não lidas de todos os contribuintes
@@ -11527,7 +11710,7 @@ const contacts = [];
     
     // Função para contar total de mensagens não lidas do chat interno
     function getTotalInternalUnreadCount() {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
       const messages = getInternalMessages();
       let totalUnread = 0;
@@ -11600,20 +11783,15 @@ const contacts = [];
       const employeesCount = document.getElementById("employeesCount");
 
       if (!employeesListContainer || !employeesList || !employeesCount) {
-        console.error("Elementos da lista de funcionários não encontrados");
         return;
       }
 
       // Obter todos os funcionários do storage primeiro
       const allEmployees = getContributorEmployees();
-      console.log(`[renderEmployeesList] Total de funcionários no storage:`, allEmployees.length);
-      console.log(`[renderEmployeesList] Todos os funcionários:`, allEmployees);
       
       // Obter funcionários do contribuinte específico
       const employees = getEmployeesByContributorId(contributorId);
       
-      console.log(`[renderEmployeesList] Renderizando lista de funcionários para contribuinte ${contributorId}:`, employees.length, "funcionários encontrados");
-      console.log(`[renderEmployeesList] Funcionários encontrados:`, employees);
 
       // Atualizar contador
       employeesCount.textContent = employees.length;
@@ -11624,13 +11802,11 @@ const contacts = [];
       // Se não houver funcionários, esconder a lista
       if (employees.length === 0) {
         employeesListContainer.classList.add("hidden");
-        console.warn(`[renderEmployeesList] Nenhum funcionário encontrado para contribuinte ${contributorId}`);
         return;
       }
 
       // CRITICAL: Sempre mostrar lista se há funcionários
       employeesListContainer.classList.remove("hidden");
-      console.log(`[renderEmployeesList] Container de funcionários tornado visível`);
 
       // Usar event delegation para evitar duplicação de listeners
       // Remover listener antigo se existir
@@ -11640,9 +11816,7 @@ const contacts = [];
       employeesList.addEventListener("click", handleEmployeeClick);
 
       // Renderizar cada funcionário
-      console.log(`[renderEmployeesList] Iniciando renderização de ${employees.length} funcionários`);
       employees.forEach((employee, index) => {
-        console.log(`[renderEmployeesList] Renderizando funcionário ${index + 1}/${employees.length}:`, employee);
         // Obter chatId do funcionário
         const employeeChatId = getEmployeeChatId(contributorId, employee.id);
         
@@ -11671,7 +11845,7 @@ const contacts = [];
         
         // Carregar mensagens existentes deste funcionário ANTES de contar não lidas
         // CRITICAL: Recarregar mensagens do localStorage para garantir dados atualizados
-        const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const messages = getStorageItem("supportMessages", []);
         const employeeMessages = messages.filter(msg => {
           // Mensagens do funcionário
           if (msg.type === "client" && msg.contributorId === contributorId && msg.employeeId === employee.id) {
@@ -11804,14 +11978,10 @@ const contacts = [];
         // Não precisamos adicionar listeners individuais aqui
 
         employeesList.appendChild(employeeItem);
-        console.log(`[renderEmployeesList] Funcionário ${index + 1} adicionado ao DOM:`, employeeItem);
       });
       
       // Verificar se os elementos foram adicionados corretamente
       const renderedEmployees = employeesList.querySelectorAll(".employee-item");
-      console.log(`[renderEmployeesList] Total de elementos .employee-item no DOM: ${renderedEmployees.length}`);
-      console.log(`[renderEmployeesList] Container está visível? ${!employeesListContainer.classList.contains("hidden")}`);
-      console.log(`[renderEmployeesList] Estilos do container:`, window.getComputedStyle(employeesListContainer).display, window.getComputedStyle(employeesListContainer).visibility);
     }
 
     
@@ -11820,7 +11990,7 @@ const contacts = [];
 
     // Função para contar mensagens não lidas do administrador para um contribuinte
     function getAdminUnreadCount(contributorId) {
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
       const adminMessages = messages.filter(msg => {
         if (msg.contributorId !== contributorId) return false;
         // Apenas mensagens do tipo "client" (recebidas do contribuinte) podem ser não lidas
@@ -11839,7 +12009,7 @@ const contacts = [];
 
     // Função para contar mensagens não lidas de funcionários para um contribuinte
     function getEmployeesUnreadCount(contributorId) {
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
       const employeeMessages = messages.filter(msg => {
         if (msg.contributorId !== contributorId) return false;
         if (msg.type === "client") {
@@ -11854,7 +12024,7 @@ const contacts = [];
 
     function markSupportMessagesAsRead(chatId) {
 
-      const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+      const messages = getStorageItem("supportMessages", []);
       const chatData = supportChats[chatId];
 
       if (!chatData) return;
@@ -11967,7 +12137,6 @@ const contacts = [];
 
     if (!filePreviewInline || !filePreviewContentInline || !closePreviewInline) {
 
-      console.error("Elementos da pré-visualização não encontrados!");
 
     }
 
@@ -11979,7 +12148,6 @@ const contacts = [];
 
       if (!filePreviewInline || !filePreviewContentInline) {
 
-        console.error("Elementos da pré-visualização não encontrados!");
 
         return;
 
@@ -12022,6 +12190,18 @@ const contacts = [];
         video.controls = true;
 
         filePreviewContentInline.appendChild(video);
+
+      } else if (isAudioFile(file.name)) {
+
+        const audio = document.createElement("audio");
+
+        audio.src = fileData;
+
+        audio.controls = true;
+
+        audio.preload = "metadata";
+
+        filePreviewContentInline.appendChild(audio);
 
       } else {
 
@@ -12130,10 +12310,8 @@ const contacts = [];
     // Função para enviar arquivo com legenda
 
     function sendFileWithCaption() {
-      console.log('[sendFileWithCaption] Função chamada. currentFile:', !!currentFile, 'currentFileData:', !!currentFileData, 'currentSupportChatId:', currentSupportChatId);
 
       if (!currentFile || !currentFileData) {
-        console.warn('[sendFileWithCaption] Retornando: currentFile ou currentFileData não existe');
         return;
       }
 
@@ -12141,13 +12319,12 @@ const contacts = [];
       const time = getCurrentTime();
 
         // Obter nome do usuário logado
-        const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+        const currentUser = getStorageItem("currentUser", {});
         const userName = currentUser.fullName || currentUser.username || "Usuário";
         const userSector = currentUser.sector || "";
 
             // Verificar se é um chat de suporte
             if (currentSupportChatId) {
-        console.log('[sendFileWithCaption] Chat de suporte detectado:', currentSupportChatId);
 
               // Obter o setor do chat atual
               const currentChat = supportChats[currentSupportChatId];
@@ -12162,7 +12339,7 @@ const contacts = [];
                 id: generateUniqueId(),
                 chatId: currentSupportChatId,
                 sender: userName,
-                profileImage: "../../assets/images/avatars/profile-1.png",
+                profileImage: currentUser.profileImage || DEFAULT_PROFILE_IMAGE,
                 type: "support",
                 sector: chatSector, // Adicionar setor à mensagem de arquivo
                 time: time,
@@ -12179,14 +12356,6 @@ const contacts = [];
           }
         };
         
-        console.log('[sendFileWithCaption] Mensagem de arquivo salva com campos:', {
-          id: messageData.id,
-          chatId: messageData.chatId,
-          contributorId: messageData.contributorId,
-          targetEmployeeId: messageData.targetEmployeeId,
-          fileName: messageData.file.name,
-          hasData: !!messageData.file.data
-        });
 
               // Adicionar mensagem na interface
               const messageDiv = document.createElement("div");
@@ -12220,14 +12389,11 @@ const contacts = [];
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
               // Salvar no localStorage
-              const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+              const messages = getStorageItem("supportMessages", []);
 
               messages.push(messageData);
 
               localStorage.setItem("supportMessages", JSON.stringify(messages));
-
-              // Salvar no Firebase
-              saveSupportMessageToFirebase(messageData);
 
               // Atualizar lista de contatos
               updateSupportContactsList();
@@ -12243,26 +12409,21 @@ const contacts = [];
 
             } else {
               // Contato normal
-        console.log('[sendFileWithCaption] Contato normal detectado');
 
               const activeContact = document.querySelector(".contact.active:not(.support-contact)");
 
         if (!activeContact) {
-          console.warn('[sendFileWithCaption] Nenhum contato ativo encontrado');
           return;
         }
 
               const contactId = activeContact.getAttribute("data-contact-id");
-        console.log('[sendFileWithCaption] Contato ID:', contactId);
 
               const contact = contacts.find(c => c.id === parseInt(contactId));
 
         if (!contact) {
-          console.warn('[sendFileWithCaption] Contato', contactId, 'não encontrado no array contacts');
           return;
         }
               
-        console.log('[sendFileWithCaption] Contato encontrado:', contact.name);
 
               // Garantir que contact.messages seja um array
               if (!contact.messages) {
@@ -12303,24 +12464,15 @@ const contacts = [];
             }
           };
           
-          console.log('[sendFileWithCaption] Salvando mensagem com arquivo no localStorage:', {
-            id: messageData.id,
-            timestamp: messageData.timestamp,
-            fileName: messageData.file.name,
-            hasData: !!messageData.file.data,
-            dataLength: messageData.file.data ? messageData.file.data.length : 0
-          });
                 
-                const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+                const allMessages = getStorageItem("supportMessages", []);
                 allMessages.push(messageData);
                 localStorage.setItem("supportMessages", JSON.stringify(allMessages));
           
-          console.log('[sendFileWithCaption] Mensagem salva no localStorage. Total de mensagens:', allMessages.length);
                 
                 // Atualizar lista de arquivos do perfil
                 renderUserFiles();
               } catch (error) {
-                console.warn("Erro ao salvar mensagem de arquivo no localStorage:", error);
               }
 
               const messageDiv = document.createElement("div");
@@ -12413,15 +12565,6 @@ const contacts = [];
 
     if (!emojiButton || !emojiPanel || !emojiGrid) {
 
-      console.error("Elementos de emoji não encontrados!", {
-
-        emojiButton: emojiButton,
-
-        emojiPanel: emojiPanel,
-
-        emojiGrid: emojiGrid
-
-      });
 
     }
 
@@ -12547,7 +12690,6 @@ const contacts = [];
 
       if (!emojiGrid) {
 
-        console.error("Grid de emojis não encontrado!");
 
         return;
 
@@ -12561,7 +12703,6 @@ const contacts = [];
 
       
 
-      console.log(`🎨 Renderizando ${emojis.length} emojis animados da categoria: ${category}`);
 
       
 
@@ -12649,7 +12790,6 @@ const contacts = [];
 
       
 
-      console.log(`✅ ${emojis.length} emojis Noto renderizados com sucesso!`);
 
     }
 
@@ -12745,7 +12885,6 @@ const contacts = [];
 
       if (!messageInput) {
 
-        console.error("Input de mensagem não encontrado!");
 
         return;
 
@@ -12781,7 +12920,6 @@ const contacts = [];
 
         e.stopPropagation();
 
-        console.log("🎨 Abrindo painel de Noto Emoji Animation...");
 
         const isVisible = emojiPanel.style.display === "block";
 
@@ -12801,7 +12939,6 @@ const contacts = [];
 
           
 
-          console.log(`✨ Painel Noto Emoji aberto com ${emojiData[categoryName].length} emojis!`);
 
         }
 
@@ -12809,7 +12946,6 @@ const contacts = [];
 
     } else {
 
-      console.error("Botão ou painel de emojis não encontrado para adicionar evento!");
 
     }
 
@@ -12837,7 +12973,6 @@ const contacts = [];
 
           const categoryName = category.getAttribute("data-category");
 
-          console.log(`🔄 Trocando para categoria: ${categoryName}`);
 
           renderEmojis(categoryName);
 
@@ -12905,7 +13040,13 @@ const contacts = [];
 
         const file = files[0];
 
-        
+        // Limite de 10 MB para arquivos enviados no chat
+        const MAX_CHAT_FILE_SIZE = 10 * 1024 * 1024;
+        if (file.size > MAX_CHAT_FILE_SIZE) {
+          showToast("Arquivo muito grande. O limite é 10 MB.", "error");
+          fileInput.value = '';
+          return;
+        }
 
         try {
 
@@ -12917,7 +13058,6 @@ const contacts = [];
 
           showToast("Erro ao processar arquivo", "error");
 
-          console.error(error);
 
         }
 
@@ -13361,7 +13501,7 @@ const contacts = [];
 
       if (image && contactType === 'normal') {
 
-        avatarHTML = `<img src="${image}" onerror="this.src='${getPlaceholderAvatarDataUri(36, safeInitial)}'" alt="${safeName}">`;
+        avatarHTML = `<img class="contact-avatar-img" src="${escapeAttr(image)}" alt="${escapeAttr(safeName)}" data-fallback-initial="${escapeAttr(safeInitial)}">`;
 
       } else {
 
@@ -13393,6 +13533,15 @@ const contacts = [];
 
       
 
+      // Vincular fallback do avatar via event listener (evita onerror inline)
+      const avatarImg = item.querySelector('.contact-avatar-img');
+      if (avatarImg) {
+        const fallbackInitial = avatarImg.getAttribute('data-fallback-initial') || '?';
+        avatarImg.addEventListener('error', function() {
+          this.src = getPlaceholderAvatarDataUri(36, fallbackInitial);
+        });
+      }
+
       // Evento de clique
 
       item.addEventListener("click", () => {
@@ -13401,7 +13550,7 @@ const contacts = [];
 
       });
 
-      
+
 
       return item;
 
@@ -13485,7 +13634,6 @@ const contacts = [];
 
       
 
-      console.log(`✅ Contato selecionado: ${name} (${type})`);
 
     }
     
@@ -13595,7 +13743,6 @@ const contacts = [];
         employeeSelectorButton.classList.remove("active");
       }
       
-      console.log(`✅ Funcionário selecionado: ${name} (${type})`);
     }
 
     
@@ -14034,7 +14181,6 @@ const contacts = [];
 
         if (reportStartDateDisplay) reportStartDateDisplay.textContent = formatDateDisplay(date);
 
-        console.log(`📅 Data inicial selecionada: ${formatDateDisplay(date)}`);
 
       } else {
 
@@ -14042,7 +14188,6 @@ const contacts = [];
 
         if (!reportStartDate) {
 
-          console.warn('⚠️ Selecione primeiro a data inicial');
 
           return;
 
@@ -14052,7 +14197,6 @@ const contacts = [];
 
         if (reportEndDateDisplay) reportEndDateDisplay.textContent = formatDateDisplay(date);
 
-        console.log(`📅 Data final selecionada: ${formatDateDisplay(date)}`);
 
       }
 
@@ -14373,7 +14517,7 @@ const contacts = [];
 
       const messages = [];
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
 
       const userName = currentUser.fullName || currentUser.username || "Usuário";
 
@@ -14399,7 +14543,7 @@ const contacts = [];
 
         // Buscar mensagens de suporte
 
-        const supportMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const supportMessages = getStorageItem("supportMessages", []);
         
         // Determinar o chatId correto baseado no funcionário selecionado
         let targetChatId = contact.id;
@@ -14500,7 +14644,6 @@ const contacts = [];
         
         // Verificar se o contato existe
         if (!normalContact) {
-          console.warn(`[generateChatReport] Contato ${contact.id} não encontrado no array contacts`);
           return {
             contactName: contact.name || 'Contato Desconhecido',
             contactType: contact.type,
@@ -14516,7 +14659,6 @@ const contacts = [];
           normalContact.messages.forEach(msg => {
             // Verificar se a mensagem tem timestamp válido
             if (!msg.timestamp) {
-              console.warn(`[generateChatReport] Mensagem sem timestamp encontrada:`, msg);
               return;
             }
             
@@ -14524,7 +14666,6 @@ const contacts = [];
             
             // Verificar se a data é válida
             if (isNaN(msgDate.getTime())) {
-              console.warn(`[generateChatReport] Data inválida na mensagem:`, msg);
               return;
             }
             
@@ -14555,7 +14696,7 @@ const contacts = [];
         
         // Também buscar mensagens do localStorage (supportMessages) caso existam para este contato
         // As mensagens de contatos normais podem estar armazenadas no localStorage com um chatId baseado no contact.id
-        const allMessages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+        const allMessages = getStorageItem("supportMessages", []);
         const contactChatId = `chat_contact_${contact.id}`;
         
         allMessages.forEach(msg => {
@@ -14615,7 +14756,6 @@ const contacts = [];
           }
         });
         
-        console.log(`[generateChatReport] Total de mensagens encontradas para contato ${contact.id}: ${messages.length}`);
       }
 
       
@@ -14816,7 +14956,6 @@ const contacts = [];
 
       
 
-      console.log(`📊 Relatório renderizado: ${data.messages.length} mensagens`);
 
     }
 
@@ -14854,7 +14993,6 @@ const contacts = [];
 
       if (!pdfContent) {
 
-        console.error('pdfContent não encontrado!');
 
         return;
 
@@ -14862,7 +15000,6 @@ const contacts = [];
 
       
 
-      console.log('🎨 Renderizando conteúdo para PDF...');
 
       
 
@@ -14922,7 +15059,6 @@ const contacts = [];
 
       
 
-      console.log(`📝 Renderizando ${data.messages.length} mensagens...`);
 
       
 
@@ -15000,7 +15136,6 @@ const contacts = [];
 
       
 
-      console.log('✅ Conteúdo renderizado! Altura total:', pdfContent.scrollHeight + 'px');
 
     }
 
@@ -15034,7 +15169,6 @@ const contacts = [];
 
         
 
-        console.log('📸 Preparando conteúdo completo do relatório...');
 
         
 
@@ -15078,7 +15212,6 @@ const contacts = [];
 
         if (!pdfElement.innerHTML || pdfElement.innerHTML.trim() === '') {
 
-          console.error('Conteúdo PDF vazio!');
 
           showToast("Erro: conteúdo vazio", "error");
 
@@ -15088,9 +15221,7 @@ const contacts = [];
 
         
 
-        console.log(`📸 Capturando ${data.messages.length} mensagens...`);
 
-        console.log('Altura do conteúdo:', pdfElement.scrollHeight + 'px');
 
         
 
@@ -15126,9 +15257,7 @@ const contacts = [];
 
         
 
-        console.log('✅ Captura concluída!');
 
-        console.log('Canvas:', canvas.width + 'x' + canvas.height);
 
         
 
@@ -15136,7 +15265,6 @@ const contacts = [];
 
         if (!canvas || canvas.width === 0 || canvas.height === 0) {
 
-          console.error('Canvas inválido!');
 
           showToast("Erro ao capturar conteúdo", "error");
 
@@ -15190,7 +15318,6 @@ const contacts = [];
 
         
 
-        console.log('Imagem gerada, tamanho:', imgData.length, 'bytes');
 
         
 
@@ -15240,7 +15367,6 @@ const contacts = [];
 
         
 
-        console.log(`📥 PDF gerado com ${data.messages.length} mensagens e emojis visuais: ${fileName}`);
 
         
 
@@ -15266,7 +15392,6 @@ const contacts = [];
 
       } catch (error) {
 
-        console.error('Erro ao gerar PDF:', error);
 
         showToast("Erro ao gerar PDF. Tente novamente.", "error");
 
@@ -15315,11 +15440,10 @@ const contacts = [];
 
     // Função para atualizar lista de contatos internos
     function updateInternalContactsList() {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
       
       if (!currentUsername) {
-        console.warn("Usuário não autenticado");
         return;
       }
 
@@ -15409,6 +15533,14 @@ const contacts = [];
             }
           });
         });
+      }
+
+      // Restaurar destaque do contato ativo após reconstrução da lista
+      if (currentInternalChatId) {
+        const activeContact = internalContactsSection.querySelector(
+          `[data-chat-id="${currentInternalChatId}"]`
+        );
+        if (activeContact) activeContact.classList.add("active");
       }
     }
 
@@ -15503,7 +15635,6 @@ const contacts = [];
       const chatMain = document.querySelector(".internal-chat-container .chat-main");
       
       if (!messagesContainer) {
-        console.error("Container de mensagens interno não encontrado");
         return;
       }
 
@@ -15550,7 +15681,6 @@ const contacts = [];
       // Habilitar input de mensagem
       enableInternalMessageInput();
       
-      console.log("✅ Chat interno carregado para:", user.fullName || user.username);
     }
     
     // Função para marcar mensagens internas como lidas
@@ -15558,7 +15688,7 @@ const contacts = [];
       const messages = getInternalMessages();
       const chatMessages = messages[chatId] || [];
       
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
       
       let hasUnreadMessages = false;
@@ -15583,7 +15713,7 @@ const contacts = [];
       const messagesContainer = document.getElementById("internalMessages");
       if (!messagesContainer) return;
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
       const senderUsername = normalizeUsername(msg.sender || msg.senderUsername || "");
       
@@ -15701,7 +15831,7 @@ const contacts = [];
         return;
       }
 
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+      const currentUser = getStorageItem("currentUser", {});
       const currentUsername = normalizeUsername(currentUser.username);
 
       const messages = getInternalMessages();
@@ -15768,18 +15898,11 @@ const contacts = [];
       const messageInput = document.getElementById("internalMessageInput");
       const sendButton = document.getElementById("internalSendButton");
       
-      console.log("🔧 Habilitando input interno:", {
-        container: !!messageInputContainer,
-        input: !!messageInput,
-        button: !!sendButton
-      });
       
       if (messageInputContainer) {
         messageInputContainer.classList.add("active");
         messageInputContainer.style.display = "flex";
-        console.log("✅ Classe 'active' adicionada ao message-input");
       } else {
-        console.error("❌ Container message-input não encontrado no chat interno");
       }
       
       if (messageInput) {
@@ -15878,11 +16001,9 @@ const contacts = [];
     // Função para carregar solicitações de recrutamento do localStorage
     window.loadRecruitmentRequests = function() {
       try {
-        const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
-        console.log('📋 Solicitações carregadas:', requests.length);
+        const requests = getStorageItem('recruitmentRequests', []);
         return requests;
       } catch (error) {
-        console.error('Erro ao carregar solicitações de recrutamento:', error);
         return [];
       }
     };
@@ -15893,12 +16014,10 @@ const contacts = [];
       const totalBadge = document.getElementById('totalRecruitmentRequests');
       
       if (!requestsList) {
-        console.warn('⚠️ Elemento recruitmentRequestsList não encontrado');
         return;
       }
       
       const requests = window.loadRecruitmentRequests();
-      console.log('📋 Renderizando solicitações:', requests.length);
       
       // Atualizar badge
       if (totalBadge) {
@@ -15921,62 +16040,54 @@ const contacts = [];
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
       
-      requestsList.innerHTML = sortedRequests.map(request => {
+      requestsList.innerHTML = '';
+      sortedRequests.forEach(function(request) {
         const date = new Date(request.createdAt);
         const formattedDate = date.toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
         });
-        
-        // Status badge
         const statusBadge = {
           pending: { text: 'Pendente', class: 'status-pending' },
           approved: { text: 'Aprovada', class: 'status-approved' },
           rejected: { text: 'Rejeitada', class: 'status-rejected' },
           redirected: { text: 'Redirecionada', class: 'status-redirected' }
         }[request.status] || { text: 'Pendente', class: 'status-pending' };
-        
-        return `
-          <div class="recruitment-request-card" data-request-id="${request.id}" onclick="viewRecruitmentRequestDetails('${request.id}')">
-            <div class="request-card-header">
-              <div class="request-card-title">
-                <h4>${request.jobTitle}</h4>
-                <span class="request-company">${request.contributorName}</span>
-              </div>
-              <div class="request-card-badges">
-                <span class="status-badge ${statusBadge.class}">${statusBadge.text}</span>
-                <span class="vacancy-badge">${request.vacancyQuantity} vaga(s)</span>
-              </div>
+
+        const _e = escapeHtml;
+        const card = document.createElement('div');
+        card.className = 'recruitment-request-card';
+        card.dataset.requestId = request.id;
+        card.innerHTML = `
+          <div class="request-card-header">
+            <div class="request-card-title">
+              <h4>${_e(request.jobTitle)}</h4>
+              <span class="request-company">${_e(request.contributorName)}</span>
             </div>
-            <div class="request-card-info">
-              <div class="request-info-item">
-                <i class='bx bx-dollar'></i>
-                <span>${request.salary}</span>
-              </div>
-              <div class="request-info-item">
-                <i class='bx bx-time'></i>
-                <span>${request.workSchedule}</span>
-              </div>
-              <div class="request-info-item">
-                <i class='bx bx-map'></i>
-                <span>${getLocationText(request.locationPreference)}</span>
-              </div>
-              <div class="request-info-item">
-                <i class='bx bx-calendar'></i>
-                <span>${formattedDate}</span>
-              </div>
-            </div>
-            <div class="request-card-actions">
-              <button class="btn-view-details" onclick="event.stopPropagation(); viewRecruitmentRequestDetails('${request.id}')">
-                <i class='bx bx-show'></i> Ver Detalhes
-              </button>
+            <div class="request-card-badges">
+              <span class="status-badge ${statusBadge.class}">${statusBadge.text}</span>
+              <span class="vacancy-badge">${_e(String(request.vacancyQuantity))} vaga(s)</span>
             </div>
           </div>
+          <div class="request-card-info">
+            <div class="request-info-item"><i class='bx bx-dollar'></i><span>${_e(request.salary)}</span></div>
+            <div class="request-info-item"><i class='bx bx-time'></i><span>${_e(request.workSchedule)}</span></div>
+            <div class="request-info-item"><i class='bx bx-map'></i><span>${_e(getLocationText(request.locationPreference))}</span></div>
+            <div class="request-info-item"><i class='bx bx-calendar'></i><span>${formattedDate}</span></div>
+          </div>
+          <div class="request-card-actions">
+            <button class="btn-view-details">
+              <i class='bx bx-show'></i> Ver Detalhes
+            </button>
+          </div>
         `;
-      }).join('');
+        card.addEventListener('click', function() { viewRecruitmentRequestDetails(request.id); });
+        card.querySelector('.btn-view-details').addEventListener('click', function(e) {
+          e.stopPropagation();
+          viewRecruitmentRequestDetails(request.id);
+        });
+        requestsList.appendChild(card);
+      });
     }
     
     // Função para obter texto da localização
@@ -16007,11 +16118,12 @@ const contacts = [];
       const modal = document.createElement('div');
       modal.className = 'modal';
       modal.id = 'recruitmentRequestModal';
+      const _e = escapeHtml;
       modal.innerHTML = `
         <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
           <div class="modal-header">
             <h2>Detalhes da Solicitação de Recrutamento</h2>
-            <button class="close-modal-btn" onclick="closeRecruitmentRequestModal()">
+            <button class="close-modal-btn js-close-recruitment-modal">
               <i class='bx bx-x'></i>
             </button>
           </div>
@@ -16019,109 +16131,66 @@ const contacts = [];
             <div class="request-detail-section">
               <h3>Informações Básicas</h3>
               <div class="detail-grid">
-                <div class="detail-item">
-                  <strong>Cargo:</strong> ${request.jobTitle}
-                </div>
-                <div class="detail-item">
-                  <strong>Quantidade de Vagas:</strong> ${request.vacancyQuantity}
-                </div>
-                <div class="detail-item">
-                  <strong>Salário:</strong> ${request.salary}
-                </div>
-                <div class="detail-item">
-                  <strong>Regime de Trabalho:</strong> ${request.workSchedule}
-                </div>
+                <div class="detail-item"><strong>Cargo:</strong> ${_e(request.jobTitle)}</div>
+                <div class="detail-item"><strong>Quantidade de Vagas:</strong> ${_e(String(request.vacancyQuantity))}</div>
+                <div class="detail-item"><strong>Salário:</strong> ${_e(request.salary)}</div>
+                <div class="detail-item"><strong>Regime de Trabalho:</strong> ${_e(request.workSchedule)}</div>
               </div>
             </div>
-            
+
             <div class="request-detail-section">
               <h3>Localização</h3>
               <div class="detail-grid">
-                <div class="detail-item">
-                  <strong>Preferência:</strong> ${getLocationText(request.locationPreference)}
-                </div>
-                ${request.companyAddress ? `
-                <div class="detail-item">
-                  <strong>Endereço da Empresa:</strong> ${request.companyAddress}
-                </div>
-                ` : ''}
-                ${request.maxDistance ? `
-                <div class="detail-item">
-                  <strong>Distância Máxima:</strong> ${request.maxDistance} km
-                </div>
-                ` : ''}
+                <div class="detail-item"><strong>Preferência:</strong> ${_e(getLocationText(request.locationPreference))}</div>
+                ${request.companyAddress ? `<div class="detail-item"><strong>Endereço da Empresa:</strong> ${_e(request.companyAddress)}</div>` : ''}
+                ${request.maxDistance ? `<div class="detail-item"><strong>Distância Máxima:</strong> ${_e(String(request.maxDistance))} km</div>` : ''}
               </div>
             </div>
-            
+
             ${request.educationLevel ? `
             <div class="request-detail-section">
               <h3>Requisitos</h3>
               <div class="detail-grid">
-                <div class="detail-item">
-                  <strong>Escolaridade Mínima:</strong> ${getEducationText(request.educationLevel)}
-                </div>
-                ${request.experienceRequired ? `
-                <div class="detail-item">
-                  <strong>Experiência Necessária:</strong> ${getExperienceText(request.experienceRequired)}
-                </div>
-                ` : ''}
+                <div class="detail-item"><strong>Escolaridade Mínima:</strong> ${_e(getEducationText(request.educationLevel))}</div>
+                ${request.experienceRequired ? `<div class="detail-item"><strong>Experiência Necessária:</strong> ${_e(getExperienceText(request.experienceRequired))}</div>` : ''}
               </div>
-              ${request.requiredSkills ? `
-              <div class="detail-item full-width">
-                <strong>Habilidades e Competências:</strong>
-                <p style="margin-top: 8px; color: #6b7280;">${request.requiredSkills}</p>
-              </div>
-              ` : ''}
+              ${request.requiredSkills ? `<div class="detail-item full-width"><strong>Habilidades e Competências:</strong><p style="margin-top: 8px; color: #6b7280;">${_e(request.requiredSkills)}</p></div>` : ''}
             </div>
             ` : ''}
-            
+
             <div class="request-detail-section">
               <h3>Descrição da Vaga</h3>
-              <p style="color: #6b7280; line-height: 1.6; white-space: pre-wrap;">${request.jobDescription}</p>
+              <p style="color: #6b7280; line-height: 1.6; white-space: pre-wrap;">${_e(request.jobDescription)}</p>
             </div>
-            
+
             ${request.benefits ? `
             <div class="request-detail-section">
               <h3>Benefícios Oferecidos</h3>
-              <p style="color: #6b7280; line-height: 1.6; white-space: pre-wrap;">${request.benefits}</p>
+              <p style="color: #6b7280; line-height: 1.6; white-space: pre-wrap;">${_e(request.benefits)}</p>
             </div>
             ` : ''}
-            
+
             ${request.contactEmail || request.contactPhone ? `
             <div class="request-detail-section">
               <h3>Contato</h3>
               <div class="detail-grid">
-                ${request.contactEmail ? `
-                <div class="detail-item">
-                  <strong>E-mail:</strong> ${request.contactEmail}
-                </div>
-                ` : ''}
-                ${request.contactPhone ? `
-                <div class="detail-item">
-                  <strong>Telefone:</strong> ${request.contactPhone}
-                </div>
-                ` : ''}
+                ${request.contactEmail ? `<div class="detail-item"><strong>E-mail:</strong> ${_e(request.contactEmail)}</div>` : ''}
+                ${request.contactPhone ? `<div class="detail-item"><strong>Telefone:</strong> ${_e(request.contactPhone)}</div>` : ''}
               </div>
             </div>
             ` : ''}
-            
+
             <div class="request-detail-section">
               <h3>Informações do Contribuinte</h3>
               <div class="detail-grid">
-                <div class="detail-item">
-                  <strong>Contribuinte:</strong> ${request.contributorName}
-                </div>
-                <div class="detail-item">
-                  <strong>Data da Solicitação:</strong> ${new Date(request.createdAt).toLocaleString('pt-BR')}
-                </div>
-                <div class="detail-item">
-                  <strong>Status:</strong> <span class="status-badge ${getStatusClass(request.status)}">${getStatusText(request.status)}</span>
-                </div>
+                <div class="detail-item"><strong>Contribuinte:</strong> ${_e(request.contributorName)}</div>
+                <div class="detail-item"><strong>Data da Solicitação:</strong> ${new Date(request.createdAt).toLocaleString('pt-BR')}</div>
+                <div class="detail-item"><strong>Status:</strong> <span class="status-badge ${getStatusClass(request.status)}">${getStatusText(request.status)}</span></div>
               </div>
             </div>
-            
+
             <div class="request-detail-actions">
-              <button class="btn-redirect-vacancy" onclick="redirectRecruitmentRequest('${request.id}')">
+              <button class="btn-redirect-vacancy js-redirect-vacancy">
                 <i class='bx bx-link-external'></i> Redirecionar Vaga
               </button>
             </div>
@@ -16131,7 +16200,13 @@ const contacts = [];
       
       document.body.appendChild(modal);
       modal.style.display = 'flex';
-      
+
+      // Vincular botões via addEventListener (sem onclick inline)
+      const _closeBtn = modal.querySelector('.js-close-recruitment-modal');
+      if (_closeBtn) _closeBtn.addEventListener('click', closeRecruitmentRequestModal);
+      const _redirectBtn = modal.querySelector('.js-redirect-vacancy');
+      if (_redirectBtn) _redirectBtn.addEventListener('click', function() { redirectRecruitmentRequest(request.id); });
+
       // Fechar modal ao clicar fora
       modal.addEventListener('click', function(e) {
         if (e.target === modal) {
@@ -16253,16 +16328,15 @@ const contacts = [];
 
     // Função para carregar dados de gerenciamento de vagas
     function loadJobManagementData() {
-      console.log('💼 Carregando dados de gerenciamento de vagas...');
       
       // Carregar solicitações do localStorage
-      const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+      const requests = getStorageItem('recruitmentRequests', []);
       
       // Carregar vagas publicadas
-      const publishedJobs = JSON.parse(localStorage.getItem('publishedJobs') || '[]');
+      const publishedJobs = getStorageItem('publishedJobs', []);
       
       // Carregar candidaturas
-      const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+      const applications = getStorageItem('jobApplications', []);
       
       // Separar por status
       const pending = requests.filter(r => r.status === 'pending');
@@ -16462,11 +16536,10 @@ const contacts = [];
 
     // Função para abrir modal de detalhes da candidatura
     function openApplicationDetailModal(applicationId) {
-      const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+      const applications = getStorageItem('jobApplications', []);
       const application = applications.find(a => a.id === applicationId);
       
       if (!application) {
-        console.error('Candidatura não encontrada:', applicationId);
         alert('Candidatura não encontrada!');
         return;
       }
@@ -16490,24 +16563,26 @@ const contacts = [];
         minute: '2-digit'
       });
       
+      // Usar escapeHtml em todos os campos do usuário para evitar XSS
+      const _esc = escapeHtml;
       modalBody.innerHTML = `
         <div class="job-detail-section">
           <h3>Informações da Vaga</h3>
-          <div class="job-detail-item"><strong>Cargo:</strong> ${application.jobTitle || 'Não informado'}</div>
-          <div class="job-detail-item"><strong>Empresa:</strong> ${application.jobCompany || 'Não informado'}</div>
+          <div class="job-detail-item"><strong>Cargo:</strong> ${_esc(application.jobTitle) || 'Não informado'}</div>
+          <div class="job-detail-item"><strong>Empresa:</strong> ${_esc(application.jobCompany) || 'Não informado'}</div>
         </div>
 
         <div class="job-detail-section">
           <h3>Dados do Candidato</h3>
-          <div class="job-detail-item"><strong>Nome Completo:</strong> ${application.fullName || 'Não informado'}</div>
-          <div class="job-detail-item"><strong>E-mail:</strong> <a href="mailto:${application.email}">${application.email || 'Não informado'}</a></div>
-          <div class="job-detail-item"><strong>Telefone:</strong> <a href="tel:${application.phone}">${application.phone || 'Não informado'}</a></div>
+          <div class="job-detail-item"><strong>Nome Completo:</strong> ${_esc(application.fullName) || 'Não informado'}</div>
+          <div class="job-detail-item"><strong>E-mail:</strong> <a href="mailto:${escapeAttr(application.email)}">${_esc(application.email) || 'Não informado'}</a></div>
+          <div class="job-detail-item"><strong>Telefone:</strong> <a href="tel:${escapeAttr(application.phone)}">${_esc(application.phone) || 'Não informado'}</a></div>
         </div>
 
         ${application.coverMessage ? `
         <div class="job-detail-section">
           <h3>Mensagem de Apresentação</h3>
-          <p style="white-space: pre-wrap;">${application.coverMessage}</p>
+          <p style="white-space: pre-wrap;">${_esc(application.coverMessage)}</p>
         </div>
         ` : ''}
 
@@ -16515,11 +16590,11 @@ const contacts = [];
         <div class="job-detail-section">
           <h3>Currículo</h3>
           <div class="job-detail-item">
-            <strong>Arquivo:</strong> ${application.resumeFileName || 'curriculo.pdf'}
+            <strong>Arquivo:</strong> ${_esc(application.resumeFileName || 'curriculo.pdf')}
             <br>
             <small>Tamanho: ${application.resumeFileSize ? (application.resumeFileSize / 1024).toFixed(2) + ' KB' : 'Não informado'}</small>
           </div>
-          <button class="btn-download-resume" onclick="downloadResume('${application.id}')" style="margin-top: 10px; padding: 10px 20px; background: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer;">
+          <button class="btn-download-resume js-download-resume" style="margin-top: 10px; padding: 10px 20px; background: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer;">
             <i class='bx bx-download'></i> Baixar Currículo
           </button>
         </div>
@@ -16530,44 +16605,67 @@ const contacts = [];
           <div class="job-detail-item"><strong>Status:</strong> ${getApplicationStatusBadge(application.status)}</div>
           <div class="job-detail-item"><strong>Data de Candidatura:</strong> ${formattedDate}</div>
           ${application.reviewedAt ? `<div class="job-detail-item"><strong>Revisada em:</strong> ${new Date(application.reviewedAt).toLocaleString('pt-BR')}</div>` : ''}
-          ${application.reviewedBy ? `<div class="job-detail-item"><strong>Revisada por:</strong> ${application.reviewedBy}</div>` : ''}
+          ${application.reviewedBy ? `<div class="job-detail-item"><strong>Revisada por:</strong> ${_esc(application.reviewedBy)}</div>` : ''}
         </div>
       `;
+
+      // Vincular botão de download via addEventListener (sem onclick inline)
+      const _dlBtn = modalBody.querySelector('.js-download-resume');
+      if (_dlBtn) {
+        _dlBtn.addEventListener('click', function() { downloadResume(application.id); });
+      }
       
       // Preencher rodapé com ações
       const currentUser = getCurrentUser();
       const userName = currentUser.fullName || currentUser.username || 'Admin';
       
-      modalFooter.innerHTML = `
-        <button class="btn-close-modal" onclick="closeJobDetailModal()">
-          <i class='bx bx-x'></i> Fechar
-        </button>
-        ${application.status === 'pending' ? `
-          <button class="btn-approve-job" onclick="updateApplicationStatus('${application.id}', 'reviewed', '${userName}')">
-            <i class='bx bx-check'></i> Marcar como Revisada
-          </button>
-          <button class="btn-approve-job" onclick="updateApplicationStatus('${application.id}', 'contacted', '${userName}')" style="background: #3b82f6;">
-            <i class='bx bx-phone'></i> Marcar como Contatada
-          </button>
-        ` : ''}
-        ${application.status !== 'rejected' ? `
-          <button class="btn-reject-job" onclick="updateApplicationStatus('${application.id}', 'rejected', '${userName}')">
-            <i class='bx bx-x'></i> Rejeitar
-          </button>
-        ` : ''}
-        ${application.status !== 'hired' ? `
-          <button class="btn-approve-job" onclick="updateApplicationStatus('${application.id}', 'hired', '${userName}')" style="background: #10b981;">
-            <i class='bx bx-check-circle'></i> Contratar
-          </button>
-        ` : ''}
-      `;
+      // Construção por DOM para evitar injeção via application.id / userName em onclick
+      modalFooter.innerHTML = '';
+
+      const _btnFechar = document.createElement('button');
+      _btnFechar.className = 'btn-close-modal';
+      _btnFechar.innerHTML = "<i class='bx bx-x'></i> Fechar";
+      _btnFechar.addEventListener('click', closeJobDetailModal);
+      modalFooter.appendChild(_btnFechar);
+
+      if (application.status === 'pending') {
+        const _btnRevisar = document.createElement('button');
+        _btnRevisar.className = 'btn-approve-job';
+        _btnRevisar.innerHTML = "<i class='bx bx-check'></i> Marcar como Revisada";
+        _btnRevisar.addEventListener('click', () => updateApplicationStatus(application.id, 'reviewed', userName));
+        modalFooter.appendChild(_btnRevisar);
+
+        const _btnContatar = document.createElement('button');
+        _btnContatar.className = 'btn-approve-job';
+        _btnContatar.style.background = '#3b82f6';
+        _btnContatar.innerHTML = "<i class='bx bx-phone'></i> Marcar como Contatada";
+        _btnContatar.addEventListener('click', () => updateApplicationStatus(application.id, 'contacted', userName));
+        modalFooter.appendChild(_btnContatar);
+      }
+
+      if (application.status !== 'rejected') {
+        const _btnRejeitar = document.createElement('button');
+        _btnRejeitar.className = 'btn-reject-job';
+        _btnRejeitar.innerHTML = "<i class='bx bx-x'></i> Rejeitar";
+        _btnRejeitar.addEventListener('click', () => updateApplicationStatus(application.id, 'rejected', userName));
+        modalFooter.appendChild(_btnRejeitar);
+      }
+
+      if (application.status !== 'hired') {
+        const _btnContratar = document.createElement('button');
+        _btnContratar.className = 'btn-approve-job';
+        _btnContratar.style.background = '#10b981';
+        _btnContratar.innerHTML = "<i class='bx bx-check-circle'></i> Contratar";
+        _btnContratar.addEventListener('click', () => updateApplicationStatus(application.id, 'hired', userName));
+        modalFooter.appendChild(_btnContratar);
+      }
       
       modal.classList.remove('hidden');
     }
 
     // Função para baixar currículo
     function downloadResume(applicationId) {
-      const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+      const applications = getStorageItem('jobApplications', []);
       const application = applications.find(a => a.id === applicationId);
       
       if (!application || !application.resumeBase64) {
@@ -16575,10 +16673,16 @@ const contacts = [];
         return;
       }
       
+      // Validar que é um data:URI legítimo antes de usar como href
+      if (typeof application.resumeBase64 !== 'string' || !application.resumeBase64.startsWith('data:')) {
+        alert('Arquivo de currículo inválido ou corrompido.');
+        return;
+      }
+
       // Criar link de download
       const link = document.createElement('a');
       link.href = application.resumeBase64;
-      link.download = application.resumeFileName || `curriculo_${application.fullName.replace(/\s+/g, '_')}.pdf`;
+      link.download = application.resumeFileName || `curriculo_${(application.fullName || 'candidato').replace(/\s+/g, '_')}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -16586,7 +16690,7 @@ const contacts = [];
 
     // Função para atualizar status da candidatura
     function updateApplicationStatus(applicationId, newStatus, reviewedBy) {
-      const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+      const applications = getStorageItem('jobApplications', []);
       const applicationIndex = applications.findIndex(a => a.id === applicationId);
       
       if (applicationIndex === -1) {
@@ -16715,15 +16819,14 @@ const contacts = [];
       let job;
       
       if (status === 'published') {
-        const publishedJobs = JSON.parse(localStorage.getItem('publishedJobs') || '[]');
+        const publishedJobs = getStorageItem('publishedJobs', []);
         job = publishedJobs.find(j => j.id === jobId);
       } else {
-        const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+        const requests = getStorageItem('recruitmentRequests', []);
         job = requests.find(r => r.id === jobId);
       }
       
       if (!job) {
-        console.error('Vaga não encontrada:', jobId);
         return;
       }
       
@@ -16737,45 +16840,46 @@ const contacts = [];
       modalTitle.textContent = job.jobTitle || 'Detalhes da Vaga';
       
       // Preencher corpo do modal
+      const _e = escapeHtml;
       modalBody.innerHTML = `
         <div class="job-detail-section">
           <h3>Informações Básicas</h3>
-          <div class="job-detail-item"><strong>Empresa:</strong> ${job.contributorName || 'Não informado'}</div>
-          <div class="job-detail-item"><strong>Cargo:</strong> ${job.jobTitle || 'Não informado'}</div>
-          <div class="job-detail-item"><strong>Vagas Disponíveis:</strong> ${job.vacancyQuantity || 1}</div>
-          <div class="job-detail-item"><strong>Salário:</strong> ${job.salary || 'A combinar'}</div>
-          <div class="job-detail-item"><strong>Regime:</strong> ${job.workSchedule || 'Não especificado'}</div>
-          <div class="job-detail-item"><strong>Localização:</strong> ${formatLocationPreference(job.locationPreference)}</div>
-          ${job.companyAddress ? `<div class="job-detail-item"><strong>Endereço:</strong> ${job.companyAddress}</div>` : ''}
-          ${job.maxDistance ? `<div class="job-detail-item"><strong>Distância Máxima:</strong> ${job.maxDistance} km</div>` : ''}
+          <div class="job-detail-item"><strong>Empresa:</strong> ${_e(job.contributorName) || 'Não informado'}</div>
+          <div class="job-detail-item"><strong>Cargo:</strong> ${_e(job.jobTitle) || 'Não informado'}</div>
+          <div class="job-detail-item"><strong>Vagas Disponíveis:</strong> ${_e(String(job.vacancyQuantity || 1))}</div>
+          <div class="job-detail-item"><strong>Salário:</strong> ${_e(job.salary) || 'A combinar'}</div>
+          <div class="job-detail-item"><strong>Regime:</strong> ${_e(job.workSchedule) || 'Não especificado'}</div>
+          <div class="job-detail-item"><strong>Localização:</strong> ${_e(formatLocationPreference(job.locationPreference))}</div>
+          ${job.companyAddress ? `<div class="job-detail-item"><strong>Endereço:</strong> ${_e(job.companyAddress)}</div>` : ''}
+          ${job.maxDistance ? `<div class="job-detail-item"><strong>Distância Máxima:</strong> ${_e(String(job.maxDistance))} km</div>` : ''}
         </div>
 
         <div class="job-detail-section">
           <h3>Descrição da Vaga</h3>
-          <p>${job.jobDescription || 'Não informado'}</p>
+          <p>${_e(job.jobDescription) || 'Não informado'}</p>
         </div>
 
         ${job.requiredSkills ? `
         <div class="job-detail-section">
           <h3>Requisitos e Qualificações</h3>
-          <p>${job.requiredSkills}</p>
-          ${job.educationLevel ? `<p><strong>Escolaridade:</strong> ${formatEducationLevel(job.educationLevel)}</p>` : ''}
-          ${job.experienceRequired ? `<p><strong>Experiência:</strong> ${formatExperience(job.experienceRequired)}</p>` : ''}
+          <p>${_e(job.requiredSkills)}</p>
+          ${job.educationLevel ? `<p><strong>Escolaridade:</strong> ${_e(formatEducationLevel(job.educationLevel))}</p>` : ''}
+          ${job.experienceRequired ? `<p><strong>Experiência:</strong> ${_e(formatExperience(job.experienceRequired))}</p>` : ''}
         </div>
         ` : ''}
 
         ${job.benefits ? `
         <div class="job-detail-section">
           <h3>Benefícios</h3>
-          <p>${job.benefits}</p>
+          <p>${_e(job.benefits)}</p>
         </div>
         ` : ''}
 
         ${job.contactEmail || job.contactPhone ? `
         <div class="job-detail-section">
           <h3>Contato</h3>
-          ${job.contactEmail ? `<div class="job-detail-item"><strong>E-mail:</strong> ${job.contactEmail}</div>` : ''}
-          ${job.contactPhone ? `<div class="job-detail-item"><strong>Telefone:</strong> ${job.contactPhone}</div>` : ''}
+          ${job.contactEmail ? `<div class="job-detail-item"><strong>E-mail:</strong> ${_e(job.contactEmail)}</div>` : ''}
+          ${job.contactPhone ? `<div class="job-detail-item"><strong>Telefone:</strong> ${_e(job.contactPhone)}</div>` : ''}
         </div>
         ` : ''}
 
@@ -16786,31 +16890,33 @@ const contacts = [];
           ${job.publishedAt ? `<div class="job-detail-item"><strong>Data de Publicação:</strong> ${new Date(job.publishedAt).toLocaleString('pt-BR')}</div>` : ''}
         </div>
       `;
-      
-      // Preencher rodapé com ações
-      let footerActions = '';
+
+      // Rodapé: construção DOM para evitar injeção via jobId em onclick
+      modalFooter.innerHTML = '';
       if (status === 'pending') {
-        footerActions = `
-          <button class="btn-publish-job" onclick="publishJob('${jobId}')">
-            <i class='bx bx-globe'></i> Publicar
-          </button>
-          <button class="btn-reject-job" onclick="rejectJob('${jobId}')">
-            <i class='bx bx-x'></i> Rejeitar
-          </button>
-        `;
+        const _btnPublish = document.createElement('button');
+        _btnPublish.className = 'btn-publish-job';
+        _btnPublish.innerHTML = "<i class='bx bx-globe'></i> Publicar";
+        _btnPublish.addEventListener('click', () => publishJob(jobId));
+        modalFooter.appendChild(_btnPublish);
+
+        const _btnReject = document.createElement('button');
+        _btnReject.className = 'btn-reject-job';
+        _btnReject.innerHTML = "<i class='bx bx-x'></i> Rejeitar";
+        _btnReject.addEventListener('click', () => rejectJob(jobId));
+        modalFooter.appendChild(_btnReject);
       } else if (status === 'published') {
-        footerActions = `
-          <button class="btn-unpublish-job" onclick="unpublishJob('${jobId}')">
-            <i class='bx bx-hide'></i> Despublicar
-          </button>
-        `;
+        const _btnUnpublish = document.createElement('button');
+        _btnUnpublish.className = 'btn-unpublish-job';
+        _btnUnpublish.innerHTML = "<i class='bx bx-hide'></i> Despublicar";
+        _btnUnpublish.addEventListener('click', () => unpublishJob(jobId));
+        modalFooter.appendChild(_btnUnpublish);
       }
-      
-      modalFooter.innerHTML = footerActions + `
-        <button class="btn-close-modal" onclick="closeJobDetailModal()">
-          <i class='bx bx-x'></i> Fechar
-        </button>
-      `;
+      const _btnClose = document.createElement('button');
+      _btnClose.className = 'btn-close-modal';
+      _btnClose.innerHTML = "<i class='bx bx-x'></i> Fechar";
+      _btnClose.addEventListener('click', closeJobDetailModal);
+      modalFooter.appendChild(_btnClose);
       
       modal.classList.remove('hidden');
     }
@@ -16828,7 +16934,7 @@ const contacts = [];
 
     // Função para aprovar vaga
     function approveJob(jobId) {
-      const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+      const requests = getStorageItem('recruitmentRequests', []);
       const jobIndex = requests.findIndex(r => r.id === jobId);
       
       if (jobIndex === -1) {
@@ -16862,7 +16968,7 @@ const contacts = [];
     function rejectJob(jobId) {
       const reason = prompt('Informe o motivo da rejeição (opcional):');
       
-      const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+      const requests = getStorageItem('recruitmentRequests', []);
       const jobIndex = requests.findIndex(r => r.id === jobId);
       
       if (jobIndex === -1) {
@@ -16881,7 +16987,7 @@ const contacts = [];
       localStorage.setItem('recruitmentRequestsUpdatedAt', Date.now().toString());
       
       // Remover da lista de publicadas se estiver lá
-      const publishedJobs = JSON.parse(localStorage.getItem('publishedJobs') || '[]');
+      const publishedJobs = getStorageItem('publishedJobs', []);
       const publishedIndex = publishedJobs.findIndex(j => j.id === jobId);
       if (publishedIndex !== -1) {
         publishedJobs.splice(publishedIndex, 1);
@@ -16905,7 +17011,7 @@ const contacts = [];
 
     // Função para publicar vaga
     function publishJob(jobId) {
-      const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+      const requests = getStorageItem('recruitmentRequests', []);
       const job = requests.find(r => r.id === jobId);
       
       if (!job) {
@@ -16920,7 +17026,7 @@ const contacts = [];
       }
       
       // Adicionar à lista de publicadas
-      const publishedJobs = JSON.parse(localStorage.getItem('publishedJobs') || '[]');
+      const publishedJobs = getStorageItem('publishedJobs', []);
       
       // Verificar se já não está publicada
       if (publishedJobs.find(j => j.id === jobId)) {
@@ -16967,7 +17073,7 @@ const contacts = [];
         return;
       }
       
-      const publishedJobs = JSON.parse(localStorage.getItem('publishedJobs') || '[]');
+      const publishedJobs = getStorageItem('publishedJobs', []);
       const jobIndex = publishedJobs.findIndex(j => j.id === jobId);
       
       if (jobIndex === -1) {
@@ -16982,7 +17088,7 @@ const contacts = [];
       localStorage.setItem('publishedJobs', JSON.stringify(publishedJobs));
       
       // Atualizar status na solicitação original
-      const requests = JSON.parse(localStorage.getItem('recruitmentRequests') || '[]');
+      const requests = getStorageItem('recruitmentRequests', []);
       const requestIndex = requests.findIndex(r => r.id === jobId);
       if (requestIndex !== -1) {
         requests[requestIndex].isPublished = false;
@@ -17316,5 +17422,952 @@ const contacts = [];
 
     // ==================== FIM LEMBRETES ====================
 
+    // ==================== REAL-TIME POLLING & NOTIFICATIONS ====================
+
+    // --- State tracking ---
+    let _lastSupportRaw = localStorage.getItem('supportMessages') || '[]';
+    let _lastInternalRaw = localStorage.getItem('internalMessages') || '{}';
+    let _lastSupportUnread = 0;
+    let _lastInternalUnread = 0;
+    let _notifAudioCtx = null;
+    const _originalTitle = document.title;
+
+    // --- Notification Permission ---
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+
+    // --- Sound (Web Audio API — no external files) ---
+    function playNotificationSound() {
+      try {
+        if (localStorage.getItem('notificationSoundMuted') === '1') return;
+        if (!_notifAudioCtx) _notifAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (_notifAudioCtx.state === 'suspended') _notifAudioCtx.resume();
+        const t = _notifAudioCtx.currentTime;
+        const o = _notifAudioCtx.createOscillator();
+        const g = _notifAudioCtx.createGain();
+        o.connect(g);
+        g.connect(_notifAudioCtx.destination);
+        o.type = 'sine';
+        o.frequency.setValueAtTime(830, t);
+        o.frequency.setValueAtTime(580, t + 0.12);
+        g.gain.setValueAtTime(0.15, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        o.start(t);
+        o.stop(t + 0.4);
+      } catch (_) {}
+    }
+    window.setNotificationSoundMuted = (muted) => {
+      localStorage.setItem('notificationSoundMuted', muted ? '1' : '0');
+    };
+    window.isNotificationSoundMuted = () => localStorage.getItem('notificationSoundMuted') === '1';
+
+    // --- Browser notification ---
+    function showBrowserNotification(title, body) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      if (!document.hidden) return;
+      try {
+        const n = new Notification(title, {
+          body: body || '',
+          icon: '../../assets/images/avatars/profile-1.png',
+          tag: 'dominium-' + Date.now()
+        });
+        n.onclick = function () { window.focus(); n.close(); };
+        setTimeout(function () { n.close(); }, 5000);
+      } catch (_) {}
+    }
+
+    // --- Tab badge ---
+    function updateTabBadge() {
+      try {
+        const total = getTotalSupportUnreadCount() + getTotalInternalUnreadCount();
+        document.title = total > 0 ? '(' + total + ') ' + _originalTitle : _originalTitle;
+      } catch (_) {}
+    }
+
+    // --- Support chat polling ---
+    function pollSupportMessages() {
+      const raw = localStorage.getItem('supportMessages') || '[]';
+      if (raw === _lastSupportRaw) return;
+      _lastSupportRaw = raw;
+
+      try { updateSupportContactsList(); } catch (_) {}
+
+      if (currentSupportChatId) {
+        var activeContact = document.querySelector('.contacts-list .contact.active');
+        if (activeContact) {
+          var contactId = activeContact.getAttribute('data-contact-id');
+          if (contactId) { try { updateChat(contactId); } catch (_) {} }
+        }
+      }
+
+      var currentUnread = getTotalSupportUnreadCount();
+      if (currentUnread > _lastSupportUnread) {
+        try {
+          var messages = JSON.parse(raw);
+          var cu = getStorageItem('currentUser', {});
+          var lastMsg = null;
+          for (var i = messages.length - 1; i >= 0; i--) {
+            if (normalizeUsername(messages[i].sender) !== normalizeUsername(cu.username)) {
+              lastMsg = messages[i]; break;
+            }
+          }
+          if (lastMsg) {
+            playNotificationSound();
+            showBrowserNotification(
+              lastMsg.sender || 'Nova mensagem',
+              lastMsg.text ? lastMsg.text.substring(0, 100) : 'Arquivo enviado'
+            );
+          }
+        } catch (_) {}
+      }
+      _lastSupportUnread = currentUnread;
+      updateSidebarBadges();
+      updateTabBadge();
+    }
+
+    // --- Internal chat polling ---
+    function pollInternalMessages() {
+      var raw = localStorage.getItem('internalMessages') || '{}';
+      if (raw === _lastInternalRaw) return;
+      _lastInternalRaw = raw;
+
+      try { updateInternalContactsList(); } catch (_) {}
+
+      if (currentInternalChatId) {
+        try { loadInternalChatMessages(currentInternalChatId); } catch (_) {}
+      }
+
+      var currentUnread = getTotalInternalUnreadCount();
+      if (currentUnread > _lastInternalUnread) {
+        try {
+          var messages = JSON.parse(raw);
+          var cu = getStorageItem('currentUser', {});
+          var latestMsg = null;
+          Object.values(messages).forEach(function (chatMsgs) {
+            var arr = Array.isArray(chatMsgs) ? chatMsgs : [];
+            for (var i = arr.length - 1; i >= 0; i--) {
+              var m = arr[i];
+              if (normalizeUsername(m.sender) !== normalizeUsername(cu.username) && !m.read) {
+                if (!latestMsg || m.timestamp > latestMsg.timestamp) latestMsg = m;
+                break;
+              }
+            }
+          });
+          if (latestMsg) {
+            playNotificationSound();
+            showBrowserNotification(
+              latestMsg.senderName || latestMsg.sender || 'Chat interno',
+              latestMsg.text ? latestMsg.text.substring(0, 100) : 'Arquivo enviado'
+            );
+          }
+        } catch (_) {}
+      }
+      _lastInternalUnread = currentUnread;
+      updateSidebarBadges();
+      updateTabBadge();
+    }
+
+    // --- Cross-tab sync via storage event ---
+    window.addEventListener('storage', function (e) {
+      if (e.key === 'supportMessages') pollSupportMessages();
+      if (e.key === 'internalMessages') pollInternalMessages();
+      if (e.key === 'users') { try { renderUsersList(); } catch (_) {} }
+    });
+
+    // --- Init polling ---
+    try { _lastSupportUnread = getTotalSupportUnreadCount(); } catch (_) {}
+    try { _lastInternalUnread = getTotalInternalUnreadCount(); } catch (_) {}
+    window._pollSupportInterval = window._pollSupportInterval || setInterval(pollSupportMessages, 2000);
+    window._pollInternalInterval = window._pollInternalInterval || setInterval(pollInternalMessages, 2000);
+    updateTabBadge();
+
+    // ==================== FIM POLLING & NOTIFICATIONS ====================
+
+    // ==================== MESSAGE SEARCH ====================
+
+    var _searchMatches = [];
+    var _searchIndex = -1;
+
+    function toggleChatSearch() {
+      var bar = document.getElementById('chatSearchBar');
+      if (!bar) return;
+      var isHidden = bar.classList.contains('hidden');
+      bar.classList.toggle('hidden');
+      if (isHidden) {
+        var input = document.getElementById('chatSearchInput');
+        if (input) { input.value = ''; input.focus(); }
+      }
+      clearSearchHighlights();
+    }
+
+    function clearSearchHighlights() {
+      _searchMatches = [];
+      _searchIndex = -1;
+      document.querySelectorAll('.search-highlight').forEach(function (el) { el.classList.remove('search-highlight'); });
+      document.querySelectorAll('.search-current').forEach(function (el) { el.classList.remove('search-current'); });
+      var counter = document.getElementById('chatSearchCount');
+      if (counter) counter.textContent = '0/0';
+    }
+
+    function searchMessages(query) {
+      clearSearchHighlights();
+      if (!query || query.length < 2) return;
+
+      var messagesContainer = document.querySelector('.messages');
+      if (!messagesContainer) return;
+
+      var allMsgEls = messagesContainer.querySelectorAll('.message, .msg, .support-message');
+      var lowerQuery = query.toLowerCase();
+
+      allMsgEls.forEach(function (el) {
+        if ((el.textContent || '').toLowerCase().includes(lowerQuery)) {
+          el.classList.add('search-highlight');
+          _searchMatches.push(el);
+        }
+      });
+
+      var counter = document.getElementById('chatSearchCount');
+      if (_searchMatches.length > 0) {
+        _searchIndex = 0;
+        _searchMatches[0].classList.add('search-current');
+        _searchMatches[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (counter) counter.textContent = '1/' + _searchMatches.length;
+      } else {
+        if (counter) counter.textContent = '0/0';
+      }
+    }
+
+    function searchNavigate(direction) {
+      if (_searchMatches.length === 0) return;
+      _searchMatches[_searchIndex].classList.remove('search-current');
+      _searchIndex = direction === 'next'
+        ? (_searchIndex + 1) % _searchMatches.length
+        : (_searchIndex - 1 + _searchMatches.length) % _searchMatches.length;
+      _searchMatches[_searchIndex].classList.add('search-current');
+      _searchMatches[_searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var counter = document.getElementById('chatSearchCount');
+      if (counter) counter.textContent = (_searchIndex + 1) + '/' + _searchMatches.length;
+    }
+
+    // Bind search events
+    var _chatSearchInput = document.getElementById('chatSearchInput');
+    if (_chatSearchInput) {
+      var _searchDebounce = null;
+      _chatSearchInput.addEventListener('input', function (e) {
+        clearTimeout(_searchDebounce);
+        _searchDebounce = setTimeout(function () { searchMessages(e.target.value.trim()); }, 300);
+      });
+      _chatSearchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); searchNavigate(e.shiftKey ? 'prev' : 'next'); }
+        if (e.key === 'Escape') toggleChatSearch();
+      });
+    }
+    var _chatSearchPrev = document.getElementById('chatSearchPrev');
+    var _chatSearchNext = document.getElementById('chatSearchNext');
+    var _chatSearchClose = document.getElementById('chatSearchClose');
+    if (_chatSearchPrev) _chatSearchPrev.addEventListener('click', function () { searchNavigate('prev'); });
+    if (_chatSearchNext) _chatSearchNext.addEventListener('click', function () { searchNavigate('next'); });
+    if (_chatSearchClose) _chatSearchClose.addEventListener('click', function () { toggleChatSearch(); });
+
+    // Search button in chat header
+    var _chatSearchBtn = document.getElementById('chatSearchBtn');
+    if (_chatSearchBtn) _chatSearchBtn.addEventListener('click', function () { toggleChatSearch(); });
+
+    // ---- Internal chat message search (paridade com chat público) ----
+    var _intSearchMatches = [];
+    var _intSearchIndex = -1;
+
+    function toggleInternalChatSearch() {
+      var bar = document.getElementById('internalChatSearchBar');
+      if (!bar) return;
+      var isHidden = bar.classList.contains('hidden');
+      bar.classList.toggle('hidden');
+      if (isHidden) {
+        var input = document.getElementById('internalChatSearchInput');
+        if (input) { input.value = ''; input.focus(); }
+      }
+      clearInternalSearchHighlights();
+    }
+
+    function clearInternalSearchHighlights() {
+      _intSearchMatches = [];
+      _intSearchIndex = -1;
+      var container = document.getElementById('internalMessages');
+      if (container) {
+        container.querySelectorAll('.search-highlight').forEach(function (el) { el.classList.remove('search-highlight'); });
+        container.querySelectorAll('.search-current').forEach(function (el) { el.classList.remove('search-current'); });
+      }
+      var counter = document.getElementById('internalChatSearchCount');
+      if (counter) counter.textContent = '0/0';
+    }
+
+    function searchInternalMessages(query) {
+      clearInternalSearchHighlights();
+      if (!query || query.length < 2) return;
+      var container = document.getElementById('internalMessages');
+      if (!container) return;
+      var allMsgEls = container.querySelectorAll('.message, .msg, .support-message');
+      var lowerQuery = query.toLowerCase();
+      allMsgEls.forEach(function (el) {
+        if ((el.textContent || '').toLowerCase().includes(lowerQuery)) {
+          el.classList.add('search-highlight');
+          _intSearchMatches.push(el);
+        }
+      });
+      var counter = document.getElementById('internalChatSearchCount');
+      if (_intSearchMatches.length > 0) {
+        _intSearchIndex = 0;
+        _intSearchMatches[0].classList.add('search-current');
+        _intSearchMatches[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (counter) counter.textContent = '1/' + _intSearchMatches.length;
+      } else {
+        if (counter) counter.textContent = '0/0';
+      }
+    }
+
+    function internalSearchNavigate(direction) {
+      if (_intSearchMatches.length === 0) return;
+      _intSearchMatches[_intSearchIndex].classList.remove('search-current');
+      _intSearchIndex = direction === 'next'
+        ? (_intSearchIndex + 1) % _intSearchMatches.length
+        : (_intSearchIndex - 1 + _intSearchMatches.length) % _intSearchMatches.length;
+      _intSearchMatches[_intSearchIndex].classList.add('search-current');
+      _intSearchMatches[_intSearchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var counter = document.getElementById('internalChatSearchCount');
+      if (counter) counter.textContent = (_intSearchIndex + 1) + '/' + _intSearchMatches.length;
+    }
+
+    var _intChatSearchInput = document.getElementById('internalChatSearchInput');
+    if (_intChatSearchInput) {
+      var _intSearchDebounce = null;
+      _intChatSearchInput.addEventListener('input', function (e) {
+        clearTimeout(_intSearchDebounce);
+        _intSearchDebounce = setTimeout(function () { searchInternalMessages(e.target.value.trim()); }, 300);
+      });
+      _intChatSearchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); internalSearchNavigate(e.shiftKey ? 'prev' : 'next'); }
+        if (e.key === 'Escape') toggleInternalChatSearch();
+      });
+    }
+    var _intChatSearchPrev = document.getElementById('internalChatSearchPrev');
+    var _intChatSearchNext = document.getElementById('internalChatSearchNext');
+    var _intChatSearchClose = document.getElementById('internalChatSearchClose');
+    if (_intChatSearchPrev) _intChatSearchPrev.addEventListener('click', function () { internalSearchNavigate('prev'); });
+    if (_intChatSearchNext) _intChatSearchNext.addEventListener('click', function () { internalSearchNavigate('next'); });
+    if (_intChatSearchClose) _intChatSearchClose.addEventListener('click', function () { toggleInternalChatSearch(); });
+    var _intChatSearchBtn = document.getElementById('internalChatSearchBtn');
+    if (_intChatSearchBtn) _intChatSearchBtn.addEventListener('click', function () { toggleInternalChatSearch(); });
+
+    // ==================== FIM MESSAGE SEARCH ====================
+
   });
+
+  // ==================== REACTIONS EM MENSAGENS (Fase 2.3) ====================
+  (function initMessageReactionsFeature() {
+    if (window.__reactionsInitialized) return;
+    window.__reactionsInitialized = true;
+
+    const REACTION_EMOJIS = ["\uD83D\uDC4D", "\u2764\uFE0F", "\uD83D\uDE02", "\uD83D\uDE2E", "\uD83D\uDE22", "\uD83C\uDF89"];
+    const STORAGE_KEYS = ["supportMessages", "internalMessages"];
+
+    function getCurrentUserId() {
+      try {
+        const u = getStorageItem("currentUser", {});
+        return u.id || u.username || u.fullName || "anon";
+      } catch (e) { return "anon"; }
+    }
+
+    function getCurrentUserName() {
+      try {
+        const u = getStorageItem("currentUser", {});
+        return u.fullName || u.username || "Usuário";
+      } catch (e) { return "Usuário"; }
+    }
+
+    function findMessageAndStore(msgId) {
+      for (const key of STORAGE_KEYS) {
+        const list = getStorageItem(key, []);
+        const idx = list.findIndex(m => m && m.id === msgId);
+        if (idx !== -1) return { storageKey: key, list, idx, message: list[idx] };
+      }
+      return null;
+    }
+
+    function persistMessage(storageKey, list) {
+      localStorage.setItem(storageKey, JSON.stringify(list));
+      localStorage.setItem("newSupportMessage", Date.now().toString()); // trigger cross-tab sync
+    }
+
+    function toggleReaction(msgId, emoji) {
+      const hit = findMessageAndStore(msgId);
+      if (!hit) return null;
+      const { storageKey, list, idx, message } = hit;
+      message.reactions = message.reactions || {};
+      const users = message.reactions[emoji] = Array.isArray(message.reactions[emoji])
+        ? message.reactions[emoji] : [];
+      const userId = getCurrentUserId();
+      const pos = users.indexOf(userId);
+      if (pos >= 0) users.splice(pos, 1);
+      else users.push(userId);
+      if (users.length === 0) delete message.reactions[emoji];
+      list[idx] = message;
+      persistMessage(storageKey, list);
+      return message.reactions;
+    }
+
+    function getReactionsFor(msgId) {
+      const hit = findMessageAndStore(msgId);
+      return hit && hit.message.reactions ? hit.message.reactions : {};
+    }
+
+    function renderReactionsRow(messageEl, reactions) {
+      let row = messageEl.querySelector(":scope > .reactions-row");
+      const entries = Object.entries(reactions || {}).filter(([, users]) => Array.isArray(users) && users.length > 0);
+      if (entries.length === 0) { if (row) row.remove(); return; }
+      if (!row) {
+        row = document.createElement("div");
+        row.className = "reactions-row";
+        messageEl.appendChild(row);
+      }
+      const userId = getCurrentUserId();
+      row.innerHTML = "";
+      entries.forEach(([emoji, users]) => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = "reaction-pill" + (users.includes(userId) ? " own" : "");
+        pill.setAttribute("data-emoji", emoji);
+        pill.title = users.length === 1 ? "1 reação" : `${users.length} reações`;
+        pill.innerHTML = `<span class="reaction-emoji">${emoji}</span><span class="reaction-count">${users.length}</span>`;
+        row.appendChild(pill);
+      });
+    }
+
+    function ensureActionButton(messageEl) {
+      if (messageEl.querySelector(":scope > .message-actions-btn")) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "message-actions-btn";
+      btn.setAttribute("aria-label", "Reagir à mensagem");
+      btn.innerHTML = "<i class='bx bx-dots-horizontal-rounded'></i>";
+      messageEl.appendChild(btn);
+    }
+
+    function enrichMessage(messageEl) {
+      if (!messageEl || messageEl.dataset.reactionsEnriched === "1") return;
+      const msgId = messageEl.getAttribute("data-message-id");
+      if (!msgId) return;
+      messageEl.dataset.reactionsEnriched = "1";
+      ensureActionButton(messageEl);
+      const reactions = getReactionsFor(msgId);
+      renderReactionsRow(messageEl, reactions);
+    }
+
+    function scanContainer(root) {
+      if (!root) return;
+      root.querySelectorAll(".message[data-message-id]").forEach(enrichMessage);
+    }
+
+    // Popover
+    let popoverEl = null;
+    let popoverForMsgId = null;
+
+    function closePopover() {
+      if (popoverEl) { popoverEl.remove(); popoverEl = null; }
+      popoverForMsgId = null;
+    }
+
+    function openPopover(anchorBtn, msgId) {
+      closePopover();
+      popoverForMsgId = msgId;
+      popoverEl = document.createElement("div");
+      popoverEl.className = "reaction-popover";
+      popoverEl.setAttribute("role", "menu");
+      REACTION_EMOJIS.forEach(emoji => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "reaction-popover-btn";
+        b.setAttribute("data-emoji", emoji);
+        b.textContent = emoji;
+        popoverEl.appendChild(b);
+      });
+      document.body.appendChild(popoverEl);
+      const rect = anchorBtn.getBoundingClientRect();
+      const top = rect.top + window.scrollY - popoverEl.offsetHeight - 8;
+      const left = Math.max(8, rect.left + window.scrollX - (popoverEl.offsetWidth / 2) + (rect.width / 2));
+      popoverEl.style.top = `${top < 8 ? rect.bottom + window.scrollY + 8 : top}px`;
+      popoverEl.style.left = `${left}px`;
+      requestAnimationFrame(() => popoverEl.classList.add("open"));
+    }
+
+    function handleDelegatedClick(e) {
+      const pill = e.target.closest(".reaction-pill");
+      if (pill) {
+        const messageEl = pill.closest(".message[data-message-id]");
+        if (!messageEl) return;
+        const emoji = pill.getAttribute("data-emoji");
+        const newReactions = toggleReaction(messageEl.getAttribute("data-message-id"), emoji);
+        renderReactionsRow(messageEl, newReactions || {});
+        closePopover();
+        return;
+      }
+      const popBtn = e.target.closest(".reaction-popover-btn");
+      if (popBtn && popoverForMsgId) {
+        const emoji = popBtn.getAttribute("data-emoji");
+        const messageEl = document.querySelector(`.message[data-message-id="${CSS.escape(popoverForMsgId)}"]`);
+        const newReactions = toggleReaction(popoverForMsgId, emoji);
+        if (messageEl) renderReactionsRow(messageEl, newReactions || {});
+        closePopover();
+        return;
+      }
+      const actionBtn = e.target.closest(".message-actions-btn");
+      if (actionBtn) {
+        const messageEl = actionBtn.closest(".message[data-message-id]");
+        if (!messageEl) return;
+        const msgId = messageEl.getAttribute("data-message-id");
+        if (popoverForMsgId === msgId) closePopover();
+        else openPopover(actionBtn, msgId);
+        return;
+      }
+      if (popoverEl && !e.target.closest(".reaction-popover")) closePopover();
+    }
+
+    // Long-press mobile
+    let pressTimer = null;
+    let pressTargetMsgId = null;
+    function handlePointerDown(e) {
+      const msgEl = e.target.closest(".message[data-message-id]");
+      if (!msgEl) return;
+      if (e.pointerType !== "touch") return;
+      pressTargetMsgId = msgEl.getAttribute("data-message-id");
+      const anchor = msgEl.querySelector(".message-actions-btn") || msgEl;
+      pressTimer = setTimeout(() => {
+        openPopover(anchor, pressTargetMsgId);
+        pressTargetMsgId = null;
+      }, 400);
+    }
+    function cancelPress() {
+      if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+      pressTargetMsgId = null;
+    }
+
+    function handleStorageSync(e) {
+      if (!STORAGE_KEYS.includes(e.key)) return;
+      document.querySelectorAll(".message[data-message-id]").forEach(el => {
+        renderReactionsRow(el, getReactionsFor(el.getAttribute("data-message-id")));
+      });
+    }
+
+    function start() {
+      const roots = [
+        document.querySelector(".messages"),
+        document.querySelector(".chat-messages"),
+        document.querySelector(".internal-messages"),
+        document.querySelector("#internalChatMessages")
+      ].filter(Boolean);
+
+      roots.forEach(scanContainer);
+
+      const observer = new MutationObserver(muts => {
+        muts.forEach(m => {
+          m.addedNodes.forEach(node => {
+            if (node.nodeType !== 1) return;
+            if (node.matches && node.matches(".message[data-message-id]")) enrichMessage(node);
+            else if (node.querySelectorAll) node.querySelectorAll(".message[data-message-id]").forEach(enrichMessage);
+          });
+        });
+      });
+      roots.forEach(root => observer.observe(root, { childList: true, subtree: true }));
+
+      document.addEventListener("click", handleDelegatedClick);
+      document.addEventListener("pointerdown", handlePointerDown);
+      ["pointerup", "pointercancel", "pointerleave", "scroll"].forEach(ev =>
+        document.addEventListener(ev, cancelPress, true));
+      window.addEventListener("storage", handleStorageSync);
+      window.addEventListener("resize", closePopover);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", start);
+    } else {
+      start();
+    }
+  })();
+  // ==================== FIM REACTIONS ====================
+
+  // ==================== STATUS DE ENTREGA/LEITURA \u2713\u2713 (Fase 2.4) ====================
+  (function initDeliveryStatusFeature() {
+    if (window.__deliveryStatusInitialized) return;
+    window.__deliveryStatusInitialized = true;
+
+    const STORAGE_KEY = "supportMessages";
+    const SYNC_KEY = "deliveryStatusUpdate";
+
+    function readAll() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+      catch (e) { return []; }
+    }
+    function writeAll(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        localStorage.setItem(SYNC_KEY, String(Date.now()));
+      } catch (e) { /* ignore quota */ }
+    }
+
+    function getActiveChatId() {
+      const el = document.querySelector(".contact.support-contact.active[data-support-chat-id]");
+      return el ? el.getAttribute("data-support-chat-id") : null;
+    }
+
+    // Como operador: mensagens RECEBIDAS s\u00e3o do tipo "client". Marcamos delivered quando
+    // este lado est\u00e1 ativo (qualquer chat) e read quando o chat ativo \u00e9 o da mensagem.
+    function stampIncoming() {
+      const chatId = getActiveChatId();
+      const isVisible = document.visibilityState === "visible";
+      const list = readAll();
+      let changed = false;
+      for (const m of list) {
+        if (!m || m.type !== "client") continue;
+        if (!m.delivered) { m.delivered = true; m.deliveredAt = Date.now(); changed = true; }
+        if (isVisible && chatId && m.chatId === chatId && !m.read) {
+          m.read = true; m.readAt = Date.now(); changed = true;
+        }
+      }
+      if (changed) writeAll(list);
+    }
+
+    function findMeta(msgId) {
+      const list = readAll();
+      return list.find(m => m && m.id === msgId) || null;
+    }
+
+    function renderTick(messageEl) {
+      if (!messageEl.classList.contains("sent")) return;
+      const msgId = messageEl.getAttribute("data-message-id");
+      if (!msgId) return;
+      const meta = findMeta(msgId);
+      let tick = messageEl.querySelector(":scope > .delivery-ticks");
+      if (!tick) {
+        tick = document.createElement("span");
+        tick.className = "delivery-ticks";
+        messageEl.appendChild(tick);
+      }
+      let state = "sent";
+      if (meta) {
+        if (meta.read) state = "read";
+        else if (meta.delivered) state = "delivered";
+      }
+      tick.classList.remove("sent", "delivered", "read");
+      tick.classList.add(state);
+      tick.innerHTML = state === "sent"
+        ? "<i class='bx bx-check'></i>"
+        : "<i class='bx bx-check-double'></i>";
+      tick.setAttribute("title", state === "read" ? "Lida" : state === "delivered" ? "Entregue" : "Enviada");
+    }
+
+    function renderAll(root) {
+      (root || document).querySelectorAll(".message.sent[data-message-id]").forEach(renderTick);
+    }
+
+    function start() {
+      stampIncoming();
+      renderAll();
+
+      const observer = new MutationObserver(muts => {
+        muts.forEach(m => {
+          m.addedNodes.forEach(node => {
+            if (node.nodeType !== 1) return;
+            if (node.matches && node.matches(".message.sent[data-message-id]")) renderTick(node);
+            else if (node.querySelectorAll) node.querySelectorAll(".message.sent[data-message-id]").forEach(renderTick);
+          });
+        });
+      });
+      const roots = [document.querySelector(".messages"), document.querySelector(".chat-messages")].filter(Boolean);
+      roots.forEach(root => observer.observe(root, { childList: true, subtree: true }));
+
+      window.addEventListener("storage", (e) => {
+        if (e.key === STORAGE_KEY || e.key === SYNC_KEY || e.key === "newSupportMessage") {
+          renderAll();
+        }
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") { stampIncoming(); renderAll(); }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (e.target.closest(".contact.support-contact")) {
+          setTimeout(() => { stampIncoming(); renderAll(); }, 120);
+        }
+      });
+
+      window._opTicksInterval = window._opTicksInterval || setInterval(() => { stampIncoming(); renderAll(); }, 4000);
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+    else start();
+  })();
+  // ==================== FIM STATUS \u2713\u2713 ====================
+
+  // ==================== INDICADOR DE DIGITA\u00c7\u00c3O (Fase 2.5) ====================
+  (function initTypingIndicatorFeature() {
+    if (window.__typingIndicatorInit) return;
+    window.__typingIndicatorInit = true;
+
+    const KEY = "typingIndicators";
+    const THROTTLE_MS = 1000;
+    const STALE_MS = 3000;
+
+    function getMe() {
+      try {
+        const u = getStorageItem("currentUser", {});
+        return {
+          id: u.id || u.username || u.fullName || "anon",
+          name: u.fullName || u.username || "Operador",
+          role: "operator"
+        };
+      } catch (e) { return { id: "anon", name: "Operador", role: "operator" }; }
+    }
+    function readMap() {
+      try { return JSON.parse(localStorage.getItem(KEY) || "{}"); }
+      catch (e) { return {}; }
+    }
+    function writeMap(map) {
+      try { localStorage.setItem(KEY, JSON.stringify(map)); }
+      catch (e) { /* ignore */ }
+    }
+    function getActiveChatId() {
+      const el = document.querySelector(".contact.support-contact.active[data-support-chat-id]");
+      return el ? el.getAttribute("data-support-chat-id") : null;
+    }
+
+    let lastWrite = 0;
+    function recordTyping(chatId) {
+      if (!chatId) return;
+      const now = Date.now();
+      if (now - lastWrite < THROTTLE_MS) return;
+      lastWrite = now;
+      const map = readMap();
+      const me = getMe();
+      map[chatId] = { userId: me.id, name: me.name, role: me.role, ts: now };
+      writeMap(map);
+    }
+
+    function ensureIndicator(container) {
+      let el = container.querySelector(":scope > .typing-indicator");
+      if (!el) {
+        el = document.createElement("div");
+        el.className = "typing-indicator";
+        el.hidden = true;
+        el.innerHTML = '<span class="typing-name"></span><span class="typing-dots"><i></i><i></i><i></i></span>';
+        // inserir imediatamente antes de .message-input do mesmo chat-main
+        const input = container.parentElement ? container.parentElement.querySelector(".message-input") : null;
+        if (input && input.parentElement) input.parentElement.insertBefore(el, input);
+        else container.parentElement.appendChild(el);
+      }
+      return el;
+    }
+
+    function render() {
+      // dois containers poss\u00edveis: .messages (suporte) e #internalMessages (interno)
+      const messagesRoot = document.querySelector(".chat-container.active .messages") || document.querySelector(".messages");
+      if (messagesRoot) {
+        const chatId = getActiveChatId();
+        const entry = chatId ? readMap()[chatId] : null;
+        const me = getMe();
+        const isActive = entry && entry.userId !== me.id && (Date.now() - (entry.ts || 0) < STALE_MS);
+        const el = ensureIndicator(messagesRoot);
+        if (isActive) {
+          el.querySelector(".typing-name").textContent = `${entry.name} est\u00e1 digitando`;
+          el.hidden = false;
+        } else {
+          el.hidden = true;
+        }
+      }
+    }
+
+    function start() {
+      // Operador escreve no input de suporte
+      const supportInput = document.querySelector(".chat-container .message-input input[type='text']");
+      if (supportInput) {
+        supportInput.addEventListener("input", () => recordTyping(getActiveChatId()));
+      }
+      render();
+      window.addEventListener("storage", (e) => { if (e.key === KEY) render(); });
+      window._opTypingRenderInterval = window._opTypingRenderInterval || setInterval(render, 1500);
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+    else start();
+  })();
+  // ==================== FIM TYPING ====================
+
+  // ==================== TEMPLATES DE RESPOSTA R\u00c1PIDA (Fase 2.6) ====================
+  (function initQuickRepliesFeature() {
+    if (window.__quickRepliesInit) return;
+    window.__quickRepliesInit = true;
+
+    const KEY = "quickReplies";
+    const DEFAULTS = [
+      { shortcut: "/oi",      text: "Ol\u00e1, como posso ajudar?" },
+      { shortcut: "/tchau",   text: "Obrigado pelo contato! Qualquer d\u00favida estamos \u00e0 disposi\u00e7\u00e3o." },
+      { shortcut: "/aguarde", text: "Um instante, por favor \u2014 j\u00e1 verifico isso para voc\u00ea." },
+      { shortcut: "/docs",    text: "Para prosseguir, voc\u00ea pode me enviar os documentos necess\u00e1rios?" }
+    ];
+
+    function read() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (!raw) { localStorage.setItem(KEY, JSON.stringify(DEFAULTS)); return DEFAULTS.slice(); }
+        const list = JSON.parse(raw);
+        return Array.isArray(list) ? list : DEFAULTS.slice();
+      } catch (e) { return DEFAULTS.slice(); }
+    }
+    function save(list) {
+      try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* ignore */ }
+    }
+    window.quickRepliesApi = {
+      getAll: read,
+      setAll: save,
+      add: (shortcut, text) => {
+        const list = read();
+        const norm = shortcut.startsWith("/") ? shortcut : "/" + shortcut;
+        const idx = list.findIndex(q => q.shortcut === norm);
+        if (idx !== -1) list[idx].text = text;
+        else list.push({ shortcut: norm, text });
+        save(list);
+        return list;
+      },
+      remove: (shortcut) => {
+        const list = read().filter(q => q.shortcut !== shortcut);
+        save(list);
+        return list;
+      }
+    };
+
+    // ----- Dropdown de sugest\u00f5es acima do input -----
+    function findMessageInput() {
+      return document.querySelector(".chat-container .message-input input[type='text']");
+    }
+
+    let dropdownEl = null;
+    let selectedIdx = -1;
+    let currentMatches = [];
+
+    function ensureDropdown(anchor) {
+      if (dropdownEl) return dropdownEl;
+      dropdownEl = document.createElement("div");
+      dropdownEl.className = "quick-reply-suggestions";
+      document.body.appendChild(dropdownEl);
+      return dropdownEl;
+    }
+
+    function positionDropdown(anchor) {
+      if (!dropdownEl) return;
+      const rect = anchor.getBoundingClientRect();
+      const top = rect.top + window.scrollY - dropdownEl.offsetHeight - 6;
+      dropdownEl.style.top = `${Math.max(8, top)}px`;
+      dropdownEl.style.left = `${rect.left + window.scrollX}px`;
+      dropdownEl.style.width = `${Math.max(260, rect.width * 0.6)}px`;
+    }
+
+    function closeDropdown() {
+      if (dropdownEl) { dropdownEl.remove(); dropdownEl = null; }
+      selectedIdx = -1;
+      currentMatches = [];
+    }
+
+    function renderMatches(anchor, matches) {
+      ensureDropdown(anchor);
+      dropdownEl.innerHTML = "";
+      if (matches.length === 0) { closeDropdown(); return; }
+      matches.forEach((m, i) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "quick-reply-item" + (i === selectedIdx ? " active" : "");
+        item.setAttribute("data-idx", String(i));
+        item.innerHTML = `
+          <span class="quick-reply-shortcut">${m.shortcut}</span>
+          <span class="quick-reply-text">${m.text.replace(/</g, "&lt;")}</span>
+        `;
+        dropdownEl.appendChild(item);
+      });
+      positionDropdown(anchor);
+    }
+
+    function applyMatch(input, match) {
+      if (!input || !match) return;
+      input.value = match.text;
+      input.focus();
+      input.setSelectionRange(match.text.length, match.text.length);
+      closeDropdown();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function updateSuggestions(input) {
+      const val = input.value;
+      if (!val.startsWith("/")) { closeDropdown(); return; }
+      const term = val.slice(1).toLowerCase();
+      const list = read();
+      const matches = list.filter(q => q.shortcut.slice(1).toLowerCase().startsWith(term));
+      currentMatches = matches;
+      if (selectedIdx >= matches.length) selectedIdx = matches.length - 1;
+      if (selectedIdx < 0 && matches.length > 0) selectedIdx = 0;
+      renderMatches(input, matches);
+    }
+
+    function bindInput() {
+      const input = findMessageInput();
+      if (!input || input.dataset.quickRepliesBound === "1") return;
+      input.dataset.quickRepliesBound = "1";
+
+      input.addEventListener("input", () => updateSuggestions(input));
+      input.addEventListener("focus", () => updateSuggestions(input));
+      input.addEventListener("blur", () => setTimeout(closeDropdown, 150));
+      input.addEventListener("keydown", (e) => {
+        if (!dropdownEl || currentMatches.length === 0) return;
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          selectedIdx = (selectedIdx + 1) % currentMatches.length;
+          renderMatches(input, currentMatches);
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          selectedIdx = (selectedIdx - 1 + currentMatches.length) % currentMatches.length;
+          renderMatches(input, currentMatches);
+        } else if (e.key === "Tab" || e.key === "Enter") {
+          if (selectedIdx >= 0) {
+            e.preventDefault();
+            applyMatch(input, currentMatches[selectedIdx]);
+          }
+        } else if (e.key === "Escape") {
+          closeDropdown();
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        const item = e.target.closest(".quick-reply-item");
+        if (item) {
+          const idx = parseInt(item.getAttribute("data-idx"), 10);
+          applyMatch(input, currentMatches[idx]);
+        } else if (dropdownEl && !e.target.closest(".quick-reply-suggestions") && e.target !== input) {
+          closeDropdown();
+        }
+      });
+
+      window.addEventListener("resize", () => dropdownEl && positionDropdown(input));
+      window.addEventListener("scroll", () => dropdownEl && positionDropdown(input), true);
+    }
+
+    function start() {
+      read(); // garante defaults no primeiro uso
+      bindInput();
+      // rebind se a UI criar o input depois (ex.: tab swap)
+      const observer = new MutationObserver(() => bindInput());
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+    else start();
+  })();
+  // ==================== FIM QUICK REPLIES ====================
 

@@ -1,5 +1,5 @@
 /**
- * Sistema de Sincronização com Supabase – Chat UI
+ * Sistema de Sincronização com Supabase – Chat UI Soft Tech
  * Permite compartilhamento de dados entre múltiplos PCs.
  * Configuração em CONFIG.SUPABASE (config.js).
  */
@@ -85,9 +85,11 @@
   }
 
   async function saveToCloud(key, data) {
+    var localSuccess = false;
     try {
       localStorage.setItem(key, JSON.stringify(data));
       localStorage.setItem(key + '_updated', Date.now().toString());
+      localSuccess = true;
     } catch (e) {
       if (typeof console !== 'undefined' && console.error) {
         console.error('Erro ao salvar no localStorage:', e);
@@ -96,7 +98,8 @@
 
     if (!isSupabaseConfigured) initSupabase();
     if (!isSupabaseConfigured || !supabaseClient) {
-      return { success: true, local: true };
+      // Retorna status real — false se localStorage falhou (QuotaExceededError, etc.)
+      return { success: localSuccess, local: localSuccess };
     }
 
     try {

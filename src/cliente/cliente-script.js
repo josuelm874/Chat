@@ -1,47 +1,6 @@
 // Suporte Script - Lado do Cliente
-
-// ==================== FUNÇÕES UTILITÁRIAS ====================
-
-function generateUniqueId() {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
-}
-
-function getCurrentTime() {
-  const now = new Date();
-  return String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
-}
-
-// Função para obter data relativa ou formatada
-function getRelativeDate(date) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  
-  const messageDate = new Date(date);
-  messageDate.setHours(0, 0, 0, 0);
-  
-  if (messageDate.getTime() === today.getTime()) {
-    return 'Hoje';
-  } else if (messageDate.getTime() === yesterday.getTime()) {
-    return 'Ontem';
-  } else {
-    // Formato DD/MM/AAAA
-    const day = String(messageDate.getDate()).padStart(2, '0');
-    const month = String(messageDate.getMonth() + 1).padStart(2, '0');
-    const year = messageDate.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-}
-
-// Função para criar indicador de data
-function createDateDivider(dateText) {
-  const divider = document.createElement('div');
-  divider.classList.add('date-divider');
-  divider.innerHTML = `<div class="date-divider-box">${dateText}</div>`;
-  return divider;
-}
+// generateUniqueId, getCurrentTime, getRelativeDate, createDateDivider
+// definidas em shared/utils.js (carregado antes deste arquivo)
 
 // ==================== SISTEMA DE EMOJIS ANIMADOS LOTTIE ====================
 
@@ -259,7 +218,9 @@ function getFileIcon(fileName) {
   const icons = {
     'pdf': 'bx-file-blank', 'doc': 'bx-file', 'docx': 'bx-file',
     'xls': 'bxs-spreadsheet', 'xlsx': 'bxs-spreadsheet',
-    'zip': 'bx-archive', 'rar': 'bx-archive',
+    'ppt': 'bx-slideshow', 'pptx': 'bx-slideshow',
+    'zip': 'bx-archive', 'rar': 'bx-archive', '7z': 'bx-archive',
+    'mp3': 'bx-music', 'wav': 'bx-music', 'm4a': 'bx-music', 'ogg': 'bx-music', 'flac': 'bx-music',
     'default': 'bx-file-blank'
   };
   return icons[ext] || icons['default'];
@@ -272,7 +233,12 @@ function isImageFile(fileName) {
 
 function isVideoFile(fileName) {
   const ext = fileName.split('.').pop().toLowerCase();
-  return ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext);
+  return ['mp4', 'webm', 'mov', 'avi', 'mkv'].includes(ext);
+}
+
+function isAudioFile(fileName) {
+  const ext = fileName.split('.').pop().toLowerCase();
+  return ['mp3', 'wav', 'm4a', 'ogg', 'oga', 'flac', 'aac'].includes(ext);
 }
 
 function showToast(message, type = 'info') {
@@ -304,16 +270,11 @@ if (!document.getElementById('toast-styles')) {
 
 const inputValidator = {
   validate: (type, value) => (!value || !value.trim()) ? { valid: false, message: 'Campo obrigatório' } : { valid: true },
-  sanitize: (text) => text,
+  sanitize: (text) => escapeHtml(text),
   validateFile: (file) => file ? { valid: true, errors: [] } : { valid: false, errors: ['Sem arquivo'] }
 };
 
-// Firebase removido - usar apenas localStorage
-
-// Função stub para compatibilidade
-function isFirebaseAvailable() {
-  return false; // Firebase removido
-}
+// Persistência via localStorage + Supabase (Firebase removido)
 
 // ==================== FUNÇÕES DE ARQUIVOS ====================
 
@@ -340,6 +301,20 @@ function createFileElement(file, fileData) {
     video.controls = true;
     preview.appendChild(video);
     container.appendChild(preview);
+  }
+  else if (isAudioFile(file.name)) {
+    const wrap = document.createElement('div');
+    wrap.classList.add('message-file-audio');
+    const nameEl = document.createElement('div');
+    nameEl.classList.add('message-file-name');
+    nameEl.textContent = file.name;
+    const audio = document.createElement('audio');
+    audio.src = fileData;
+    audio.controls = true;
+    audio.preload = 'metadata';
+    wrap.appendChild(nameEl);
+    wrap.appendChild(audio);
+    container.appendChild(wrap);
   }
   else {
     const doc = document.createElement('div');
@@ -918,16 +893,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const rememberMeCheckbox = document.getElementById("rememberMe");
   const savedRazaoSocial = localStorage.getItem("savedRazaoSocial");
   const savedUsername = localStorage.getItem("savedUsername");
-  const savedPassword = localStorage.getItem("savedPassword");
-  
+  const savedPasswordEncoded = localStorage.getItem("savedPassword");
+  const savedPassword = savedPasswordEncoded ? (() => { try { return atob(savedPasswordEncoded); } catch(e) { return ''; } })() : '';
+
   if (savedRazaoSocial && loginRazaoSocialInput) {
     loginRazaoSocialInput.value = savedRazaoSocial;
   }
-  
+
   if (savedUsername && loginUsernameInput) {
     loginUsernameInput.value = savedUsername;
   }
-  
+
   if (savedPassword && loginPasswordInput && rememberMeCheckbox) {
     loginPasswordInput.value = savedPassword;
     rememberMeCheckbox.checked = true;
@@ -1114,6 +1090,29 @@ document.addEventListener("DOMContentLoaded", () => {
       supportLogoutButton.addEventListener("click", (event) => {
         event.preventDefault();
         logoutSupportUser();
+      });
+    }
+
+    const supportSoundMuteToggle = document.getElementById("supportSoundMuteToggle");
+    if (supportSoundMuteToggle) {
+      const syncMuteBtn = () => {
+        const muted = localStorage.getItem("notificationSoundMuted") === "1";
+        supportSoundMuteToggle.setAttribute("aria-pressed", muted ? "true" : "false");
+        supportSoundMuteToggle.setAttribute("title", muted ? "Ativar notificações" : "Silenciar notificações");
+        supportSoundMuteToggle.setAttribute("aria-label", muted ? "Ativar notificações" : "Silenciar notificações");
+        const icon = supportSoundMuteToggle.querySelector("i");
+        if (icon) icon.className = muted ? "bx bx-bell-off" : "bx bx-bell";
+        supportSoundMuteToggle.classList.toggle("is-muted", muted);
+      };
+      syncMuteBtn();
+      supportSoundMuteToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        const muted = localStorage.getItem("notificationSoundMuted") === "1";
+        localStorage.setItem("notificationSoundMuted", muted ? "0" : "1");
+        syncMuteBtn();
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === "notificationSoundMuted") syncMuteBtn();
       });
     }
 
@@ -1347,7 +1346,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rememberMe) {
         localStorage.setItem("savedRazaoSocial", razaoSocialInput);
         localStorage.setItem("savedUsername", username);
-        localStorage.setItem("savedPassword", password);
+        localStorage.setItem("savedPassword", btoa(password));
       } else {
         localStorage.removeItem("savedRazaoSocial");
         localStorage.removeItem("savedUsername");
@@ -1424,7 +1423,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function markMessagesAsRead() {
     if (!currentContributor || !supportUser || !selectedSector) return;
     
-    const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+    const messages = getStorageItem("supportMessages", []);
     const contributorId = currentContributor.id;
     const employeeId = supportUser.role === "employee" ? supportUser.employeeId : null;
     
@@ -1466,7 +1465,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getUnreadNotifications() {
     if (!currentContributor || !supportUser) return [];
     
-    const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+    const messages = getStorageItem("supportMessages", []);
     const contributorId = currentContributor.id;
     const employeeId = supportUser.role === "employee" ? supportUser.employeeId : null;
     
@@ -1670,7 +1669,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateNotificationsVisibility();
   
   // Atualizar notificações periodicamente (a cada 2 segundos)
-  setInterval(() => {
+  window._notifInterval = window._notifInterval || setInterval(() => {
     if (!supportChatMain?.classList.contains("active")) {
       renderNotifications();
     }
@@ -1780,6 +1779,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ...existingContributor,
             status: "active",
             mustResetPassword: false,
+            onboardingDone: true,
             supportPasswordHash: hashedPassword,
             chatId: existingContributor.chatId || `chat_contributor_${existingContributor.id}`,
             activatedAt: existingContributor.activatedAt || Date.now(),
@@ -1934,9 +1934,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // Elementos do modal de setor
   const sectorModal = document.getElementById("sectorModal");
   const closeSectorModal = document.getElementById("closeSectorModal");
-  const sectorOptions = document.querySelectorAll(".sector-option");
   const changeSectorBtn = document.getElementById("changeSectorBtn");
   const changeSectorBtnHeader = document.getElementById("changeSectorBtnHeader");
+
+  // Populate sector options dynamically from localStorage
+  (function populateSectorOptions() {
+    var container = document.getElementById("sectorOptionsContainer");
+    if (!container) return;
+    var sectors = [];
+    try { sectors = JSON.parse(localStorage.getItem("sectors")) || []; } catch (_) { sectors = []; }
+    container.innerHTML = "";
+    if (!Array.isArray(sectors) || sectors.length === 0) {
+      container.innerHTML =
+        '<div class="sectors-empty-state">' +
+          '<i class="bx bx-category-alt" aria-hidden="true"></i>' +
+          '<h4>Nenhum setor disponível</h4>' +
+          '<p>Aguarde o administrador configurar os setores de atendimento.</p>' +
+        '</div>';
+      return;
+    }
+    sectors.forEach(function (name) {
+      var btn = document.createElement("button");
+      btn.className = "sector-option";
+      btn.setAttribute("data-sector", name);
+      btn.innerHTML = "<i class='bx bxs-category'></i><span>" + name + "</span>";
+      container.appendChild(btn);
+    });
+  })();
+
+  const sectorOptions = document.querySelectorAll(".sector-option");
 
   // Gerar ID único para o chat
   function generateChatId() {
@@ -1958,7 +1984,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     currentViewMode = mode;
     localStorage.setItem("chatViewMode", mode);
-    
+
+    // Modo popup: marca body para permitir flutuar acima das demais abas
+    if (mode === "popup") {
+      document.body.classList.add("support-popup-active");
+      if (supportChatMain) supportChatMain.classList.add("popup-floating");
+    } else {
+      document.body.classList.remove("support-popup-active");
+      if (supportChatMain) supportChatMain.classList.remove("popup-floating");
+    }
+
     // Atualizar opções ativas
     if (viewModeOptions && viewModeOptions.length > 0) {
       viewModeOptions.forEach(option => {
@@ -2269,13 +2304,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Função para obter hora atual
-  function getCurrentTime() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    return `${hours}:${minutes}`;
-  }
+  // getCurrentTime() definida em shared/utils.js
 
   // Função para adicionar mensagem na interface com suporte a emojis animados
   // Função para normalizar caminhos de imagens antigos para os novos
@@ -2547,167 +2576,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Função para limpar mensagens antigas e reduzir tamanho do localStorage
-  function cleanupOldMessages(maxSizeMB = 4) {
+  // Arquivos preservam qualidade original. Só arquivamos por quantidade quando o
+  // localStorage atinge o limite real do navegador (~5MB). Avisamos o usuário antes
+  // de perder qualquer conteúdo.
+  function getLocalStorageUsageBytes() {
     try {
-      let messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
-      const originalLength = messages.length;
-      const maxSizeBytes = maxSizeMB * 1024 * 1024; // Converter MB para bytes
-      
-      // Primeiro, remover dados de arquivos grandes (>500KB), mantendo apenas metadados
-      let totalSize = 0;
-      messages = messages.map(msg => {
-        if (msg.file && msg.file.data) {
-          const base64Size = msg.file.data.length;
-          const estimatedSize = (base64Size * 3) / 4;
-          
-          // Se arquivo maior que 500KB, remover data (mantém apenas metadados)
-          if (estimatedSize > 500 * 1024) {
-            console.log(`🗑️ Removendo dados de arquivo grande (mantendo metadados): ${msg.file.name} (~${Math.round(estimatedSize / 1024)}KB)`);
-            return {
-              ...msg,
-              file: {
-                name: msg.file.name,
-                size: msg.file.size,
-                type: msg.file.type,
-                _dataRemoved: true,
-                _firebaseKey: msg.id // Manter ID para buscar do Firebase se necessário
-              }
-            };
-          }
+      let total = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key) || "";
+        total += key.length + value.length;
+      }
+      return total * 2; // UTF-16 ≈ 2 bytes/char
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function maybeWarnStorageNearLimit() {
+    const usage = getLocalStorageUsageBytes();
+    const approxLimit = 5 * 1024 * 1024; // navegadores ficam perto de 5MB
+    if (usage >= approxLimit * 0.8) {
+      const lastWarn = parseInt(localStorage.getItem("__storageWarnTs") || "0", 10);
+      if (Date.now() - lastWarn > 60 * 1000) {
+        localStorage.setItem("__storageWarnTs", String(Date.now()));
+        if (typeof showToast === "function") {
+          showToast("Armazenamento quase cheio — considere arquivar conversas antigas.", "warning");
         }
-        return msg;
-      });
-      
-      // Ordenar mensagens por timestamp (mais antigas primeiro)
+      }
+    }
+  }
+
+  // Política: SEM compressão e SEM strip de arquivos. Apenas remove as mensagens
+  // mais antigas por FIFO quando o navegador efetivamente lança QuotaExceededError.
+  function cleanupOldMessages() {
+    try {
+      let messages = getStorageItem("supportMessages", []);
       messages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-      
-      // Calcular tamanho total e remover mensagens mais antigas se necessário
-      let finalMessages = [];
-      for (let i = messages.length - 1; i >= 0; i--) {
-        const msg = messages[i];
-        const msgSize = getMessageSize(msg);
-        
-        if (totalSize + msgSize <= maxSizeBytes) {
-          finalMessages.unshift(msg);
-          totalSize += msgSize;
-        } else {
-          // Remover mensagens mais antigas que excedem o tamanho
-          break;
-        }
-      }
-      
-      // Se ainda tiver muitas mensagens, limitar quantidade (máximo 300)
-      if (finalMessages.length > 300) {
-        finalMessages = finalMessages.slice(-300);
-        console.log(`🧹 Limpeza por quantidade: Mantidas ${finalMessages.length} mensagens mais recentes`);
-      }
-      
-      if (originalLength !== finalMessages.length) {
-        console.log(`🧹 Limpeza automática: ${originalLength - finalMessages.length} mensagens removidas (mantidas ${finalMessages.length})`);
-      }
-      
-      // Tentar salvar a lista reduzida
-      try {
-        localStorage.setItem("supportMessages", JSON.stringify(finalMessages));
-      } catch (e) {
-        // Se ainda exceder, limpeza mais agressiva
-        if (e.name === 'QuotaExceededError') {
-          console.warn("⚠️ Quota ainda excedida, aplicando limpeza agressiva...");
-          
-          // Remover TODOS os arquivos (mantendo apenas metadados)
-          finalMessages = finalMessages.map(msg => {
-            if (msg.file && msg.file.data) {
-              return {
-                ...msg,
-                file: {
-                  name: msg.file.name,
-                  size: msg.file.size,
-                  type: msg.file.type,
-                  _dataRemoved: true,
-                  _firebaseKey: msg.id
-                }
-              };
-            }
-            return msg;
-          });
-          
-          // Manter apenas últimas 100 mensagens
-          if (finalMessages.length > 100) {
-            finalMessages = finalMessages.slice(-100);
-          }
-          
-          localStorage.setItem("supportMessages", JSON.stringify(finalMessages));
-          console.log(`✅ Limpeza agressiva concluída: ${finalMessages.length} mensagens mantidas`);
-        } else {
-          throw e;
-        }
-      }
-      
-      return finalMessages;
+      return messages;
     } catch (error) {
-      console.error("❌ Erro ao limpar mensagens antigas:", error);
-      // Em caso de erro, retornar array vazio para evitar corrupção
+      console.error("❌ Erro ao ler mensagens:", error);
       return [];
     }
   }
 
-  // Salvar mensagem no localStorage e Firebase (se disponível)
+  // Salvar mensagem preservando qualidade total dos arquivos.
   function saveMessage(messageData) {
-    // Se a mensagem tiver arquivo grande (>500KB), remover dados antes de salvar no localStorage
     const messageToSave = { ...messageData };
-    if (messageToSave.file && messageToSave.file.data) {
-      const base64Size = messageToSave.file.data.length;
-      const estimatedSize = (base64Size * 3) / 4;
-      
-      // Se arquivo maior que 500KB, não salvar dados no localStorage
-      if (estimatedSize > 500 * 1024) {
-        console.log(`📦 Arquivo grande detectado (${Math.round(estimatedSize / 1024)}KB), removendo dados do localStorage (mantendo apenas metadados)`);
-        messageToSave.file = {
-          name: messageToSave.file.name,
-          size: messageToSave.file.size,
-          type: messageToSave.file.type,
-          _dataRemoved: true,
-          _firebaseKey: messageToSave.id
-        };
-      }
-    }
-    
+    let messages = cleanupOldMessages();
+    messages.push(messageToSave);
+
+    const attemptSave = (list) => {
+      localStorage.setItem("supportMessages", JSON.stringify(list));
+    };
+
     try {
-      // Limpar mensagens antigas antes de adicionar nova (máximo 3MB)
-      let messages = cleanupOldMessages(3);
-      
-      messages.push(messageToSave);
-      localStorage.setItem("supportMessages", JSON.stringify(messages));
+      attemptSave(messages);
+      maybeWarnStorageNearLimit();
     } catch (e) {
-      if (e.name === 'QuotaExceededError') {
-        console.error("❌ Erro: Quota do localStorage excedida mesmo após limpeza!");
-        
-        // Tentar limpeza mais agressiva (máximo 2MB)
-        try {
-          let messages = cleanupOldMessages(2);
-          
-          // Garantir que a mensagem atual não tem dados de arquivo
-          const cleanMessage = {
-            ...messageToSave,
-            file: messageToSave.file && messageToSave.file.data ? {
-              name: messageToSave.file.name,
-              size: messageToSave.file.size,
-              type: messageToSave.file.type,
-              _dataRemoved: true,
-              _firebaseKey: messageToSave.id
-            } : messageToSave.file
-          };
-          
-          messages.push(cleanMessage);
-          localStorage.setItem("supportMessages", JSON.stringify(messages));
-          console.log("✅ Limpeza agressiva aplicada, mensagem salva (sem dados de arquivo)");
-        } catch (e2) {
-          console.error("❌ Erro crítico: Não foi possível salvar mensagem no localStorage:", e2);
-          // Ainda assim, salvar no Firebase se disponível
-        }
-      } else {
+      if (e.name !== "QuotaExceededError") {
         console.error("❌ Erro ao salvar mensagem:", e);
+        return;
+      }
+      // Quota estourou: avisa e remove mensagens antigas em lotes até caber.
+      // Nunca removemos o payload do arquivo — preservamos qualidade integral.
+      if (typeof showToast === "function") {
+        showToast("Armazenamento cheio — arquivando mensagens antigas.", "warning");
+      }
+      let working = messages.slice();
+      while (working.length > 1) {
+        working.shift(); // descarta a mais antiga
+        try {
+          attemptSave(working);
+          return;
+        } catch (inner) {
+          if (inner.name !== "QuotaExceededError") {
+            console.error("❌ Erro ao salvar mensagem:", inner);
+            return;
+          }
+        }
+      }
+      console.error("❌ Não foi possível salvar a mensagem: arquivo excede o espaço disponível.");
+      if (typeof showToast === "function") {
+        showToast("Arquivo muito grande para o armazenamento local.", "error");
       }
     }
     
@@ -2723,7 +2674,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Atualizar chatId para garantir que está correto
     chatId = getCurrentChatId();
     
-    const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+    const messages = getStorageItem("supportMessages", []);
     const chatMessages = document.getElementById("chatMessages");
     
     // Limpar mensagens
@@ -2790,7 +2741,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="welcome-icon">
           <i class='bx bx-support'></i>
         </div>
-        <h4>Bem-vindo ao Suporte Sercon!</h4>
+        <h4>Bem-vindo ao Suporte Soft Tech!</h4>
         <p>Como podemos ajudar você hoje?</p>
       `;
       chatMessages.appendChild(welcomeDiv);
@@ -2835,7 +2786,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chatId = getCurrentChatId();
     
     const lastCheck = localStorage.getItem("lastMessageCheck") || "0";
-    const messages = JSON.parse(localStorage.getItem("supportMessages") || "[]");
+    const messages = getStorageItem("supportMessages", []);
     
     // Filtrar mensagens do chat atual, setor atual e que sejam do suporte
     let newMessages = messages.filter(msg => {
@@ -2869,8 +2820,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if (newMessages.length > 0) {
       loadMessages();
+      var lastNew = newMessages[newMessages.length - 1];
+      if (lastNew) {
+        _playNotificationSound();
+        _showBrowserNotification(
+          lastNew.sender || 'Suporte',
+          lastNew.text ? lastNew.text.substring(0, 100) : 'Arquivo enviado'
+        );
+      }
+      _updateTabBadge();
     }
-    
+
     localStorage.setItem("lastMessageCheck", Date.now().toString());
   }
   
@@ -2882,7 +2842,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // Verificar novas mensagens periodicamente e atualizar atividade (fallback)
-  setInterval(() => {
+  window._msgPollInterval = window._msgPollInterval || setInterval(() => {
     if (supportChatMain && supportChatMain.classList.contains("active")) {
       checkForNewMessages();
       updateClientActivity();
@@ -2932,7 +2892,12 @@ document.addEventListener("DOMContentLoaded", () => {
       chatId = getCurrentChatId();
       
       // Processar cada arquivo
+      const MAX_CHAT_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
       for (const file of files) {
+        if (file.size > MAX_CHAT_FILE_SIZE) {
+          showToast(`Arquivo "${file.name}" excede 10 MB e foi ignorado.`, "error");
+          continue;
+        }
         try {
           const fileDataBase64 = await fileToBase64(file);
           const time = getCurrentTime();
@@ -3544,5 +3509,630 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   // ==================== FIM SISTEMA DE EMOJIS ANIMADOS NOTO ====================
+
+  // ==================== NOTIFICATIONS & SOUND ====================
+
+  var _notifAudioCtx = null;
+  var _originalTitle = document.title;
+
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+
+  function _playNotificationSound() {
+    try {
+      if (localStorage.getItem('notificationSoundMuted') === '1') return;
+      if (!_notifAudioCtx) _notifAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (_notifAudioCtx.state === 'suspended') _notifAudioCtx.resume();
+      var t = _notifAudioCtx.currentTime;
+      var o = _notifAudioCtx.createOscillator();
+      var g = _notifAudioCtx.createGain();
+      o.connect(g);
+      g.connect(_notifAudioCtx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(830, t);
+      o.frequency.setValueAtTime(580, t + 0.12);
+      g.gain.setValueAtTime(0.15, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+      o.start(t);
+      o.stop(t + 0.4);
+    } catch (_) {}
+  }
+
+  function _showBrowserNotification(title, body) {
+    if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    if (!document.hidden) return;
+    try {
+      var n = new Notification(title, {
+        body: body || '',
+        icon: '../../assets/images/branding/SoftTech.png',
+        tag: 'dominium-cliente-' + Date.now()
+      });
+      n.onclick = function () { window.focus(); n.close(); };
+      setTimeout(function () { n.close(); }, 5000);
+    } catch (_) {}
+  }
+
+  function _updateTabBadge() {
+    try {
+      var messages = getStorageItem("supportMessages", []);
+      var chatIdLocal = localStorage.getItem("chatId") || "";
+      var lastCheck = parseInt(localStorage.getItem("lastMessageCheck") || "0", 10);
+      var unread = messages.filter(function (m) {
+        return m.chatId === chatIdLocal && m.type === "support" && new Date(m.timestamp).getTime() > lastCheck;
+      }).length;
+      document.title = unread > 0 ? '(' + unread + ') ' + _originalTitle : _originalTitle;
+    } catch (_) {}
+  }
+
+  // ==================== FIM NOTIFICATIONS ====================
+
+  // ==================== MESSAGE SEARCH ====================
+
+  var _searchMatches = [];
+  var _searchIndex = -1;
+
+  function _toggleChatSearch() {
+    var bar = document.getElementById('chatSearchBar');
+    if (!bar) return;
+    var isHidden = bar.classList.contains('hidden');
+    bar.classList.toggle('hidden');
+    if (isHidden) {
+      var input = document.getElementById('chatSearchInput');
+      if (input) { input.value = ''; input.focus(); }
+    }
+    _clearSearchHighlights();
+  }
+
+  function _clearSearchHighlights() {
+    _searchMatches = [];
+    _searchIndex = -1;
+    document.querySelectorAll('.search-highlight').forEach(function (el) { el.classList.remove('search-highlight'); });
+    document.querySelectorAll('.search-current').forEach(function (el) { el.classList.remove('search-current'); });
+    var counter = document.getElementById('chatSearchCount');
+    if (counter) counter.textContent = '0/0';
+  }
+
+  function _searchMessages(query) {
+    _clearSearchHighlights();
+    if (!query || query.length < 2) return;
+
+    var container = document.getElementById('chatMessages');
+    if (!container) return;
+
+    var allEls = container.querySelectorAll('.message, .msg, .support-message, .client-message');
+    var lowerQuery = query.toLowerCase();
+
+    allEls.forEach(function (el) {
+      if ((el.textContent || '').toLowerCase().includes(lowerQuery)) {
+        el.classList.add('search-highlight');
+        _searchMatches.push(el);
+      }
+    });
+
+    var counter = document.getElementById('chatSearchCount');
+    if (_searchMatches.length > 0) {
+      _searchIndex = 0;
+      _searchMatches[0].classList.add('search-current');
+      _searchMatches[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (counter) counter.textContent = '1/' + _searchMatches.length;
+    } else {
+      if (counter) counter.textContent = '0/0';
+    }
+  }
+
+  function _searchNavigate(direction) {
+    if (_searchMatches.length === 0) return;
+    _searchMatches[_searchIndex].classList.remove('search-current');
+    _searchIndex = direction === 'next'
+      ? (_searchIndex + 1) % _searchMatches.length
+      : (_searchIndex - 1 + _searchMatches.length) % _searchMatches.length;
+    _searchMatches[_searchIndex].classList.add('search-current');
+    _searchMatches[_searchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var counter = document.getElementById('chatSearchCount');
+    if (counter) counter.textContent = (_searchIndex + 1) + '/' + _searchMatches.length;
+  }
+
+  // Bind search events
+  var _csInput = document.getElementById('chatSearchInput');
+  if (_csInput) {
+    var _csDebounce = null;
+    _csInput.addEventListener('input', function (e) {
+      clearTimeout(_csDebounce);
+      _csDebounce = setTimeout(function () { _searchMessages(e.target.value.trim()); }, 300);
+    });
+    _csInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); _searchNavigate(e.shiftKey ? 'prev' : 'next'); }
+      if (e.key === 'Escape') _toggleChatSearch();
+    });
+  }
+  var _csPrev = document.getElementById('chatSearchPrev');
+  var _csNext = document.getElementById('chatSearchNext');
+  var _csClose = document.getElementById('chatSearchClose');
+  var _csBtn = document.getElementById('chatSearchBtn');
+  if (_csPrev) _csPrev.addEventListener('click', function () { _searchNavigate('prev'); });
+  if (_csNext) _csNext.addEventListener('click', function () { _searchNavigate('next'); });
+  if (_csClose) _csClose.addEventListener('click', function () { _toggleChatSearch(); });
+  if (_csBtn) _csBtn.addEventListener('click', function () { _toggleChatSearch(); });
+
+  // ==================== FIM MESSAGE SEARCH ====================
 });
 
+// ==================== REACTIONS + DELIVERY STATUS (Fase 2.3 + 2.4) ====================
+(function initClientReactionsAndStatus() {
+  if (window.__clientReactionsStatusInit) return;
+  window.__clientReactionsStatusInit = true;
+
+  const STORAGE_KEY = "supportMessages";
+  const SYNC_KEY = "deliveryStatusUpdate";
+  const REACTION_EMOJIS = ["\uD83D\uDC4D", "\u2764\uFE0F", "\uD83D\uDE02", "\uD83D\uDE2E", "\uD83D\uDE22", "\uD83C\uDF89"];
+
+  function readAll() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+    catch (e) { return []; }
+  }
+  function writeAll(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      localStorage.setItem(SYNC_KEY, String(Date.now()));
+    } catch (e) { /* ignore */ }
+  }
+  function getCurrentUserId() {
+    try {
+      const u = getStorageItem("currentUser", {});
+      return u.id || u.username || u.fullName || "anon";
+    } catch (e) { return "anon"; }
+  }
+  function getActiveChatId() {
+    try { return localStorage.getItem("chatId"); } catch (e) { return null; }
+  }
+  function findMeta(msgId) {
+    return readAll().find(m => m && m.id === msgId) || null;
+  }
+
+  // Cliente: mensagens recebidas s\u00e3o type "support". Marca delivered ao pollar,
+  // e read quando este chat est\u00e1 ativo + tab vis\u00edvel.
+  function stampIncoming() {
+    const isVisible = document.visibilityState === "visible";
+    const chatId = getActiveChatId();
+    const list = readAll();
+    let changed = false;
+    for (const m of list) {
+      if (!m || m.type !== "support") continue;
+      if (!m.delivered) { m.delivered = true; m.deliveredAt = Date.now(); changed = true; }
+      if (isVisible && chatId && m.chatId === chatId && !m.read) {
+        m.read = true; m.readAt = Date.now(); changed = true;
+      }
+    }
+    if (changed) writeAll(list);
+  }
+
+  // -------- Ticks de entrega em mensagens pr\u00f3prias (cliente envia type "client") --------
+  function renderTick(messageEl) {
+    // No cliente, a classe da bolha \u00e9 .message.sent ou similar. Detectamos pela classe "sent".
+    if (!messageEl.classList.contains("sent")) return;
+    const msgId = messageEl.getAttribute("data-message-id");
+    if (!msgId) return;
+    const meta = findMeta(msgId);
+    let tick = messageEl.querySelector(":scope > .delivery-ticks");
+    if (!tick) {
+      tick = document.createElement("span");
+      tick.className = "delivery-ticks";
+      messageEl.appendChild(tick);
+    }
+    let state = "sent";
+    if (meta) {
+      if (meta.read) state = "read";
+      else if (meta.delivered) state = "delivered";
+    }
+    tick.classList.remove("sent", "delivered", "read");
+    tick.classList.add(state);
+    tick.innerHTML = state === "sent"
+      ? "<i class='bx bx-check'></i>"
+      : "<i class='bx bx-check-double'></i>";
+    tick.setAttribute("title", state === "read" ? "Lida" : state === "delivered" ? "Entregue" : "Enviada");
+  }
+  function renderAllTicks(root) {
+    (root || document).querySelectorAll(".message.sent[data-message-id]").forEach(renderTick);
+  }
+
+  // -------- Reactions --------
+  function toggleReaction(msgId, emoji) {
+    const list = readAll();
+    const idx = list.findIndex(m => m && m.id === msgId);
+    if (idx === -1) return null;
+    const message = list[idx];
+    message.reactions = message.reactions || {};
+    const users = message.reactions[emoji] = Array.isArray(message.reactions[emoji]) ? message.reactions[emoji] : [];
+    const userId = getCurrentUserId();
+    const pos = users.indexOf(userId);
+    if (pos >= 0) users.splice(pos, 1); else users.push(userId);
+    if (users.length === 0) delete message.reactions[emoji];
+    list[idx] = message;
+    writeAll(list);
+    return message.reactions;
+  }
+  function getReactionsFor(msgId) {
+    const meta = findMeta(msgId);
+    return (meta && meta.reactions) || {};
+  }
+  function renderReactionsRow(messageEl, reactions) {
+    let row = messageEl.querySelector(":scope > .reactions-row");
+    const entries = Object.entries(reactions || {}).filter(([, u]) => Array.isArray(u) && u.length > 0);
+    if (entries.length === 0) { if (row) row.remove(); return; }
+    if (!row) { row = document.createElement("div"); row.className = "reactions-row"; messageEl.appendChild(row); }
+    const userId = getCurrentUserId();
+    row.innerHTML = "";
+    entries.forEach(([emoji, users]) => {
+      const pill = document.createElement("button");
+      pill.type = "button";
+      pill.className = "reaction-pill" + (users.includes(userId) ? " own" : "");
+      pill.setAttribute("data-emoji", emoji);
+      pill.innerHTML = `<span class="reaction-emoji">${emoji}</span><span class="reaction-count">${users.length}</span>`;
+      row.appendChild(pill);
+    });
+  }
+  function ensureActionButton(messageEl) {
+    if (messageEl.querySelector(":scope > .message-actions-btn")) return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "message-actions-btn";
+    btn.setAttribute("aria-label", "Reagir");
+    btn.innerHTML = "<i class='bx bx-dots-horizontal-rounded'></i>";
+    messageEl.appendChild(btn);
+  }
+  function enrichMessage(messageEl) {
+    if (!messageEl || messageEl.dataset.reactionsEnriched === "1") return;
+    if (!messageEl.getAttribute("data-message-id")) return;
+    messageEl.dataset.reactionsEnriched = "1";
+    ensureActionButton(messageEl);
+    renderReactionsRow(messageEl, getReactionsFor(messageEl.getAttribute("data-message-id")));
+  }
+
+  let popoverEl = null;
+  let popoverForMsgId = null;
+  function closePopover() { if (popoverEl) { popoverEl.remove(); popoverEl = null; } popoverForMsgId = null; }
+  function openPopover(anchor, msgId) {
+    closePopover();
+    popoverForMsgId = msgId;
+    popoverEl = document.createElement("div");
+    popoverEl.className = "reaction-popover";
+    REACTION_EMOJIS.forEach(emoji => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "reaction-popover-btn"; b.setAttribute("data-emoji", emoji); b.textContent = emoji;
+      popoverEl.appendChild(b);
+    });
+    document.body.appendChild(popoverEl);
+    const rect = anchor.getBoundingClientRect();
+    const top = rect.top + window.scrollY - popoverEl.offsetHeight - 8;
+    const left = Math.max(8, rect.left + window.scrollX - (popoverEl.offsetWidth / 2) + (rect.width / 2));
+    popoverEl.style.top = `${top < 8 ? rect.bottom + window.scrollY + 8 : top}px`;
+    popoverEl.style.left = `${left}px`;
+    requestAnimationFrame(() => popoverEl.classList.add("open"));
+  }
+
+  document.addEventListener("click", (e) => {
+    const pill = e.target.closest(".reaction-pill");
+    if (pill) {
+      const msgEl = pill.closest(".message[data-message-id]");
+      if (!msgEl) return;
+      const newR = toggleReaction(msgEl.getAttribute("data-message-id"), pill.getAttribute("data-emoji"));
+      renderReactionsRow(msgEl, newR || {}); closePopover(); return;
+    }
+    const popBtn = e.target.closest(".reaction-popover-btn");
+    if (popBtn && popoverForMsgId) {
+      const emoji = popBtn.getAttribute("data-emoji");
+      const msgEl = document.querySelector(`.message[data-message-id="${CSS.escape(popoverForMsgId)}"]`);
+      const newR = toggleReaction(popoverForMsgId, emoji);
+      if (msgEl) renderReactionsRow(msgEl, newR || {}); closePopover(); return;
+    }
+    const actionBtn = e.target.closest(".message-actions-btn");
+    if (actionBtn) {
+      const msgEl = actionBtn.closest(".message[data-message-id]");
+      if (!msgEl) return;
+      const msgId = msgEl.getAttribute("data-message-id");
+      if (popoverForMsgId === msgId) closePopover(); else openPopover(actionBtn, msgId);
+      return;
+    }
+    if (popoverEl && !e.target.closest(".reaction-popover")) closePopover();
+  });
+
+  let pressTimer = null;
+  document.addEventListener("pointerdown", (e) => {
+    const msgEl = e.target.closest(".message[data-message-id]");
+    if (!msgEl || e.pointerType !== "touch") return;
+    const msgId = msgEl.getAttribute("data-message-id");
+    const anchor = msgEl.querySelector(".message-actions-btn") || msgEl;
+    pressTimer = setTimeout(() => openPopover(anchor, msgId), 400);
+  });
+  ["pointerup", "pointercancel", "pointerleave", "scroll"].forEach(ev =>
+    document.addEventListener(ev, () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } }, true));
+
+  function start() {
+    stampIncoming();
+    renderAllTicks();
+    document.querySelectorAll(".message[data-message-id]").forEach(enrichMessage);
+
+    const observer = new MutationObserver(muts => {
+      muts.forEach(m => {
+        m.addedNodes.forEach(node => {
+          if (node.nodeType !== 1) return;
+          if (node.matches && node.matches(".message[data-message-id]")) { enrichMessage(node); renderTick(node); }
+          else if (node.querySelectorAll) {
+            node.querySelectorAll(".message[data-message-id]").forEach(el => { enrichMessage(el); renderTick(el); });
+          }
+        });
+      });
+    });
+    const roots = [document.querySelector("#chatMessages"), document.querySelector(".chat-messages"), document.querySelector(".messages")].filter(Boolean);
+    roots.forEach(root => observer.observe(root, { childList: true, subtree: true }));
+
+    window.addEventListener("storage", (e) => {
+      if (e.key === STORAGE_KEY || e.key === SYNC_KEY || e.key === "newSupportMessage") {
+        renderAllTicks();
+        document.querySelectorAll(".message[data-message-id]").forEach(el => {
+          renderReactionsRow(el, getReactionsFor(el.getAttribute("data-message-id")));
+        });
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") { stampIncoming(); renderAllTicks(); }
+    });
+    window._ticksInterval = window._ticksInterval || setInterval(() => { stampIncoming(); renderAllTicks(); }, 4000);
+    window.addEventListener("resize", closePopover);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
+// ==================== FIM REACTIONS + STATUS (cliente) ====================
+
+// ==================== INDICADOR DE DIGITA\u00c7\u00c3O (Fase 2.5 \u2013 cliente) ====================
+(function initClientTypingIndicator() {
+  if (window.__clientTypingInit) return;
+  window.__clientTypingInit = true;
+
+  const KEY = "typingIndicators";
+  const THROTTLE_MS = 1000;
+  const STALE_MS = 3000;
+
+  function getMe() {
+    try {
+      const u = getStorageItem("currentUser", {});
+      return {
+        id: u.id || u.username || u.fullName || "anon",
+        name: u.fullName || u.username || "Voc\u00ea",
+        role: u.role === "employee" ? "employee" : "contributor"
+      };
+    } catch (e) { return { id: "anon", name: "Voc\u00ea", role: "contributor" }; }
+  }
+  function readMap() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { return {}; } }
+  function writeMap(map) { try { localStorage.setItem(KEY, JSON.stringify(map)); } catch (e) { /* ignore */ } }
+  function getActiveChatId() { try { return localStorage.getItem("chatId"); } catch (e) { return null; } }
+
+  let lastWrite = 0;
+  function recordTyping(chatId) {
+    if (!chatId) return;
+    const now = Date.now();
+    if (now - lastWrite < THROTTLE_MS) return;
+    lastWrite = now;
+    const map = readMap();
+    const me = getMe();
+    map[chatId] = { userId: me.id, name: me.name, role: me.role, ts: now };
+    writeMap(map);
+  }
+
+  function ensureIndicator() {
+    const container = document.getElementById("chatMessages") || document.querySelector(".messages");
+    if (!container) return null;
+    let el = document.getElementById("clientTypingIndicator");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "clientTypingIndicator";
+      el.className = "typing-indicator";
+      el.hidden = true;
+      el.innerHTML = '<span class="typing-name"></span><span class="typing-dots"><i></i><i></i><i></i></span>';
+      const parent = container.parentElement;
+      const input = parent ? parent.querySelector(".message-input, .chat-input") : null;
+      if (input) input.parentElement.insertBefore(el, input);
+      else container.appendChild(el);
+    }
+    return el;
+  }
+
+  function render() {
+    const el = ensureIndicator();
+    if (!el) return;
+    const chatId = getActiveChatId();
+    const entry = chatId ? readMap()[chatId] : null;
+    const me = getMe();
+    const isActive = entry && entry.userId !== me.id && (Date.now() - (entry.ts || 0) < STALE_MS);
+    if (isActive) {
+      el.querySelector(".typing-name").textContent = `${entry.name} est\u00e1 digitando`;
+      el.hidden = false;
+    } else {
+      el.hidden = true;
+    }
+  }
+
+  function start() {
+    const input = document.getElementById("messageInput");
+    if (input) input.addEventListener("input", () => recordTyping(getActiveChatId()));
+    render();
+    window.addEventListener("storage", (e) => { if (e.key === KEY) render(); });
+    window._typingRenderInterval = window._typingRenderInterval || setInterval(render, 1500);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
+// ==================== FIM TYPING (cliente) ====================
+
+
+// ==================== WELCOME DI\u00c1RIA POR SETOR (Fase 7c) ====================
+(function initSectorDailyWelcome() {
+  if (window.__sectorWelcomeInit) return;
+  window.__sectorWelcomeInit = true;
+
+  const STORAGE_KEY = "sectorWelcomeSent";
+
+  function todayKey() {
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function readMap() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (_) { return {}; }
+  }
+
+  function writeMap(map) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(map)); } catch (_) {}
+  }
+
+  function alreadySentToday(chatId, sector) {
+    const map = readMap();
+    const key = chatId + "|" + sector + "|" + todayKey();
+    return !!map[key];
+  }
+
+  function markSentToday(chatId, sector) {
+    const map = readMap();
+    const key = chatId + "|" + sector + "|" + todayKey();
+    map[key] = Date.now();
+    // Cleanup: manter apenas os \u00faltimos 30 dias de chaves para n\u00e3o inflar o storage
+    const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    Object.keys(map).forEach(k => { if (map[k] < cutoff) delete map[k]; });
+    writeMap(map);
+  }
+
+  function getUserName() {
+    try {
+      const u = getStorageItem("supportUser", {});
+      return (u.fullName || u.name || "").split(" ")[0] || "";
+    } catch (_) { return ""; }
+  }
+
+  function insertWelcomeMessage(chatId, sector) {
+    if (!chatId || !sector) return;
+    if (alreadySentToday(chatId, sector)) return;
+
+    const firstName = getUserName();
+    const greeting = firstName
+      ? `Ol\u00e1, ${firstName}! Seja bem-vindo de volta ao setor ${sector}. Como posso ajudar?`
+      : `Ol\u00e1! Seja bem-vindo de volta ao setor ${sector}. Como posso ajudar?`;
+
+    let messages = [];
+    try { messages = getStorageItem("supportMessages", []); } catch (_) { messages = []; }
+
+    const welcomeMsg = {
+      id: `msg_welcome_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      chatId,
+      sector,
+      type: "support",
+      senderRole: "system",
+      senderName: `Setor ${sector}`,
+      text: greeting,
+      timestamp: Date.now(),
+      sent: true,
+      delivered: true,
+      read: false,
+      isWelcome: true
+    };
+
+    messages.push(welcomeMsg);
+    try { localStorage.setItem("supportMessages", JSON.stringify(messages)); } catch (_) {}
+    markSentToday(chatId, sector);
+  }
+
+  function currentContext() {
+    const chatId = localStorage.getItem("chatId") || "";
+    const sector = localStorage.getItem("selectedSector") || "";
+    return { chatId, sector };
+  }
+
+  function checkAndInsert() {
+    const { chatId, sector } = currentContext();
+    if (!chatId || !sector) return;
+    insertWelcomeMessage(chatId, sector);
+  }
+
+  function start() {
+    // Roda ao carregar e observa mudan\u00e7as no chatId/selectedSector
+    checkAndInsert();
+    window.addEventListener("storage", (e) => {
+      if (e.key === "chatId" || e.key === "selectedSector") checkAndInsert();
+    });
+    // Hook em clique de bot\u00f5es de setor (refor\u00e7o)
+    document.addEventListener("click", (e) => {
+      const opt = e.target.closest(".sector-option");
+      if (opt) setTimeout(checkAndInsert, 150);
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
+// ==================== FIM WELCOME DI\u00c1RIA ====================
+
+// ==================== TEMA CLARO/ESCURO (CLIENTE) ====================
+(function initClienteTheme() {
+  if (window.__clienteThemeInit) return;
+  window.__clienteThemeInit = true;
+  function start() {
+    const root = document.documentElement;
+    let stored = localStorage.getItem("cliente-theme");
+    if (!stored) {
+      stored = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    }
+    root.setAttribute("data-theme", stored);
+    const themeSwitch = document.getElementById("clienteThemeSwitch");
+    const themeRingProgress = document.querySelector(".theme-switch-chain .theme-ring-progress");
+    function syncThemeSwitch(theme) {
+      if (themeSwitch) themeSwitch.checked = (theme === "dark");
+    }
+    syncThemeSwitch(stored);
+    function setTheme(theme) {
+      root.setAttribute("data-theme", theme);
+      localStorage.setItem("cliente-theme", theme);
+      syncThemeSwitch(theme);
+    }
+    function playThemeRingAnimation(toDark) {
+      if (!themeRingProgress) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      themeRingProgress.classList.remove("theme-ring-to-dark", "theme-ring-to-light");
+      void themeRingProgress.offsetWidth;
+      themeRingProgress.classList.add(toDark ? "theme-ring-to-dark" : "theme-ring-to-light");
+    }
+    if (themeRingProgress) {
+      themeRingProgress.addEventListener("animationend", function (ev) {
+        if (ev.target !== themeRingProgress) return;
+        if (ev.animationName !== "theme-ring-to-dark" && ev.animationName !== "theme-ring-to-light") return;
+        themeRingProgress.classList.remove("theme-ring-to-dark", "theme-ring-to-light");
+      });
+    }
+    if (themeSwitch) {
+      themeSwitch.addEventListener("change", function () {
+        playThemeRingAnimation(this.checked);
+        setTheme(this.checked ? "dark" : "light");
+      });
+    }
+    if (window.matchMedia) {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+        if (!localStorage.getItem("cliente-theme")) {
+          const auto = e.matches ? "dark" : "light";
+          root.setAttribute("data-theme", auto);
+          syncThemeSwitch(auto);
+        }
+      });
+    }
+    window.addEventListener("storage", function (e) {
+      if (e.key === "cliente-theme" && e.newValue) {
+        root.setAttribute("data-theme", e.newValue);
+        syncThemeSwitch(e.newValue);
+      }
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
+// ==================== FIM TEMA CLIENTE ====================

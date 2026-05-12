@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suporte - Sercon</title>
+    <title>Suporte - Soft Tech</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     
     <!-- Noto Emoji Animation - Emojis Animados do Google -->
@@ -168,6 +168,18 @@
                 </button>
             </div>
             
+            <label class="theme-switch theme-switch-vertical theme-switch-chain-link" title="Alternar tema claro / escuro" aria-label="Alternar tema">
+                <input type="checkbox" id="clienteThemeSwitch">
+                <span class="theme-switch-chain" aria-hidden="true">
+                    <svg class="theme-ring-svg" viewBox="0 0 28 46" width="28" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="theme-ring-track" pathLength="100" d="M 2.5 23 L 2.5 14 A 11.5 11.5 0 0 1 14 2.5 A 11.5 11.5 0 0 1 25.5 14 L 25.5 23 L 25.5 32 A 11.5 11.5 0 0 1 14 43.5 A 11.5 11.5 0 0 1 2.5 32 L 2.5 23 Z" />
+                        <path class="theme-ring-progress" pathLength="100" d="M 2.5 23 L 2.5 14 A 11.5 11.5 0 0 1 14 2.5 A 11.5 11.5 0 0 1 25.5 14 L 25.5 23 L 25.5 32 A 11.5 11.5 0 0 1 14 43.5 A 11.5 11.5 0 0 1 2.5 32 L 2.5 23 Z" />
+                    </svg>
+                </span>
+            </label>
+            <button class="settings sidebar-mute-btn" id="supportSoundMuteToggle" title="Silenciar notificações" aria-label="Silenciar notificações" aria-pressed="false">
+                <i class='bx bx-bell' aria-hidden="true"></i>
+            </button>
             <button class="settings" id="supportLogoutButton" title="Logout" aria-label="Fazer logout">
                 <i class='bx bx-log-out' aria-hidden="true"></i>
             </button>
@@ -186,13 +198,16 @@
             <div class="chat-main" id="supportChatMain">
                 <div class="chat-header">
                     <div class="header-info">
-                        <img src="../../assets/images/branding/Sercon.png" onerror="this.src='../../assets/images/branding/logo.png'" alt="Sercon">
+                        <img src="../../assets/images/branding/SoftTech.png" onerror="this.onerror=null;this.src='../../assets/images/branding/Sercon.png';this.onerror=function(){this.onerror=null;this.src='../../assets/images/branding/logo.png';}" alt="Soft Tech">
                         <div class="header-text">
-                            <h3 id="chatHeaderTitle">Suporte Sercon</h3>
+                            <h3 id="chatHeaderTitle">Suporte Soft Tech</h3>
                             <p id="chatHeaderSubtitle" class="header-subtitle"></p>
                         </div>
                     </div>
                     <div class="header-actions">
+                        <button class="chat-search-toggle" id="chatSearchBtn" title="Buscar mensagens">
+                            <i class='bx bx-search'></i>
+                        </button>
                         <button class="change-sector-btn-header" id="changeSectorBtnHeader" title="Trocar setor">
                             <i class='bx bx-refresh'></i>
                         </button>
@@ -223,6 +238,16 @@
                         </button>
                     </div>
                 </div>
+
+        <!-- Search bar -->
+        <div class="chat-search-bar hidden" id="chatSearchBar">
+          <i class='bx bx-search'></i>
+          <input type="text" id="chatSearchInput" placeholder="Buscar mensagens...">
+          <span class="chat-search-count" id="chatSearchCount">0/0</span>
+          <button id="chatSearchPrev" title="Anterior"><i class='bx bx-chevron-up'></i></button>
+          <button id="chatSearchNext" title="Próximo"><i class='bx bx-chevron-down'></i></button>
+          <button id="chatSearchClose" title="Fechar"><i class='bx bx-x'></i></button>
+        </div>
 
         <div class="messages" id="chatMessages">
           <!-- Welcome message será adicionado dinamicamente quando necessário -->
@@ -270,7 +295,7 @@
 
           
           
-          <input type="file" id="fileInput" style="display: none;" multiple>
+          <input type="file" id="fileInput" style="display: none;" multiple accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z,.tar,.gz,.txt,.csv,.md,.json,.xml">
 
           <button class="attach-button" id="attachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
 
@@ -301,17 +326,36 @@
             <div class="ncm-main">
                 <div class="ncm-header">
                     <div class="header-info">
-                        <img src="../../assets/images/branding/Sercon.png" onerror="this.src='../../assets/images/branding/logo.png'" alt="Sercon">
+                        <img src="../../assets/images/branding/SoftTech.png" onerror="this.onerror=null;this.src='../../assets/images/branding/Sercon.png';this.onerror=function(){this.onerror=null;this.src='../../assets/images/branding/logo.png';}" alt="Soft Tech">
                         <div class="header-text">
-                            <h3>🧠 Consult - NCM</h3>
-                            <p class="header-subtitle">Consulta Avançada de Nomenclatura Comum do Mercosul</p>
+                            <h3>Consulta NCM</h3>
+                            <p class="header-subtitle">Verifique vigência, descrições hierárquicas e dados TIPI</p>
                         </div>
                     </div>
                 </div>
                 <div class="ncm-content">
-                    <div style="padding: 24px;">
-                        <h2 style="margin: 0 0 8px 0; font-size: 1.25em;">Consulta NCM</h2>
-                        <p style="margin: 0; color: #6b7280;">Consulta de NCM por código (vigência + descrições + dados TIPI).</p>
+                    <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
+                        <div class="ncm-softtech-panel">
+                            <h2 class="ncm-softtech-title">Consulta de NCM</h2>
+                            <p class="ncm-softtech-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI. Opcional: informe o <strong>nome do produto</strong> para conferir se já existe correlação no banco.</p>
+                            <div class="ncm-softtech-form">
+                                <div class="ncm-softtech-field">
+                                    <label for="ncm-produto-nome">Nome do produto (opcional)</label>
+                                    <input type="text" id="ncm-produto-nome" placeholder="Ex: Refrigerante de cola" maxlength="200" autocomplete="off">
+                                </div>
+                                <div class="ncm-softtech-field">
+                                    <label for="ncm-produto-search">Código NCM</label>
+                                    <input type="text" id="ncm-produto-search" placeholder="Ex: 22021000 ou 2202.10.00" maxlength="20" autocomplete="off">
+                                </div>
+                                <button type="button" id="ncm-produto-search-btn" class="ncm-softtech-btn">
+                                    <i class='bx bx-search'></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="ncm-produto-results" class="ncm-produto-results" style="display: none;">
+                            <h3 class="ncm-results-title">Resultado</h3>
+                            <div id="ncm-produto-results-grid" class="ncm-produto-grid"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -322,7 +366,7 @@
             <div class="recruitment-main">
                 <div class="recruitment-header">
                     <div class="header-info">
-                        <img src="../../assets/images/branding/Sercon.png" onerror="this.src='../../assets/images/branding/logo.png'" alt="Sercon">
+                        <img src="../../assets/images/branding/SoftTech.png" onerror="this.onerror=null;this.src='../../assets/images/branding/Sercon.png';this.onerror=function(){this.onerror=null;this.src='../../assets/images/branding/logo.png';}" alt="Soft Tech">
                         <div class="header-text">
                             <h3>💼 Solicitação de Recrutamento</h3>
                             <p class="header-subtitle">Solicite a abertura de vagas para recrutamento de funcionários</p>
@@ -571,31 +615,8 @@
                 <h3>Selecione o Setor de Atendimento</h3>
                 <p>Escolha o setor responsável pelo seu atendimento</p>
             </div>
-            <div class="sector-options">
-                <button class="sector-option" data-sector="Fiscal Real">
-                    <i class='bx bxs-user'></i>
-                    <span>Fiscal Real</span>
-                </button>
-                <button class="sector-option" data-sector="Fiscal Simples">
-                    <i class='bx bxs-user'></i>
-                    <span>Fiscal Simples</span>
-                </button>
-                <button class="sector-option" data-sector="Processo">
-                    <i class='bx bxs-user'></i>
-                    <span>Processo</span>
-                </button>
-                <button class="sector-option" data-sector="Contábil">
-                    <i class='bx bxs-user'></i>
-                    <span>Contábil</span>
-                </button>
-                <button class="sector-option" data-sector="Pessoal">
-                    <i class='bx bxs-user'></i>
-                    <span>Pessoal</span>
-                </button>
-                <button class="sector-option" data-sector="Financeiro">
-                    <i class='bx bxs-user'></i>
-                    <span>Financeiro</span>
-                </button>
+            <div class="sector-options" id="sectorOptionsContainer">
+                <!-- Setores populados dinamicamente via JS -->
             </div>
             <button class="sector-modal-close" id="closeSectorModal">
                 Cancelar
@@ -604,6 +625,10 @@
 
     <!-- Script Principal -->
     <script src="cliente-script.js"></script>
+    <!-- M\u00f3dulo NCM (consulta) -->
+    <script src="../../assets/data/tabela-ncm.js"></script>
+    <script src="../modules/ncm/ncm-motor.js"></script>
+    <script src="../modules/ncm/ncm-tabs.js"></script>
     <!-- Script para Controle do Formulário de Recrutamento -->
     <script>
         // Função para controlar a exibição dos campos de proximidade

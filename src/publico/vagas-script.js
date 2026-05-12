@@ -65,31 +65,40 @@ function displayJobs() {
     }
     container.classList.remove('hidden');
     noJobs.classList.add('hidden');
-    container.innerHTML = filteredJobs.map(job => `
-        <div class="job-card" onclick="openJobModal('${job.id}')">
+    container.innerHTML = '';
+    filteredJobs.forEach(function(job) {
+        const card = document.createElement('div');
+        card.className = 'job-card';
+        card.innerHTML = `
             <div class="job-card-content">
                 <div class="job-header">
                     <div>
-                        <div class="job-title">${job.title}</div>
-                        <div class="job-company">${job.company}</div>
+                        <div class="job-title">${escapeHtml(job.title)}</div>
+                        <div class="job-company">${escapeHtml(job.company)}</div>
                     </div>
-                    <div class="job-badge">${job.vacancies} vaga(s)</div>
+                    <div class="job-badge">${escapeHtml(String(job.vacancies))} vaga(s)</div>
                 </div>
                 <div class="job-info">
-                    <div class="job-info-item"><i class='bx bx-dollar'></i><span>${job.salary}</span></div>
-                    <div class="job-info-item"><i class='bx bx-time'></i><span>${job.schedule}</span></div>
-                    <div class="job-info-item"><i class='bx bx-map'></i><span>${job.location}</span></div>
+                    <div class="job-info-item"><i class='bx bx-dollar'></i><span>${escapeHtml(job.salary)}</span></div>
+                    <div class="job-info-item"><i class='bx bx-time'></i><span>${escapeHtml(job.schedule)}</span></div>
+                    <div class="job-info-item"><i class='bx bx-map'></i><span>${escapeHtml(job.location)}</span></div>
                 </div>
-                <div class="job-description">${job.description}</div>
+                <div class="job-description">${escapeHtml(job.description)}</div>
                 <div class="job-footer">
-                    <div class="job-salary">${job.salary}</div>
-                    <button class="apply-btn" onclick="event.stopPropagation(); applyToJob('${job.id}')">
+                    <div class="job-salary">${escapeHtml(job.salary)}</div>
+                    <button class="apply-btn js-apply-btn">
                         <i class='bx bx-send'></i> Candidatar-se
                     </button>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+        card.addEventListener('click', function() { openJobModal(job.id); });
+        card.querySelector('.js-apply-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            applyToJob(job.id);
+        });
+        container.appendChild(card);
+    });
 }
 
 function searchJobs() {
@@ -113,33 +122,34 @@ function openJobModal(jobId) {
     if (!job) return;
     document.getElementById('modalJobTitle').textContent = job.title;
     const modalBody = document.getElementById('modalBody');
+    const _e = escapeHtml;
     modalBody.innerHTML = `
         <div class="job-detail-section">
             <h3>Informações da Vaga</h3>
-            <div class="job-detail-item"><strong>Empresa:</strong> ${job.company}</div>
-            <div class="job-detail-item"><strong>Cargo:</strong> ${job.title}</div>
-            <div class="job-detail-item"><strong>Vagas Disponíveis:</strong> ${job.vacancies}</div>
-            <div class="job-detail-item"><strong>Salário:</strong> ${job.salary}</div>
-            <div class="job-detail-item"><strong>Regime:</strong> ${job.schedule}</div>
-            <div class="job-detail-item"><strong>Localização:</strong> ${job.location}</div>
+            <div class="job-detail-item"><strong>Empresa:</strong> ${_e(job.company)}</div>
+            <div class="job-detail-item"><strong>Cargo:</strong> ${_e(job.title)}</div>
+            <div class="job-detail-item"><strong>Vagas Disponíveis:</strong> ${_e(String(job.vacancies))}</div>
+            <div class="job-detail-item"><strong>Salário:</strong> ${_e(job.salary)}</div>
+            <div class="job-detail-item"><strong>Regime:</strong> ${_e(job.schedule)}</div>
+            <div class="job-detail-item"><strong>Localização:</strong> ${_e(job.location)}</div>
         </div>
         <div class="job-detail-section">
             <h3>Descrição da Vaga</h3>
-            <p>${job.fullDescription || job.description}</p>
+            <p>${_e(job.fullDescription || job.description)}</p>
         </div>
         ${job.requirements ? `
         <div class="job-detail-section">
             <h3>Requisitos</h3>
-            <p>${job.requirements}</p>
+            <p>${_e(job.requirements)}</p>
         </div>` : ''}
         ${job.benefits ? `
         <div class="job-detail-section">
             <h3>Benefícios</h3>
-            <p>${job.benefits}</p>
+            <p>${_e(job.benefits)}</p>
         </div>` : ''}
         <div class="application-form">
             <h3>Candidatar-se a esta vaga</h3>
-            <form id="applicationForm_${job.id}" onsubmit="submitApplication(event, '${job.id}')">
+            <form id="applicationForm" class="js-application-form">
                 <div class="form-group">
                     <label>Nome Completo *</label>
                     <input type="text" name="fullName" required>
@@ -164,6 +174,11 @@ function openJobModal(jobId) {
             </form>
         </div>
     `;
+    // Vincular submit via addEventListener — sem onsubmit inline com job.id
+    const _form = modalBody.querySelector('.js-application-form');
+    if (_form) {
+        _form.addEventListener('submit', function(event) { submitApplication(event, job.id); });
+    }
     document.getElementById('jobModal').classList.add('active');
 }
 
@@ -200,6 +215,12 @@ function submitApplication(event, jobId) {
     };
     if (fileInput.files[0]) {
         const file = fileInput.files[0];
+        // Limite de 5 MB para evitar QuotaExceededError no localStorage
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        if (file.size > MAX_FILE_SIZE) {
+            alert('O arquivo de currículo não pode ultrapassar 5 MB. Por favor, envie um arquivo menor.');
+            return;
+        }
         const reader = new FileReader();
         reader.onload = function (e) {
             applicationData.resumeBase64 = e.target.result;
@@ -219,7 +240,7 @@ function submitApplication(event, jobId) {
 
 function saveApplication(applicationData) {
     try {
-        const existingApplications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+        const existingApplications = (() => { try { return JSON.parse(localStorage.getItem('jobApplications') || '[]'); } catch(e) { return []; } })();
         existingApplications.push(applicationData);
         localStorage.setItem('jobApplications', JSON.stringify(existingApplications));
         localStorage.setItem('jobApplicationsUpdatedAt', Date.now().toString());

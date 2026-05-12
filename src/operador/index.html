@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Chat UI - Sercon</title>
+  <title>Chat UI - Soft Tech</title>
 
   <!-- Fontes do Google Fonts (mais confiável) -->
 
@@ -54,19 +54,30 @@
     .job-management-container {
       display: flex;
       flex-direction: column;
-      background: rgba(20, 25, 40, 0.50);
-      backdrop-filter: blur(12px) saturate(1.4);
-      -webkit-backdrop-filter: blur(12px) saturate(1.4);
-      border: 1px solid rgba(255, 255, 255, 0.30) !important;
-      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 1px solid rgba(255, 255, 255, 0.72) !important;
+      border-radius: 20px;
       overflow-y: auto;
       padding: 32px;
-      box-shadow: var(--shadow-depth, 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.08));
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.82),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        inset 1px 0 0 rgba(255, 255, 255, 0.40),
+        0 12px 48px rgba(0, 0, 0, 0.14),
+        0 2px 8px rgba(0, 0, 0, 0.07);
     }
 
     [data-theme="dark"] .job-management-container {
-      background: rgba(240, 245, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.26),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.32),
+        inset 1px 0 0 rgba(255, 255, 255, 0.10),
+        0 12px 48px rgba(0, 0, 0, 0.48),
+        0 2px 8px rgba(0, 0, 0, 0.28);
     }
 
     .job-management-header {
@@ -655,15 +666,21 @@
   </section>
 
 
+  <!-- Background layer — preenchido por JS de forma assíncrona -->
+  <div id="appBgLayer" aria-hidden="true"></div>
+
   <!-- Chat App -->
 
   <div class="chat-app" id="chatApp" style="display: none;">
 
-    <!-- Sidebar (estilo side bar – pill branco, curvas no hover/active) -->
+    <!-- Sidebar (estilo pill escuro com notch côncavo para ativo — ref: Barra lateral.mp4) -->
 
     <div class="sidebar">
 
-      <div class="sidebar-logo"><img src="../../assets/images/branding/logo.png" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect fill=%22%23e0e0e0%22 width=%2248%22 height=%2248%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2220%22 font-family=%22sans-serif%22%3EL%3C/text%3E%3C/svg%3E'" alt="logo"></div>
+      <div class="sidebar-logo">
+        <img class="sidebar-logo--light" src="../../assets/images/branding/logo%20white.png" width="48" height="48" decoding="async" alt="Logo" onerror="this.onerror=null;this.src='../../assets/images/branding/logo.png'">
+        <img class="sidebar-logo--dark" src="../../assets/images/branding/logo%20black.png" width="48" height="48" decoding="async" alt="Logo" onerror="this.onerror=null;this.src='../../assets/images/branding/logo.png'">
+      </div>
 
       <ul class="center-icons">
 
@@ -718,15 +735,34 @@
 
       </ul>
 
-      <div class="sidebar-theme-toggle" aria-label="Tema claro ou escuro">
-        <button type="button" id="themeToggleLight" title="Tema claro" aria-label="Usar tema claro"><i class='bx bx-sun' aria-hidden="true"></i></button>
-        <button type="button" id="themeToggleDark" title="Tema escuro" aria-label="Usar tema escuro"><i class='bx bx-moon' aria-hidden="true"></i></button>
-      </div>
+      <label class="theme-switch theme-switch-vertical theme-switch-chain-link" title="Alternar tema claro / escuro" aria-label="Alternar tema">
+        <input type="checkbox" id="themeSwitch">
+        <span class="theme-switch-chain" aria-hidden="true">
+          <svg class="theme-ring-svg" viewBox="0 0 28 46" width="28" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Perímetro: começa no meio-esquerdo (2.5,23); 0–50% = metade superior, 50–100% = inferior.
+                 Claro→escuro: dashoffset 0→50 (percorre o lado direito). Escuro→claro: 50→0 (lado esquerdo). -->
+            <path class="theme-ring-track" pathLength="100" d="M 2.5 23 L 2.5 14 A 11.5 11.5 0 0 1 14 2.5 A 11.5 11.5 0 0 1 25.5 14 L 25.5 23 L 25.5 32 A 11.5 11.5 0 0 1 14 43.5 A 11.5 11.5 0 0 1 2.5 32 L 2.5 23 Z" />
+            <path class="theme-ring-progress" pathLength="100" d="M 2.5 23 L 2.5 14 A 11.5 11.5 0 0 1 14 2.5 A 11.5 11.5 0 0 1 25.5 14 L 25.5 23 L 25.5 32 A 11.5 11.5 0 0 1 14 43.5 A 11.5 11.5 0 0 1 2.5 32 L 2.5 23 Z" />
+          </svg>
+        </span>
+      </label>
+
+      <button class="settings sidebar-mute-btn" id="soundMuteToggle" title="Silenciar notificações" aria-label="Silenciar notificações" aria-pressed="false">
+        <i class='bx bx-bell' aria-hidden="true"></i>
+      </button>
 
       <button class="settings" id="logoutButton" title="Logout" aria-label="Fazer logout">
         <i class='bx bx-log-out' aria-hidden="true"></i>
       </button>
 
+    </div>
+
+    <!-- Notch: círculo + ícone ativo — FORA da sidebar para não ser cortado pelo clip-path.
+         O ícone do botão ativo é espelhado aqui (via JS) para ficar visível dentro do círculo,
+         já que o ícone original fica oculto quando o botão está ativo. -->
+    <div class="sidebar-notch" aria-hidden="true">
+      <span class="sidebar-notch-circle" aria-hidden="true"></span>
+      <i class="sidebar-notch-icon bx" aria-hidden="true"></i>
     </div>
 
     <!-- Tooltip bar estilo Arch (fora do sidebar para não ser cortado) -->
@@ -747,15 +783,16 @@
 
           <i class='bx bx-search'></i>
 
-          <input type="text" placeholder="Buscar por nome ou setor..." aria-label="Pesquisar contatos">
+          <input type="text" id="contactsUnifiedSearch" placeholder="Buscar contatos ou mensagens..." aria-label="Pesquisar contatos e mensagens">
 
         </div>
 
-        <div class="contacts-list">
+        <div class="contacts-list" id="contactsList">
 
           <!-- Contatos de Suporte aparecerão aqui dinamicamente -->
 
           <div id="supportContactsSection"></div>
+          <div id="supportMessageMatchesSection" class="message-matches-section" hidden></div>
           
           
 
@@ -779,6 +816,9 @@
             </div>
           </div>
           <div class="chat-header-actions">
+            <button class="chat-search-toggle" id="chatSearchBtn" title="Buscar mensagens">
+              <i class='bx bx-search'></i>
+            </button>
             <button class="chat-options-btn" id="chatOptionsBtn" title="Opções do chat" aria-label="Opções do chat">
               <i class='bx bx-dots-vertical-rounded'></i>
             </button>
@@ -790,7 +830,17 @@
           </div>
         </div>
 
-        <div class="messages"></div>
+        <!-- Search bar -->
+        <div class="chat-search-bar hidden" id="chatSearchBar">
+          <i class='bx bx-search'></i>
+          <input type="text" id="chatSearchInput" placeholder="Buscar mensagens...">
+          <span class="chat-search-count" id="chatSearchCount">0/0</span>
+          <button id="chatSearchPrev" title="Anterior"><i class='bx bx-chevron-up'></i></button>
+          <button id="chatSearchNext" title="Próximo"><i class='bx bx-chevron-down'></i></button>
+          <button id="chatSearchClose" title="Fechar"><i class='bx bx-x'></i></button>
+        </div>
+
+        <div class="messages" id="chatMessagesOp"></div>
 
         
         
@@ -860,7 +910,7 @@
 
           
           
-          <input type="file" id="fileInput" style="display: none;" multiple>
+          <input type="file" id="fileInput" style="display: none;" multiple accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z,.tar,.gz,.txt,.csv,.md,.json,.xml">
 
           <button class="attach-button" id="attachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
 
@@ -874,9 +924,9 @@
 
           </button>
 
-          <input type="text" placeholder="Digite sua mensagem aqui..." aria-label="Campo de mensagem">
+          <input type="text" id="messageInput" placeholder="Digite sua mensagem aqui..." aria-label="Campo de mensagem">
 
-          <button type="button" class="send-button" aria-label="Enviar mensagem">
+          <button type="button" id="sendButton" class="send-button" aria-label="Enviar mensagem">
 
             <i class='bx bx-send' aria-hidden="true"></i>
 
@@ -906,6 +956,18 @@
 
       <!-- Chat Main -->
       <div class="chat-main">
+        <!-- Search bar (chat interno) -->
+        <div class="chat-search-bar hidden" id="internalChatSearchBar">
+          <i class='bx bx-search'></i>
+          <input type="text" id="internalChatSearchInput" placeholder="Buscar mensagens...">
+          <span class="chat-search-count" id="internalChatSearchCount">0/0</span>
+          <button id="internalChatSearchPrev" title="Anterior"><i class='bx bx-chevron-up'></i></button>
+          <button id="internalChatSearchNext" title="Próximo"><i class='bx bx-chevron-down'></i></button>
+          <button id="internalChatSearchClose" title="Fechar"><i class='bx bx-x'></i></button>
+        </div>
+        <button class="chat-search-toggle internal-chat-search-toggle" id="internalChatSearchBtn" title="Buscar mensagens" aria-label="Buscar mensagens no chat interno">
+          <i class='bx bx-search'></i>
+        </button>
         <div class="messages" id="internalMessages"></div>
         
         <!-- Pré-visualização Inline de Arquivo -->
@@ -941,7 +1003,7 @@
             </div>
           </div>
           
-          <input type="file" id="internalFileInput" style="display: none;" multiple>
+          <input type="file" id="internalFileInput" style="display: none;" multiple accept="image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.7z,.tar,.gz,.txt,.csv,.md,.json,.xml">
           <button class="attach-button" id="internalAttachButton" title="Anexar arquivo" aria-label="Anexar arquivo">
             <i class='bx bx-paperclip' aria-hidden="true"></i>
           </button>
@@ -990,12 +1052,9 @@
 
         </button>
 
-        <button class="admin-tab" data-tab="recruitment-requests">
-
-          <i class='bx bx-briefcase'></i>
-
-          Solicitação de Funcionário
-
+        <button class="admin-tab" data-tab="sectors">
+          <i class='bx bx-category'></i>
+          Setores
         </button>
 
       </div>
@@ -1045,21 +1104,8 @@
                   <label>Setor <span class="required">*</span></label>
 
                   <select id="newUserSector" required>
-
                     <option value="">Selecione um setor</option>
-
-                    <option value="Fiscal Real">Fiscal Real</option>
-
-                    <option value="Fiscal Simples">Fiscal Simples</option>
-
-                    <option value="Processo">Processo</option>
-
-                    <option value="Contábil">Contábil</option>
-
-                    <option value="Pessoal">Pessoal</option>
-
-                    <option value="Financeiro">Financeiro</option>
-
+                    <!-- Setores populados dinamicamente via JS -->
                   </select>
 
                 </div>
@@ -1341,16 +1387,31 @@
 
         </div>
 
-        <!-- Tab Content: Solicitação de Funcionário -->
-        <div class="admin-tab-content" id="recruitmentRequestsTab" inert>
+        <!-- Tab Content: Setores -->
+        <div class="admin-tab-content" id="sectorsTab" inert>
           <div class="admin-section">
             <div class="section-header">
-              <h3>Solicitações de Recrutamento</h3>
-              <span id="totalRecruitmentRequests" class="badge">0 solicitações</span>
+              <h3>Setores de Atendimento</h3>
+              <button class="btn-add-user" id="addSectorBtn">
+                <i class='bx bx-plus'></i> Novo Setor
+              </button>
             </div>
-
-            <div class="recruitment-requests-list" id="recruitmentRequestsList">
-              <!-- Solicitações serão adicionadas dinamicamente -->
+            <div class="add-sector-form hidden" id="addSectorForm">
+              <div class="form-row" style="gap:8px; align-items:flex-end;">
+                <div class="form-field" style="flex:1;">
+                  <label>Nome do Setor</label>
+                  <input type="text" id="newSectorName" placeholder="Ex: Departamento Pessoal">
+                </div>
+                <button class="btn-save-user" id="saveSectorBtn" style="height:38px; white-space:nowrap;">
+                  <i class='bx bx-check'></i> Salvar
+                </button>
+                <button class="btn-cancel" id="cancelSectorBtn" style="height:38px; white-space:nowrap;">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            <div class="users-list" id="sectorsList">
+              <!-- Setores serão adicionados dinamicamente -->
             </div>
           </div>
         </div>
@@ -1535,7 +1596,7 @@
 
           <div class="tasks-list-title">
 
-            Agenda e Lembretes
+            <span id="tasksListTitleText">Agenda Fiscal</span>
 
             <span class="tasks-count-badge" id="tasksCountBadge">0</span>
 
@@ -1549,7 +1610,13 @@
 
             </button>
 
-            <button class="add-task-btn" title="Adicionar Lembrete">
+            <button class="add-task-btn" title="Adicionar Lembrete Fiscal">
+
+              <i class='bx bx-plus'></i>
+
+            </button>
+
+            <button class="add-lembrete-btn" id="addLembreteBtn" title="Novo Lembrete">
 
               <i class='bx bx-plus'></i>
 
@@ -1736,6 +1803,14 @@
           </button>
         </div>
 
+        <!-- Filtros de Lembretes (visível somente na aba Lembretes) -->
+        <div class="lembretes-subtab-filters" id="lembretesSubtabFilters">
+          <button class="lembrete-filter active" data-filter="all">Todos</button>
+          <button class="lembrete-filter" data-filter="today">Hoje</button>
+          <button class="lembrete-filter" data-filter="week">Esta semana</button>
+          <button class="lembrete-filter" data-filter="overdue">Vencidos</button>
+        </div>
+
         <!-- Painel: Agenda Fiscal (Obrigações) -->
         <div id="obligationsSubPanel" class="tax-subtab-panel active">
           <div class="tasks-list">
@@ -1745,23 +1820,6 @@
 
         <!-- Painel: Lembretes -->
         <div id="lembretesSubPanel" class="tax-subtab-panel" inert>
-          <div class="lembretes-header">
-            <div class="lembretes-header-top">
-              <div class="lembretes-title-area">
-                <h2><i class='bx bx-bell'></i> Lembretes</h2>
-                <p>Seus eventos e tarefas organizados</p>
-              </div>
-              <button class="add-lembrete-btn" id="addLembreteBtn">
-                <i class='bx bx-plus'></i> Novo Lembrete
-              </button>
-            </div>
-            <div class="lembretes-filters">
-              <button class="lembrete-filter active" data-filter="all">Todos</button>
-              <button class="lembrete-filter" data-filter="today">Hoje</button>
-              <button class="lembrete-filter" data-filter="week">Esta semana</button>
-              <button class="lembrete-filter" data-filter="overdue">Vencidos</button>
-            </div>
-          </div>
           <div class="lembretes-content">
             <div class="lembretes-list" id="lembretesListContainer"></div>
             <div class="lembretes-empty hidden" id="lembretesEmpty">
@@ -1877,7 +1935,7 @@
       <div class="ncm-main">
         <div class="ncm-header">
           <div class="header-info">
-            <img src="../../assets/images/branding/logo.png" alt="Sercon">
+            <img src="../../assets/images/branding/logo.png" alt="Soft Tech">
             <div class="header-text">
               <h3>🧠 Consult - NCM</h3>
               <p class="header-subtitle">Consulta Avançada de Nomenclatura Comum do Mercosul</p>
@@ -1898,19 +1956,19 @@
           </div>
 
           <div id="ncm-tab-consulta-produto" class="ncm-tab-content active">
-            <div class="ncm-sercon-panel">
-              <h2 class="ncm-sercon-title">Consulta de NCM</h2>
-              <p class="ncm-sercon-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI. Opcional: informe o <strong>nome do produto</strong> para ver se já existe validação no banco (correlação NCM).</p>
-              <div class="ncm-sercon-form">
-                <div class="ncm-sercon-field">
+            <div class="ncm-softtech-panel">
+              <h2 class="ncm-softtech-title">Consulta de NCM</h2>
+              <p class="ncm-softtech-desc">Digite um <strong>código NCM</strong> (8 dígitos) para verificar vigência, descrições hierárquicas e dados TIPI. Opcional: informe o <strong>nome do produto</strong> para ver se já existe validação no banco (correlação NCM).</p>
+              <div class="ncm-softtech-form">
+                <div class="ncm-softtech-field">
                   <label for="ncm-produto-nome">Nome do produto (opcional)</label>
                   <input type="text" id="ncm-produto-nome" placeholder="Ex: Refrigerante de cola" maxlength="200" autocomplete="off">
                 </div>
-                <div class="ncm-sercon-field">
+                <div class="ncm-softtech-field">
                   <label for="ncm-produto-search">Código NCM</label>
                   <input type="text" id="ncm-produto-search" placeholder="Ex: 22021000 ou 2202.10.00" maxlength="20" autocomplete="off">
                 </div>
-                <button type="button" id="ncm-produto-search-btn" class="ncm-sercon-btn">
+                <button type="button" id="ncm-produto-search-btn" class="ncm-softtech-btn">
                   <i class='bx bx-search'></i> Buscar
                 </button>
               </div>
@@ -1923,19 +1981,19 @@
 
           <div id="ncm-tab-conferir-planilha" class="ncm-tab-content" style="display: none;">
             <div class="ncm-planilha-panel">
-              <h2 class="ncm-sercon-title">Conferir planilha com o banco</h2>
-              <p class="ncm-sercon-desc">Selecione o <strong>banco</strong> (arquivo <strong>.csv</strong> com colunas de produto e ncm) e a <strong>planilha</strong> a conferir (CSV ou Excel; detecta automaticamente colunas como produto/produtos/descrição de produtos e ncm). O sistema busca cada produto pelo nome exato e, se não encontrar, reduz o nome palavra por palavra até no mínimo 3 palavras.</p>
+              <h2 class="ncm-softtech-title">Conferir planilha com o banco</h2>
+              <p class="ncm-softtech-desc">Selecione o <strong>banco</strong> (arquivo <strong>.csv</strong> com colunas de produto e ncm) e a <strong>planilha</strong> a conferir (CSV ou Excel; detecta automaticamente colunas como produto/produtos/descrição de produtos e ncm). O sistema busca cada produto pelo nome exato e, se não encontrar, reduz o nome palavra por palavra até no mínimo 3 palavras.</p>
               <div class="ncm-planilha-toolbar">
                 <label class="ncm-planilha-file-label">
                   <input type="file" id="ncm-planilha-banco-file" accept=".csv,text/csv,application/csv" style="display: none;">
-                  <span class="ncm-sercon-btn"><i class="bx bx-folder-open"></i> Banco (.csv)</span>
+                  <span class="ncm-softtech-btn"><i class="bx bx-folder-open"></i> Banco (.csv)</span>
                 </label>
                 <span id="ncm-planilha-banco-file-name" class="ncm-planilha-file-name"></span>
                 <label class="ncm-planilha-file-label">
                   <input type="file" id="ncm-planilha-file" accept=".csv,.txt,.xlsx,.xls,application/csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" style="display: none;">
-                  <span class="ncm-sercon-btn"><i class="bx bx-upload"></i> Planilha</span>
+                  <span class="ncm-softtech-btn"><i class="bx bx-upload"></i> Planilha</span>
                 </label>
-                <button type="button" id="ncm-planilha-run-btn" class="ncm-sercon-btn" disabled>
+                <button type="button" id="ncm-planilha-run-btn" class="ncm-softtech-btn" disabled>
                   <i class="bx bx-check-double"></i> Conferir
                 </button>
                 <span id="ncm-planilha-file-name" class="ncm-planilha-file-name"></span>
@@ -1945,7 +2003,7 @@
               </div>
               <div id="ncm-planilha-summary" class="ncm-planilha-summary" style="display: none;"></div>
               <div id="ncm-planilha-report-actions" class="ncm-planilha-toolbar" style="display: none; margin-top: 8px;">
-                <button type="button" id="ncm-planilha-gerar-relatorio-btn" class="ncm-sercon-btn">
+                <button type="button" id="ncm-planilha-gerar-relatorio-btn" class="ncm-softtech-btn">
                   <i class="bx bx-download"></i> Gerar relatório (Excel)
                 </button>
               </div>
@@ -2542,7 +2600,7 @@
         <ul class="ncm-relatorio-modal-col-list" id="ncmRelatorioColList"></ul>
         <div class="lembrete-form-actions">
           <button type="button" class="ncm-relatorio-cancel-btn ncm-relatorio-close-btn">Cancelar</button>
-          <button type="button" id="ncmRelatorioConfirmBtn" class="ncm-sercon-btn">
+          <button type="button" id="ncmRelatorioConfirmBtn" class="ncm-softtech-btn">
             <i class='bx bx-download'></i> Gerar Excel
           </button>
         </div>

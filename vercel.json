@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "name": "chat-ui-soft-tech",
+  "public": false,
+
+  "buildCommand": null,
+  "outputDirectory": "src",
+  "installCommand": null,
+  "framework": null,
+
+  "rewrites": [
+    { "source": "/",              "destination": "/login/index.html" },
+    { "source": "/login",         "destination": "/login/index.html" },
+    { "source": "/operador",      "destination": "/operador/index.html" },
+    { "source": "/cliente",       "destination": "/cliente/index.html" },
+    { "source": "/publico/vagas", "destination": "/publico/vagas.html" }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options",         "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options",  "value": "nosniff" },
+        { "key": "Referrer-Policy",          "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com https://cdn.sheetjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; frame-ancestors 'none';"
+        }
+      ]
+    }
+  ]
+}

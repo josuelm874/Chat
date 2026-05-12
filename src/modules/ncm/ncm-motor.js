@@ -62,6 +62,10 @@
       if (typeof console !== 'undefined' && console.warn) {
         console.warn('ncm-motor: NCM_TABELA_DATA não encontrado. Carregue Tabela_NCM.js antes.');
       }
+      // Notificar UI se showToast estiver disponível (evita falha silenciosa para o usuário)
+      if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
+        window.showToast('Tabela NCM não carregada. Recarregue a página.', 'error');
+      }
       return;
     }
     INDEX = flattenNcmTable(data);
