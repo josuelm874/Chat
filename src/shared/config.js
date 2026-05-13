@@ -205,4 +205,16 @@ const CONFIG = {
    * Níveis de log
    */
   LOG_LEVELS: {
-    ER
+    ERROR: 'error',
+    WARN: 'warn',
+    INFO: 'info',
+    DEBUG: 'debug'
+  }
+};
+
+// Exportar configuração (compatível com módulos ES6 e script tags)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = CONFIG;
+}
+
+

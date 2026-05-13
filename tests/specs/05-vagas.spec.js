@@ -229,4 +229,13 @@ test.describe('Página de Vagas (Pública)', () => {
     await expect(modal).not.toBeVisible({ timeout: 3000 });
   });
 
-  test('Sem vagas exibe mensagem de lista vazia', async ({ p
+  test('Sem vagas exibe mensagem de lista vazia', async ({ page }) => {
+    await page.evaluate(() => localStorage.removeItem('publishedJobs'));
+    await page.reload();
+    await page.waitForTimeout(800);
+
+    const noJobs = page.locator('#noJobs, .no-jobs, [class*="no-jobs"], [class*="empty"]').first();
+    await expect(noJobs).toBeVisible({ timeout: 3000 });
+  });
+
+});

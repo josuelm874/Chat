@@ -295,8 +295,7 @@
     BISC: 'BISCOITO',
     REFRI: 'REFRIGERANTE'
   };
-  var PRODUCT_SYNONYMS_URL = '../../data/produto-sinonimos-template.json';
-  var productSynonymsLoadPromise = null;
+  var productSynonymsLoaded = false;
 
   /** Remove acentos e normaliza espaços/símbolos do texto. */
   function normalizeProductNameAdvanced(name) {
@@ -362,48 +361,28 @@
     return true;
   }
 
-  function loadExternalSynonyms() {
-    if (typeof fetch !== 'function') return Promise.resolve(0);
-    return fetch(PRODUCT_SYNONYMS_URL, { cache: 'no-store' })
-      .then(function (resp) {
-        if (!resp.ok) throw new Error('HTTP ' + resp.status);
-        return resp.json();
-      })
-      .then(function (data) {
-        if (!data || typeof data !== 'object') return 0;
-        var total = 0;
-        var categoryNames = Object.keys(data);
-        for (var c = 0; c < categoryNames.length; c++) {
-          var categoryName = categoryNames[c];
-          if (categoryName.indexOf('_') === 0) continue;
-          var category = data[categoryName];
-          if (!category || typeof category !== 'object' || Array.isArray(category)) continue;
-          var canonicalWords = Object.keys(category);
-          for (var i = 0; i < canonicalWords.length; i++) {
-            var canonical = canonicalWords[i];
-            var variants = category[canonical];
-            if (!Array.isArray(variants)) continue;
-            // Garante que a forma canônica também seja conhecida como âncora.
-            applySynonymPair(canonical, canonical);
-            for (var v = 0; v < variants.length; v++) {
-              if (applySynonymPair(canonical, variants[v])) total++;
-            }
-          }
+  function loadSynonymsFromWindow() {
+    if (productSynonymsLoaded) return;
+    productSynonymsLoaded = true;
+    var data = (typeof window !== 'undefined') ? window.PRODUCT_SYNONYMS_DATA : null;
+    if (!data || typeof data !== 'object') return;
+    var categoryNames = Object.keys(data);
+    for (var c = 0; c < categoryNames.length; c++) {
+      var categoryName = categoryNames[c];
+      if (categoryName.indexOf('_') === 0) continue;
+      var category = data[categoryName];
+      if (!category || typeof category !== 'object' || Array.isArray(category)) continue;
+      var canonicalWords = Object.keys(category);
+      for (var i = 0; i < canonicalWords.length; i++) {
+        var canonical = canonicalWords[i];
+        var variants = category[canonical];
+        if (!Array.isArray(variants)) continue;
+        applySynonymPair(canonical, canonical);
+        for (var v = 0; v < variants.length; v++) {
+          applySynonymPair(canonical, variants[v]);
         }
-        return total;
-      });
-  }
-
-  function ensureProductSynonymsLoaded() {
-    if (!productSynonymsLoadPromise) {
-      productSynonymsLoadPromise = loadExternalSynonyms().catch(function (e) {
-        if (typeof console !== 'undefined' && console.warn) {
-          console.warn('ncm-tabs: nao foi possivel carregar dicionario externo de sinonimos:', e);
-        }
-        return 0;
-      });
+      }
     }
-    return productSynonymsLoadPromise;
   }
 
   function tokenSet(tokens) {
@@ -686,7 +665,7 @@
       updateRunButton();
     });
 
-    runBtn.addEventListener('click', async function () {
+    runBtn.addEventListener('click', function () {
       var bancoFile = bancoInput.files && bancoInput.files[0];
       var planilhaFile = fileInput.files && fileInput.files[0];
       if (!bancoFile || !planilhaFile) return;
@@ -698,7 +677,7 @@
       emptyEl.style.display = 'none';
       summaryEl.style.display = 'none';
       reportTbody.innerHTML = '';
-      await ensureProductSynonymsLoaded();
+      loadSynonymsFromWindow();
       loadingText.textContent = 'Lendo banco...';
 
       // Banco é sempre CSV
@@ -1109,7 +1088,7 @@
       });
     });
 
-    ensureProductSynonymsLoaded();
+    loadSynonymsFromWindow();
     initConsultaNcm();
     initConferirPlanilha();
   }
