@@ -4,7 +4,72 @@
 
 const ADMIN_USERNAME = 'adm';
 const ADMIN_NAME = 'Administrador';
-const ADMIN_PASSWORD_HASH = "fmAvLiwiJztcXVs/Pjw6fH17K18pKComXiUkI0AhNDA0eXRpcnVjZVNuaW1kQX5gLy4sIic7XF1bPz48Onx9eytfKSgqJl4lJCNAIW1ldHN5U2F0ZUJtdWluaW1vRH5gLy4sIic7XF1bPz48Onx9eytfKSgqJl4lJCNAITQyMDJnb3JQZXVzb0o9WVdiQlpIVHBkWGFLcEhkamhsVno5Q1VxZG5ObWhVTTNzVU00QTNTRDlXYllsV1ZybEVNQmhtVEVGRU1saGxVd05tYldwbVdXNVVkaGRWTXJGRlZ4b2xWeW8wUVh0R2FWTjJSU2xWV1ZSM2RUZGtVeEYyUjRkVlpxeEdSV2hsUnJKMmExUVhZR1psVE5OalRXUkZWU0pVVHg0VVJQWkZacGQxVjRobFZ1cDBjU1ZWTURGMlJ4VWxVWGQzZGFWRU40SlZNdmxIVnJSV2FSTkRhSWRGYnJGVFl5SVZWalpFWk9sbFZ3TkhWVlIzVE5aa1c1Rm1Sa2RWWXRKbGNXWkZjelpGYlpkbldFNWtWVFZFY1hsbE1vdG1VWFpWV1cxV01vTldNS0puVnN4V1lOZGtSd1JtUms5VVRGcEZkVngyWXhZbFZTWmpUSFIzVldabFN6WlZWTmhuVlZGRFVXcG1RVlpWTUtoVldXaDJhUzFtVmFkVmI0bDJVd1VUZFdabFdIVkdiRzltV0dabFRaZGxVelZsYmt0bVVXcFZXUnBtVFZWbE1TSlhWeFEyU1dGalNvRm1SYWRWWnRSR1NXRkRadkptUldsMFZzcDFVbFJFYTBaRk1rZFhUV0psY1I1R2NwNWtWd05YV1dSV1lpWmtWWWRWYjRkVlY2WkVTWkZEWmhaVmJLTlZZR2hHV090R2NYZDFWc2RsVlZGalNUcG1Sb1ZsTVJoM1ZZWjBWTmRsVVlwVlJXdDJVRnBGU1p0R2RURkdiYWgzVnRSWFZYeFdTNGxGVk9GV1RYWmtka1prVlZkRlJWZG5WVlZ6VlN4R2M2UlZieGMxVXlnMlZXTlRUeDBrUldWMVZ0UkhXWlpsV1hsbGJvSmxWc3BGTmlKRGVYWkZWV1JuVndnMlNTMW1Tb1ZsYUNwbFV4QTNjV0pEZWhKMVZLbGtZR3BsVGlOalUwWkZiYU5rVkhaRlZrZFVNWVJsZUZkWFZzcDBkaXhtV0hkRmJhcFZWeEEzY1dabFJQMUViSmhIVlVaa1ZrVjFiM2xWTXd0bVlHcFVVWDFHZVROMk1DVm5WWUoxVU5KalJ2UjJSeGdWWkdCM1ZVaEZaUGRsUlNkbFVySjFWWFJrVklsVk1rTmxVeDRVZGlWRWFYZDFSbmxuVnMxRWVpWlZXNE5WVmFkbFV5STFWWHRtVkxKbFZrZGxXRVprYU9aRWN6UlZWa2RrVUdwbGVqWmtXYUZHU29SblY2WjBjTlZWTUVSbGFHZDFVR2xGZWFaa1NYSm1SV0ZsVXNSMlVTMVdVNlpsVm9ObFlzcDFiWHRtV28xVVJ3aEVWVmxETk5aRWJHcFZSa3htVklGa2VYUmxVUDFrVktGMlVySlZZbFZsUlpaVlZ4OFVZc0pWV2FSa1JUUkZNS1YxVnVwMFFUZGtUeU4xYVNsR1ZzbFVlWlZGWlRKR2JrVlhUV0pWVVNSRmJZbGxiQkZqVnlVRWVOZFZNU0ptUktsMVZXSjFjTkpUVDNaRmJrbFdZRlYwZFRkRmRXRm1Wb1JuWXc0RVRqUjBaNE5sZWpoM1VIbGxNa0pEY1J4ME1PZDFWSDVFTWx0R2N3Um1NczFFWnJaRWRhZFdQOW8wYnpWWFpRSjNibkpETXlRVElBTkNKbDRsSnFnU0tmdHllOXhuTzg0elBiMUZYN2NpSXM0eUxnNUhSdjFXYXVsV2R0SlVaMEYyVTVOSGRsMVdJQU5DSmw0bEpxZ1NLZnR5ZTl4bk84NHpQYjFGWDdjaUlzNHlMZzVYUWsxV2F1TlZaalZuY3BSWGUwQUROaEEwSWtVaVhtb0NLcDgxSzcxSGY2d2pQL3NWWGN0ekppd2lMdkFtZg==";
+const ADMIN_PASSWORD_HASH = "fmAvLiwiJztcXVs/Pjw6fH17K18pKComXiUkI0AhNDA0eXRpcnVjZVNuaW1kQX5gLy4sIic7XF1bPz48Onx9eytfKSgqJl4lJCNAIW1ldHN5U2F0ZUJtdWluaW1vRH5gLy4sIic7XF1bPz48Onx9eytfKSgqJl4lJCNAITQyMDJnb3JQZXVzb0o9WVdiQlpIVHBkWGFLcEhkamhsVno5Q1VxZG5ObWhVTTNzVU00QTNTRDlXYllsV1ZybEVNQmhtVEVGRU1saGxVd05tYldwbVdXNVVkaGRWTXJGRlZ4b2xWeW8wUVh0R2FWTjJSU2xWV1ZSM2RUZGtVeEYyUjRkVlpxeEdSV2hsUnJKMmExUVhZR1psVE5OalRXUkZWU0pVVHg0VVJQWkZacGQxVjRobFZ1cDBjU1ZWTURGMlJ4VWxVWGQzZGFWRU40SlZNdmxIVnJSV2FSTkRhSWRGYnJGVFl5SVZWalpFWk9sbFZ3TkhWVlIzVE5aa1c1Rm1Sa2RWWXRKbGNXWkZjelpGYlpkbldFNWtWVFZFY1hsbE1vdG1VWFpWV1cxV01vTldNS0puVnN4V1lOZGtSd1JtUms5VVRGcEZkVngyWXhZbFZTWmpUSFIzVldabFN6WlZWTmhuVlZGRFVXcG1RVlpWTUtoVldXaDJhUzFtVmFkVmI0bDJVd1VUZFdabFdIVkdiRzltV0dabFRaZGxVelZsYmt0bVVXcFZXUnBtVFZWbE1TSlhWeFEyU1dGalNvRm1SYWRWWnRSR1NXRkRadkptUldsMFZzcDFVbFJFYTBaRk1rZFhUV0psY1I1R2NwNWtWd05YV1dSV1lpWmtWWWRWYjRkVlY2WkVTWkZEWmhaVmJLTlZZR2hHV090R2NYZDFWc2RsVlZGalNUcG1Sb1ZsTVJoM1ZZWjBWTmRsVVlwVlJXdDJVRnBGU1p0R2RURkdiYWgzVnRSWFZYeFdTNGxGVk9GV1RYWmtka1prVlZkRlJWZG5WVlZ6VlN4R2M2UlZieGMxVXlnMlZXTlRUeDBrUldWMVZ0UkhXWlpsV1hsbGJvSmxWc3BGTmlKRGVYWkZWV1JuVndnMlNTMW1Tb1ZsYUNwbFV4QTNjV0pEZWhKMVZLbGtZR3BsVGlOalUwWkZiYU5rVkhaRlZrZFVNWVJsZUZkWFZzcDBkaXhtV0hkRmJhcFZWeEEzY1dabFJQMUViSmhIVlVaa1ZrVjFiM2xWTXd0bVlHcFVVWDFHZVROMk1DVm5WWUoxVU5KalJ2UjJSeGdWWkdCM1ZVaEZaUGRsUlNkbFVySjFWWFJrVklsVk1rTmxVeDRVZGlWRWFYZDFSbmxuVnMxRWVpWlZXNE5WVmFkbFV5STFWWHRtVkxKbFZrZGxXRVprYU9aRWN6UlZWa2RrVUdwbGVqWmtXYUZHU29SblY2WjBjTlZWTUVSbGFHZDFVR2xGZWFaa1NYSm1SV0ZsVXNSMlVTMVdVNlpsVm9ObFlzcDFiWHRtV28xVVJ3aEVWVmxETk5aRWJHcFZSa14yVUlGa2VYUmxVUDFrVktGMlVySlZZbFZsUlpaVlZ4OFVZc0pWV2FSa1JUUkZNS1YxVnVwMFFUZGtUeU4xYVNsR1ZzbFVlWlZGWlRKR2JrVlhUV0pWVVNSRmJZbGxiQkZqVnlVRWVOZFZNU0ptUktsMVZXSjFjTkpUVDNaRmJrbFdZRlYwZFRkRmRXRm1Wb1JuWXc0RVRqUjBaNE5sZWpoM1VIbGxNa0pEY1J4ME1PZDFWSDVFTWx0R2N3Um1NczFFWnJaRWRhZFdQOW8wYnpWWFpRSjNibkpETXlRVElBTkNKbDRsSnFnU0tmdHllOXhuTzg0elBiMUZYN2NpSXM0eUxnNUhSdjFXYXVsV2R0SlVaMEYyVTVOSGRsMVdJQU5DSmw0bEpxZ1NLZnR5ZTl4bk84NHpQYjFGWDdjaUlzNHlMZzVYUWsxV2F1TlZaalZuY3BSWGUwQUROaEEwSWtVaVhtb0NLcDgxSzcxSGY2d2pQL3NWWGN0ekppd2lMdkFtZg==";
+
+// ==================== RATE LIMITING ====================
+
+const RATE_LIMIT = {
+  maxAttempts: 5,       // máximo de tentativas
+  windowMs: 5 * 60 * 1000,   // janela de 5 minutos
+  lockoutMs: 10 * 60 * 1000  // bloqueio de 10 minutos após limite
+};
+
+const RATE_LIMIT_KEY = '_login_rate';
+
+function getRateLimitState() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (_) { return {}; }
+}
+
+function setRateLimitState(state) {
+  try { localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(state)); } catch (_) {}
+}
+
+/**
+ * Verifica se o login está bloqueado por rate limiting.
+ * @returns {{ blocked: boolean, remaining?: number }} remaining em segundos
+ */
+function checkRateLimit() {
+  const now = Date.now();
+  const state = getRateLimitState();
+
+  // Verificar lockout ativo
+  if (state.lockedUntil && now < state.lockedUntil) {
+    const remaining = Math.ceil((state.lockedUntil - now) / 1000);
+    return { blocked: true, remaining };
+  }
+
+  // Limpar se janela expirou
+  if (!state.windowStart || (now - state.windowStart) > RATE_LIMIT.windowMs) {
+    setRateLimitState({ windowStart: now, attempts: 0 });
+    return { blocked: false };
+  }
+
+  // Verificar número de tentativas
+  if ((state.attempts || 0) >= RATE_LIMIT.maxAttempts) {
+    const lockUntil = now + RATE_LIMIT.lockoutMs;
+    setRateLimitState({ ...state, lockedUntil: lockUntil });
+    return { blocked: true, remaining: Math.ceil(RATE_LIMIT.lockoutMs / 1000) };
+  }
+
+  return { blocked: false };
+}
+
+function recordFailedAttempt() {
+  const now = Date.now();
+  const state = getRateLimitState();
+  const windowActive = state.windowStart && (now - state.windowStart) < RATE_LIMIT.windowMs;
+  setRateLimitState({
+    windowStart: windowActive ? state.windowStart : now,
+    attempts: windowActive ? (state.attempts || 0) + 1 : 1
+  });
+}
+
+function clearRateLimit() {
+  try { localStorage.removeItem(RATE_LIMIT_KEY); } catch (_) {}
+}
 
 // ==================== HASH FUNCTIONS ====================
 
@@ -169,16 +234,40 @@ function verifyContributorPassword(match, password) {
   }
 }
 
+// ==================== SUPABASE AUTH (migração silenciosa) ====================
+
+/**
+ * Após autenticação local bem-sucedida, migra o usuário para o Supabase Auth
+ * de forma transparente em background (fire-and-forget).
+ * Não bloqueia nem afeta o fluxo de login.
+ */
+function triggerSupabaseAuthMigration(username, password) {
+  // Só executa se auth.js foi carregado e Supabase está configurado
+  if (typeof supabaseAuth === 'undefined') return;
+  if (!supabaseAuth.isConfigured()) return;
+
+  // Fire-and-forget: executa em background
+  supabaseAuth.migrateLocalUser(username, password).catch(function () {
+    // Silencioso — falha aqui não afeta o login
+  });
+}
+
 // ==================== SESSION WRITE ====================
 
-function loginAsOperador(user) {
+function loginAsOperador(user, password) {
   localStorage.setItem('isAuthenticated', 'true');
   localStorage.setItem('currentUser', JSON.stringify(user));
   localStorage.setItem('clientName', user.fullName || user.username || '');
+  localStorage.setItem('_session_at', Date.now().toString());
+  clearRateLimit();
+
+  // Migração para Supabase Auth em background
+  if (password) triggerSupabaseAuthMigration(user.username, password);
+
   window.location.href = '../operador/';
 }
 
-function loginAsContributor(match) {
+function loginAsContributor(match, password) {
   const { contributor, employee } = match;
 
   let supportUser;
@@ -210,6 +299,13 @@ function loginAsContributor(match) {
     localStorage.setItem('clientName', razao);
     localStorage.setItem('supportLastRazaoSocial', razao);
   }
+  localStorage.setItem('_session_at', Date.now().toString());
+  clearRateLimit();
+
+  // Migração para Supabase Auth em background
+  const loginUsername = employee ? employee.username : ('contrib_' + contributor.id);
+  if (password) triggerSupabaseAuthMigration(loginUsername, password);
+
   window.location.href = '../cliente/';
 }
 
@@ -274,6 +370,14 @@ function handleFormSubmit(e) {
   e.preventDefault();
   clearError();
 
+  // Verificar rate limit ANTES de qualquer processamento
+  const rateCheck = checkRateLimit();
+  if (rateCheck.blocked) {
+    const min = Math.ceil(rateCheck.remaining / 60);
+    showError(`Muitas tentativas. Aguarde ${min} minuto${min !== 1 ? 's' : ''} e tente novamente.`);
+    return;
+  }
+
   const username = (document.getElementById('inputUsername')?.value || '').trim();
   const password = document.getElementById('inputPassword')?.value || '';
 
@@ -293,11 +397,12 @@ function handleFormSubmit(e) {
       if (opResult !== null) {
         // Username exists in operator store
         if (!opResult.success) {
+          recordFailedAttempt();
           showError(opResult.error);
           setLoading(false);
           return;
         }
-        loginAsOperador(opResult.user);
+        loginAsOperador(opResult.user, password);
         return; // redirect in progress
       }
 
@@ -305,6 +410,7 @@ function handleFormSubmit(e) {
       const matches = findContributorMatches(username);
 
       if (matches.length === 0) {
+        recordFailedAttempt();
         showError('Usuário não encontrado.');
         setLoading(false);
         return;
@@ -313,11 +419,12 @@ function handleFormSubmit(e) {
       if (matches.length === 1) {
         // Single match — verify password directly
         if (!verifyContributorPassword(matches[0], password)) {
+          recordFailedAttempt();
           showError('Senha incorreta.');
           setLoading(false);
           return;
         }
-        loginAsContributor(matches[0]);
+        loginAsContributor(matches[0], password);
         return; // redirect in progress
       }
 
@@ -349,11 +456,12 @@ function handleSelectorConfirm() {
   const match = pendingMatches[idx];
 
   if (!verifyContributorPassword(match, pendingPassword)) {
+    recordFailedAttempt();
     showError('Senha incorreta para a empresa selecionada.');
     return;
   }
 
-  loginAsContributor(match);
+  loginAsContributor(match, pendingPassword);
 }
 
 function handleSelectorBack() {
@@ -397,9 +505,45 @@ function toggleTheme() {
   if (btn) btn.title = next === 'dark' ? 'Modo claro' : 'Modo escuro';
 }
 
+// ==================== SESSION TIMEOUT ====================
+
+const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000; // 8 horas
+
+/**
+ * Verifica se a sessão expirou por inatividade.
+ * Retorna true se a sessão expirou (e já limpou os dados).
+ */
+function checkSessionExpiry() {
+  const at = parseInt(localStorage.getItem('_session_at') || '0', 10);
+  if (!at) return false; // sem timestamp = sem sessão
+
+  if ((Date.now() - at) > SESSION_TIMEOUT_MS) {
+    // Sessão expirada — limpar tudo
+    clearExpiredSession();
+    return true;
+  }
+  return false;
+}
+
+function clearExpiredSession() {
+  const keys = [
+    'isAuthenticated', 'currentUser', 'clientName',
+    'supportCurrentUser', 'chatId', 'supportLastRazaoSocial', '_session_at'
+  ];
+  keys.forEach(k => { try { localStorage.removeItem(k); } catch (_) {} });
+
+  // Encerrar sessão Supabase também (não-bloqueante)
+  if (typeof supabaseAuth !== 'undefined' && supabaseAuth.signOut) {
+    supabaseAuth.signOut().catch(() => {});
+  }
+}
+
 // ==================== ALREADY LOGGED IN CHECK ====================
 
 function checkAlreadyLoggedIn() {
+  // Verificar expiração antes de tudo
+  if (checkSessionExpiry()) return false;
+
   // If operador session exists → go to operador
   if (localStorage.getItem('isAuthenticated') === 'true' && localStorage.getItem('currentUser')) {
     window.location.href = '../operador/';
