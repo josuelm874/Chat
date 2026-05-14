@@ -1379,15 +1379,11 @@ function checkAuthentication() {
 
   } else {
 
-    // Não autenticado — mostrar login interno (fallback)
-    // Limpar sessão fantasma se existir
-    if (!hasSavedCredentials && typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated()) {
+    // Não autenticado — redirecionar para o login unificado
+    if (typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated()) {
       secureAuth.logout();
-      return;
     }
-
-    loginContainer?.classList.remove("hidden");
-    chatApp.style.display = "none";
+    window.location.replace('/login/');
 
   }
 
@@ -1525,23 +1521,15 @@ async function loginUser(username, password) {
 
 function logoutUser() {
 
-  // Usar sistema de autenticação seguro
-
+  // Limpar sessão e redirecionar para login unificado
   if (typeof secureAuth !== 'undefined') {
-
     secureAuth.logout();
-
   } else {
-
-    // Fallback para logout básico
-
     localStorage.removeItem("isAuthenticated");
-
     localStorage.removeItem("currentUser");
-
-    location.reload();
-
   }
+  localStorage.removeItem("_session_at");
+  window.location.replace('/login/');
 
 }
 
@@ -2214,12 +2202,6 @@ const contacts = [];
       });
     })();
 
-    const dominiumLoginContainer = document.querySelector("#dominium-login .container");
-    const dominiumSignUpLink = document.querySelector("#dominium-login .SignUpLink");
-    const dominiumLoginForm = document.getElementById("dominiumLoginForm");
-    const dominiumLoginUsernameInput = document.getElementById("dominiumLoginUsername");
-    const dominiumLoginPasswordInput = document.getElementById("dominiumLoginPassword");
-    const rememberMeCheckbox = document.getElementById("rememberMe");
     contributorOnboardingModal = document.getElementById("contributorOnboarding");
     contributorOnboardingForm = document.getElementById("contributorOnboardingForm");
     contributorInfoListEl = document.getElementById("contributorInfoList");
@@ -2227,21 +2209,7 @@ const contacts = [];
     contributorConfirmPasswordInput = document.getElementById("contributorConfirmPassword");
     contributorConfirmDataCheckbox = document.getElementById("contributorConfirmData");
     contributorWelcomeNameEl = document.getElementById("contributorWelcomeName");
-    
-    // Carregar credenciais salvas se existirem
-    const savedUsername = localStorage.getItem("savedUsername");
-    const savedPasswordEncoded = localStorage.getItem("savedPassword");
-    const savedPassword = savedPasswordEncoded ? (() => { try { return atob(savedPasswordEncoded); } catch(e) { return ''; } })() : '';
 
-    if (savedUsername && dominiumLoginUsernameInput) {
-      dominiumLoginUsernameInput.value = savedUsername;
-    }
-
-    if (savedPassword && dominiumLoginPasswordInput && rememberMeCheckbox) {
-      dominiumLoginPasswordInput.value = savedPassword;
-      rememberMeCheckbox.checked = true;
-    }
-    
     // Declarar variáveis do sistema de suporte no início do DOMContentLoaded
     let supportContactsSection = null;
     let currentSupportChatId = null;
@@ -2250,59 +2218,6 @@ const contacts = [];
     
     // Inicializar supportContactsSection
     supportContactsSection = document.getElementById("supportContactsSection");
-    
-    function toggleDominiumAdmin(enable) {
-      // Placeholder mantido por compatibilidade; agora sempre login único
-      if (enable) {
-        dominiumLoginUsernameInput?.focus();
-      }
-    }
-    
-    dominiumSignUpLink?.addEventListener("click", (event) => event.preventDefault());
-    
-    dominiumLoginForm?.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const username = dominiumLoginUsernameInput?.value?.trim();
-      const password = dominiumLoginPasswordInput?.value || "";
-      const rememberMe = rememberMeCheckbox?.checked || false;
-      
-      if (!username) {
-        showToast("Informe o usuário.", "error");
-        dominiumLoginUsernameInput?.focus();
-        return;
-      }
-      
-      if (!password) {
-        showToast("Informe a senha.", "error");
-        dominiumLoginPasswordInput?.focus();
-        return;
-      }
-      
-      const success = await loginUser(username, password);
-      if (success) {
-        // Salvar ou remover credenciais baseado no checkbox
-        if (rememberMe) {
-          localStorage.setItem("savedUsername", username);
-          localStorage.setItem("savedPassword", btoa(password));
-        } else {
-          localStorage.removeItem("savedUsername");
-          localStorage.removeItem("savedPassword");
-        }
-        
-        dominiumLoginForm.reset();
-        // Restaurar valores se "lembrar" estiver marcado
-        if (rememberMe) {
-          dominiumLoginUsernameInput.value = username;
-          dominiumLoginPasswordInput.value = password;
-          rememberMeCheckbox.checked = true;
-        }
-        dominiumLoginPasswordInput?.blur();
-      } else {
-        showToast("Usuário ou senha incorretos.", "error");
-      }
-    });
-    
-    toggleDominiumAdmin(false);
     
     if (contributorOnboardingForm) {
       contributorOnboardingForm.addEventListener("submit", async (event) => {

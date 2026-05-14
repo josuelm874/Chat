@@ -477,9 +477,11 @@ function setContributorEmployeesData(employees) {
 }
 
 function logoutSupportUser() {
-  localStorage.removeItem("supportCurrentUser");
-  localStorage.removeItem("clientName");
-  window.location.reload();
+  ['supportCurrentUser','clientName','chatId','supportLastRazaoSocial',
+   'savedRazaoSocial','savedUsername','savedPassword','_session_at'].forEach(k => {
+    try { localStorage.removeItem(k); } catch (_) {}
+  });
+  window.location.replace('/login/');
 }
 
 function openSupportAddEmployeeModal() {
@@ -1017,36 +1019,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedPasswordCheck = localStorage.getItem("savedPassword");
   const hasSavedCredentials = !!(savedRazaoSocialCheck && savedUsernameCheck && savedPasswordCheck);
 
+  // Verificar expiração de sessão (8 horas)
+  const sessionAt = parseInt(localStorage.getItem('_session_at') || '0', 10);
+  const SESSION_TIMEOUT_MS = 8 * 60 * 60 * 1000;
+  if (sessionAt && (Date.now() - sessionAt) > SESSION_TIMEOUT_MS) {
+    ['supportCurrentUser','clientName','chatId','supportLastRazaoSocial',
+     'savedRazaoSocial','savedUsername','savedPassword','_session_at'].forEach(k => {
+      try { localStorage.removeItem(k); } catch (_) {}
+    });
+    window.location.replace('/login/');
+    return;
+  }
+
   if (!hasSupportUser) {
-    if (supportLogoutButton) {
-      supportLogoutButton.style.display = "none";
-    }
-    if (supportAddEmployeeButton) {
-      supportAddEmployeeButton.style.display = "none";
-    }
-    if (supportApp) {
-      supportApp.style.display = "none";
-      // Remove os gradientes quando o usuário não está logado
-      removeBackgroundGradients();
-    }
-    if (loginSection) {
-      loginSection.classList.remove("hidden");
-    }
+    // Não autenticado — redirecionar para o login unificado
+    window.location.replace('/login/');
+    return;
   } else {
-    // Só fazer login automático se o usuário tiver marcado "lembrar de mim"
-    if (!hasSavedCredentials) {
-      // Limpar sessão se não houver remember me
-      localStorage.removeItem("supportCurrentUser");
-      localStorage.removeItem("clientName");
-      if (supportApp) {
-        supportApp.style.display = "none";
-        removeBackgroundGradients();
-      }
-      if (loginSection) {
-        loginSection.classList.remove("hidden");
-      }
-      return;
-    }
     
     if (supportApp) {
       supportApp.style.display = "block";

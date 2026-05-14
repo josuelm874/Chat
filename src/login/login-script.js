@@ -288,6 +288,7 @@ function loginAsOperador(user, password) {
 
 function loginAsContributor(match, password) {
   const { contributor, employee } = match;
+  localStorage.setItem('_session_at', Date.now().toString());
   const supportUser = employee
     ? { username: employee.username, fullName: employee.fullName, role: 'employee',
         contributorId: contributor.id, employeeId: employee.id,
