@@ -1342,22 +1342,34 @@ function checkAuthentication() {
   const loginContainer = document.getElementById("dominium-login");
   const chatApp = document.getElementById("chatApp");
 
-  
-
   // Verificar se há credenciais salvas (remember me ativado)
   const savedUsername = localStorage.getItem("savedUsername");
   const savedPassword = localStorage.getItem("savedPassword");
   const hasSavedCredentials = !!(savedUsername && savedPassword);
 
-  // Verificar se secureAuth está disponível E se há credenciais salvas
-  // Só fazer login automático se o usuário tiver marcado "lembrar de mim"
-  if (typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated() && hasSavedCredentials) {
+  // Verificar se o usuário veio da nova tela de login (/login/index.html).
+  // O login-script.js salva 'currentUser' ao autenticar — usamos isso como sinal.
+  const currentUser = typeof secureAuth !== 'undefined' && secureAuth.getCurrentUser
+    ? secureAuth.getCurrentUser()
+    : null;
+  const authenticatedViaLoginPage = typeof secureAuth !== 'undefined'
+    && secureAuth.isAuthenticated()
+    && !!(currentUser && currentUser.username);
 
-    // Usuário autenticado com remember me, mostrar chat
-    // Bloquear transições durante a exibição inicial para evitar deslocamento visual
+  // Autenticado: via nova tela de login OU via "lembrar de mim" do login interno
+  if (authenticatedViaLoginPage || (typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated() && hasSavedCredentials)) {
+
+    // Mostrar chat diretamente — sem precisar do login interno
     document.documentElement.classList.add('preload');
     loginContainer?.classList.add("hidden");
     chatApp.style.display = "flex";
+
+    // Ajustar visibilidade do botão admin conforme role do usuário
+    const adminSidebarButton = document.querySelector(".sidebar button[data-section='admin']");
+    if (adminSidebarButton && currentUser) {
+      adminSidebarButton.style.display = currentUser.role === "admin" ? "" : "none";
+    }
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('preload');
@@ -1367,8 +1379,8 @@ function checkAuthentication() {
 
   } else {
 
-    // Usuário não autenticado ou sem remember me, mostrar login
-    // Limpar sessão se não houver remember me
+    // Não autenticado — mostrar login interno (fallback)
+    // Limpar sessão fantasma se existir
     if (!hasSavedCredentials && typeof secureAuth !== 'undefined' && secureAuth.isAuthenticated()) {
       secureAuth.logout();
       return;
