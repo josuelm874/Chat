@@ -495,7 +495,4 @@ function init() {
 
   document.getElementById('loginForm')?.addEventListener('submit', handleFormSubmit);
   document.getElementById('togglePasswordBtn')?.addEventListener('click', togglePasswordVisibility);
-  document.getElementById('themeToggleBtn')?.addEventListener('click', toggleTheme);
-}
-
-document.addEventListener('DOMContentLoaded', init);
+  document.getElementById('themeToggleBtn')?.addEventListener('click', toggleT
