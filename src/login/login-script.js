@@ -100,7 +100,7 @@ function getOperadores() {
   const raw  = safeJsonParse(localStorage.getItem('users'), []);
   const arr  = Array.isArray(raw) ? raw : Object.values(raw || {}).filter(Boolean);
   const admin = {
-    username: ADMIN_USERNAME, fullName: ADMIN_NAME, sector: 'Administrativo',
+    username: ADMIN_USERNAME, fullName: ADMIN_NAME, sector: 'Administração',
     role: 'admin', status: 'active', mustResetPassword: false,
     passwordHash: ADMIN_PASSWORD_HASH,
     profileImage: '../../assets/images/avatars/profile-1.png', createdAt: Date.now()
