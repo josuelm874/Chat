@@ -12,7 +12,7 @@ test.describe('Chat Interno (operador ↔ operador)', () => {
   });
 
   test('Seção de mensagens internas abre ao clicar no botão', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -32,7 +32,7 @@ test.describe('Chat Interno (operador ↔ operador)', () => {
   });
 
   test('Mensagem interna injetada permanece no localStorage', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
 
     // Inicializa o app completamente PRIMEIRO — qualquer init que limpe internalMessages
@@ -77,7 +77,7 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Clicar em contato abre painel com informações', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -93,7 +93,7 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Área de mensagens do operador (chatMessagesOp) existe e está no DOM', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -105,7 +105,7 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -128,7 +128,7 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Seção de recrutamento exibe candidatura injetada', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     // Injeta dados antes de navegar para o app
     await page.evaluate(() => {
@@ -169,7 +169,7 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);

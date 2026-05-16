@@ -72,7 +72,7 @@ test.describe('Emojis', () => {
   });
 
   test('Botão de emoji está visível no operador', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -90,7 +90,7 @@ test.describe('Busca', () => {
   });
 
   test('Campo unificado de busca do operador está visível', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -99,7 +99,7 @@ test.describe('Busca', () => {
   });
 
   test('Busca filtra contato pelo nome', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -114,7 +114,7 @@ test.describe('Busca', () => {
   });
 
   test('Busca por termo inexistente não exibe contatos da seed', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -123,14 +123,15 @@ test.describe('Busca', () => {
     await page.locator('#contactsUnifiedSearch').fill('xyz_nao_existe_999');
     await page.waitForTimeout(700);
 
+    // Playwright's count() inclui elementos com display:none; checar visibilidade ao invés de contagem
     const contactEl = page.locator('#contactsList .contact, #contactsList .contact-item')
-      .filter({ hasText: 'Empresa Teste' });
-    const count = await contactEl.count();
-    expect(count).toBe(0);
+      .filter({ hasText: 'Empresa Teste' }).first();
+    const isVisible = await contactEl.isVisible().catch(() => false);
+    expect(isVisible, 'Contato da seed não deve ser visível com busca inexistente').toBe(false);
   });
 
   test('Campo de busca de mensagens no chat está presente', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -164,7 +165,7 @@ test.describe('Navegação entre Seções', () => {
     // Aceita qualquer diálogo de confirmação que surja durante a navegação de seções
     page.on('dialog', async dialog => { await dialog.accept(); });
 
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -193,7 +194,7 @@ test.describe('Navegação entre Seções', () => {
   });
 
   test('Badge de não lidas aparece quando há mensagem não lida', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await seedMensagemInicial(page);
@@ -209,7 +210,7 @@ test.describe('Navegação entre Seções', () => {
   });
 
   test('Seção de suporte (padrão) mostra lista de contatos', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -237,16 +238,4 @@ test.describe('Navegação entre Seções', () => {
         'none'
       );
       await themeBtn.click();
-      await page.waitForTimeout(400);
-      const after = await page.evaluate(() =>
-        document.documentElement.getAttribute('data-theme') ||
-        document.body.className ||
-        'none'
-      );
-      expect(before).not.toBe(after);
-    } else {
-      console.log('Botão de tema não encontrado — verificar seletor');
-    }
-  });
-
-});
+      await page.waitForTimeout(

@@ -129,7 +129,7 @@ test.describe('Arquivos — Operador', () => {
   });
 
   test('Botão de anexo do operador está visível', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -139,7 +139,7 @@ test.describe('Arquivos — Operador', () => {
   });
 
   test('Input de arquivo do operador existe no DOM', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -150,7 +150,7 @@ test.describe('Arquivos — Operador', () => {
   test('Arquivo de imagem enviado pelo operador grava no localStorage', async ({ page }) => {
     page.on('dialog', async dialog => await dialog.dismiss());
 
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);

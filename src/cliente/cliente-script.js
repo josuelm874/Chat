@@ -1926,8 +1926,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const changeSectorBtn = document.getElementById("changeSectorBtn");
   const changeSectorBtnHeader = document.getElementById("changeSectorBtnHeader");
 
-  // Populate sector options dynamically from localStorage
-  (function populateSectorOptions() {
+  // Populate sector options dynamically from localStorage — pode ser chamada múltiplas vezes
+  function populateSectorOptions() {
     var container = document.getElementById("sectorOptionsContainer");
     if (!container) return;
     var sectors = [];
@@ -1947,11 +1947,37 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.className = "sector-option";
       btn.setAttribute("data-sector", name);
       btn.innerHTML = "<i class='bx bxs-category'></i><span>" + name + "</span>";
+      // Attach click handler directly so re-calls always bind fresh handlers
+      btn.addEventListener("click", function() {
+        const sector = btn.getAttribute("data-sector");
+        const previousSector = selectedSector;
+        selectedSector = sector;
+        sectorModal.classList.remove("active");
+        console.log(`📌 Setor selecionado: ${sector}`);
+        chatId = getCurrentChatId();
+        localStorage.setItem("chatId", chatId);
+        console.log(`[Suporte] ChatId definido: ${chatId}`);
+        attendantShown = false;
+        if (supportChatMain && supportChatMain.classList.contains("active")) {
+          const headerTitle = document.getElementById("chatHeaderTitle");
+          if (headerTitle) headerTitle.textContent = `Setor ${selectedSector}`;
+          const headerSubtitle = document.getElementById("chatHeaderSubtitle");
+          if (headerSubtitle) { headerSubtitle.textContent = ""; headerSubtitle.style.display = "none"; }
+          chatId = getCurrentChatId();
+          localStorage.setItem("chatId", chatId);
+          loadMessages();
+          if (previousSector && previousSector !== sector) {
+            console.log(`🔄 Trocado de ${previousSector} para ${sector}`);
+            listenToFirebaseMessages();
+          }
+        } else {
+          openChat();
+        }
+      });
       container.appendChild(btn);
     });
-  })();
-
-  const sectorOptions = document.querySelectorAll(".sector-option");
+  }
+  populateSectorOptions(); // chamada inicial
 
   // Gerar ID único para o chat
   function generateChatId() {
@@ -2139,6 +2165,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   supportButton.addEventListener("click", () => {
+    // Re-popular setores toda vez que o modal abre (para refletir setores criados pelo operador após o carregamento)
+    populateSectorOptions();
     // Sempre mostrar modal de seleção de setor ao clicar no botão
     sectorModal.classList.add("active");
     console.log('📋 Modal de seleção de setor aberto');
@@ -2192,71 +2220,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 500);
   }
   
-  // Evento de seleção de setor
-  sectorOptions.forEach(option => {
-    option.addEventListener("click", () => {
-      const sector = option.getAttribute("data-sector");
-      const previousSector = selectedSector;
-      selectedSector = sector;
-      // Não salvar setor no localStorage - cliente deve sempre selecionar
-      
-      // Fechar modal
-      sectorModal.classList.remove("active");
-      
-      console.log(`📌 Setor selecionado: ${sector}`);
-      
-      // Obter chatId correto baseado no usuário logado
-      chatId = getCurrentChatId();
-      localStorage.setItem("chatId", chatId);
-      console.log(`[Suporte] ChatId definido: ${chatId} (Usuário: ${supportUser?.role || 'desconhecido'}, EmployeeId: ${supportUser?.employeeId || 'N/A'})`);
-      attendantShown = false;
-      
-      // Se o chat já estiver aberto, atualizar
-      if (supportChatMain && supportChatMain.classList.contains("active")) {
-        // Atualizar título com o novo setor
-        const headerTitle = document.getElementById("chatHeaderTitle");
-        if (headerTitle) {
-          headerTitle.textContent = `Setor ${selectedSector}`;
-        }
-        
-        const headerSubtitle = document.getElementById("chatHeaderSubtitle");
-        if (headerSubtitle) {
-          headerSubtitle.textContent = "";
-          headerSubtitle.style.display = "none";
-        }
-        
-        // Atualizar chatId com o novo setor
-        chatId = getCurrentChatId();
-        localStorage.setItem("chatId", chatId);
-        
-        // Limpar e recarregar mensagens do novo setor
-        loadMessages();
-        
-        // Recarregar listeners do Firebase para o novo chatId
-        if (previousSector && previousSector !== sector) {
-          console.log(`🔄 Trocado de ${previousSector} para ${sector} - Novo chat iniciado`);
-          // Parar listeners antigos e iniciar novos
-          listenToFirebaseMessages();
-        }
-      } else {
-        // Abrir chat pela primeira vez
-        openChat();
-      }
-    });
-  });
+  // Os event listeners de seleção de setor são agora registrados dentro de populateSectorOptions()
+  // para garantir que qualquer nova chamada (ex: ao abrir o modal) recrie os handlers.
   
   // Botão de trocar setor (antigo - no footer)
   if (changeSectorBtn) {
     changeSectorBtn.addEventListener("click", () => {
+      populateSectorOptions();
       sectorModal.classList.add("active");
       console.log('🔄 Botão trocar setor (footer) clicado - Modal aberto');
     });
   }
-  
+
   // Botão de trocar setor (novo - no header)
   if (changeSectorBtnHeader) {
     changeSectorBtnHeader.addEventListener("click", (e) => {
       e.stopPropagation();
+      populateSectorOptions();
       sectorModal.classList.add("active");
       console.log('🔄 Botão trocar setor (header) clicado - Modal aberto');
     });
@@ -4125,3 +4105,4 @@ document.addEventListener("DOMContentLoaded", () => {
   else start();
 })();
 // ==================== FIM TEMA CLIENTE ====================
+                                                                                                                                                                                                                                                                                        

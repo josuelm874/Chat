@@ -10581,9 +10581,13 @@ const contacts = [];
       currentSupportChatId = chatId;
 
       const chatData = supportChats[chatId];
-      
+
       if (!chatData) return;
-      
+
+      // Mostrar chat header quando um contato é selecionado
+      const chatHeaderEl = document.getElementById("chatHeader");
+      if (chatHeaderEl) chatHeaderEl.style.display = "flex";
+
       // CRITICAL: Marcar o contato como ativo ANTES de qualquer outra operação
       // Isso garante que updateActiveContributorEmployeesList possa detectar o contato ativo
       const contactElements = document.querySelectorAll(".contact.support-contact");
@@ -18301,8 +18305,4 @@ const contacts = [];
       observer.observe(document.body, { childList: true, subtree: true });
     }
 
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
-    else start();
-  })();
-  // ==================== FIM QUICK REPLIES ====================
-
+    if (doc

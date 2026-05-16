@@ -17,7 +17,7 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   // ── Testes de página única (usam fixture { page } com baseURL configurado) ──
 
   test('Operador vê lista de contatos com ao menos um item', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -27,7 +27,7 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Campo de mensagem do operador está visível e editável', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -86,7 +86,7 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Botão de enviar está presente e clicável', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await seedMensagemInicial(page);
@@ -108,7 +108,7 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
     const opPage = await context.newPage();
     const clPage = await context.newPage();
 
-    await opPage.goto('/operador/index.html');
+    await opPage.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(opPage);
     await seedContatos(opPage);
     await openOperadorApp(opPage);
@@ -140,7 +140,7 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
     const opPage = await context.newPage();
     const clPage = await context.newPage();
 
-    await opPage.goto('/operador/index.html');
+    await opPage.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(opPage);
     await seedContatos(opPage);
     await seedMensagemInicial(opPage);

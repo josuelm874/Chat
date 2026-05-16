@@ -28,7 +28,7 @@ test.describe('Autenticação — Operador', () => {
   });
 
   test('Sessão injetada exibe painel do operador', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await page.reload();
     await page.waitForTimeout(1500);
@@ -36,7 +36,7 @@ test.describe('Autenticação — Operador', () => {
   });
 
   test('Sem autenticação redireciona para login', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(2500);
     const url = page.url();
     const hasPasswordField = await page.locator('input[type="password"]').count() > 0;
@@ -45,7 +45,7 @@ test.describe('Autenticação — Operador', () => {
   });
 
   test('Logout limpa sessão', async ({ page }) => {
-    await page.goto('/operador/index.html');
+    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await page.reload();
     await page.waitForTimeout(1500);
