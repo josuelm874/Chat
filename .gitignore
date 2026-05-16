@@ -11,7 +11,7 @@ Thumbs.db
 # Playwright
 playwright-report/
 test-results/
-tests/report/trace/
+tests/report/
 tests/tmp/
 
 # Segredos / ambiente

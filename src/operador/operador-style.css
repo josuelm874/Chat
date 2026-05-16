@@ -11658,4 +11658,118 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.40) !important;
 }
 
-[data-t
+[data-theme="dark"] .ncm-desc-box {
+  background: var(--bg-surface-muted) !important;
+}
+
+[data-theme="dark"] .ncm-desc-box-2 { border-left-color: var(--ink-300) !important; }
+[data-theme="dark"] .ncm-desc-box-4 { border-left-color: var(--ink-500) !important; }
+[data-theme="dark"] .ncm-desc-box-6 { border-left-color: var(--ink-700) !important; }
+[data-theme="dark"] .ncm-desc-box-8 { border-left-color: var(--ink-900) !important; }
+
+
+/* ==================== JOB MANAGEMENT \u2014 Fase 6 polish ==================== */
+
+.job-management-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-surface-muted);
+  border-radius: var(--radius-pill, 999px);
+  border: 1px solid var(--line);
+  margin: 20px 28px 0;
+  width: fit-content;
+}
+
+.job-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill, 999px);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink-500);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 160ms ease;
+  font-family: inherit;
+}
+
+.job-tab:hover { color: var(--ink-900); background: var(--bg-surface); }
+
+.job-tab.active {
+  background: var(--ink-900);
+  color: var(--accent-on, #fff);
+}
+
+.job-tab .tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ink-300);
+  color: var(--ink-900);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.job-tab.active .tab-badge {
+  background: rgba(255, 255, 255, 0.22);
+  color: var(--accent-on, #fff);
+}
+
+[data-theme="dark"] .job-tab.active .tab-badge {
+  background: rgba(0, 0, 0, 0.32);
+  color: var(--ink-900);
+}
+
+.job-status-badge,
+.jm-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.job-status-badge.pending,
+.jm-status-badge.pending {
+  background: var(--bg-surface-muted);
+  color: var(--ink-700);
+  border: 1px solid var(--line-strong);
+}
+
+.job-status-badge.approved,
+.job-status-badge.published,
+.jm-status-badge.approved,
+.jm-status-badge.published {
+  background: var(--ink-900);
+  color: var(--accent-on, #fff);
+}
+
+.job-status-badge.rejected,
+.jm-status-badge.rejected {
+  background: var(--bg-surface);
+  color: var(--ink-500);
+  border: 1px dashed var(--line-strong);
+}
+
+.job-section-header h3 { color: var(--ink-900); font-weight: 700; margin: 0 0 4px; }
+.job-section-header p { color: var(--ink-500); margin: 0; font-size: 13px; }
+
+.jobs-list,
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 20px 28px 28px;
+}

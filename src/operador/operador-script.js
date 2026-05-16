@@ -18305,4 +18305,8 @@ const contacts = [];
       observer.observe(document.body, { childList: true, subtree: true });
     }
 
-    if (doc
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+    else start();
+  })();
+  // ==================== FIM QUICK REPLIES ====================
+
