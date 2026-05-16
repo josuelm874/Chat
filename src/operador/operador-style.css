@@ -4582,7 +4582,7 @@ input.invalid:focus {
 
 .profile-box {
   flex: 1;
-  background: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   border-radius: 20px;
@@ -4599,7 +4599,7 @@ input.invalid:focus {
 }
 
 [data-theme="dark"] .profile-box {
-  background: rgba(20, 22, 24, 0.55);
+  background: rgba(20, 22, 24, 0.35);
   backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -4612,7 +4612,7 @@ input.invalid:focus {
 
 .contact-box {
   flex: 1;
-  background: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   border: 1px solid rgba(255, 255, 255, 0.70);
@@ -4628,7 +4628,7 @@ input.invalid:focus {
 }
 
 [data-theme="dark"] .contact-box {
-  background: rgba(20, 22, 24, 0.55);
+  background: rgba(20, 22, 24, 0.35);
   backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -10736,7 +10736,7 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
 
 /* Lista de contatos — glass card */
 .chat-list {
-  background: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   border: 1px solid rgba(255, 255, 255, 0.70);
@@ -10746,7 +10746,7 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
   min-width: 320px;
 }
 [data-theme="dark"] .chat-list {
-  background: rgba(20, 22, 24, 0.55);
+  background: rgba(20, 22, 24, 0.35);
   backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   border-color: rgba(255, 255, 255, 0.08);
@@ -10755,7 +10755,7 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
 
 /* Área principal do chat — glass card */
 .chat-main {
-  background: rgba(255, 255, 255, 0.60);
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.04);
   border: 1px solid rgba(255, 255, 255, 0.70);
@@ -10763,7 +10763,7 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
   border-radius: var(--radius-card);
 }
 [data-theme="dark"] .chat-main {
-  background: rgba(20, 22, 24, 0.55);
+  background: rgba(20, 22, 24, 0.35);
   backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(1.02);
   border-color: rgba(255, 255, 255, 0.08);
@@ -10822,13 +10822,13 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
 
 /* Área de mensagens — glass sutil na área de fundo, bolhas permanecem sólidas */
 .messages {
-  background: rgba(245, 246, 248, 0.45);
+  background: rgba(245, 246, 248, 0.35);
   backdrop-filter: blur(12px) saturate(1.3);
   -webkit-backdrop-filter: blur(12px) saturate(1.3);
   padding: 24px 28px;
 }
 [data-theme="dark"] .messages {
-  background: rgba(11, 12, 14, 0.50);
+  background: rgba(11, 12, 14, 0.35);
   backdrop-filter: blur(12px) saturate(1.3);
   -webkit-backdrop-filter: blur(12px) saturate(1.3);
 }
@@ -11681,58 +11681,4 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
   font-weight: 700;
 }
 
-.job-tab.active .tab-badge {
-  background: rgba(255, 255, 255, 0.22);
-  color: var(--accent-on, #fff);
-}
-
-[data-theme="dark"] .job-tab.active .tab-badge {
-  background: rgba(0, 0, 0, 0.32);
-  color: var(--ink-900);
-}
-
-.job-status-badge,
-.jm-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.job-status-badge.pending,
-.jm-status-badge.pending {
-  background: var(--bg-surface-muted);
-  color: var(--ink-700);
-  border: 1px solid var(--line-strong);
-}
-
-.job-status-badge.approved,
-.job-status-badge.published,
-.jm-status-badge.approved,
-.jm-status-badge.published {
-  background: var(--ink-900);
-  color: var(--accent-on, #fff);
-}
-
-.job-status-badge.rejected,
-.jm-status-badge.rejected {
-  background: var(--bg-surface);
-  color: var(--ink-500);
-  border: 1px dashed var(--line-strong);
-}
-
-.job-section-header h3 { color: var(--ink-900); font-weight: 700; margin: 0 0 4px; }
-.job-section-header p { color: var(--ink-500); margin: 0; font-size: 13px; }
-
-.jobs-list,
-.jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  padding: 20px 28px 28px;
-}
+.job-
