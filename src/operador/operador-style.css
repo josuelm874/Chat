@@ -788,9 +788,9 @@ html[data-theme="dark"] .sidebar .sidebar-logo img.sidebar-logo--dark {
   align-items: center;
   padding-left: 0;
   padding-right: 0;
-  background: #0f0f0f;
+  background: var(--sidebar-bg, #0f0f0f);
   border-radius: 0 10px 10px 0;
-  color: #e5e5e5;
+  color: var(--sidebar-text, #e5e5e5);
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
@@ -11723,6 +11723,4 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  padding: 20px 28px 28px;
-}
+  
