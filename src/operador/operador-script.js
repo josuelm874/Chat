@@ -2111,16 +2111,6 @@ const contacts = [];
         }
       });
 
-      // Lê as cores computadas do sidebar e aplica no tooltip para match perfeito de tema
-      const syncTooltipColors = () => {
-        const sidebarEl = document.querySelector(".sidebar");
-        if (!sidebarEl) return;
-        const cs = getComputedStyle(sidebarEl);
-        tooltipBar.style.background = cs.backgroundColor;
-        tooltipBar.style.color = cs.color;
-      };
-      syncTooltipColors();
-
       // Aplica o tooltip para um ícone
       const applyTooltip = (btn, titleEl) => {
         const icon = btn.querySelector(".icon");
@@ -2130,9 +2120,6 @@ const contacts = [];
         tooltipBar.style.setProperty("--tooltip-y", `${rect.top}px`);
         tooltipBar.style.setProperty("--tooltip-h", `${rect.height}px`);
         tooltipBar.textContent = titleEl.textContent.trim();
-        // Sincronizar cores ao exibir — garante que mudanças de tema aplicadas em runtime
-        // também sejam refletidas no tooltip sem precisar recarregar a página.
-        syncTooltipColors();
         tooltipBar.classList.add("visible");
         tooltipBar.setAttribute("aria-hidden", "false");
       };

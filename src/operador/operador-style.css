@@ -365,6 +365,8 @@ body {
 [data-theme="dark"] {
   --sidebar-bg: #0a0a0a;
   --sidebar-text: #f3f4f6;
+  /* Cápsula sidebar: inverte para branco no tema escuro */
+  --sidebar-pill-bg: #ffffff;
   --sidebar-text-muted: #9ca3af;
   --sidebar-hover-bg: rgba(255,255,255,0.08);
   --sidebar-active-bg: rgba(37,99,235,0.25);
@@ -790,7 +792,7 @@ html[data-theme="dark"] .sidebar .sidebar-logo img.sidebar-logo--dark {
   padding-right: 0;
   background: var(--sidebar-pill-bg, #0f0f0f);
   border-radius: 0 10px 10px 0;
-  color: var(--sidebar-text, #e5e5e5);
+  color: var(--bg-surface, #ffffff);
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
@@ -10721,17 +10723,16 @@ html[data-theme="dark"] .sidebar .theme-switch.theme-switch-chain-link input:foc
   }
 }
 
-/* Tooltip bar — formato monochrome */
+/* Tooltip bar — formato monochrome.
+   Usa as mesmas variáveis que o .sidebar para garantir match perfeito de cor.
+   --sidebar-pill-bg: claro=#0f0f0f / escuro=#ffffff (inverte automaticamente).
+   --bg-surface:      claro=#ffffff  / escuro=#141618 (inverte automaticamente). */
 .sidebar-tooltip-bar {
-  background: var(--ink-900);
-  color: #ffffff;
+  background: var(--sidebar-pill-bg, #0f0f0f);
+  color: var(--bg-surface, #ffffff);
   border-radius: 0 14px 14px 0;
   font-weight: 600;
   letter-spacing: 0.01em;
-}
-[data-theme="dark"] .sidebar-tooltip-bar {
-  background: var(--bg-surface);
-  color: var(--ink-900);
 }
 
 /* ---------- CHAT (list + main + bubbles) ---------- */
