@@ -2045,11 +2045,17 @@ const contacts = [];
 
         // Sync bidirecional de todos os dados
         try {
+          // Forçar refresh de 'users' direto do Supabase antes do sync geral.
+          // Isso garante que dados locais desatualizados (ex: usuários deletados) não
+          // sejam re-enviados ao Supabase pelo syncData quando localUpdated > cloudUpdated.
+          await window.supabaseSync.refresh('users');
+
           const result = await window.supabaseSync.syncAll();
           // Recarregar listas após sync
           if (typeof updateSupportContactsList === 'function') updateSupportContactsList();
           if (typeof updateInternalContactsList === 'function') updateInternalContactsList();
           if (typeof renderLembretes === 'function') renderLembretes();
+          if (typeof renderUsersList === 'function') renderUsersList();
         } catch(e) {
         }
 
@@ -18316,3 +18322,4 @@ const contacts = [];
   })();
   // ==================== FIM QUICK REPLIES ====================
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
