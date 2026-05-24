@@ -25,9 +25,8 @@ function createTempPdf(name) {
 test.describe('Página de Vagas (Pública)', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/publico/vagas.html');
     await seedVaga(page);
-    await page.reload();
+    await page.goto('/publico/vagas.html');
     await page.waitForTimeout(1000);
   });
 
@@ -230,6 +229,8 @@ test.describe('Página de Vagas (Pública)', () => {
   });
 
   test('Sem vagas exibe mensagem de lista vazia', async ({ page }) => {
+    // Mantém o marker __seeded_vaga_at para que o addInitScript do beforeEach
+    // NÃO reinjete a vaga durante o reload abaixo.
     await page.evaluate(() => localStorage.removeItem('publishedJobs'));
     await page.reload();
     await page.waitForTimeout(800);

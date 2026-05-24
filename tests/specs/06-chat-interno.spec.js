@@ -3,7 +3,7 @@
  * Testa mensagens internas, seções do painel e integridade JS da aplicação.
  */
 const { test, expect } = require('@playwright/test');
-const { seedOperadorSession, seedClienteSession, seedContatos, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
+const { seedOperadorSession, seedClienteSession, seedContatos, openClienteApp, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
 
 test.describe('Chat Interno (operador ↔ operador)', () => {
 
@@ -12,7 +12,6 @@ test.describe('Chat Interno (operador ↔ operador)', () => {
   });
 
   test('Seção de mensagens internas abre ao clicar no botão', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -32,7 +31,6 @@ test.describe('Chat Interno (operador ↔ operador)', () => {
   });
 
   test('Mensagem interna injetada permanece no localStorage', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
 
     // Inicializa o app completamente PRIMEIRO — qualquer init que limpe internalMessages
@@ -77,7 +75,6 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Clicar em contato abre painel com informações', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -93,7 +90,6 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Área de mensagens do operador (chatMessagesOp) existe e está no DOM', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -105,7 +101,6 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -128,10 +123,10 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
   });
 
   test('Seção de recrutamento exibe candidatura injetada', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
-    // Injeta dados antes de navegar para o app
-    await page.evaluate(() => {
+    // Injeta candidatura via addInitScript para garantir que esteja no localStorage
+    // antes do app inicializar
+    await page.addInitScript(() => {
       const apps = [{
         id: 'app_test_e2e_001',
         jobId: 'job_test_01',
@@ -169,7 +164,6 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -193,11 +187,8 @@ test.describe('Painel do Operador — Funcionalidades Extras', () => {
     const errors = [];
     page.on('pageerror', err => errors.push(err.message));
 
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#messageInput').first()).toBeVisible({ timeout: 8000 });

@@ -3,7 +3,7 @@
  * Testa envio e recebimento de mensagens de texto entre cliente e operador.
  */
 const { test, expect } = require('@playwright/test');
-const { IDS, seedOperadorSession, seedClienteSession, seedContatos, seedMensagemInicial, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
+const { IDS, seedOperadorSession, seedClienteSession, seedContatos, seedMensagemInicial, openClienteApp, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
 
 const BASE_URL = 'http://localhost:9876';
 const POLL_WAIT = 2800;
@@ -17,7 +17,6 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   // ── Testes de página única (usam fixture { page } com baseURL configurado) ──
 
   test('Operador vê lista de contatos com ao menos um item', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -27,7 +26,6 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Campo de mensagem do operador está visível e editável', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -44,11 +42,8 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Mensagem enviada pelo cliente aparece na área de chat (UI)', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     const msgTexto = 'Teste de exibição na UI';
@@ -63,11 +58,8 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Mensagem vazia não é salva', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     const countBefore = await page.evaluate(() => {
@@ -86,7 +78,6 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
   });
 
   test('Botão de enviar está presente e clicável', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await seedMensagemInicial(page);
@@ -108,15 +99,12 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
     const opPage = await context.newPage();
     const clPage = await context.newPage();
 
-    await opPage.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(opPage);
     await seedContatos(opPage);
     await openOperadorApp(opPage);
 
-    await clPage.goto('/cliente/index.html');
     await seedClienteSession(clPage);
-    await clPage.reload();
-    await clPage.waitForTimeout(1500);
+    await openClienteApp(clPage);
     await openClienteChat(clPage);
 
     const msgTexto = 'Olá, preciso de ajuda com minha fatura!';
@@ -140,16 +128,13 @@ test.describe('Mensagens – Cliente ↔ Operador', () => {
     const opPage = await context.newPage();
     const clPage = await context.newPage();
 
-    await opPage.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(opPage);
     await seedContatos(opPage);
     await seedMensagemInicial(opPage);
     await openOperadorApp(opPage);
 
-    await clPage.goto('/cliente/index.html');
     await seedClienteSession(clPage);
-    await clPage.reload();
-    await clPage.waitForTimeout(1500);
+    await openClienteApp(clPage);
     await openClienteChat(clPage);
 
     const contact = opPage.locator('#contactsList .contact, #contactsList .contact-item').first();

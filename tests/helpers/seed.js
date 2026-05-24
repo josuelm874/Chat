@@ -1,7 +1,14 @@
 /**
  * Helpers de seed para os testes do Chat UI.
- * Todas as funções recebem um Playwright Page e injetam
- * o estado correto no localStorage sem passar pela tela de login.
+ *
+ * Padrão (refatorado em 2026-05-24): os helpers `seed*` registram um
+ * `page.addInitScript` que roda ANTES de qualquer JS da página, populando o
+ * localStorage do origin alvo. Assim a primeira `page.goto` já encontra a
+ * sessão pronta — sem `reload`, sem cair em redirect-on-no-auth, e sem
+ * `evaluate` em contexto destruído pela navegação.
+ *
+ * Sempre chamar `seed*Session()` (e `seedContatos`/`seedMensagemInicial` quando
+ * necessário) ANTES de `openOperadorApp` / `openClienteApp` / `page.goto`.
  *
  * FLUXO DE AUTH OPERADOR:
  *   checkAuthentication() exige: isAuthenticated === 'true' E savedUsername && savedPassword
@@ -15,7 +22,6 @@
  *   sectors devem estar no localStorage para aparecerem na modal
  *
  * PADRÃO RECOMENDADO para testes de operador com contatos:
- *   await page.goto('/operador/index.html');
  *   await seedOperadorSession(page);
  *   await seedContatos(page);
  *   await openOperadorApp(page);   ← navega fresh + força renderização dos contatos
@@ -34,7 +40,15 @@ const IDS = {
 
 // ─── Seed: sessão do Operador (admin) ─────────────────────────────────────
 async function seedOperadorSession(page) {
-  await page.evaluate((ids) => {
+  await page.addInitScript((ids) => {
+    // Guard de idempotência POR ROLE: roda só na 1ª navegação que executa este seed.
+    // Sem isso, um logout (que limpa localStorage + reload) faria o init-script
+    // reinjetar a sessão e o teste de logout falharia ao verificar limpeza.
+    // Usa marker específico de operador para coexistir com seedClienteSession
+    // em contextos com 2 pages compartilhando localStorage (02-mensagens).
+    if (localStorage.getItem('__seeded_op_at')) return;
+    localStorage.setItem('__seeded_op_at', Date.now().toString());
+
     const adminUser = {
       id: ids.adminUser,
       username: 'adm',
@@ -62,7 +76,11 @@ async function seedOperadorSession(page) {
 
 // ─── Seed: sessão do Cliente (contribuinte) ────────────────────────────────
 async function seedClienteSession(page) {
-  await page.evaluate((ids) => {
+  await page.addInitScript((ids) => {
+    // Guard de idempotência POR ROLE (ver seedOperadorSession para racional)
+    if (localStorage.getItem('__seeded_cl_at')) return;
+    localStorage.setItem('__seeded_cl_at', Date.now().toString());
+
     const contributor = {
       id: ids.clientContributor,
       razaoSocial: 'Empresa Teste LTDA',
@@ -76,7 +94,10 @@ async function seedClienteSession(page) {
     const existing = (() => {
       try { return JSON.parse(localStorage.getItem('contributors') || '[]'); } catch(e) { return []; }
     })();
-    localStorage.setItem('contributors', JSON.stringify([...existing.filter(c => c.id !== ids.clientContributor), contributor]));
+    localStorage.setItem('contributors', JSON.stringify([
+      ...existing.filter(c => c.id !== ids.clientContributor),
+      contributor,
+    ]));
 
     const supportUser = {
       username: 'adm',
@@ -104,7 +125,6 @@ async function seedClienteSession(page) {
 
 // ─── Helper: navega ao app do operador e força renderização dos contatos ──
 // Deve ser chamado APÓS seedOperadorSession (e seedContatos se precisar de contatos).
-// Substitui o padrão antigo: page.reload() + waitForTimeout(1500)
 async function openOperadorApp(page) {
   // waitUntil:'domcontentloaded' evita que page.goto aguarde recursos externos
   // (fontes, CDN) que podem nunca carregar, causando timeout de 30s.
@@ -120,21 +140,20 @@ async function openOperadorApp(page) {
     if (chatBtn) chatBtn.click();
   });
 
-  // Aguarda ciclo async de renderização: tenta detectar contatos no DOM,
-  // senão aguarda 3s para dar tempo ao setTimeout de 500ms + renderização.
-  await page.waitForFunction(
-    () => document.querySelectorAll('#contactsList .contact').length > 0,
-    { timeout: 3000 }
-  ).catch(() => {});
-
-  // Buffer extra para ciclos adicionais (badges, polling, etc.)
-  await page.waitForTimeout(800);
+  // Aguarda renderização dos contatos com HARD timeout (Promise.race).
+  // page.waitForFunction pode pendurar muito além do timeout configurado quando
+  // o event loop da página está bloqueado (carregamento Supabase CDN, p.ex.).
+  // Promise.race garante que NUNCA gastamos mais de 2.5s nesta etapa.
+  await Promise.race([
+    page.waitForSelector('#contactsList .contact', { timeout: 2000 }),
+    new Promise(resolve => setTimeout(resolve, 2500)),
+  ]).catch(() => {});
 }
 
 // ─── Helper: navega ao app do cliente ─────────────────────────────────────
 // Deve ser chamado APÓS seedClienteSession.
 async function openClienteApp(page) {
-  await page.goto('/cliente/index.html');
+  await page.goto('/cliente/index.html', { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1500);
 }
 
@@ -164,7 +183,11 @@ async function openClienteChat(page) {
 // Popula contributors E contributorContacts para que a lista carregue sem
 // depender do ciclo assíncrono de updateSupportContactsList.
 async function seedContatos(page) {
-  await page.evaluate((ids) => {
+  await page.addInitScript((ids) => {
+    // Guard de idempotência por contato — evita duplicação em navegações repetidas
+    if (localStorage.getItem('__seeded_contatos_at')) return;
+    localStorage.setItem('__seeded_contatos_at', Date.now().toString());
+
     const contributor = {
       id: ids.clientContributor,
       razaoSocial: 'Empresa Teste LTDA',
@@ -210,7 +233,10 @@ async function seedContatos(page) {
 
 // ─── Seed: mensagem inicial (cliente → operador) ───────────────────────────
 async function seedMensagemInicial(page) {
-  await page.evaluate((ids) => {
+  await page.addInitScript((ids) => {
+    if (localStorage.getItem('__seeded_msg_at')) return;
+    localStorage.setItem('__seeded_msg_at', Date.now().toString());
+
     const messages = (() => {
       try { return JSON.parse(localStorage.getItem('supportMessages') || '[]'); } catch(e) { return []; }
     })();
@@ -235,7 +261,12 @@ async function seedMensagemInicial(page) {
 
 // ─── Seed: vaga publicada ─────────────────────────────────────────────────
 async function seedVaga(page) {
-  await page.evaluate((ids) => {
+  await page.addInitScript((ids) => {
+    // Guard de idempotência — sem isso, page.reload() (ex: teste "Sem vagas")
+    // reinjetaria a vaga depois do test ter feito removeItem('publishedJobs').
+    if (localStorage.getItem('__seeded_vaga_at')) return;
+    localStorage.setItem('__seeded_vaga_at', Date.now().toString());
+
     const jobs = (() => {
       try { return JSON.parse(localStorage.getItem('publishedJobs') || '[]'); } catch(e) { return []; }
     })();
@@ -261,7 +292,8 @@ async function seedVaga(page) {
 
 // ─── Limpa estado de teste ────────────────────────────────────────────────
 // Limpa TODOS os dados de teste — incluindo chaves de auth — para evitar
-// que o estado de um teste vaze para o próximo.
+// que o estado de um teste vaze para o próximo. Usa page.evaluate porque é
+// chamado no afterEach quando a page já tem URL válida do origin do app.
 async function clearTestData(page) {
   try {
     const url = page.url();
@@ -279,6 +311,13 @@ async function clearTestData(page) {
       localStorage.removeItem('clientName');
       localStorage.removeItem('supportLastRazaoSocial');
       localStorage.removeItem('savedRazaoSocial');
+
+      // ── Markers internos de idempotência do seed ──
+      localStorage.removeItem('__seeded_op_at');
+      localStorage.removeItem('__seeded_cl_at');
+      localStorage.removeItem('__seeded_contatos_at');
+      localStorage.removeItem('__seeded_msg_at');
+      localStorage.removeItem('__seeded_vaga_at');
 
       // ── Mensagens de suporte de teste ──
       const msgs = (() => {

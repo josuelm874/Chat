@@ -5,7 +5,7 @@
 const { test, expect } = require('@playwright/test');
 const path = require('path');
 const fs = require('fs');
-const { seedClienteSession, seedOperadorSession, seedContatos, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
+const { seedClienteSession, seedOperadorSession, seedContatos, openClienteApp, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
 
 function createTempFile(filename, sizeKB) {
   const tmpDir = path.join(__dirname, '..', 'tmp');
@@ -22,22 +22,16 @@ test.describe('Arquivos — Cliente', () => {
   });
 
   test('Botão de anexo está visível no cliente', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#attachButton')).toBeVisible({ timeout: 8000 });
   });
 
   test('Input de arquivo existe no cliente', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#fileInput')).toBeAttached({ timeout: 8000 });
@@ -50,11 +44,8 @@ test.describe('Arquivos — Cliente', () => {
       await dialog.dismiss();
     });
 
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     const imgPath = createTempFile('test-image-100kb.jpg', 100);
@@ -74,11 +65,8 @@ test.describe('Arquivos — Cliente', () => {
       await dialog.accept();
     });
 
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     // Cria arquivo real de 11MB — setInputFiles é o único jeito confiável de
@@ -101,11 +89,8 @@ test.describe('Arquivos — Cliente', () => {
   test('Preview do arquivo aparece após seleção', async ({ page }) => {
     page.on('dialog', async dialog => await dialog.dismiss());
 
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     const imgPath = createTempFile('preview-test.jpg', 50);
@@ -129,7 +114,6 @@ test.describe('Arquivos — Operador', () => {
   });
 
   test('Botão de anexo do operador está visível', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -139,7 +123,6 @@ test.describe('Arquivos — Operador', () => {
   });
 
   test('Input de arquivo do operador existe no DOM', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -150,7 +133,6 @@ test.describe('Arquivos — Operador', () => {
   test('Arquivo de imagem enviado pelo operador grava no localStorage', async ({ page }) => {
     page.on('dialog', async dialog => await dialog.dismiss());
 
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);

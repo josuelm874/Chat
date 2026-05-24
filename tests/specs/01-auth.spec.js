@@ -3,7 +3,7 @@
  * Login do operador, cliente, erro de credenciais, logout, redirecionamentos.
  */
 const { test, expect } = require('@playwright/test');
-const { seedOperadorSession, seedClienteSession, openClienteChat, clearTestData } = require('../helpers/seed');
+const { seedOperadorSession, seedClienteSession, openClienteApp, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
 
 test.describe('Autenticação — Operador', () => {
 
@@ -28,10 +28,8 @@ test.describe('Autenticação — Operador', () => {
   });
 
   test('Sessão injetada exibe painel do operador', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
+    await openOperadorApp(page);
     await expect(page.locator('.sidebar, #sidebar').first()).toBeVisible({ timeout: 8000 });
   });
 
@@ -45,10 +43,8 @@ test.describe('Autenticação — Operador', () => {
   });
 
   test('Logout limpa sessão', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
+    await openOperadorApp(page);
 
     const logoutBtn = page.locator('#logoutButton').first();
     await expect(logoutBtn).toBeVisible({ timeout: 5000 });
@@ -79,11 +75,8 @@ test.describe('Autenticação — Cliente', () => {
   });
 
   test('Cliente autenticado vê campo de mensagem', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#messageInput').first()).toBeVisible({ timeout: 8000 });
@@ -99,10 +92,8 @@ test.describe('Autenticação — Cliente', () => {
   });
 
   test('Logout do cliente encerra sessão', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
+    await openClienteApp(page);
 
     const logoutBtn = page.locator('#supportLogoutButton').first();
     await expect(logoutBtn).toBeVisible({ timeout: 5000 });

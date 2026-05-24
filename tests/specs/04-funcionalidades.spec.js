@@ -3,7 +3,7 @@
  * Testa: emojis, busca de contatos/mensagens, troca de seções, badge de não lidas, tema.
  */
 const { test, expect } = require('@playwright/test');
-const { seedOperadorSession, seedClienteSession, seedContatos, seedMensagemInicial, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
+const { seedOperadorSession, seedClienteSession, seedContatos, seedMensagemInicial, openClienteApp, openClienteChat, openOperadorApp, clearTestData } = require('../helpers/seed');
 
 test.describe('Emojis', () => {
 
@@ -12,22 +12,16 @@ test.describe('Emojis', () => {
   });
 
   test('Botão de emoji está visível no cliente', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#emojiButton')).toBeVisible({ timeout: 8000 });
   });
 
   test('Picker de emoji abre ao clicar no botão', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#emojiButton')).toBeVisible({ timeout: 8000 });
@@ -38,11 +32,8 @@ test.describe('Emojis', () => {
   });
 
   test('Emoji selecionado aparece no campo de mensagem', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#messageInput')).toBeVisible({ timeout: 8000 });
@@ -52,11 +43,8 @@ test.describe('Emojis', () => {
   });
 
   test('Mensagem com emoji é salva no localStorage', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
-
+    await openClienteApp(page);
     await openClienteChat(page);
 
     await expect(page.locator('#messageInput')).toBeVisible({ timeout: 8000 });
@@ -72,7 +60,6 @@ test.describe('Emojis', () => {
   });
 
   test('Botão de emoji está visível no operador', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await openOperadorApp(page);
 
@@ -90,7 +77,6 @@ test.describe('Busca', () => {
   });
 
   test('Campo unificado de busca do operador está visível', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -99,7 +85,6 @@ test.describe('Busca', () => {
   });
 
   test('Busca filtra contato pelo nome', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -114,7 +99,6 @@ test.describe('Busca', () => {
   });
 
   test('Busca por termo inexistente não exibe contatos da seed', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -131,7 +115,6 @@ test.describe('Busca', () => {
   });
 
   test('Campo de busca de mensagens no chat está presente', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -165,7 +148,6 @@ test.describe('Navegação entre Seções', () => {
     // Aceita qualquer diálogo de confirmação que surja durante a navegação de seções
     page.on('dialog', async dialog => { await dialog.accept(); });
 
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -194,7 +176,6 @@ test.describe('Navegação entre Seções', () => {
   });
 
   test('Badge de não lidas aparece quando há mensagem não lida', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await seedMensagemInicial(page);
@@ -210,7 +191,6 @@ test.describe('Navegação entre Seções', () => {
   });
 
   test('Seção de suporte (padrão) mostra lista de contatos', async ({ page }) => {
-    await page.goto('/operador/index.html', { waitUntil: 'domcontentloaded' });
     await seedOperadorSession(page);
     await seedContatos(page);
     await openOperadorApp(page);
@@ -223,10 +203,8 @@ test.describe('Navegação entre Seções', () => {
   });
 
   test('Alternância de tema claro/escuro funciona', async ({ page }) => {
-    await page.goto('/cliente/index.html');
     await seedClienteSession(page);
-    await page.reload();
-    await page.waitForTimeout(1500);
+    await openClienteApp(page);
 
     const themeBtn = page.locator('.theme-switch, button[title*="tema"], button[title*="escuro"], [data-action*="theme"]').first();
     const isBtnVisible = await themeBtn.isVisible().catch(() => false);
@@ -238,4 +216,16 @@ test.describe('Navegação entre Seções', () => {
         'none'
       );
       await themeBtn.click();
-      await page.waitForTimeout(
+      await page.waitForTimeout(400);
+      const after = await page.evaluate(() =>
+        document.documentElement.getAttribute('data-theme') ||
+        document.body.className ||
+        'none'
+      );
+      expect(before).not.toBe(after);
+    } else {
+      console.log('Botão de tema não encontrado — verificar seletor');
+    }
+  });
+
+});
