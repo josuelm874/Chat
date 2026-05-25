@@ -19,6 +19,30 @@
   var supabaseScriptAdded = false;
   var _readyCallbacks = [];
 
+  /**
+   * Após RLS FASE 2 (migração 003), leitura de system_data exige sessão Supabase Auth.
+   * Esta função retorna true se existe sessão ativa.
+   * Não loga warning em loop — só na primeira chamada sem sessão.
+   */
+  var _warnedNoSession = false;
+  async function _hasAuthSession() {
+    if (!supabaseClient || !supabaseClient.auth) return false;
+    try {
+      var res = await supabaseClient.auth.getSession();
+      var hasSession = !!(res && res.data && res.data.session);
+      if (!hasSession && !_warnedNoSession) {
+        _warnedNoSession = true;
+        if (typeof console !== 'undefined' && console.warn) {
+          console.warn('[supabase-sync] Sem sessão Supabase Auth — operações de cloud serão ignoradas até login completar.');
+        }
+      }
+      if (hasSession) _warnedNoSession = false;
+      return hasSession;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function getConfig() {
     if (typeof CONFIG !== 'undefined' && CONFIG.SUPABASE) {
       return {
@@ -129,7 +153,7 @@
     if (defaultValue === undefined) defaultValue = null;
 
     if (!isSupabaseConfigured) initSupabase();
-    if (isSupabaseConfigured && supabaseClient) {
+    if (isSupabaseConfigured && supabaseClient && await _hasAuthSession()) {
       try {
         var q = await supabaseClient
           .from(TABLE_NAME)
@@ -166,6 +190,9 @@
   async function syncData(key) {
     if (!isSupabaseConfigured || !supabaseClient) {
       return { synced: false, reason: 'Supabase não configurado' };
+    }
+    if (!(await _hasAuthSession())) {
+      return { synced: false, reason: 'Sem sessão Supabase Auth' };
     }
 
     try {
@@ -220,6 +247,7 @@
 
   async function forceRefreshFromCloud(key) {
     if (!isSupabaseConfigured || !supabaseClient) return null;
+    if (!(await _hasAuthSession())) return null;
     try {
       var q = await supabaseClient
         .from(TABLE_NAME)

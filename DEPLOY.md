@@ -84,6 +84,41 @@ O Realtime já está habilitado pelo script SQL. Para ativar no app, o `supabase
 
 ---
 
+### 1.7 Migração 002 — Supabase Auth + escrita autenticada
+
+> **Pré-requisito obrigatório** antes de aplicar a 002:
+> Dashboard Supabase → Authentication → Settings → desmarcar **"Enable email confirmations"** (Auto-confirm users).
+> Sem isso, a migração silenciosa em `auth.js` falha e nenhum usuário consegue logar após a 003.
+
+1. SQL Editor → New query
+2. Cole o conteúdo de `supabase/migrations/002_supabase_auth_rls.sql`
+3. Run — deve ver `✅ Migração 002 aplicada com sucesso!`
+4. Faça deploy do frontend e peça que cada operador/contribuinte faça **um login** — isso dispara a migração silenciosa e cria a conta em Supabase Auth.
+5. Acompanhe a migração no Dashboard → Authentication → Users.
+
+---
+
+### 1.8 Migração 003 — RLS FASE 2 (fechar leitura anônima)
+
+> **Aplique apenas depois que 100% dos usuários ativos já logaram pelo menos uma vez pós-002.**
+> Conferir via Dashboard → Authentication → Users (deve listar todos os operadores e contribuintes ativos).
+>
+> **Não aplique sem ter feito o deploy do frontend com os patches que aguardam sessão Auth antes de chamar `supabaseSync.load`/`syncAll`** — sem eles, o operador/cliente vão estourar erro de RLS imediatamente após login.
+
+1. SQL Editor → New query
+2. Cole o conteúdo de `supabase/migrations/003_rls_phase2.sql`
+3. Run — deve ver `✅ Migração 003 aplicada com sucesso!`
+4. **Smoke test imediato:**
+   - Em janela anônima, abra `/operador` sem logar → deve redirecionar para `/login` (não pode listar mensagens/usuários)
+   - Em DevTools, na aba Network, confirme que requests para `system_data` sem JWT retornam `401`/`403`
+   - Faça login como admin → painel carrega normalmente (auth.js já criou sessão)
+
+#### Rollback
+
+Se algo quebrar pós-aplicação, execute no SQL Editor o bloco comentado no fim de `003_rls_phase2.sql` (descomente as 6 linhas finais).
+
+---
+
 ## PARTE 2 — GitHub
 
 ### 2.1 Subir o projeto para o GitHub

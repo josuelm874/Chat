@@ -274,19 +274,50 @@ function resolveEmpresaByText(text) {
 
 // ==================== SESSION WRITE ====================
 
-function loginAsOperador(user, password) {
+/**
+ * Aguarda a migração silenciosa para Supabase Auth com timeout.
+ * Após RLS FASE 2 (migração 003), `system_data` exige sessão para leitura.
+ * Se a Promise não resolver no prazo, redireciona mesmo assim — a próxima página
+ * cai no fallback localStorage até o auth recuperar em background.
+ */
+function _waitForAuthMigration(username, password, timeoutMs) {
+  if (!password || typeof supabaseAuth === 'undefined' || !supabaseAuth.migrateLocalUser) {
+    return Promise.resolve(false);
+  }
+  return new Promise(function (resolve) {
+    var settled = false;
+    var t = setTimeout(function () {
+      if (settled) return;
+      settled = true;
+      resolve(false);
+    }, timeoutMs);
+    supabaseAuth.migrateLocalUser(username, password)
+      .then(function (ok) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(t);
+        resolve(!!ok);
+      })
+      .catch(function () {
+        if (settled) return;
+        settled = true;
+        clearTimeout(t);
+        resolve(false);
+      });
+  });
+}
+
+async function loginAsOperador(user, password) {
   localStorage.setItem('isAuthenticated', 'true');
   localStorage.setItem('currentUser', JSON.stringify(user));
   localStorage.setItem('clientName', user.fullName || user.username || '');
   localStorage.setItem('_session_at', Date.now().toString());
   clearRateLimit();
-  if (password && typeof supabaseAuth !== 'undefined' && supabaseAuth.migrateLocalUser) {
-    supabaseAuth.migrateLocalUser(user.username, password).catch(() => {});
-  }
+  await _waitForAuthMigration(user.username, password, 3000);
   window.location.href = '../operador/';
 }
 
-function loginAsContributor(match, password) {
+async function loginAsContributor(match, password) {
   const { contributor, employee } = match;
   localStorage.setItem('_session_at', Date.now().toString());
   const supportUser = employee
@@ -306,9 +337,7 @@ function loginAsContributor(match, password) {
   clearRateLimit();
 
   const loginUsername = employee ? employee.username : ('contrib_' + contributor.id);
-  if (password && typeof supabaseAuth !== 'undefined' && supabaseAuth.migrateLocalUser) {
-    supabaseAuth.migrateLocalUser(loginUsername, password).catch(() => {});
-  }
+  await _waitForAuthMigration(loginUsername, password, 3000);
   window.location.href = '../cliente/';
 }
 
