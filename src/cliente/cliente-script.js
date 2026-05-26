@@ -2326,11 +2326,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (type === "support" && !attendantShown) {
       const divider = document.createElement("div");
       divider.classList.add("attendant-divider");
-      divider.innerHTML = `
-        <div class="attendant-divider-text">
-          Você está sendo atendido por: <strong>${sender || "Suporte"}</strong>
-        </div>
-      `;
+      const dividerText = document.createElement("div");
+      dividerText.className = "attendant-divider-text";
+      dividerText.appendChild(document.createTextNode("Você está sendo atendido por: "));
+      const senderStrong = document.createElement("strong");
+      senderStrong.textContent = sender || "Suporte";
+      dividerText.appendChild(senderStrong);
+      divider.appendChild(dividerText);
       chatMessages.appendChild(divider);
       attendantShown = true;
     }

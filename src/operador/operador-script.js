@@ -15665,8 +15665,6 @@ const contacts = [];
       const time = msg.time || getCurrentTime();
       const senderName = msg.senderName || msg.sender || "Usuário";
 
-      let messageContent = "";
-
       if (msg.file) {
         // Mensagem com arquivo
         let fileData = msg.file.data;
@@ -15675,25 +15673,28 @@ const contacts = [];
           fileData = `data:${msg.file.type || 'application/octet-stream'};base64,${fileData}`;
         }
         const fileElement = createFileElement(msg.file, fileData, msg.caption);
-        messageContent = fileElement.outerHTML;
+        messageDiv.appendChild(fileElement);
         messageDiv.classList.add("has-file");
       } else if (msg.text) {
         // Verificar se é apenas emojis
         if (isOnlyEmojis(msg.text)) {
           messageDiv.classList.add("emoji-only");
           const emojis = extractEmojis(msg.text);
-          messageContent = emojis.map((emoji, index) => {
-            return createLargeEmoji(emoji, index).outerHTML;
-          }).join("");
+          emojis.forEach((emoji, index) => {
+            messageDiv.appendChild(createLargeEmoji(emoji, index));
+          });
         } else {
-          messageContent = `<div class="message-text">${msg.text}</div>`;
+          const textDiv = document.createElement("div");
+          textDiv.className = "message-text";
+          textDiv.textContent = msg.text;
+          messageDiv.appendChild(textDiv);
         }
       }
 
-      messageDiv.innerHTML = `
-        ${messageContent}
-        <span class="message-time">${time}</span>
-      `;
+      const timeSpan = document.createElement("span");
+      timeSpan.className = "message-time";
+      timeSpan.textContent = time;
+      messageDiv.appendChild(timeSpan);
 
       // Adicionar data timestamp como atributo para verificação de date-divider
       const messageTimestamp = msg.timestamp || Date.now();
