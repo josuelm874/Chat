@@ -16412,15 +16412,26 @@ const contacts = [];
         hour: '2-digit',
         minute: '2-digit'
       });
-      
+
       const hasResume = application.resumeBase64 ? 'Sim' : 'Não';
-      
+
+      // A.11.1 — escapar campos vindos de candidato externo (form público) para evitar XSS no listing
+      const _e = escapeHtml;
+      const _fullName = _e(application.fullName || 'Nome não informado');
+      const _jobTitle = _e(application.jobTitle || 'Vaga não encontrada');
+      const _jobCompany = _e(application.jobCompany || 'Empresa');
+      const _email = _e(application.email || 'Não informado');
+      const _phone = _e(application.phone || 'Não informado');
+      const _coverMessage = application.coverMessage
+        ? _e(application.coverMessage.substring(0, 150)) + (application.coverMessage.length > 150 ? '...' : '')
+        : '';
+
       return `
         <div class="job-management-card" data-application-id="${application.id}">
           <div class="job-card-header">
             <div class="job-card-title-section">
-              <h3 class="job-card-title">${application.fullName || 'Nome não informado'}</h3>
-              <span class="job-card-company">${application.jobTitle || 'Vaga não encontrada'} - ${application.jobCompany || 'Empresa'}</span>
+              <h3 class="job-card-title">${_fullName}</h3>
+              <span class="job-card-company">${_jobTitle} - ${_jobCompany}</span>
             </div>
             <div class="job-card-badges">
               ${statusBadge}
@@ -16430,11 +16441,11 @@ const contacts = [];
           <div class="job-card-info">
             <div class="job-info-item">
               <i class='bx bx-envelope'></i>
-              <span>${application.email || 'Não informado'}</span>
+              <span>${_email}</span>
             </div>
             <div class="job-info-item">
               <i class='bx bx-phone'></i>
-              <span>${application.phone || 'Não informado'}</span>
+              <span>${_phone}</span>
             </div>
             <div class="job-info-item">
               <i class='bx bx-file'></i>
@@ -16443,7 +16454,7 @@ const contacts = [];
           </div>
           ${application.coverMessage ? `
             <div class="job-card-description">
-              <strong>Mensagem:</strong> ${application.coverMessage.substring(0, 150)}${application.coverMessage.length > 150 ? '...' : ''}
+              <strong>Mensagem:</strong> ${_coverMessage}
             </div>
           ` : ''}
           <div class="job-card-actions">
