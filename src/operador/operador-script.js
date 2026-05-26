@@ -4662,7 +4662,7 @@ const contacts = [];
             <span class="contact-match-sender">${escapeSearchHtml(match.senderLabel)}</span>
           </div>
           <div class="contact-info-footer">
-            <p class="contact-match-preview">${match.fullText}</p>
+            <p class="contact-match-preview">${escapeSearchHtml(match.fullText)}</p>
           </div>`;
         item.appendChild(avatarWrap);
         item.appendChild(info);
@@ -14875,7 +14875,7 @@ const contacts = [];
 
             fileDiv.innerHTML = `
 
-              📎 <strong>Arquivo:</strong> ${msg.fileInfo.name}<br>
+              📎 <strong>Arquivo:</strong> ${escapeHtml(msg.fileInfo.name)}<br>
 
               <strong>Formato:</strong> ${msg.fileInfo.format} | <strong>Tamanho:</strong> ${msg.fileInfo.size}
 
@@ -15053,7 +15053,7 @@ const contacts = [];
 
           fileDiv.innerHTML = `
 
-            📎 <strong>Arquivo:</strong> ${msg.fileInfo.name}<br>
+            📎 <strong>Arquivo:</strong> ${escapeHtml(msg.fileInfo.name)}<br>
 
             <strong>Formato:</strong> ${msg.fileInfo.format} | <strong>Tamanho:</strong> ${msg.fileInfo.size}
 
