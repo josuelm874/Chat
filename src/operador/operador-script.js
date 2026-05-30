@@ -4373,9 +4373,16 @@ const contacts = [];
 
     function createFileListItem(file) {
 
+      const _e = escapeHtml;
       const fileItem = document.createElement('div');
 
       fileItem.classList.add('profile-file-item');
+
+      const isDataUrl = typeof file.data === 'string' && /^data:/i.test(file.data);
+      const safeName = _e(file.name);
+      const downloadAction = isDataUrl
+        ? `<a href="${_e(file.data)}" download="${safeName}" class="profile-file-download" title="Baixar arquivo"><i class='bx bx-download'></i></a>`
+        : `<span class="profile-file-download" title="Arquivo indisponível"><i class='bx bx-download'></i></span>`;
 
       fileItem.innerHTML = `
 
@@ -4387,15 +4394,15 @@ const contacts = [];
 
         <div class="profile-file-info">
 
-          <div class="profile-file-name" title="${file.name}">${file.name}</div>
+          <div class="profile-file-name" title="${safeName}">${safeName}</div>
 
           <div class="profile-file-meta">
 
-            <span>${formatFileSize(file.size)}</span>
+            <span>${_e(formatFileSize(file.size))}</span>
 
             <span>•</span>
 
-            <span>${file.time || 'N/A'}</span>
+            <span>${_e(file.time || 'N/A')}</span>
 
           </div>
 
@@ -4403,11 +4410,7 @@ const contacts = [];
 
         <div class="profile-file-action">
 
-          <a href="${file.data}" download="${file.name}" class="profile-file-download" title="Baixar arquivo">
-
-            <i class='bx bx-download'></i>
-
-          </a>
+          ${downloadAction}
 
         </div>
 
@@ -4421,20 +4424,22 @@ const contacts = [];
 
     // Função para criar elemento de categoria
     function createCategoryElement(category, files) {
+      const _e = escapeHtml;
       const categoryDiv = document.createElement('div');
       categoryDiv.classList.add('file-category');
       categoryDiv.setAttribute('data-category', category);
-      
+
       const iconClass = getCategoryIcon(category);
-      
+      const safeCategory = _e(category);
+
       categoryDiv.innerHTML = `
         <div class="file-category-header">
           <i class='bx ${iconClass}'></i>
-          <span>${category}</span>
+          <span>${safeCategory}</span>
           <i class='bx bx-chevron-down category-arrow'></i>
-          <span class="file-count" id="fileCount${category}">${files.length}</span>
+          <span class="file-count" id="fileCount${safeCategory}">${files.length}</span>
         </div>
-        <div class="file-category-content" id="fileList${category}"></div>
+        <div class="file-category-content" id="fileList${safeCategory}"></div>
       `;
       
       return categoryDiv;
