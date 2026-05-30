@@ -91,6 +91,21 @@ function escapeAttr(str) {
 }
 
 /**
+ * Valida cor hex (#RGB, #RRGGBB, #RRGGBBAA). Retorna fallback se inválida.
+ * Bloqueia CSS injection via "url(javascript:...)", expressions e similares
+ * quando interpolada em style="background:${color}".
+ * @param {string} color - Cor a validar
+ * @param {string} [fallback='#666'] - Cor default caso inválida
+ * @returns {string} Cor hex segura
+ */
+function validateHexColor(color, fallback) {
+  var fb = fallback || '#666';
+  if (color == null) return fb;
+  var s = String(color).trim();
+  return /^#[0-9a-fA-F]{3,8}$/.test(s) ? s : fb;
+}
+
+/**
  * Cria um divisor de data para as mensagens
  * @param {string} dateText - Texto da data
  * @returns {HTMLElement} Elemento div com a data

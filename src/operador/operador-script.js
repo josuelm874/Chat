@@ -13451,13 +13451,13 @@ const contacts = [];
 
         // Criar avatar com inicial
 
-        const color = getColorFromName(safeName);
+        const color = validateHexColor(getColorFromName(safeName));
 
-        avatarHTML = `<div class="avatar-initial" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; max-width: 36px; max-height: 36px; font-size: 16px; background: ${color}; border-radius: 8px;">${safeInitial}</div>`;
+        avatarHTML = `<div class="avatar-initial" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; max-width: 36px; max-height: 36px; font-size: 16px; background: ${color}; border-radius: 8px;">${escapeHtml(safeInitial)}</div>`;
 
       }
 
-      
+
 
       item.innerHTML = `
 
@@ -13465,9 +13465,9 @@ const contacts = [];
 
         <div class="contact-selector-item-info">
 
-          <h5>${name}</h5>
+          <h5>${escapeHtml(name)}</h5>
 
-          <p>${type}</p>
+          <p>${escapeHtml(type)}</p>
 
         </div>
 
@@ -13642,11 +13642,11 @@ const contacts = [];
       item.setAttribute("data-employee-id", employee.id);
       item.setAttribute("data-employee-type", "employee");
       
-      const color = getColorFromName(safeName);
+      const color = validateHexColor(getColorFromName(safeName));
       item.innerHTML = `
-        <div class="avatar-initial" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; max-width: 36px; max-height: 36px; font-size: 16px; background: ${color}; border-radius: 8px;">${safeInitial}</div>
+        <div class="avatar-initial" style="width: 36px; height: 36px; min-width: 36px; min-height: 36px; max-width: 36px; max-height: 36px; font-size: 16px; background: ${color}; border-radius: 8px;">${escapeHtml(safeInitial)}</div>
         <div class="contact-selector-item-info">
-          <h5>${employeeName}</h5>
+          <h5>${escapeHtml(employeeName)}</h5>
           <p>Funcionário</p>
         </div>
         <i class='bx bx-check'></i>
