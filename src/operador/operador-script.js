@@ -16682,10 +16682,11 @@ const contacts = [];
 
     // Função para criar card de vaga
     function createJobCard(job, status) {
+      const _e = escapeHtml;
       const statusBadge = getStatusBadge(job.status || status);
       const date = new Date(job.createdAt || Date.now());
       const formattedDate = date.toLocaleDateString('pt-BR');
-      
+
       let actions = '';
       if (status === 'pending') {
         actions = `
@@ -16703,13 +16704,16 @@ const contacts = [];
           </button>
         `;
       }
-      
+
+      const jobDesc = job.jobDescription || '';
+      const jobDescPreview = jobDesc.substring(0, 150) + (jobDesc.length > 150 ? '...' : '');
+
       return `
-        <div class="job-management-card" data-job-id="${job.id}">
+        <div class="job-management-card" data-job-id="${_e(job.id)}">
           <div class="job-card-header">
             <div class="job-card-title-section">
-              <h3 class="job-card-title">${job.jobTitle || 'Sem título'}</h3>
-              <span class="job-card-company">${job.contributorName || 'Empresa não informada'}</span>
+              <h3 class="job-card-title">${_e(job.jobTitle || 'Sem título')}</h3>
+              <span class="job-card-company">${_e(job.contributorName || 'Empresa não informada')}</span>
             </div>
             <div class="job-card-badges">
               ${statusBadge}
@@ -16719,23 +16723,23 @@ const contacts = [];
           <div class="job-card-info">
             <div class="job-info-item">
               <i class='bx bx-user'></i>
-              <span>${job.vacancyQuantity || 1} vaga(s)</span>
+              <span>${_e(String(job.vacancyQuantity || 1))} vaga(s)</span>
             </div>
             <div class="job-info-item">
               <i class='bx bx-dollar'></i>
-              <span>${job.salary || 'A combinar'}</span>
+              <span>${_e(job.salary || 'A combinar')}</span>
             </div>
             <div class="job-info-item">
               <i class='bx bx-time'></i>
-              <span>${job.workSchedule || 'Não especificado'}</span>
+              <span>${_e(job.workSchedule || 'Não especificado')}</span>
             </div>
             <div class="job-info-item">
               <i class='bx bx-map'></i>
-              <span>${formatLocationPreference(job.locationPreference)}</span>
+              <span>${_e(formatLocationPreference(job.locationPreference))}</span>
             </div>
           </div>
           <div class="job-card-description">
-            ${(job.jobDescription || '').substring(0, 150)}${(job.jobDescription || '').length > 150 ? '...' : ''}
+            ${_e(jobDescPreview)}
           </div>
           <div class="job-card-actions">
             <button class="job-action-btn view-job-btn" title="Ver detalhes">
