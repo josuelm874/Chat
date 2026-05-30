@@ -666,7 +666,7 @@ function showSupportContributorOnboarding(user) {
       .map(item => `
         <li>
           <strong>${item.label}</strong>
-          <span>${item.value}</span>
+          <span>${escapeHtml(item.value)}</span>
         </li>
       `).join("");
   }
@@ -1946,7 +1946,7 @@ document.addEventListener("DOMContentLoaded", () => {
       var btn = document.createElement("button");
       btn.className = "sector-option";
       btn.setAttribute("data-sector", name);
-      btn.innerHTML = "<i class='bx bxs-category'></i><span>" + name + "</span>";
+      btn.innerHTML = "<i class='bx bxs-category'></i><span>" + escapeHtml(name) + "</span>";
       // Attach click handler directly so re-calls always bind fresh handlers
       btn.addEventListener("click", function() {
         const sector = btn.getAttribute("data-sector");

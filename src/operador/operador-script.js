@@ -1116,7 +1116,7 @@ function showContributorOnboarding(user) {
       .map(item => `
         <li>
           <strong>${item.label}</strong>
-          <span>${item.value}</span>
+          <span>${escapeHtml(item.value)}</span>
         </li>
       `).join("");
   }
@@ -3071,7 +3071,7 @@ const contacts = [];
         div.innerHTML =
           '<div class="user-info">' +
             '<div class="user-details">' +
-              '<span class="user-name"><i class="bx bx-category" style="margin-right:6px;"></i>' + name + '</span>' +
+              '<span class="user-name"><i class="bx bx-category" style="margin-right:6px;"></i>' + escapeHtml(name) + '</span>' +
             '</div>' +
           '</div>' +
           '<div class="user-actions">' +
@@ -3643,16 +3643,17 @@ const contacts = [];
 
         
 
+        const _e = escapeHtml;
         contributorItem.innerHTML = `
 
           <div class="user-info">
 
-            <div class="user-avatar" style="background: #10b981;">${initial}</div>
+            <div class="user-avatar" style="background: #10b981;">${_e(initial)}</div>
 
             <div class="user-details">
 
               <div class="user-name">
-                ${contributor.razaoSocial}
+                ${_e(contributor.razaoSocial)}
                 <span class="contributor-status-badge ${status}">
                   <i class='bx ${statusIcon}'></i>
                   ${statusLabel}
@@ -3664,7 +3665,7 @@ const contacts = [];
 
                   <i class='bx bx-id-card'></i>
 
-                  ${contributor.cnpj}
+                  ${_e(contributor.cnpj)}
 
                 </div>
 
@@ -3672,7 +3673,7 @@ const contacts = [];
 
                   <i class='bx bx-briefcase'></i>
 
-                  ${contributor.regime}
+                  ${_e(contributor.regime)}
 
                 </div>
 
@@ -3680,9 +3681,9 @@ const contacts = [];
 
               <div style="font-size: 11px; color: #9ca3af; margin-top: 4px; display: flex; gap: 12px; flex-wrap: wrap;">
 
-                <span><i class='bx bx-map'></i> ${contributor.municipio}</span>
+                <span><i class='bx bx-map'></i> ${_e(contributor.municipio)}</span>
 
-                <span><i class='bx bx-building'></i> ${contributor.atividade}</span>
+                <span><i class='bx bx-building'></i> ${_e(contributor.atividade)}</span>
 
               </div>
 
@@ -3694,7 +3695,7 @@ const contacts = [];
 
                     <strong style="color: #6b7280;">IE:</strong>
 
-                    <span style="color: #1f2937; margin-left: 4px;">${contributor.inscricaoEstadual}</span>
+                    <span style="color: #1f2937; margin-left: 4px;">${_e(contributor.inscricaoEstadual)}</span>
 
                   </div>
 
@@ -3702,7 +3703,7 @@ const contacts = [];
 
                     <strong style="color: #6b7280;">Município:</strong>
 
-                    <span style="color: #1f2937; margin-left: 4px;">${contributor.municipio}</span>
+                    <span style="color: #1f2937; margin-left: 4px;">${_e(contributor.municipio)}</span>
 
                   </div>
 
@@ -3714,7 +3715,7 @@ const contacts = [];
 
                     <strong style="color: #6b7280;">Logradouro:</strong>
 
-                    <span style="color: #1f2937; margin-left: 4px;">${contributor.logradouro}</span>
+                    <span style="color: #1f2937; margin-left: 4px;">${_e(contributor.logradouro)}</span>
 
                   </div>
 
@@ -3728,13 +3729,13 @@ const contacts = [];
 
           <div class="user-actions" style="display: flex; gap: 8px;">
 
-            <button class="btn-view-contributor" data-contributor-id="${contributor.id}" title="Ver detalhes">
+            <button class="btn-view-contributor" data-contributor-id="${escapeAttr(contributor.id)}" title="Ver detalhes">
 
               <i class='bx bx-info-circle'></i>
 
             </button>
 
-            <button class="btn-delete-user" data-contributor-id="${contributor.id}">
+            <button class="btn-delete-user" data-contributor-id="${escapeAttr(contributor.id)}">
 
               <i class='bx bx-trash'></i> Deletar
 
