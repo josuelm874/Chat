@@ -6799,13 +6799,13 @@ const contacts = [];
 
           <div class="task-content">
 
-            <input type="checkbox" class="task-checkbox" aria-label="Marcar ${title} como concluído">
+            <input type="checkbox" class="task-checkbox" aria-label="Marcar ${escapeAttr(title)} como concluído">
 
             <div class="task-info">
 
-              <div class="task-title">${title}</div>
+              <div class="task-title">${escapeHtml(title)}</div>
 
-              <div class="task-description">${finalDescription}</div>
+              <div class="task-description">${escapeHtml(finalDescription)}</div>
 
             </div>
 
@@ -7340,10 +7340,10 @@ const contacts = [];
             <div class="task-icon"><i class='bx bx-calendar'></i></div>
             <div class="task-date">${taskDate}</div>
             <div class="task-content">
-              <input type="checkbox" class="task-checkbox" aria-label="Marcar ${reminder.title} como concluído">
+              <input type="checkbox" class="task-checkbox" aria-label="Marcar ${escapeAttr(reminder.title)} como concluído">
               <div class="task-info">
-                <div class="task-title">${reminder.title}</div>
-                <div class="task-description">${reminder.description}</div>
+                <div class="task-title">${escapeHtml(reminder.title)}</div>
+                <div class="task-description">${escapeHtml(reminder.description)}</div>
               </div>
             </div>
           `;
@@ -18250,8 +18250,8 @@ const contacts = [];
         item.className = "quick-reply-item" + (i === selectedIdx ? " active" : "");
         item.setAttribute("data-idx", String(i));
         item.innerHTML = `
-          <span class="quick-reply-shortcut">${m.shortcut}</span>
-          <span class="quick-reply-text">${m.text.replace(/</g, "&lt;")}</span>
+          <span class="quick-reply-shortcut">${escapeHtml(m.shortcut)}</span>
+          <span class="quick-reply-text">${escapeHtml(m.text)}</span>
         `;
         dropdownEl.appendChild(item);
       });
