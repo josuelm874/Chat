@@ -14760,6 +14760,7 @@ const contacts = [];
 
       header.classList.add('report-header-info');
 
+      const _eReport = escapeHtml;
       header.innerHTML = `
 
         <h3>Relatório de Conversas</h3>
@@ -14770,7 +14771,7 @@ const contacts = [];
 
             <i class='bx bx-user'></i>
 
-            <span><strong>Contato:</strong> ${data.contactName}</span>
+            <span><strong>Contato:</strong> ${_eReport(data.contactName)}</span>
 
           </div>
 
@@ -14778,7 +14779,7 @@ const contacts = [];
 
             <i class='bx bx-calendar'></i>
 
-            <span><strong>Período:</strong> ${data.startDate} até ${data.endDate}</span>
+            <span><strong>Período:</strong> ${_eReport(data.startDate)} até ${_eReport(data.endDate)}</span>
 
           </div>
 
@@ -14786,7 +14787,7 @@ const contacts = [];
 
             <i class='bx bx-time'></i>
 
-            <span><strong>Gerado em:</strong> ${data.generatedAt}</span>
+            <span><strong>Gerado em:</strong> ${_eReport(data.generatedAt)}</span>
 
           </div>
 
@@ -14957,6 +14958,7 @@ const contacts = [];
 
       header.classList.add('pdf-header');
 
+      const _ePdf = escapeHtml;
       header.innerHTML = `
 
         <h1>RELATÓRIO DE CONVERSAS</h1>
@@ -14965,19 +14967,19 @@ const contacts = [];
 
           <div class="pdf-header-info-item">
 
-            <strong>Contato:</strong> ${data.contactName}
+            <strong>Contato:</strong> ${_ePdf(data.contactName)}
 
           </div>
 
           <div class="pdf-header-info-item">
 
-            <strong>Período:</strong> ${data.startDate} até ${data.endDate}
+            <strong>Período:</strong> ${_ePdf(data.startDate)} até ${_ePdf(data.endDate)}
 
           </div>
 
           <div class="pdf-header-info-item">
 
-            <strong>Gerado em:</strong> ${data.generatedAt}
+            <strong>Gerado em:</strong> ${_ePdf(data.generatedAt)}
 
           </div>
 
